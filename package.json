@@ -1,0 +1,27 @@
+{
+	"name": "woo-lookblock",
+	"version": "0.1.0",
+	"description": "Block plugin for creating WooCommerce lookbooks in the block editor.",
+	"author": "Micemade",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build --webpack-copy-php",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start --webpack-copy-php"
+	},
+	"devDependencies": {
+		"@woocommerce/api": "^0.2.0",
+		"@woocommerce/data": "^4.1.0",
+		"@woocommerce/date": "^4.2.0",
+		"@woocommerce/eslint-plugin": "^2.2.0",
+		"@woocommerce/navigation": "^8.1.0",
+		"@woocommerce/packages": "file:wc-block-packages",
+		"@wordpress/scripts": "^25.3.0",
+		"@wordpress/server-side-render": "^4.3.0"
+	}
+}

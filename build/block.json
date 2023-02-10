@@ -1,0 +1,61 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "micemade/woo-lookblock",
+  "version": "0.1.0",
+  "title": "Woo Lookblock",
+  "category": "widgets",
+  "icon": "store",
+  "description": "Block plugin for creating WooCommerce lookbooks in the block editor.",
+  "supports": {
+    "html": false,
+    "color": {},
+    "align": [
+      "wide",
+      "full",
+      "left",
+      "right"
+    ],
+    "spacing": {
+      "margin": true,
+      "padding": true
+    },
+    "typography": {
+      "fontSize": true,
+      "lineHeight": true
+    }
+  },
+  "attributes": {
+    "productList": {
+      "type": "array"
+    },
+    "mediaID": {
+      "type": "number"
+    },
+    "mediaURL": {
+      "type": "string"
+    },
+    "style": {
+      "type": "object",
+      "default": {
+        "color": {
+          "text": "#3a3a3a",
+          "background": "#fbf9f4"
+        },
+        "spacing": {
+          "padding": {
+            "top": "20px",
+            "right": "20px",
+            "bottom": "20px",
+            "left": "20px"
+          }
+        }
+      }
+    }
+  },
+  "textdomain": "woo-lookblock",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

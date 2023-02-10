@@ -1,0 +1,27 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ */
+
+.wp-block-micemade-woo-lookblock {
+	
+	.selected-products {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		.product {
+			flex: 1 0 20%;
+			margin: 5px;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: center;
+			img {
+				width: 100%;
+				max-width: 100%;
+				height: auto;
+			}
+		}
+	}
+}
