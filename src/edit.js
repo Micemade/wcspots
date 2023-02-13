@@ -7,6 +7,12 @@ import { useEntityRecords } from '@wordpress/core-data';
 import { FormTokenField, Placeholder, PanelBody, Button } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
+/**
+ * WooCommerce Blocks dependencies.
+ */
+import ProductsControl from '@project/wc-block-packages';
+
+
 // import { useState } from '@wordpress/element';
 
 /**
@@ -54,7 +60,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 
 		setAttributes({ productList: newProductList })
 	}
-
+	// Image selection.
 	const onSelectImage = (media) => {
 		setAttributes({
 			mediaURL: media.url,
@@ -63,9 +69,28 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 
 	};
 
+	// WooCommerce-Blocks component.
+	const onChangeProductsControl = (productList) => {
+		const newProductList = streamRequest?.records
+			?.filter(
+				(item) => productList.includes(item.title.rendered)
+			)
+			.map((item) => item.id)
+		// const newProductList = value.map(({ id }) => id);
+		setAttributes({ productList: newProductList });
+	}
+
 	return (
 		<>
 			<InspectorControls>
+				<PanelBody title={__('Products', 'woo-lookblock')} initialOpen={true}>
+					<ProductsControl
+						selected={displayList}
+						onChange={onChangeProductsControl}
+						isCompact={true}
+					/>
+				</PanelBody>
+
 				<PanelBody>
 					<FormTokenField
 						label={__('Pick products for display', 'woo-lookblock')}
@@ -104,6 +129,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 						)}
 					/>
 				</PanelBody>
+
 			</InspectorControls>
 
 			<div {...blockProps}>
