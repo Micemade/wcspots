@@ -1,0 +1,5 @@
+{
+	"name" : "@project/wc-block-packages",
+	"version" : "0.0.1",
+	"main": "index.js"
+}
