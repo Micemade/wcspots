@@ -23,5 +23,8 @@
 		"@woocommerce/packages": "file:wc-block-packages",
 		"@wordpress/scripts": "^25.3.0",
 		"@wordpress/server-side-render": "^4.3.0"
+	},
+	"dependencies": {
+		"@project/wc-block-packages": "file:wc-block-packages"
 	}
 }
