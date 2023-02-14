@@ -11,9 +11,8 @@
 <section <?php echo wp_kses_data( get_block_wrapper_attributes() ); ?>>
 	<?php
 
-	if ( isset( $attributes['productList'] ) ) {
+	if ( isset( $attributes['productList'] ) || ! empty( $attributes['productList'] ) ) {
 		echo '<div class="selected-products">';// Selected products.
-
 		foreach ( $attributes['productList'] as $product_id ) {
 			// WC get product object.
 			$product = wc_get_product( $product_id );
@@ -26,12 +25,11 @@
 				echo wp_kses_post( '<a class="button add_to_cart_button" href="' . esc_url( $product->add_to_cart_url() ) . '">' . $product->add_to_cart_text() . '</a>' );
 				echo '</div>';// End product.
 			}
-			// echo '<pre class="mm-debug">';
-			// print_r(  );
-			// echo '</pre>';
 		}
 
 		echo '</div>';// End Selected products.
+	} else {
+		echo '<p>' . esc_html__( 'No products selected. Please use block sidebar product picker.', 'woo-lookblock' ) . '</p>';
 	}
 	?>
 </section>
