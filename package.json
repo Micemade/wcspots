@@ -25,6 +25,6 @@
 		"@wordpress/server-side-render": "^4.3.0"
 	},
 	"dependencies": {
-		"@project/wc-block-packages": "file:wc-block-packages"
+		"@woocommerce/packages": "file:wc-block-packages"
 	}
 }

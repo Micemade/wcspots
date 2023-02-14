@@ -10,7 +10,7 @@ import ServerSideRender from '@wordpress/server-side-render';
 /**
  * WooCommerce Blocks dependencies.
  */
-import ProductsControl from '@project/wc-block-packages';
+// import ProductsControl from '@woocommerce/packages';
 
 
 // import { useState } from '@wordpress/element';
@@ -70,25 +70,21 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 	};
 
 	// WooCommerce-Blocks component.
-	const onChangeProductsControl = (productList) => {
-		const newProductList = streamRequest?.records
-			?.filter(
-				(item) => productList.includes(item.title.rendered)
-			)
-			.map((item) => item.id)
-		// const newProductList = value.map(({ id }) => id);
-		setAttributes({ productList: newProductList });
-	}
+	// const onChangeProductsControl = (value = []) => {
+	// 	console.log(productList);
+	// 	const ids = value.map(({ id }) => id);
+	// 	setAttributes({ productList: ids });
+	// }
 
 	return (
 		<>
 			<InspectorControls>
 				<PanelBody title={__('Products', 'woo-lookblock')} initialOpen={true}>
-					<ProductsControl
-						selected={displayList}
+					{/* <ProductsControl
+						selected={productList}
 						onChange={onChangeProductsControl}
 						isCompact={true}
-					/>
+					/> */}
 				</PanelBody>
 
 				<PanelBody>
