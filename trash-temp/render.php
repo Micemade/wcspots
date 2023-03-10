@@ -26,7 +26,6 @@
 				echo '</div>';// End product.
 			}
 		}
-
 		echo '</div>';// End Selected products.
 	} else {
 		echo '<p>' . esc_html__( 'No products selected. Please use block sidebar product picker.', 'woo-lookblock' ) . '</p>';

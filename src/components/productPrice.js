@@ -1,0 +1,23 @@
+import { __ } from '@wordpress/i18n';
+import useProduct from './useProduct';
+import DOMPurify from 'dompurify';
+
+
+const ProductPrice = ({ productId }) => {
+	const { product, loading } = useProduct(productId);
+	const sanitizer = DOMPurify.sanitize;
+
+	if (loading) {
+		return <small>{__('Loading product price...', 'woo-lookblock')}</small>;
+	}
+
+	if (!product) {
+		return <div>{__('Product not found', 'woo-lookblock')}</div>;
+	}
+
+	// Product price HTML sanitized.
+	return <div dangerouslySetInnerHTML={{ __html: sanitizer(product.price_html) }} />
+
+};
+
+export default ProductPrice;
