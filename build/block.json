@@ -26,14 +26,25 @@
     }
   },
   "attributes": {
+    "products": {
+      "type": "array",
+      "default": []
+    },
+    "productsData": {
+      "type": "array",
+      "default": []
+    },
     "productList": {
-      "type": "array"
+      "type": "array",
+      "default": []
     },
     "mediaID": {
-      "type": "number"
+      "type": "number",
+      "default": null
     },
     "mediaURL": {
-      "type": "string"
+      "type": "string",
+      "default": null
     },
     "style": {
       "type": "object",
@@ -51,11 +62,55 @@
           }
         }
       }
+    },
+    "columns": {
+      "type": "number",
+      "default": 3
+    },
+    "gap": {
+      "type": "number",
+      "default": 40
+    },
+    "flexgap": {
+      "type": "number",
+      "default": 40
+    },
+    "productsWidth": {
+      "type": "number",
+      "default": 50
+    },
+    "valign": {
+      "type": "string",
+      "default": "flex-start"
+    },
+    "direction": {
+      "type": "string",
+      "default": "row"
+    },
+    "markers": {
+      "type": "array",
+      "default": []
+    },
+    "selectedMarker": {
+      "type": "number",
+      "default": null
+    },
+    "selectedProduct": {
+      "type": "string",
+      "default": ""
+    },
+    "isModalOpen": {
+      "type": "boolean",
+      "default": false
+    },
+    "imageOption": {
+      "type": "string",
+      "default": "backimage-none"
     }
   },
   "textdomain": "woo-lookblock",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
-  "render": "file:./render.php"
+  "script": "file:./frontend/index.js"
 }

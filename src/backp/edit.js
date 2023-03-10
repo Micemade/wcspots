@@ -6,7 +6,10 @@ import { useBlockProps } from '@wordpress/block-editor';
 import { Flex, FlexItem, SelectControl, Modal, Spinner } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 
-
+/**
+ * External dependecies.
+ */
+import { v4 as uuidv4 } from 'uuid'; // For creating unique id's.
 
 // For server rendering in render.php
 // import ServerSideRender from '@wordpress/server-side-render';
@@ -18,9 +21,6 @@ import './editor.scss';
 import ProductGrid from './components/productGrid';
 import InspectorControlsComponent from './controls/inspectorControls';
 import Marker from './components/marker';
-
-// Functions.
-import { addNewMarker, assignProductToMarker, onProductSelect, onMarkerOver, onMarkerOut } from './functions/markerFunctions';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -35,7 +35,6 @@ export default function Edit({ attributes, setAttributes }) {
 
 	const {
 		products,
-		productList,
 		mediaURL,
 		columns,
 		gap,
@@ -47,27 +46,69 @@ export default function Edit({ attributes, setAttributes }) {
 		selectedMarker,
 		selectedProduct,
 		isModalOpen,
-		imageOption
 	} = attributes;
 
-	// Product select options for modal, on marker click.
-	const producOptionsStart = [{ label: 'Select a product', value: '' }];
-	const producOptions = products?.map((product) => ({
+	// Adding markers when clicked on image
+	// click coordinates, relative to image container, get captured
+	// and stored in of marker objects, with x,y and other properties.
+	const handleImageClick = (event) => {
+		const rect = event.target.getBoundingClientRect();
+		const xPos = ((event.clientX - rect.left) / rect.width) * 100;
+		const yPos = ((event.clientY - rect.top) / rect.height) * 100;
+		const newMarker = {
+			x: xPos,
+			y: yPos,
+			id: uuidv4(),
+			name: 'Click on marker to assign product.',
+			active: true,
+			productId: null,
+			productTitle: null,
+		};
+		const updatedMarkers = markers?.concat(newMarker);
+		setAttributes({ markers: updatedMarkers });
+	};
+
+	// When a marker is clicked, the modal opens to assign product to the marker.
+	const onMarkerClick = (marker) => {
+		setAttributes({ selectedMarker: marker.id });
+		setAttributes({ isModalOpen: true });
+	};
+
+	const onProductSelect = (value) => {
+		const [productId, productTitle] = JSON.parse(value);
+		const updatedMarkers = markers?.map((marker) => {
+			if (marker.id === selectedMarker) {
+				return {
+					...marker,
+					productId,
+					productTitle,
+				};
+			}
+			return marker;
+		});
+		setAttributes({ markers: updatedMarkers });
+		setAttributes({ selectedProduct: value });
+		setAttributes({ isModalOpen: false });
+	};
+
+	// Select options for modal, on marker click.
+	const optionsStart = [{ label: 'Select a product', value: '' }];
+	const options = products?.map((product) => ({
 		label: product.title.rendered,
 		value: JSON.stringify([product.id, product.title.rendered]),
 	}));
 
-
-	// Block Flex container and product grid styles.
+	// If direction is 'column' or 'column-reverse' set align fixed.
 	const flexAlignItems = (dir) => {
-		// If direction is 'column' or 'column-reverse' set align fixed.
-		return dir.substring(0, 6) == 'column' ? 'center' : valign; // or dir.startsWith() ?
+		// return dir.startsWith( 'column' ) ? { alignItems: 'center' } : {};
+		return dir.substring(0, 6) == 'column' ? 'center' : valign;
 	};
+
 	const flexContainerStyles = {
 		flexDirection: direction,
 		alignItems: flexAlignItems(direction),
 		gap: flexgap,
-		justifyContent: 'center',
+		justifyItems: 'center',
 	}
 	const gridStyle = {
 		gridTemplateColumns: `repeat(${columns}, 1fr)`,
@@ -82,17 +123,12 @@ export default function Edit({ attributes, setAttributes }) {
 			/>
 
 			<div {...blockProps}>
-
-				{(imageOption !== 'backimage-none' && mediaURL) &&
-					(<div className='cover-image' style={{ backgroundImage: `url(${mediaURL})` }}></div>)
-				}
-
 				<div className="flex-container" style={flexContainerStyles}>
 
 					<div className="flex-block products-grid-container" style={{ width: `${productsWidth}%` }}>
 
 						<ProductGrid
-							productList={productList}
+							products={products}
 							columns={columns}
 							gap={gap}
 							context="edit"
@@ -110,22 +146,20 @@ export default function Edit({ attributes, setAttributes }) {
 								className="lookbook-image"
 								src={mediaURL}
 								alt={__('Lookbook image', 'woo-lookblock')}
-								onClick={() => addNewMarker(event, markers, setAttributes)}
+								onClick={handleImageClick}
 							/>
 							{markers?.length > 0 &&
 								markers.map((marker, index) => (
 									<Marker
 										key={`marker-${marker.id}`}
 										marker={marker}
-										onDoubleClick={() => assignProductToMarker(marker, setAttributes)}
-										onMouseOver={onMarkerOver}
-										onMouseOut={onMarkerOut}
+										onClick={onMarkerClick}
 									/>
 								))}
 						</div>
 					)}
 				</div>
-			</div>
+			</div >
 			{isModalOpen && (
 				<Modal
 					title={__(
@@ -149,8 +183,8 @@ export default function Edit({ attributes, setAttributes }) {
 								])
 								: ''
 						}
-						options={producOptionsStart.concat(producOptions)}
-						onChange={(value) => onProductSelect(value, markers, selectedMarker, setAttributes)}
+						options={optionsStart.concat(options)}
+						onChange={onProductSelect}
 					/>
 				</Modal>
 			)

@@ -1,365 +1,45 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/components/marker.js":
-/*!**********************************!*\
-  !*** ./src/components/marker.js ***!
-  \**********************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-
-const Marker = _ref => {
-  let {
-    marker,
-    onDoubleClick,
-    onMouseOver,
-    onMouseOut
-  } = _ref;
-  const styles = {
-    left: `${marker.x}%`,
-    top: `${marker.y}%`,
-    visibility: !marker.active ? 'hidden' : 'visible'
-  };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    style: styles,
-    className: "product-marker",
-    onDoubleClick: () => onDoubleClick(marker),
-    onMouseOver: () => onMouseOver(marker),
-    onMouseOut: () => onMouseOut(marker),
-    "data-product-title": marker.productTitle ? marker.productTitle : '',
-    "data-product-id": marker.productId ? marker.productId : ''
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "inner"
-  }), marker.productTitle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "screen-reader-text"
-  }, marker.productTitle));
-};
-/* harmony default export */ __webpack_exports__["default"] = (Marker);
-
-/***/ }),
-
-/***/ "./src/components/productExcerpt.js":
-/*!******************************************!*\
-  !*** ./src/components/productExcerpt.js ***!
-  \******************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _useProduct__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./useProduct */ "./src/components/useProduct.js");
-/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dompurify */ "./node_modules/dompurify/dist/purify.js");
-/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dompurify__WEBPACK_IMPORTED_MODULE_3__);
-
-
-
-
-const ProductExcerpt = _ref => {
-  let {
-    productId
-  } = _ref;
-  const {
-    product,
-    loading
-  } = (0,_useProduct__WEBPACK_IMPORTED_MODULE_2__["default"])(productId);
-  const sanitizer = (dompurify__WEBPACK_IMPORTED_MODULE_3___default().sanitize);
-  if (loading) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading short description...', 'woo-lookblock'));
-  }
-  if (!product) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Product not found', 'woo-lookblock'));
-  }
-
-  // Product price HTML sanitized.
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    dangerouslySetInnerHTML: {
-      __html: sanitizer(product.short_description)
-    }
-  });
-};
-/* harmony default export */ __webpack_exports__["default"] = (ProductExcerpt);
-
-/***/ }),
-
-/***/ "./src/components/productGrid.js":
-/*!***************************************!*\
-  !*** ./src/components/productGrid.js ***!
-  \***************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _productItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./productItem */ "./src/components/productItem.js");
-
-/**
- * Internal dependencies.
- */
-
-const ProductGrid = _ref => {
-  let {
-    productList,
-    columns,
-    gap,
-    context
-  } = _ref;
-  const gridStyle = {
-    gridTemplateColumns: `repeat(${columns}, 1fr)`,
-    gap: `${gap}px`
-  };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    style: gridStyle,
-    className: "product-grid"
-  }, productList.map(productId => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_productItem__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    key: `product-${context}-${productId}`,
-    productId: productId,
-    context: context
-  })));
-};
-/* harmony default export */ __webpack_exports__["default"] = (ProductGrid);
-
-/***/ }),
-
-/***/ "./src/components/productImage.js":
-/*!****************************************!*\
-  !*** ./src/components/productImage.js ***!
-  \****************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _useProduct__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./useProduct */ "./src/components/useProduct.js");
-
-
-
-
-const ProductImage = _ref => {
-  let {
-    productId
-  } = _ref;
-  const {
-    product,
-    loading
-  } = (0,_useProduct__WEBPACK_IMPORTED_MODULE_3__["default"])(productId);
-  if (loading) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Spinner, null);
-  }
-  if (!product) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Product not found', 'woo-lookblock'));
-  }
-  const imgSrcSet = product.images && product.images.length > 0 ? product.images[0].src : null;
-  const imageFallback = typeof wc == 'object' ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: wc?.wcSettings?.PLACEHOLDER_IMG_SRC,
-    alt: product.name
-  }) : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Product has no featured image', 'woo-lookblock');
-  return imgSrcSet ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    srcSet: imgSrcSet,
-    alt: product.name
-  }) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, imageFallback);
-};
-/* harmony default export */ __webpack_exports__["default"] = (ProductImage);
-
-/***/ }),
-
-/***/ "./src/components/productItem.js":
-/*!***************************************!*\
-  !*** ./src/components/productItem.js ***!
-  \***************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _productImage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./productImage */ "./src/components/productImage.js");
-/* harmony import */ var _productTitle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./productTitle */ "./src/components/productTitle.js");
-/* harmony import */ var _productPrice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./productPrice */ "./src/components/productPrice.js");
-/* harmony import */ var _productExcerpt__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./productExcerpt */ "./src/components/productExcerpt.js");
-
-
-
-
-
-const ProductItem = _ref => {
-  let {
-    productId,
-    context
-  } = _ref;
-  const isEdit = productId !== 0 && context == 'edit';
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "woo-lookblock-product",
-    "data-product-id": productId
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "product-featured-image",
-    id: `product-image-${productId}`
-  }, isEdit && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_productImage__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    productId: productId
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
-    className: "product-title",
-    id: `product-title-${productId}`
-  }, isEdit && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_productTitle__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    productId: productId
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "product-price",
-    id: `product-price-${productId}`
-  }, isEdit && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_productPrice__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    productId: productId
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "product-excerpt",
-    id: `product-excerpt-${productId}`
-  }, isEdit && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_productExcerpt__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    productId: productId
-  })));
-};
-/* harmony default export */ __webpack_exports__["default"] = (ProductItem);
-
-/***/ }),
-
-/***/ "./src/components/productPrice.js":
-/*!****************************************!*\
-  !*** ./src/components/productPrice.js ***!
-  \****************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _useProduct__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./useProduct */ "./src/components/useProduct.js");
-/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dompurify */ "./node_modules/dompurify/dist/purify.js");
-/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dompurify__WEBPACK_IMPORTED_MODULE_3__);
-
-
-
-
-const ProductPrice = _ref => {
-  let {
-    productId
-  } = _ref;
-  const {
-    product,
-    loading
-  } = (0,_useProduct__WEBPACK_IMPORTED_MODULE_2__["default"])(productId);
-  const sanitizer = (dompurify__WEBPACK_IMPORTED_MODULE_3___default().sanitize);
-  if (loading) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading product price...', 'woo-lookblock'));
-  }
-  if (!product) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Product not found', 'woo-lookblock'));
-  }
-
-  // Product price HTML sanitized.
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    dangerouslySetInnerHTML: {
-      __html: sanitizer(product.price_html)
-    }
-  });
-};
-/* harmony default export */ __webpack_exports__["default"] = (ProductPrice);
-
-/***/ }),
-
-/***/ "./src/components/productTitle.js":
-/*!****************************************!*\
-  !*** ./src/components/productTitle.js ***!
-  \****************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _useProduct__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./useProduct */ "./src/components/useProduct.js");
-
-
-
-const ProductTitle = _ref => {
-  let {
-    productId
-  } = _ref;
-  const {
-    product,
-    loading
-  } = (0,_useProduct__WEBPACK_IMPORTED_MODULE_2__["default"])(productId);
-  if (loading) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading product title...', 'woo-lookblock'));
-  }
-  if (!product) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Product not found', 'woo-lookblock'));
-  }
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    href: product.permalink
-  }, product.name);
-};
-/* harmony default export */ __webpack_exports__["default"] = (ProductTitle);
-
-/***/ }),
-
-/***/ "./src/components/useProduct.js":
+/***/ "./src/frontend/markerEvents.js":
 /*!**************************************!*\
-  !*** ./src/components/useProduct.js ***!
+  !*** ./src/frontend/markerEvents.js ***!
   \**************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
 /**
- * WordPress Dependencies.
+ * Marker events.
+ * @param {*} marker 
  */
-// import { useState, useEffect } from '@wordpress/element';
-
-
-const useProduct = productId => {
-  const [product, setProduct] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    async function fetchProduct() {
-      try {
-        const product = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
-          path: `/wc/store/v1/products/${productId}?_fields=id,name,short_description,price_html,images, permalink`
-        });
-        setProduct(product);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
+const addMarkerEvents = marker => {
+  marker.addEventListener('mouseover', event => {
+    const marker = event.target;
+    const productId = marker.dataset.productId;
+    const product = document.querySelector(`[data-product-id="${productId}"]`);
+    if (product) {
+      product.classList.add('highlighted');
     }
-    fetchProduct();
-  }, [productId]);
-  return {
-    product,
-    loading
-  };
+    ;
+  });
+  marker.addEventListener('mouseleave', event => {
+    const marker = event.target;
+    const productId = marker.dataset.productId;
+    const product = document.querySelector(`[data-product-id="${productId}"]`);
+    if (product) {
+      product.classList.remove('highlighted');
+    }
+    ;
+  });
 };
-/* harmony default export */ __webpack_exports__["default"] = (useProduct);
+/* harmony default export */ __webpack_exports__["default"] = (addMarkerEvents);
 
 /***/ }),
 
-/***/ "./src/controls/inspectorControls.js":
+/***/ "./src/frontend/productProperties.js":
 /*!*******************************************!*\
-  !*** ./src/controls/inspectorControls.js ***!
+  !*** ./src/frontend/productProperties.js ***!
   \*******************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
@@ -367,714 +47,54 @@ const useProduct = productId => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_core_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/core-data */ "@wordpress/core-data");
-/* harmony import */ var _wordpress_core_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_core_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__);
-
-/**
- * WordPress dependenices.
- */
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dompurify */ "./node_modules/dompurify/dist/purify.js");
+/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dompurify__WEBPACK_IMPORTED_MODULE_3__);
 
 
 
 
-const InspectorControlsComponent = _ref => {
-  let {
-    attributes,
-    setAttributes
-  } = _ref;
-  // Get data for product post type.
-  const getProducts = (0,_wordpress_core_data__WEBPACK_IMPORTED_MODULE_2__.useEntityRecords)('postType', 'product', {
-    per_page: -1
-  });
-  const {
-    productList,
-    mediaID,
-    mediaURL,
-    columns,
-    gap,
-    valign,
-    productsWidth,
-    direction,
-    flexgap,
-    markers,
-    imageOption
-  } = attributes;
+const ProductProperties = productId => {
+  const sanitizer = (dompurify__WEBPACK_IMPORTED_MODULE_3___default().sanitize);
+  _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
+    path: `/wc/store/v1/products/${productId}?_fields=id,name,short_description,price_html,images,permalink`
+  }).then(product => {
+    // Assign product properties to vars.
+    const imageDefault = typeof wc === 'object' ? wc?.wcSettings?.PLACEHOLDER_IMG_SRC : null;
+    const imgSrcSet = product.images && product.images.length > 0 ? product.images[0].srcset : imageDefault;
+    const name = product.name ? product.name : null;
+    const permalink = product.permalink ? product.permalink : '#';
+    const description = product.short_description ? product.short_description : null;
+    const priceHtml = product.price_html ? product.price_html : null;
 
-  // Display product titles in FormTokenField (value att).
-  const displayList = getProducts?.records?.filter(item => productList?.includes(item.id)).map(item => item.title.rendered);
-
-  // FormTokenField control suggestions.
-  const suggestions = getProducts?.records?.map(stream => {
-    return stream.title.rendered;
-  });
-  // Adding / removing products.
-  const onChangeProductList = newList => {
-    const newProductIds = getProducts?.records?.filter(item => newList.includes(item.title.rendered)).map(item => item.id);
-    const newProducts = getProducts?.records?.filter(item => newList.includes(item.title.rendered));
-    const productsData = getProducts?.records?.filter(item => newList.includes(item.title.rendered)).map(item => {
-      return {
-        id: item.id,
-        title: item.title.raw,
-        excerpt: item.excerpt.raw
-      };
-    });
-    setAttributes({
-      productList: newProductIds,
-      products: newProducts,
-      productsData: productsData
-    });
-  };
-
-  // IMAGE CONTROLS.
-  const onSelectImage = media => {
-    if (!clearMarkersOnImageChange()) {
-      return;
-    } else {
-      setAttributes({
-        mediaURL: media.url,
-        mediaID: media.id
-      });
-    }
-  };
-  const onRemoveImage = () => {
-    if (!clearMarkersOnImageChange()) {
-      return;
-    } else {
-      setAttributes({
-        mediaURL: null,
-        mediaID: null
-      });
-    }
-  };
-  const clearMarkersOnImageChange = () => {
-    if (markers.length > 0 && mediaID) {
-      if (!confirm("All existing markers will be removed - are you sure?")) {
-        return false;
+    // Render elements.
+    (0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)(imgSrcSet ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+      srcSet: imgSrcSet,
+      alt: product.name
+    }) : 'No product image', document.getElementById(`product-image-${productId}`));
+    (0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+      href: permalink,
+      title: name
+    }, name), document.getElementById(`product-title-${productId}`));
+    // Price HTML sanitized.
+    (0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      dangerouslySetInnerHTML: {
+        __html: sanitizer(priceHtml)
       }
-      ;
-    }
-    setAttributes({
-      markers: []
-    });
-    return true;
-  };
-
-  // MARKER CONTROLS.
-  const markerToggle = markerIndex => {
-    const updatedMarkers = [...markers];
-    updatedMarkers[markerIndex].active = !updatedMarkers[markerIndex].active;
-    setAttributes({
-      markers: updatedMarkers
-    });
-  };
-  const markerRemove = markerIndex => {
-    const updatedMarkers = [...markers];
-    updatedMarkers.splice(markerIndex, 1);
-    setAttributes({
-      markers: updatedMarkers
-    });
-  };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select products', 'woo-lookbook'),
-    initialOpen: true
-  }, getProducts.isResolving ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading products list', 'woo-lookblock') : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FormTokenField, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Start typing product name…', 'woo-lookblock'),
-    value: displayList,
-    suggestions: suggestions,
-    onChange: onChangeProductList
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Lookbook image', 'woo-lookbook'),
-    initialOpen: false
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__.MediaUpload, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Choose image for lookbook item', 'woo-lookblock'),
-    onSelect: onSelectImage,
-    allowedTypes: "image",
-    value: mediaID,
-    render: _ref2 => {
-      let {
-        open
-      } = _ref2;
-      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
-        className: mediaID ? 'image-button' : 'button button-large',
-        onClick: open
-      }, !mediaID ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add Image', 'woo-lookblock') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Change Image', 'woo-lookblock'));
-    }
-  }), mediaID && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.IconButton, {
-    icon: "trash",
-    onClick: onRemoveImage,
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove image', 'woo-lookblock')
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelRow, null, mediaID ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: mediaURL,
-    alt: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Upload Lookbook image', 'woo-lookblock')
-  }) : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('No LookBook image selected', 'woo-lookblock')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelRow, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image options', 'woo-lookbook'),
-    value: imageOption,
-    options: [{
-      label: 'No background image',
-      value: 'backimage-none'
-    }, {
-      label: 'Also as background',
-      value: 'backimage-same'
-    }, {
-      label: 'Only as background',
-      value: 'backimage-only'
-    }, {
-      label: 'Custom background image',
-      value: 'backimage-custom'
-    }],
-    onChange: value => setAttributes({
-      imageOption: value
-    })
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Lookbook layout', 'woo-lookbook'),
-    initialOpen: false
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Direction', 'woo-lookbook'),
-    value: direction,
-    options: [{
-      label: 'Row - products left',
-      value: 'row'
-    }, {
-      label: 'Row - image left',
-      value: 'row-reverse'
-    }, {
-      label: 'Column - products on top',
-      value: 'column'
-    }, {
-      label: 'Column - image on top',
-      value: 'column-reverse'
-    }],
-    onChange: value => setAttributes({
-      direction: value
-    })
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Vertical align', 'woo-lookbook'),
-    value: valign,
-    options: [{
-      label: 'Top',
-      value: 'flex-start'
-    }, {
-      label: 'Center',
-      value: 'center'
-    }, {
-      label: 'Bottom',
-      value: 'flex-end'
-    }],
-    onChange: value => setAttributes({
-      valign: value
-    })
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
-    label: "Width",
-    value: productsWidth,
-    min: 0,
-    max: 100,
-    onChange: value => setAttributes({
-      productsWidth: value
-    })
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
-    label: "Gap",
-    value: flexgap,
-    onChange: value => setAttributes({
-      flexgap: value
-    }),
-    min: 0,
-    max: 40
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Products layout', 'woo-lookbook'),
-    initialOpen: false
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
-    label: "Columns",
-    value: columns,
-    onChange: value => setAttributes({
-      columns: value
-    }),
-    min: 1,
-    max: 4
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl, {
-    label: "Gap",
-    value: gap,
-    onChange: value => setAttributes({
-      gap: value
-    }),
-    min: 0,
-    max: 40
-  })), mediaID && markers && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Product markers', 'woo-lookblock'),
-    initialOpen: true
-  }, markers.map((marker, markerIndex) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    key: markerIndex,
-    style: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'baseline'
-    }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
-    label: marker.productTitle ? marker.productTitle : marker.name,
-    checked: marker.active,
-    onChange: () => markerToggle(markerIndex)
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.IconButton, {
-    icon: "trash",
-    onClick: () => markerRemove(markerIndex),
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove marker', 'woo-lookblock')
-  }))), markers.length > 0 && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
-    isSecondary: true,
-    isSmall: true,
-    onClick: () => setAttributes({
-      markers: []
-    })
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove All Markers', 'woo-lookblock')), markers.length == 0 && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Click on lookbook image to add markers', 'woo-lookblock'))));
-};
-/* harmony default export */ __webpack_exports__["default"] = (InspectorControlsComponent);
-
-/***/ }),
-
-/***/ "./src/edit.js":
-/*!*********************!*\
-  !*** ./src/edit.js ***!
-  \*********************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": function() { return /* binding */ Edit; }
-/* harmony export */ });
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./src/editor.scss");
-/* harmony import */ var _components_productGrid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/productGrid */ "./src/components/productGrid.js");
-/* harmony import */ var _controls_inspectorControls__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./controls/inspectorControls */ "./src/controls/inspectorControls.js");
-/* harmony import */ var _components_marker__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/marker */ "./src/components/marker.js");
-/* harmony import */ var _functions_markerFunctions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./functions/markerFunctions */ "./src/functions/markerFunctions.js");
-
-/**
- * WordPress dependenices.
- */
-
-
-
-
-
-// For server rendering in render.php
-// import ServerSideRender from '@wordpress/server-side-render';
-
-/**
- * Internal dependencies.
- */
-
-
-
-
-
-// Functions.
-
-
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {WPElement} Element to render.
- */
-function Edit(_ref) {
-  let {
-    attributes,
-    setAttributes
-  } = _ref;
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
-  const {
-    products,
-    productList,
-    mediaURL,
-    columns,
-    gap,
-    valign,
-    productsWidth,
-    direction,
-    flexgap,
-    markers,
-    selectedMarker,
-    selectedProduct,
-    isModalOpen,
-    imageOption
-  } = attributes;
-
-  // Product select options for modal, on marker click.
-  const producOptionsStart = [{
-    label: 'Select a product',
-    value: ''
-  }];
-  const producOptions = products?.map(product => ({
-    label: product.title.rendered,
-    value: JSON.stringify([product.id, product.title.rendered])
-  }));
-
-  // Block Flex container and product grid styles.
-  const flexAlignItems = dir => {
-    // If direction is 'column' or 'column-reverse' set align fixed.
-    return dir.substring(0, 6) == 'column' ? 'center' : valign; // or dir.startsWith() ?
-  };
-
-  const flexContainerStyles = {
-    flexDirection: direction,
-    alignItems: flexAlignItems(direction),
-    gap: flexgap,
-    justifyContent: 'center'
-  };
-  const gridStyle = {
-    gridTemplateColumns: `repeat(${columns}, 1fr)`,
-    gap: `${gap}px`
-  };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_inspectorControls__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    attributes: attributes,
-    setAttributes: setAttributes
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, imageOption !== 'backimage-none' && mediaURL && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "cover-image",
-    style: {
-      backgroundImage: `url(${mediaURL})`
-    }
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "flex-container",
-    style: flexContainerStyles
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "flex-block products-grid-container",
-    style: {
-      width: `${productsWidth}%`
-    }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_productGrid__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    productList: productList,
-    columns: columns,
-    gap: gap,
-    context: "edit",
-    style: gridStyle
-  })), mediaURL && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "flex-block image-container",
-    style: {
-      width: `${100 - productsWidth}%`,
-      position: 'relative'
-    }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    className: "lookbook-image",
-    src: mediaURL,
-    alt: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Lookbook image', 'woo-lookblock'),
-    onClick: () => (0,_functions_markerFunctions__WEBPACK_IMPORTED_MODULE_9__.addNewMarker)(event, markers, setAttributes)
-  }), markers?.length > 0 && markers.map((marker, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_marker__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    key: `marker-${marker.id}`,
-    marker: marker,
-    onDoubleClick: () => (0,_functions_markerFunctions__WEBPACK_IMPORTED_MODULE_9__.assignProductToMarker)(marker, setAttributes),
-    onMouseOver: _functions_markerFunctions__WEBPACK_IMPORTED_MODULE_9__.onMarkerOver,
-    onMouseOut: _functions_markerFunctions__WEBPACK_IMPORTED_MODULE_9__.onMarkerOut
-  }))))), isModalOpen && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Modal, {
-    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Assign a product to this marker', 'woo-lookblock'),
-    onRequestClose: () => setAttributes({
-      isModalOpen: false,
-      selectedMarker: null
-    })
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Products', 'woo-lookblock'),
-    value: selectedProduct ? JSON.stringify([selectedProduct.id, selectedProduct.name]) : '',
-    options: producOptionsStart.concat(producOptions),
-    onChange: value => (0,_functions_markerFunctions__WEBPACK_IMPORTED_MODULE_9__.onProductSelect)(value, markers, selectedMarker, setAttributes)
-  })));
-}
-
-/***/ }),
-
-/***/ "./src/functions/markerFunctions.js":
-/*!******************************************!*\
-  !*** ./src/functions/markerFunctions.js ***!
-  \******************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "addNewMarker": function() { return /* binding */ addNewMarker; },
-/* harmony export */   "assignProductToMarker": function() { return /* binding */ assignProductToMarker; },
-/* harmony export */   "onMarkerOut": function() { return /* binding */ onMarkerOut; },
-/* harmony export */   "onMarkerOver": function() { return /* binding */ onMarkerOver; },
-/* harmony export */   "onProductSelect": function() { return /* binding */ onProductSelect; }
-/* harmony export */ });
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
-/**
- * External dependecies.
- */
- // For creating unique id's.
-
-/**
- * Adding markers when clicked on image (in div container)
- * captures click coordinates relative to image container
- * and adds marker to marker objects, with x,y and other properties.
- * 
- * @param {Event} event 
- * @param {Object} markers 
- * @param {Function} setAttributes 
- */
-const addNewMarker = (event, markers, setAttributes) => {
-  const rect = event.target.getBoundingClientRect();
-  const xPos = (event.clientX - rect.left) / rect.width * 100;
-  const yPos = (event.clientY - rect.top) / rect.height * 100;
-  const newMarker = {
-    x: xPos,
-    y: yPos,
-    id: (0,uuid__WEBPACK_IMPORTED_MODULE_0__["default"])(),
-    name: 'Double click on marker to assign product.',
-    active: true,
-    productId: null,
-    productTitle: null
-  };
-  const updatedMarkers = markers?.concat(newMarker);
-  setAttributes({
-    markers: updatedMarkers
+    }), document.getElementById(`product-price-${productId}`));
+    (0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      dangerouslySetInnerHTML: {
+        __html: sanitizer(description)
+      }
+    }), document.getElementById(`product-excerpt-${productId}`));
+  }).catch(error => {
+    console.error(error);
   });
 };
-
-/**
- * When a marker is clicked, the modal opens to assign product to the marker.
- * @param {object} marker 
- * @param {Function} setAttributes 
- */
-const assignProductToMarker = (marker, setAttributes) => {
-  setAttributes({
-    selectedMarker: marker.id
-  });
-  setAttributes({
-    isModalOpen: true
-  });
-};
-
-/**
- * Select product from products object and assign to marker.
- * Select component is in modal component.
- * @param {String} value 
- */
-const onProductSelect = (value, markers, selectedMarker, setAttributes) => {
-  const [productId, productTitle] = JSON.parse(value);
-  const updatedMarkers = markers?.map(marker => {
-    if (marker.id === selectedMarker) {
-      return {
-        ...marker,
-        productId,
-        productTitle
-      };
-    }
-    return marker;
-  });
-  setAttributes({
-    markers: updatedMarkers
-  });
-  setAttributes({
-    selectedProduct: value
-  });
-  setAttributes({
-    isModalOpen: false
-  });
-};
-
-/**
- * Add 'highlight' class name to assigned product
- * @param {object} marker 
- */
-const onMarkerOver = marker => {
-  const productId = marker?.productId;
-  const product = document.querySelector(`[data-product-id="${productId}"]`);
-  if (product) {
-    product.classList.add('highlighted');
-  }
-  ;
-};
-
-/**
- * Remove highligt class name from assigned product.
- * @param {object} marker 
- */
-const onMarkerOut = marker => {
-  const productId = marker?.productId;
-  const product = document.querySelector(`[data-product-id="${productId}"]`);
-  if (product) {
-    product.classList.remove('highlighted');
-  }
-};
-
-/***/ }),
-
-/***/ "./src/index.js":
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/style.scss");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./block.json */ "./src/block.json");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./edit */ "./src/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./save */ "./src/save.js");
-/**
- * Registers a block with a unique name ( Woo Lookblock ) and an object.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
- */
-
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * All files containing `style` keyword are bundled together. The code used
- * gets applied both to the front of your site and to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-/**
- * Every block starts by registering a new block type definition.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
- */
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_2__.name, {
-  /**
-   * @see ./edit.js
-   */
-  edit: _edit__WEBPACK_IMPORTED_MODULE_3__["default"],
-  /**
-   * @see ./save.js 
-   */
-  save: _save__WEBPACK_IMPORTED_MODULE_4__["default"]
-});
-
-/***/ }),
-
-/***/ "./src/save.js":
-/*!*********************!*\
-  !*** ./src/save.js ***!
-  \*********************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./style.scss */ "./src/style.scss");
-/* harmony import */ var _components_productGrid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/productGrid */ "./src/components/productGrid.js");
-/* harmony import */ var _components_marker__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/marker */ "./src/components/marker.js");
-
-/**
- * WordPress dependenices.
- */
-
-
-
-
-
-/**
- * Internal dependencies.
- */
-
-
-
-const Save = _ref => {
-  let {
-    attributes
-  } = _ref;
-  const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps.save();
-  const {
-    products,
-    productList,
-    mediaURL,
-    columns,
-    gap,
-    valign,
-    productsWidth,
-    direction,
-    flexgap,
-    markers,
-    imageOption
-  } = attributes;
-
-  // Block Flex container and product grid styles.
-  const flexAlignItems = dir => {
-    // If direction is 'column' or 'column-reverse' set align fixed.
-    return dir.substring(0, 6) == 'column' ? 'center' : valign; // or dir.startsWith() ?
-  };
-
-  const flexContainerStyles = {
-    flexDirection: direction,
-    alignItems: flexAlignItems(direction),
-    gap: flexgap,
-    justifyContent: 'center'
-  };
-  const gridStyle = {
-    gridTemplateColumns: `repeat(${columns}, 1fr)`,
-    gap: `${gap}px`
-  };
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, imageOption !== 'backimage-none' && mediaURL && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "cover-image",
-    style: {
-      backgroundImage: `url(${mediaURL})`
-    }
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "flex-container",
-    style: flexContainerStyles
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "flex-block products-grid-container",
-    style: {
-      width: `${productsWidth}%`
-    }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_productGrid__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    productList: productList,
-    columns: columns,
-    gap: gap,
-    context: "save",
-    style: gridStyle
-  })), mediaURL && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "flex-block image-container",
-    style: {
-      width: `${100 - productsWidth}%`,
-      position: 'relative'
-    }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    className: "lookbook-image",
-    src: mediaURL,
-    alt: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Lookbook image', 'woo-lookblock')
-  }), markers?.length > 0 && markers.map((marker, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_marker__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    key: `marker-${index}`,
-    marker: marker
-  }))))));
-};
-/* harmony default export */ __webpack_exports__["default"] = (Save);
+/* harmony default export */ __webpack_exports__["default"] = (ProductProperties);
 
 /***/ }),
 
@@ -2855,209 +1875,14 @@ const Save = _ref => {
 
 /***/ }),
 
-/***/ "./src/editor.scss":
-/*!*************************!*\
-  !*** ./src/editor.scss ***!
-  \*************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./src/style.scss":
-/*!************************!*\
-  !*** ./src/style.scss ***!
-  \************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/native.js":
-/*!******************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/native.js ***!
-  \******************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-const randomUUID = typeof crypto !== 'undefined' && crypto.randomUUID && crypto.randomUUID.bind(crypto);
-/* harmony default export */ __webpack_exports__["default"] = ({
-  randomUUID
-});
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/regex.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/regex.js ***!
-  \*****************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i);
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/rng.js":
-/*!***************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/rng.js ***!
-  \***************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": function() { return /* binding */ rng; }
-/* harmony export */ });
-// Unique ID creation requires a high quality random # generator. In the browser we therefore
-// require the crypto API and do not support built-in fallback to lower quality random number
-// generators (like Math.random()).
-let getRandomValues;
-const rnds8 = new Uint8Array(16);
-function rng() {
-  // lazy load so that environments that need to polyfill have a chance to do so
-  if (!getRandomValues) {
-    // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation.
-    getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
-
-    if (!getRandomValues) {
-      throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
-    }
-  }
-
-  return getRandomValues(rnds8);
-}
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/stringify.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/stringify.js ***!
-  \*********************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "unsafeStringify": function() { return /* binding */ unsafeStringify; }
-/* harmony export */ });
-/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validate.js */ "./node_modules/uuid/dist/esm-browser/validate.js");
-
-/**
- * Convert array of 16 byte values to UUID string format of the form:
- * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
- */
-
-const byteToHex = [];
-
-for (let i = 0; i < 256; ++i) {
-  byteToHex.push((i + 0x100).toString(16).slice(1));
-}
-
-function unsafeStringify(arr, offset = 0) {
-  // Note: Be careful editing this code!  It's been tuned for performance
-  // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
-  return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + '-' + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + '-' + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + '-' + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + '-' + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
-}
-
-function stringify(arr, offset = 0) {
-  const uuid = unsafeStringify(arr, offset); // Consistency check for valid UUID.  If this throws, it's likely due to one
-  // of the following:
-  // - One or more input array values don't map to a hex octet (leading to
-  // "undefined" in the uuid)
-  // - Invalid input values for the RFC `version` or `variant` fields
-
-  if (!(0,_validate_js__WEBPACK_IMPORTED_MODULE_0__["default"])(uuid)) {
-    throw TypeError('Stringified UUID is invalid');
-  }
-
-  return uuid;
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (stringify);
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/v4.js":
-/*!**************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/v4.js ***!
-  \**************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _native_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./native.js */ "./node_modules/uuid/dist/esm-browser/native.js");
-/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rng.js */ "./node_modules/uuid/dist/esm-browser/rng.js");
-/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stringify.js */ "./node_modules/uuid/dist/esm-browser/stringify.js");
-
-
-
-
-function v4(options, buf, offset) {
-  if (_native_js__WEBPACK_IMPORTED_MODULE_0__["default"].randomUUID && !buf && !options) {
-    return _native_js__WEBPACK_IMPORTED_MODULE_0__["default"].randomUUID();
-  }
-
-  options = options || {};
-  const rnds = options.random || (options.rng || _rng_js__WEBPACK_IMPORTED_MODULE_1__["default"])(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-
-  rnds[6] = rnds[6] & 0x0f | 0x40;
-  rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
-
-  if (buf) {
-    offset = offset || 0;
-
-    for (let i = 0; i < 16; ++i) {
-      buf[offset + i] = rnds[i];
-    }
-
-    return buf;
-  }
-
-  return (0,_stringify_js__WEBPACK_IMPORTED_MODULE_2__.unsafeStringify)(rnds);
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (v4);
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/validate.js":
-/*!********************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/validate.js ***!
-  \********************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _regex_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./regex.js */ "./node_modules/uuid/dist/esm-browser/regex.js");
-
-
-function validate(uuid) {
-  return typeof uuid === 'string' && _regex_js__WEBPACK_IMPORTED_MODULE_0__["default"].test(uuid);
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (validate);
-
-/***/ }),
-
-/***/ "react":
-/*!************************!*\
-  !*** external "React" ***!
-  \************************/
+/***/ "react-dom":
+/*!***************************!*\
+  !*** external "ReactDOM" ***!
+  \***************************/
 /***/ (function(module) {
 
 "use strict";
-module.exports = window["React"];
+module.exports = window["ReactDOM"];
 
 /***/ }),
 
@@ -3072,61 +1897,6 @@ module.exports = window["wp"]["apiFetch"];
 
 /***/ }),
 
-/***/ "@wordpress/block-editor":
-/*!*************************************!*\
-  !*** external ["wp","blockEditor"] ***!
-  \*************************************/
-/***/ (function(module) {
-
-"use strict";
-module.exports = window["wp"]["blockEditor"];
-
-/***/ }),
-
-/***/ "@wordpress/blocks":
-/*!********************************!*\
-  !*** external ["wp","blocks"] ***!
-  \********************************/
-/***/ (function(module) {
-
-"use strict";
-module.exports = window["wp"]["blocks"];
-
-/***/ }),
-
-/***/ "@wordpress/components":
-/*!************************************!*\
-  !*** external ["wp","components"] ***!
-  \************************************/
-/***/ (function(module) {
-
-"use strict";
-module.exports = window["wp"]["components"];
-
-/***/ }),
-
-/***/ "@wordpress/core-data":
-/*!**********************************!*\
-  !*** external ["wp","coreData"] ***!
-  \**********************************/
-/***/ (function(module) {
-
-"use strict";
-module.exports = window["wp"]["coreData"];
-
-/***/ }),
-
-/***/ "@wordpress/data":
-/*!******************************!*\
-  !*** external ["wp","data"] ***!
-  \******************************/
-/***/ (function(module) {
-
-"use strict";
-module.exports = window["wp"]["data"];
-
-/***/ }),
-
 /***/ "@wordpress/element":
 /*!*********************************!*\
   !*** external ["wp","element"] ***!
@@ -3135,28 +1905,6 @@ module.exports = window["wp"]["data"];
 
 "use strict";
 module.exports = window["wp"]["element"];
-
-/***/ }),
-
-/***/ "@wordpress/i18n":
-/*!******************************!*\
-  !*** external ["wp","i18n"] ***!
-  \******************************/
-/***/ (function(module) {
-
-"use strict";
-module.exports = window["wp"]["i18n"];
-
-/***/ }),
-
-/***/ "./src/block.json":
-/*!************************!*\
-  !*** ./src/block.json ***!
-  \************************/
-/***/ (function(module) {
-
-"use strict";
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"micemade/woo-lookblock","version":"0.1.0","title":"Woo Lookblock","category":"widgets","icon":"store","description":"Block plugin for creating WooCommerce lookbooks in the block editor.","supports":{"html":false,"color":{},"align":["wide","full","left","right"],"spacing":{"margin":true,"padding":true},"typography":{"fontSize":true,"lineHeight":true}},"attributes":{"products":{"type":"array","default":[]},"productsData":{"type":"array","default":[]},"productList":{"type":"array","default":[]},"mediaID":{"type":"number","default":null},"mediaURL":{"type":"string","default":null},"style":{"type":"object","default":{"color":{"text":"#3a3a3a","background":"#fbf9f4"},"spacing":{"padding":{"top":"20px","right":"20px","bottom":"20px","left":"20px"}}}},"columns":{"type":"number","default":3},"gap":{"type":"number","default":40},"flexgap":{"type":"number","default":40},"productsWidth":{"type":"number","default":50},"valign":{"type":"string","default":"flex-start"},"direction":{"type":"string","default":"row"},"markers":{"type":"array","default":[]},"selectedMarker":{"type":"number","default":null},"selectedProduct":{"type":"string","default":""},"isModalOpen":{"type":"boolean","default":false},"imageOption":{"type":"string","default":"backimage-none"}},"textdomain":"woo-lookblock","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","script":"file:./frontend/index.js"}');
 
 /***/ })
 
@@ -3186,44 +1934,7 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = __webpack_modules__;
-/******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/chunk loaded */
-/******/ 	!function() {
-/******/ 		var deferred = [];
-/******/ 		__webpack_require__.O = function(result, chunkIds, fn, priority) {
-/******/ 			if(chunkIds) {
-/******/ 				priority = priority || 0;
-/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
-/******/ 				deferred[i] = [chunkIds, fn, priority];
-/******/ 				return;
-/******/ 			}
-/******/ 			var notFulfilled = Infinity;
-/******/ 			for (var i = 0; i < deferred.length; i++) {
-/******/ 				var chunkIds = deferred[i][0];
-/******/ 				var fn = deferred[i][1];
-/******/ 				var priority = deferred[i][2];
-/******/ 				var fulfilled = true;
-/******/ 				for (var j = 0; j < chunkIds.length; j++) {
-/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every(function(key) { return __webpack_require__.O[key](chunkIds[j]); })) {
-/******/ 						chunkIds.splice(j--, 1);
-/******/ 					} else {
-/******/ 						fulfilled = false;
-/******/ 						if(priority < notFulfilled) notFulfilled = priority;
-/******/ 					}
-/******/ 				}
-/******/ 				if(fulfilled) {
-/******/ 					deferred.splice(i--, 1)
-/******/ 					var r = fn();
-/******/ 					if (r !== undefined) result = r;
-/******/ 				}
-/******/ 			}
-/******/ 			return result;
-/******/ 		};
-/******/ 	}();
-/******/ 	
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	!function() {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
@@ -3264,70 +1975,38 @@ module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json
 /******/ 		};
 /******/ 	}();
 /******/ 	
-/******/ 	/* webpack/runtime/jsonp chunk loading */
-/******/ 	!function() {
-/******/ 		// no baseURI
-/******/ 		
-/******/ 		// object to store loaded and loading chunks
-/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
-/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
-/******/ 		var installedChunks = {
-/******/ 			"index": 0,
-/******/ 			"./style-index": 0
-/******/ 		};
-/******/ 		
-/******/ 		// no chunk on demand loading
-/******/ 		
-/******/ 		// no prefetching
-/******/ 		
-/******/ 		// no preloaded
-/******/ 		
-/******/ 		// no HMR
-/******/ 		
-/******/ 		// no HMR manifest
-/******/ 		
-/******/ 		__webpack_require__.O.j = function(chunkId) { return installedChunks[chunkId] === 0; };
-/******/ 		
-/******/ 		// install a JSONP callback for chunk loading
-/******/ 		var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
-/******/ 			var chunkIds = data[0];
-/******/ 			var moreModules = data[1];
-/******/ 			var runtime = data[2];
-/******/ 			// add "moreModules" to the modules object,
-/******/ 			// then flag all "chunkIds" as loaded and fire callback
-/******/ 			var moduleId, chunkId, i = 0;
-/******/ 			if(chunkIds.some(function(id) { return installedChunks[id] !== 0; })) {
-/******/ 				for(moduleId in moreModules) {
-/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
-/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
-/******/ 					}
-/******/ 				}
-/******/ 				if(runtime) var result = runtime(__webpack_require__);
-/******/ 			}
-/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-/******/ 			for(;i < chunkIds.length; i++) {
-/******/ 				chunkId = chunkIds[i];
-/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-/******/ 					installedChunks[chunkId][0]();
-/******/ 				}
-/******/ 				installedChunks[chunkId] = 0;
-/******/ 			}
-/******/ 			return __webpack_require__.O(result);
-/******/ 		}
-/******/ 		
-/******/ 		var chunkLoadingGlobal = self["webpackChunkwoo_lookblock"] = self["webpackChunkwoo_lookblock"] || [];
-/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
-/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-/******/ 	}();
-/******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], function() { return __webpack_require__("./src/index.js"); })
-/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+!function() {
+"use strict";
+/*!*******************************!*\
+  !*** ./src/frontend/index.js ***!
+  \*******************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _productProperties__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./productProperties */ "./src/frontend/productProperties.js");
+/* harmony import */ var _markerEvents__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./markerEvents */ "./src/frontend/markerEvents.js");
+/**
+ * Internal dependencies.
+ */
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Get every product item.
+  const productItems = document.querySelectorAll('.woo-lookblock-product');
+  // Call ProductProperties to fetch products via WC Store API.
+  productItems.forEach(item => {
+    const productId = item.dataset.productId;
+    (0,_productProperties__WEBPACK_IMPORTED_MODULE_0__["default"])(productId);
+  });
+
+  // Get every marker item.
+  const productMarkers = document.querySelectorAll('.product-marker');
+  productMarkers.forEach(item => {
+    (0,_markerEvents__WEBPACK_IMPORTED_MODULE_1__["default"])(item);
+  });
+});
+}();
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map
