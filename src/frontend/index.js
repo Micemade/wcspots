@@ -4,6 +4,19 @@
 import ProductProperties from "./productProperties";
 import addMarkerEvents from "./markerEvents";
 
+/**
+ * WordPress dependencies.
+ */
+/* 
+// TODO: responsive.
+import { select } from '@wordpress/data';
+import { store } from '@wordpress/viewport';
+window.addEventListener('resize', (event) => {
+	const isSmall = select(store).isViewportMatch('< large');
+	console.log(isSmall)
+}, true);
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
 	// Get every product item.
 	const productItems = document.querySelectorAll('.woo-lookblock-product');
@@ -18,4 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	productMarkers.forEach((item) => {
 		addMarkerEvents(item);
 	});
+
 });
+

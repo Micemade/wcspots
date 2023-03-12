@@ -3,13 +3,8 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
-import { Flex, FlexItem, SelectControl, Modal, Spinner } from '@wordpress/components';
+import { SelectControl, Modal, Spinner } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
-
-
-
-// For server rendering in render.php
-// import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * Internal dependencies.
@@ -30,7 +25,8 @@ import { addNewMarker, assignProductToMarker, onProductSelect, onMarkerOver, onM
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({ attributes, setAttributes }) {
+const Edit = ({ attributes, setAttributes }) => {
+
 	const blockProps = useBlockProps();
 
 	const {
@@ -158,3 +154,5 @@ export default function Edit({ attributes, setAttributes }) {
 		</>
 	);
 }
+
+export default Edit;

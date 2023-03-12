@@ -1,4 +1,4 @@
-const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut }) => {
+const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut, onClick }) => {
 
 	const styles = {
 		left: `${marker.x}%`,
@@ -11,6 +11,7 @@ const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut }) => {
 		<div
 			style={styles}
 			className="product-marker"
+			onClick={() => onClick(marker)}
 			onDoubleClick={() => onDoubleClick(marker)}
 			onMouseOver={() => onMouseOver(marker)}
 			onMouseOut={() => onMouseOut(marker)}
