@@ -1,25 +1,17 @@
+const defaultConfig = require('@wordpress/scripts/config/webpack.config.js');
 const path = require('path');
-// import path from 'path';
 
 module.exports = {
-	mode: 'development',
-	entry: './src/frontend/index.js',
-	output: {
-		path: path.resolve(__dirname, 'assets/js'),
-		filename: 'woo-lookblock-frontend.js'
-	},
+	...defaultConfig,
 	module: {
+		...defaultConfig.module,
 		rules: [
+			...defaultConfig.module.rules,
 			{
-				test: /\.(js|jsx)$/,
-				exclude: /node_modules/,
-				use: {
-					loader: 'babel-loader',
-					options: {
-						presets: ['@babel/preset-env', '@babel/preset-react']
-					}
-				}
-			}
-		]
-	}
+				test: /\.svg$/,
+				use: ['@svgr/webpack'],
+				include: path.resolve(__dirname, 'src/icons'),
+			},
+		],
+	},
 };

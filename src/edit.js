@@ -2,9 +2,9 @@
  * WordPress dependenices.
  */
 import { __ } from '@wordpress/i18n';
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
 import { SelectControl, Modal, Spinner } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
 
 /**
  * Internal dependencies.
@@ -15,36 +15,54 @@ import InspectorControlsComponent from './controls/inspectorControls';
 import Marker from './components/marker';
 
 // Functions.
-import { addNewMarker, assignProductToMarker, onProductSelect, onMarkerOver, onMarkerOut } from './functions/markerFunctions';
+import { addNewMarker, assignProductToMarker, onProductSelect, onMarkerOver, onMarkerOut, markerClick } from './functions/markerFunctions';
 
 /**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
+ * The edit function.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  *
  * @return {WPElement} Element to render.
  */
-const Edit = ({ attributes, setAttributes }) => {
-
-	const blockProps = useBlockProps();
+const Edit = ({ clientId, attributes, setAttributes }) => {
 
 	const {
+		id,
 		products,
 		productList,
+		productsData,
 		mediaURL,
 		columns,
-		gap,
+		productsGap,
 		valign,
-		productsWidth,
-		direction,
-		flexgap,
+		imageWidth,
+		flexLayout,
+		flexGap,
+		productsLayout,
+		productSpacing,
+		productPadding,
+		titleSize,
+		priceSize,
+		titleColor,
+		priceColor,
 		markers,
 		selectedMarker,
 		selectedProduct,
-		isModalOpen,
-		imageOption
+		editModal,
+		imageOption,
 	} = attributes;
+
+	// Set unique block ID using 'clientId'.
+	useEffect(() => {
+		if (0 === id.length || id !== clientId) {
+			setAttributes({ id: clientId });
+		}
+	}, []);
+
+	const productIds = productsData.map((item) => {
+		return item.value;
+	});
+	const blockProps = useBlockProps({ 'data-block-id': clientId, 'data-product-ids': JSON.stringify(productIds) });
 
 	// Product select options for modal, on marker click.
 	const producOptionsStart = [{ label: 'Select a product', value: '' }];
@@ -56,19 +74,18 @@ const Edit = ({ attributes, setAttributes }) => {
 
 	// Block Flex container and product grid styles.
 	const flexAlignItems = (dir) => {
-		// If direction is 'column' or 'column-reverse' set align fixed.
+		// If flexLayout is 'column' or 'column-reverse' set align fixed.
 		return dir.substring(0, 6) == 'column' ? 'center' : valign; // or dir.startsWith() ?
 	};
 	const flexContainerStyles = {
-		flexDirection: direction,
-		alignItems: flexAlignItems(direction),
-		gap: flexgap,
-		justifyContent: 'center',
+		flexDirection: (flexLayout == 'image-only') ? 'row' : flexLayout,
+		alignItems: flexAlignItems(flexLayout),
+		gap: `${flexGap.value}${flexGap.unit}`,
+		justifyContent: 'center'
 	}
-	const gridStyle = {
-		gridTemplateColumns: `repeat(${columns}, 1fr)`,
-		gap: `${gap}px`,
-	};
+	const productsContainerStyle = {
+		width: (flexLayout.substring(0, 6) == 'column') ? `${imageWidth}%` : `${100 - imageWidth}%`
+	}
 
 	return (
 		<>
@@ -85,23 +102,27 @@ const Edit = ({ attributes, setAttributes }) => {
 
 				<div className="flex-container" style={flexContainerStyles}>
 
-					<div className="flex-block products-grid-container" style={{ width: `${productsWidth}%` }}>
+					{flexLayout !== 'image-only' && (
+						<div className="flex-block products-grid-container" style={productsContainerStyle}>
 
-						<ProductGrid
-							productList={productList}
-							columns={columns}
-							gap={gap}
-							context="edit"
-							style={gridStyle}
-						/>
+							<ProductGrid
+								context="edit"
+								productList={productIds}
+								columns={columns}
+								productsGap={productsGap}
+								productsLayout={productsLayout}
+								productPadding={productPadding}
+								productSpacing={productSpacing}
+								titleSize={titleSize}
+								priceSize={priceSize}
+								fontColors={{ titleColor, priceColor }}
+							/>
 
-					</div>
+						</div>
+					)}
 
 					{mediaURL && (
-						<div className="flex-block image-container" style={{
-							width: `${100 - productsWidth}%`,
-							position: 'relative',
-						}}>
+						<div className="flex-block image-container" style={{ width: `${imageWidth}%` }}>
 							<img
 								className="lookbook-image"
 								src={mediaURL}
@@ -113,16 +134,18 @@ const Edit = ({ attributes, setAttributes }) => {
 									<Marker
 										key={`marker-${marker.id}`}
 										marker={marker}
+										// onClick={() => markerClick(marker, setAttributes)}
 										onDoubleClick={() => assignProductToMarker(marker, setAttributes)}
 										onMouseOver={onMarkerOver}
 										onMouseOut={onMarkerOut}
+										clientId={clientId}
 									/>
 								))}
 						</div>
 					)}
 				</div>
 			</div>
-			{isModalOpen && (
+			{editModal && (
 				<Modal
 					title={__(
 						'Assign a product to this marker',
@@ -130,7 +153,7 @@ const Edit = ({ attributes, setAttributes }) => {
 					)}
 					onRequestClose={() =>
 						setAttributes({
-							isModalOpen: false,
+							editModal: false,
 							selectedMarker: null,
 						})
 					}
@@ -149,8 +172,8 @@ const Edit = ({ attributes, setAttributes }) => {
 						onChange={(value) => onProductSelect(value, markers, selectedMarker, setAttributes)}
 					/>
 				</Modal>
-			)
-			}
+			)}
+
 		</>
 	);
 }

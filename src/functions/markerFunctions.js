@@ -36,7 +36,7 @@ export const addNewMarker = (event, markers, setAttributes) => {
  */
 export const assignProductToMarker = (marker, setAttributes) => {
 	setAttributes({ selectedMarker: marker.id });
-	setAttributes({ isModalOpen: true });
+	setAttributes({ editModal: true });
 };
 
 /**
@@ -58,30 +58,43 @@ export const onProductSelect = (value, markers, selectedMarker, setAttributes) =
 	});
 	setAttributes({ markers: updatedMarkers });
 	setAttributes({ selectedProduct: value });
-	setAttributes({ isModalOpen: false });
+	setAttributes({ editModal: false });
 };
 
 /**
  * Add 'highlight' class name to assigned product
  * @param {object} marker 
  */
-export const onMarkerOver = (marker) => {
+export const onMarkerOver = (event, marker, clientId) => {
+	const thisBlock = event.target.closest(".wp-block-micemade-woo-lookblock");
+	const thisBlockId = thisBlock.dataset.block;
+
 	const productId = marker?.productId;
-	const product = document.querySelector(`[data-product-id="${productId}"]`);
-	if (product) {
+	const product = thisBlock.querySelector(`[data-product-id="${productId}"]`);
+	if (product && thisBlockId == clientId) {
 		product.classList.add('highlighted');
-	};
+	}
 }
 
 /**
  * Remove highligt class name from assigned product.
  * @param {object} marker 
  */
-export const onMarkerOut = (marker) => {
+export const onMarkerOut = (event, marker, clientId) => {
+	const thisBlock = event.target.closest(".wp-block-micemade-woo-lookblock");
+	const thisBlockId = thisBlock.dataset.block;
+
 	const productId = marker?.productId;
-	const product = document.querySelector(`[data-product-id="${productId}"]`);
-	if (product) {
+	const product = thisBlock.querySelector(`[data-product-id="${productId}"]`);
+	if (product && thisBlockId == clientId) {
 		product.classList.remove('highlighted');
+
 	}
 }
 
+/* export const markerClick = (marker, setAttributes) => {
+	const productId = marker?.productId;
+	if (productId) {
+		setAttributes({ showModal: true, copiedProduct: productId });
+	}
+} */

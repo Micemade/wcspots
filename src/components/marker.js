@@ -1,4 +1,4 @@
-const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut, onClick }) => {
+const Marker = ({ marker, onClick, onDoubleClick, onMouseOver, onMouseOut, clientId }) => {
 
 	const styles = {
 		left: `${marker.x}%`,
@@ -11,12 +11,13 @@ const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut, onClick }) => 
 		<div
 			style={styles}
 			className="product-marker"
-			onClick={() => onClick(marker)}
+			// onClick={() => onClick(marker)}
 			onDoubleClick={() => onDoubleClick(marker)}
-			onMouseOver={() => onMouseOver(marker)}
-			onMouseOut={() => onMouseOut(marker)}
+			onMouseOver={() => onMouseOver(event, marker, clientId)}
+			onMouseOut={() => onMouseOut(event, marker, clientId)}
 			data-product-title={marker.productTitle ? marker.productTitle : ''}
 			data-product-id={marker.productId ? marker.productId : ''}
+			data-client-id={clientId}
 		>
 			<div className="inner" />
 			{marker.productTitle && (

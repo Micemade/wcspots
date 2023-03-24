@@ -5,3 +5,26 @@
 .wp-block-micemade-woo-lookblock:hover {
 	outline: 1px dotted #f00;
 }
+
+
+// Custom InspectorControl component.
+.editor-range-unit-combo {
+	
+	align-items: flex-start;
+	
+	.components-range-control {
+		flex-basis: 75%;
+		margin-block-end: 10px;
+	}
+}
+
+// Buttons in custom component ImageRadioSelectControl
+.woo-lookblock-products-layout {
+	height: auto;
+	border-radius: 5px !important;
+	margin: 0 2px;
+
+	&:first-child {
+		margin-left: 0;
+	}
+}

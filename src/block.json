@@ -21,6 +21,10 @@
 		}
 	},
 	"attributes": {
+		"id":{
+			"type":"string",
+			"default": ""
+		},
 		"products": {
 			"type": "array",
 			"default": []
@@ -41,6 +45,78 @@
 			"type": "string",
 			"default": null
 		},
+		"productsLayout": {
+			"type":"string",
+			"default": "layout1"
+		},
+		"columns": {
+			"type": "number",
+			"default": 3
+		},
+		"flexGap": {
+			"type": "object",
+			"default": {"value":1, "unit": "vw"}
+		},		
+		"productsGap": {
+			"type": "object",
+			"default": {"value":1, "unit": "vw"}
+		},
+		"productPadding": {
+			"type": "object",
+			"default": {"value":1, "unit": "vw"}
+		},
+		"productSpacing":{
+			"type":"object",
+			"default": {"value":0.7, "unit": "vw"}
+		},
+		"titleSize":{
+			"type":"object",
+			"default": {"value":1, "unit": "em"}
+		},
+		"priceSize":{
+			"type":"object",
+			"default": {"value":0.8, "unit": "em"}
+		},
+		"titleColor": {
+			"type": "string",
+			"default": ""
+		},
+		"priceColor": {
+			"type": "string",
+			"default": ""
+		},
+		"imageWidth": {
+			"type": "number",
+			"default": 50
+		},
+		"valign": {
+			"type": "string",
+			"default": "flex-start"
+		},
+		"flexLayout": {
+			"type": "string",
+			"default": "row"
+		},
+		"markers": {
+			"type": "array",
+			"default": []
+		},
+		"selectedMarker": {
+			"type": "number",
+			"default": null
+		},
+		"selectedProduct": {
+			"type": "string",
+			"default": ""
+		},
+		"editModal": {
+			"type": "boolean",
+			"default": false
+		},
+		"imageOption": {
+			"type": "string",
+			"default": "backimage-none"
+		},
 		"style": {
 			"type": "object",
 			"default": {
@@ -57,50 +133,6 @@
 					}
 				}
 			}
-		},
-		"columns": {
-			"type": "number",
-			"default": 3
-		},
-		"gap": {
-			"type": "number",
-			"default": 40
-		},
-		"flexgap": {
-			"type": "number",
-			"default": 40
-		},
-		"productsWidth": {
-			"type": "number",
-			"default": 50
-		},
-		"valign": {
-			"type": "string",
-			"default": "flex-start"
-		},
-		"direction": {
-			"type": "string",
-			"default": "row"
-		},
-		"markers": {
-			"type": "array",
-			"default": []
-		},
-		"selectedMarker": {
-			"type": "number",
-			"default": null
-		},
-		"selectedProduct": {
-			"type": "string",
-			"default": ""
-		},
-		"isModalOpen": {
-			"type": "boolean",
-			"default": false
-		},
-		"imageOption": {
-			"type": "string",
-			"default": "backimage-none"
 		}
 	},
 	"textdomain": "woo-lookblock",

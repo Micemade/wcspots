@@ -17,7 +17,7 @@ window.addEventListener('resize', (event) => {
 }, true);
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+/* document.addEventListener('DOMContentLoaded', () => {
 	// Get every product item.
 	const productItems = document.querySelectorAll('.woo-lookblock-product');
 	// Call ProductProperties to fetch products via WC Store API.
@@ -25,11 +25,23 @@ document.addEventListener('DOMContentLoaded', () => {
 		const productId = item.dataset.productId;
 		ProductProperties(productId);
 	});
+});
+ */
 
-	// Get every marker item.
-	const productMarkers = document.querySelectorAll('.product-marker');
-	productMarkers.forEach((item) => {
-		addMarkerEvents(item);
+document.addEventListener('DOMContentLoaded', () => {
+	// Get all block elements.
+	const wooLookblockInstances = document.querySelectorAll('.wp-block-micemade-woo-lookblock');
+	wooLookblockInstances.forEach((lookBlockInstance) => {
+
+		const productIds = JSON.parse(lookBlockInstance.dataset.productIds);
+		const blockId = lookBlockInstance.dataset.blockId;
+		ProductProperties(productIds, blockId);
+
+		// Get every marker item.
+		const productMarkers = lookBlockInstance.querySelectorAll('.product-marker');
+		productMarkers.forEach((item) => {
+			addMarkerEvents(item, lookBlockInstance);
+		});
 	});
 
 });

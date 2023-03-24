@@ -44,7 +44,7 @@ export default function Edit({ attributes, setAttributes }) {
 		markers,
 		selectedMarker,
 		selectedProduct,
-		isModalOpen,
+		editModal,
 	} = attributes;
 
 	// Adding markers when clicked on image
@@ -70,7 +70,7 @@ export default function Edit({ attributes, setAttributes }) {
 	// When a marker is clicked, the modal opens to assign product to the marker.
 	const onMarkerClick = (marker) => {
 		setAttributes({ selectedMarker: marker.id });
-		setAttributes({ isModalOpen: true });
+		setAttributes({ editModal: true });
 	};
 
 	const onProductSelect = (value) => {
@@ -87,7 +87,7 @@ export default function Edit({ attributes, setAttributes }) {
 		});
 		setAttributes({ markers: updatedMarkers });
 		setAttributes({ selectedProduct: value });
-		setAttributes({ isModalOpen: false });
+		setAttributes({ editModal: false });
 	};
 
 	// Select options for modal, on marker click.
@@ -159,7 +159,7 @@ export default function Edit({ attributes, setAttributes }) {
 					)}
 				</Flex>
 			</div>
-			{isModalOpen && (
+			{editModal && (
 				<Modal
 					title={__(
 						'Assign a product to this marker',
@@ -167,7 +167,7 @@ export default function Edit({ attributes, setAttributes }) {
 					)}
 					onRequestClose={() =>
 						setAttributes({
-							isModalOpen: false,
+							editModal: false,
 							selectedMarker: null,
 						})
 					}

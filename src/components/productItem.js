@@ -3,36 +3,53 @@ import ProductTitle from "./productTitle";
 import ProductPrice from "./productPrice";
 import ProductExcerpt from "./productExcerpt";
 
-const ProductItem = ({ productId, context }) => {
+const ProductItem = ({ context, productId, productPadding, productSpacing, titleSize, priceSize, fontColors }) => {
 
-	const isEdit = productId !== 0 && context == 'edit';
+	const isEdit = productId !== 0 && (context == 'edit' || context == 'both');
+
+	const titleStyle = {
+		fontSize: `${titleSize.value}${titleSize.unit}`,
+		color: fontColors.titleColor
+	};
+	const priceStyle = {
+		fontSize: `${priceSize.value}${priceSize.unit}`,
+		color: fontColors.priceColor
+	};
+	const spacing = {
+		margin: `${productSpacing.value}${productSpacing.unit} 0`
+	}
 
 	return (
-		<div className="woo-lookblock-product" data-product-id={productId}>
+		<div
+			className="woo-lookblock-product"
+			data-product-id={productId}
+		>
 
-			<div className="product-featured-image" id={`product-image-${productId}`}>
+			<div className="product-featured-image" data-product-image={productId}>
 				{isEdit && (
 					<ProductImage productId={productId} />
 				)}
 			</div>
 
-			<h4 className="product-title" id={`product-title-${productId}`}>
-				{isEdit && (
-					<ProductTitle productId={productId} />
-				)}
-			</h4>
+			<div className="product-elements" style={{ padding: `${productPadding.value}${productPadding.unit}` }}>
 
+				<h4 className="product-title product-element" data-product-title={productId} style={Object.assign(titleStyle, spacing)}>
+					{isEdit && (
+						<ProductTitle productId={productId} />
+					)}
+				</h4>
 
-			<div className="product-price" id={`product-price-${productId}`}>
-				{isEdit && (
-					<ProductPrice productId={productId} />
-				)}
-			</div>
+				<div className="product-price product-element" data-product-price={productId} style={Object.assign(priceStyle, spacing)}>
+					{isEdit && (
+						<ProductPrice productId={productId} />
+					)}
+				</div>
 
-			<div className="product-excerpt" id={`product-excerpt-${productId}`}>
-				{isEdit && (
-					<ProductExcerpt productId={productId} />
-				)}
+				<div className="product-excerpt product-element" data-product-excerpt={productId} style={spacing}>
+					{isEdit && (
+						<ProductExcerpt productId={productId} />
+					)}
+				</div>
 			</div>
 
 		</div>

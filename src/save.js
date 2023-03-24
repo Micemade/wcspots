@@ -15,41 +15,50 @@ import Marker from './components/marker';
 
 const Save = ({ attributes }) => {
 
-	const blockProps = useBlockProps.save();
-
 	const {
-		products,
+		id,
 		productList,
+		productsData,
 		mediaURL,
 		columns,
-		gap,
+		productsGap,
 		valign,
-		productsWidth,
-		direction,
-		flexgap,
+		imageWidth,
+		flexLayout,
+		flexGap,
+		productsLayout,
+		productPadding,
+		productSpacing,
+		titleSize,
+		priceSize,
+		titleColor,
+		priceColor,
 		markers,
-		imageOption
+		imageOption,
 	} = attributes;
 
+	const productIds = productsData.map((item) => {
+		return item.value;
+	});
+	const blockProps = useBlockProps.save({ 'data-block-id': id, 'data-product-ids': JSON.stringify(productIds) });
+
 	// Block Flex container and product grid styles.
-	const flexAlignItems = (dir) => {
-		// If direction is 'column' or 'column-reverse' set align fixed.
-		return dir.substring(0, 6) == 'column' ? 'center' : valign; // or dir.startsWith() ?
+	const flexAlignItems = (layout) => {
+		// If flexLayout is 'column' or 'column-reverse' set align fixed.
+		return layout.substring(0, 6) == 'column' ? 'center' : valign; // or layout.startsWith() ?
 	};
 	const flexContainerStyles = {
-		flexDirection: direction,
-		alignItems: flexAlignItems(direction),
-		gap: flexgap,
+		flexDirection: (flexLayout == 'image-only') ? 'row' : flexLayout,
+		alignItems: flexAlignItems(flexLayout),
+		gap: `${flexGap.value}${flexGap.unit}`,
 		justifyContent: 'center'
 	}
-	const gridStyle = {
-		gridTemplateColumns: `repeat(${columns}, 1fr)`,
-		gap: `${gap}px`,
-	};
+	const productsContainerStyle = {
+		width: (flexLayout.substring(0, 6) == 'column') ? `${imageWidth}%` : `${100 - imageWidth}%`
+	}
 
 	return (
 		<>
-
 			<div {...blockProps}>
 				{(imageOption !== 'backimage-none' && mediaURL) &&
 					(<div className='cover-image' style={{ backgroundImage: `url(${mediaURL})` }}></div>)
@@ -57,23 +66,27 @@ const Save = ({ attributes }) => {
 
 				<div className="flex-container" style={flexContainerStyles}>
 
-					<div className="flex-block products-grid-container" style={{ width: `${productsWidth}%` }}>
+					{flexLayout !== 'image-only' && (
+						<div className="flex-block products-grid-container" style={productsContainerStyle}>
 
-						<ProductGrid
-							productList={productList}
-							columns={columns}
-							gap={gap}
-							context="save"
-							style={gridStyle}
-						/>
+							<ProductGrid
+								context="save"
+								productList={productIds}
+								columns={columns}
+								productsGap={productsGap}
+								productsLayout={productsLayout}
+								productPadding={productPadding}
+								productSpacing={productSpacing}
+								titleSize={titleSize}
+								priceSize={priceSize}
+								fontColors={{ titleColor, priceColor }}
+							/>
 
-					</div>
+						</div>
+					)}
 
 					{mediaURL && (
-						<div className="flex-block image-container" style={{
-							width: `${100 - productsWidth}%`,
-							position: 'relative',
-						}}>
+						<div className="flex-block image-container" style={{ width: `${imageWidth}%` }}>
 							<img
 								className="lookbook-image"
 								src={mediaURL}
@@ -84,6 +97,7 @@ const Save = ({ attributes }) => {
 									<Marker
 										key={`marker-${index}`}
 										marker={marker}
+										clientId={id}
 									/>
 								))}
 						</div>

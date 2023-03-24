@@ -8,4 +8,22 @@
   outline: 1px dotted #f00;
 }
 
+.editor-range-unit-combo {
+  align-items: flex-start;
+}
+.editor-range-unit-combo .components-range-control {
+  flex-basis: 75%;
+  -webkit-margin-after: 10px;
+          margin-block-end: 10px;
+}
+
+.woo-lookblock-products-layout {
+  height: auto;
+  border-radius: 5px !important;
+  margin: 0 2px;
+}
+.woo-lookblock-products-layout:first-child {
+  margin-left: 0;
+}
+
 /*# sourceMappingURL=index.css.map*/

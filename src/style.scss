@@ -24,54 +24,20 @@
 		z-index: 1;
 		position: relative;
 	}
-	
+
 	.flex-block {
-		// flex: 1 1 auto;
+		flex-grow: 0;
 		position: relative;
-		.product-grid, 
-		&.image-container, 
-		&.image-container .marker, 
-		&.image-container img
-		{
+
+		.product-grid,
+		&.image-container,
+		&.image-container .marker,
+		&.image-container img {
 			position: relative;
 		}
 
-		.product-grid {
-			display: grid;
-			box-sizing: border-box;
-
-			.woo-lookblock-product {
-				padding: 1vw;
-				transition: all .2s ease-in-out;
-				background-color: transparent;
-				box-shadow: none;
-				transform: none;
-				&.highlighted {
-					background-color: rgba(255, 255, 255, 0.6);
-					box-shadow: 0 10px 30px rgba(0,0,0, 0.15);
-					transform: scale(1.02);
-				}
-
-				.product-featured-image {
-					img { 
-						width: 100%;
-						max-width: 100%;
-					}
-				}
-				.product-title {
-					font-size: 22px;
-				}
-				.product-excerpt {
-					font-size: 16px;
-					line-height: 1.4;
-				}
-				.product-price{
-					font-weight: bold;
-				}
-			}
-		}
-
 		&.image-container {
+
 			img {
 				width: 100%;
 				z-index: 1;
@@ -88,12 +54,13 @@
 				width: 20px;
 				height: 20px;
 				border-radius: 50%;
-				border: 1px solid rgb(100, 100, 100, .5);
+				border: 1px solid rgb(100, 100, 100, 0.5);
 				background: rgba(255, 255, 255, 0.9);
-				opacity: 0.7;
-				mix-blend-mode: difference;
+				opacity: 0.85;
+				// mix-blend-mode: difference;
 
-				&:before, &:after {
+				&::before,
+				&::after {
 					position: absolute;
 					content: "";
 					display: block;
@@ -103,32 +70,38 @@
 					width: 100%;
 					height: 100%;
 				}
-				
-				&:before {
+
+				&::before {
 					content: attr(data-product-title);
-					display: block;
+					display: flex;
 					position: absolute;
-					color: white;
-					text-shadow: 1px 1px 1px #000;
+					top: 130%;
+					color: #333;
+					background: #fff;
 					width: max-content;
-					padding: 0.5vw;
-					font-size: 16px;
-					font-weight: bold;
+					padding: 2px 8px;
+					font-size: 14px;
+					border-radius: 3px;
+					line-height: 1.4;
+					font-weight: 600;
+					border: none;
+					box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 				}
 
-				&:after {
+				&::after {
 					z-index: 0;
 					top: 50%;
-					border: 1px solid rgb(100, 100, 100, .5);
+					border: 1px solid rgb(100, 100, 100, 0.5);
 					border-radius: 50%;
-					animation: animation-1 2s cubic-bezier(.22,.61,.36,1) infinite;
+					animation: animation-1 2s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
 				}
 
 				&:hover {
 					cursor: pointer;
-					transform: translate(-50%, -50%) scale(1.1);
+					transform: translate(-50%, -50%) scale(1.05);
 					opacity: 1;
 				}
+
 				.inner {
 					display: block;
 					width: 6px;
@@ -136,9 +109,8 @@
 					background-color: #df00ff;
 					border-radius: 50%;
 					z-index: 2;
-					
 				}
-				
+
 				.remove-marker {
 					position: absolute;
 					left: 100%;
@@ -147,43 +119,92 @@
 			}
 
 		}
-	}
-	
-	/* For server render component */
-	.selected-products {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		align-items: flex-start;
 
-		.product {
-			flex: 1 0 20%;
-			margin: 5px;
-			display: flex;
-			flex-direction: column;
-			align-items: flex-start;
-			justify-content: center;
+		.product-grid {
+			display: grid;
+			box-sizing: border-box;
 
-			img {
-				width: 100%;
-				max-width: 100%;
-				height: auto;
+			.woo-lookblock-product {
+				display: flex;
+				align-items: flex-start;
+				flex-direction: column;
+				transition: all 0.2s ease-in-out;
+				background-color: transparent;
+				box-shadow: none;
+				transform: none;
+
+				&.highlighted {
+					background-color: rgba(255, 255, 255, 0.6);
+					box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+					transform: scale(1.01);
+				}
+
+				.product-featured-image {
+
+					display: flex;
+					align-items: flex-start;
+
+					img {
+						max-width: 100%;
+						width: 100%;
+						height: auto;
+						object-fit: cover;
+					}
+				}
+
+				.product-element {
+					line-height: 1.2;
+				}
+
+				.product-title {
+					font-size: 1.2em;
+
+					> a {
+						color: inherit;
+					}
+				}
+
+				.product-excerpt {
+					font-size: 0.8em;
+				}
+
+				.product-price {
+					font-weight: 700;
+				}
+			}
+
+			&.layout2 {
+				.woo-lookblock-product {
+					width: 100%;
+					flex-direction: row;
+
+					> * {
+						flex: 1;
+					}
+
+					.product-elements {
+						display: flex;
+						flex-direction: column;
+					}
+				}
 			}
 		}
 	}
-	/* End for server render component */
 }
 
 @keyframes animation-1 {
+
 	0% {
 		transform: translateX(-50%) translateY(-50%) scale(1);
-		opacity: 0
+		opacity: 0;
 	}
-	25%{
-		opacity: 1
+
+	25% {
+		opacity: 1;
 	}
-	100%{
+
+	100% {
 		transform: translateX(-50%) translateY(-50%) scale(2);
-		opacity: 0
+		opacity: 0;
 	}
 }
