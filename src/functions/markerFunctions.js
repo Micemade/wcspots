@@ -1,4 +1,9 @@
 /**
+ * WordPress dependenices.
+ */
+import { __ } from '@wordpress/i18n';
+
+/**
  * External dependecies.
  */
 import { v4 as uuidv4 } from 'uuid'; // For creating unique id's.
@@ -20,10 +25,11 @@ export const addNewMarker = (event, markers, setAttributes) => {
 		x: xPos,
 		y: yPos,
 		id: uuidv4(),
-		name: 'Double click on marker to assign product.',
+		name: __('Double click on marker to assign a product.', 'woo-lookblock'),
 		active: true,
 		productId: null,
 		productTitle: null,
+		assigned: false
 	};
 	const updatedMarkers = markers?.concat(newMarker);
 	setAttributes({ markers: updatedMarkers });
@@ -34,15 +40,19 @@ export const addNewMarker = (event, markers, setAttributes) => {
  * @param {object} marker 
  * @param {Function} setAttributes 
  */
-export const assignProductToMarker = (marker, setAttributes) => {
+export const modalProductToMarker = (marker, setAttributes) => {
 	setAttributes({ selectedMarker: marker.id });
+	setAttributes({ selectedProduct: null });
 	setAttributes({ editModal: true });
 };
 
 /**
  * Select product from products object and assign to marker.
  * Select component is in modal component.
- * @param {String} value 
+ * @param {number} value 
+ * @param {object} markers 
+ * @param {string} selectedMarker 
+ * @param {Function} setAttributes 
  */
 export const onProductSelect = (value, markers, selectedMarker, setAttributes) => {
 	const [productId, productTitle] = JSON.parse(value);
@@ -52,18 +62,23 @@ export const onProductSelect = (value, markers, selectedMarker, setAttributes) =
 				...marker,
 				productId,
 				productTitle,
+				assigned: true
 			};
 		}
 		return marker;
 	});
 	setAttributes({ markers: updatedMarkers });
 	setAttributes({ selectedProduct: value });
+	setAttributes({ selectedMarker: null });
 	setAttributes({ editModal: false });
 };
 
+
 /**
  * Add 'highlight' class name to assigned product
+ * @param {event} event 
  * @param {object} marker 
+ * @param {string} clientId 
  */
 export const onMarkerOver = (event, marker, clientId) => {
 	const thisBlock = event.target.closest(".wp-block-micemade-woo-lookblock");
@@ -76,9 +91,12 @@ export const onMarkerOver = (event, marker, clientId) => {
 	}
 }
 
+
 /**
  * Remove highligt class name from assigned product.
- * @param {object} marker 
+ * @param {*} event 
+ * @param {*} marker 
+ * @param {*} clientId 
  */
 export const onMarkerOut = (event, marker, clientId) => {
 	const thisBlock = event.target.closest(".wp-block-micemade-woo-lookblock");
@@ -91,6 +109,41 @@ export const onMarkerOut = (event, marker, clientId) => {
 
 	}
 }
+
+/**
+ * Un-assign product to marker.
+ * @param {object} markers 
+ * @param {Function} setAttributes 
+ * @param {string} markerId 
+ */
+export const unassignProduct = (markers, setAttributes, markerId) => {
+	const updatedMarkers = markers?.map((marker) => {
+		if (marker.id === markerId) {
+			return {
+				...marker,
+				productId: null,
+				productTitle: null,
+				assigned: false
+			};
+		}
+		return marker;
+	});
+	setAttributes({ markers: updatedMarkers });
+}
+
+/**
+ * Delete marker.
+ * @param {object} markers 
+ * @param {Function} setAttributes 
+ * @param {string} markerId 
+ */
+export const removeMarker = (markers, setAttributes, markerId) => {
+	const updatedMarkers = markers.filter((marker) => {
+		return markerId !== marker.id
+	});
+
+	setAttributes({ markers: updatedMarkers });
+};
 
 /* export const markerClick = (marker, setAttributes) => {
 	const productId = marker?.productId;

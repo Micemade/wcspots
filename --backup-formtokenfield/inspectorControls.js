@@ -18,16 +18,7 @@ import {
 import { InspectorControls, MediaUpload, PanelColorSettings } from '@wordpress/block-editor';
 
 /**
- * External dependencies (React components).
- * React select is replacement for FormTokenField Gutenberg component.
- */
-// import React from 'react';
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
-
-/**
- * Internal dependencies - custom UnitRangeControl, ImageRadioSelectControl components.
- * Built from Gutenberg components.
+ * Internal dependency - custom UnitRangeControl, ImageRadioSelectControl.
  */
 import UnitRangeControl from './UnitRangeControl';
 import ImageRadioSelectControl from './ImageRadioSelectControl';
@@ -48,27 +39,26 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		productsData,
 		mediaID,
 		mediaURL,
-		imageOption,
-		flexLayout,
-		flexGap,
-		imageWidth,
-		valign,
 		productsLayout,
 		columns,
 		productsGap,
-		productPadding,
-		productSpacing,
+		valign,
+		imageWidth,
+		flexLayout,
+		flexGap,
 		titleSize,
 		priceSize,
+		productPadding,
+		productSpacing,
 		titleColor,
 		priceColor,
 		markers,
+		imageOption,
 	} = attributes;
-
 
 	/**
 	 * FormTokenList functions
-	 
+	 */
 	const displayList = getProducts?.records
 		?.filter((item) => productList?.includes(item.id))
 		.map((item) => item.title.rendered);
@@ -79,12 +69,15 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 	});
 	// FormTokenField Adding / removing products.
 	const onChangeProductList = (newList) => {
+
 		const newProductIds = getProducts?.records
 			?.filter((item) => newList.includes(item.title.rendered))
 			.map((item) => item.id);
+
 		const newProducts = getProducts?.records?.filter((item) =>
 			newList.includes(item.title.rendered)
 		);
+
 		const productsData = getProducts?.records
 			?.filter((item) => newList.includes(item.title.rendered))
 			.map((item) => {
@@ -93,14 +86,9 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 					label: item.title.raw,
 				}
 			});
+
 		setAttributes({ productList: newProductIds, products: newProducts, productsData: productsData });
 	};
-	*/
-
-	const onChangeProduct = (newList) => {
-		markerAssignedRemove(newList);
-		setAttributes({ productsData: newList })
-	}
 
 	// IMAGE CONTROLS.
 	const onSelectImage = (media) => {
@@ -128,31 +116,18 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		return true;
 	}
 
-	/**
-	 * MARKER CONTROLS.
-	 */
-	// Activate/deactivate marker.
+	// MARKER CONTROLS.
 	const markerToggle = (markerIndex) => {
 		const updatedMarkers = [...markers];
 		updatedMarkers[markerIndex].active =
 			!updatedMarkers[markerIndex].active;
 		setAttributes({ markers: updatedMarkers });
 	};
-	// Delete marker.
 	const markerRemove = (markerIndex) => {
 		const updatedMarkers = [...markers];
 		updatedMarkers.splice(markerIndex, 1);
 		setAttributes({ markers: updatedMarkers });
 	};
-	// Remove marker if assigned product is removed.
-	const markerAssignedRemove = (productDataUpdated) => {
-		// .some will keep the items in array matching the criteria (marker not assigned  or matching prod id's)
-		const filteredMarkers = markers.filter((marker) =>
-			!marker.assigned || productDataUpdated.some((productDataItem) => productDataItem.value === marker.productId)
-		);
-		setAttributes({ markers: filteredMarkers });
-	}
-
 
 	// Flex gap size (custom 'UnitRangeControl' control )
 	const handleFlexGapChange = (newSizeValue) => {
@@ -326,45 +301,25 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		}
 	];
 
-	// For React Select component.
-	const productOptions = getProducts?.records
-		?.map((item) => {
-			return {
-				value: item.id,
-				label: item.title.raw
-			}
-		});
-	const animatedComponents = makeAnimated();
-
 	return (
 		<InspectorControls>
 			<PanelBody
 				title={__('Select products', 'woo-lookblock')}
-				initialOpen={true}
+				initialOpen={false}
 			>
-				{/* 
-				<FormTokenField
-					label={__(
-						'Start typing product name…',
-						'woo-lookblock'
-					)}
-					value={displayList}
-					suggestions={suggestions}
-					onChange={onChangeProductList}
-				/>
-				*/}
-				<CardDivider />
 
 				{getProducts.isResolving ? (
 					__('Loading products list', 'woo-lookblock')
 				) : (
-					<Select
-						closeMenuOnSelect={false}
-						components={animatedComponents}
-						value={productsData}
-						isMulti
-						options={productOptions}
-						onChange={onChangeProduct}
+					<FormTokenField
+						label={__(
+							'Start typing product name…',
+							'woo-lookblock'
+						)}
+						value={displayList}
+						suggestions={suggestions}
+						onChange={onChangeProductList}
+
 					/>
 				)}
 			</PanelBody>

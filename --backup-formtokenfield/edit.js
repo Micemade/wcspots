@@ -2,8 +2,8 @@
  * WordPress dependenices.
  */
 import { __ } from '@wordpress/i18n';
-import { useBlockProps } from '@wordpress/block-editor';
-import { SelectControl, Modal } from '@wordpress/components';
+import { useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
+import { SelectControl, Modal, Spinner } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
 
 /**
@@ -15,7 +15,7 @@ import InspectorControlsComponent from './controls/inspectorControls';
 import Marker from './components/marker';
 
 // Functions.
-import { addNewMarker, modalProductToMarker, onProductSelect, onMarkerOver, onMarkerOut, markerClick, unassignProduct, removeMarker } from './functions/markerFunctions';
+import { addNewMarker, assignProductToMarker, onProductSelect, onMarkerOver, onMarkerOut, markerClick } from './functions/markerFunctions';
 
 /**
  * The edit function.
@@ -30,16 +30,14 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		id,
 		products,
 		productList,
-		productsData,
 		mediaURL,
-		imageOption,
-		flexLayout,
-		flexGap,
-		imageWidth,
-		valign,
-		productsLayout,
 		columns,
 		productsGap,
+		valign,
+		imageWidth,
+		flexLayout,
+		flexGap,
+		productsLayout,
 		productSpacing,
 		productPadding,
 		titleSize,
@@ -49,34 +47,25 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		markers,
 		selectedMarker,
 		selectedProduct,
-		editModal
+		editModal,
+		imageOption,
 	} = attributes;
 
-
-	// console.log(markers);
-
-
-	// Set unique block ID using 'clientId'. Useful when duplicating block.
+	// Set unique block ID using 'clientId'.
 	useEffect(() => {
 		if (0 === id.length || id !== clientId) {
 			setAttributes({ id: clientId });
 		}
 	}, []);
 
-	// Array of selected product ID's for blocks 'data-product-ids' attribute.
-	// Used for frontend rendering.
-	const productIds = productsData.map((item) => {
-		return item.value;
-	});
-	const blockProps = useBlockProps({ 'data-block-id': clientId, 'data-product-ids': JSON.stringify(productIds) });
+	const blockProps = useBlockProps({ 'data-block-id': clientId, 'data-product-ids': JSON.stringify(productList) });
 
-	// Modal products select options, on marker double click.
-	const productOptionsStart = [{ value: '', label: 'Select a product' }];
-	const productOptionsPrepare = productsData.map((item) => ({
-		label: item.label,
-		value: JSON.stringify([item.value, item.label]),
+	// Product select options for modal, on marker click.
+	const producOptionsStart = [{ label: 'Select a product', value: '' }];
+	const producOptions = products?.map((product) => ({
+		label: product.title.rendered,
+		value: JSON.stringify([product.id, product.title.rendered]),
 	}));
-	const productOptions = productOptionsStart.concat(productOptionsPrepare);
 
 
 	// Block Flex container and product grid styles.
@@ -114,7 +103,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 
 							<ProductGrid
 								context="edit"
-								productList={productIds}
+								productList={productList}
 								columns={columns}
 								productsGap={productsGap}
 								productsLayout={productsLayout}
@@ -142,22 +131,16 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 										key={`marker-${marker.id}`}
 										marker={marker}
 										// onClick={() => markerClick(marker, setAttributes)}
-										onDoubleClick={() => modalProductToMarker(marker, setAttributes)}
+										onDoubleClick={() => assignProductToMarker(marker, setAttributes)}
 										onMouseOver={onMarkerOver}
 										onMouseOut={onMarkerOut}
 										clientId={clientId}
-										unassignProduct={unassignProduct}
-										removeMarker={removeMarker}
-										markers={markers}
-										setAttributes={setAttributes}
-										context="edit"
 									/>
 								))}
 						</div>
 					)}
 				</div>
 			</div>
-
 			{editModal && (
 				<Modal
 					title={__(
@@ -181,10 +164,8 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 								])
 								: ''
 						}
-						options={productOptions}
-						onChange={(value) => {
-							onProductSelect(value, markers, selectedMarker, setAttributes);
-						}}
+						options={producOptionsStart.concat(producOptions)}
+						onChange={(value) => onProductSelect(value, markers, selectedMarker, setAttributes)}
 					/>
 				</Modal>
 			)}

@@ -2115,6 +2115,15 @@ var weakMemoize = function weakMemoize(func) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+
+/**
+ * WordPress dependenices.
+ */
+
 
 const Marker = _ref => {
   let {
@@ -2123,31 +2132,107 @@ const Marker = _ref => {
     onDoubleClick,
     onMouseOver,
     onMouseOut,
-    clientId
+    clientId,
+    markers,
+    setAttributes,
+    context,
+    unassignProduct,
+    removeMarker
   } = _ref;
   const styles = {
     left: `${marker.x}%`,
     top: `${marker.y}%`,
     visibility: !marker.active ? 'hidden' : 'visible'
   };
+  const markerLabelDefault = context == 'edit' ? marker.name : null;
+  const markerLabel = marker.productTitle ? marker.productTitle : markerLabelDefault;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: styles,
-    className: "product-marker"
+    className: "product-marker",
+    "data-product-title": markerLabel,
+    "data-product-id": marker.productId ? marker.productId : '',
+    "data-client-id": clientId
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "events-holder"
     // onClick={() => onClick(marker)}
     ,
     onDoubleClick: () => onDoubleClick(marker),
     onMouseOver: () => onMouseOver(event, marker, clientId),
-    onMouseOut: () => onMouseOut(event, marker, clientId),
-    "data-product-title": marker.productTitle ? marker.productTitle : '',
-    "data-product-id": marker.productId ? marker.productId : '',
-    "data-client-id": clientId
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    onMouseOut: () => onMouseOut(event, marker, clientId)
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "inner"
-  }), marker.productTitle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "screen-reader-text"
-  }, marker.productTitle));
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "marker-product-title"
+  }, markerLabel, context == 'edit' && marker.productId && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.IconButton, {
+    className: "unassign",
+    icon: "remove",
+    onClick: () => unassignProduct(markers, setAttributes, marker.id),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Unassign product', 'woo-lookblock'),
+    isSmall: true
+  })), context == 'edit' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.IconButton, {
+    className: "remove-marker",
+    icon: "no",
+    onClick: () => removeMarker(markers, setAttributes, marker.id),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove marker', 'woo-lookblock'),
+    isSmall: true
+  }));
 };
 /* harmony default export */ __webpack_exports__["default"] = (Marker);
+
+/***/ }),
+
+/***/ "./src/components/productAddToCart.js":
+/*!********************************************!*\
+  !*** ./src/components/productAddToCart.js ***!
+  \********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _useProduct__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./useProduct */ "./src/components/useProduct.js");
+
+/**
+ * WordPress dependencies.
+ */
+
+
+/**
+ * Internal dependencies.
+ */
+
+const ProductAddToCart = _ref => {
+  let {
+    productId
+  } = _ref;
+  const {
+    product,
+    loading
+  } = (0,_useProduct__WEBPACK_IMPORTED_MODULE_2__["default"])(productId);
+  if (loading) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading...', 'woo-lookblock'));
+  }
+  if (!product) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Product not found', 'woo-lookblock'));
+  }
+  const {
+    text,
+    description,
+    url
+  } = product.add_to_cart;
+  const classNames = "wp-block-button__link wc-block-components-product-button__button add_to_cart_button ajax_add_to_cart";
+
+  // Product Add to cart HTML.
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    className: "button ajax_add_to_cart",
+    href: url,
+    title: description
+  }, text);
+};
+/* harmony default export */ __webpack_exports__["default"] = (ProductAddToCart);
 
 /***/ }),
 
@@ -2163,12 +2248,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _useProduct__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./useProduct */ "./src/components/useProduct.js");
-/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dompurify */ "./node_modules/dompurify/dist/purify.js");
-/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dompurify__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dompurify */ "./node_modules/dompurify/dist/purify.js");
+/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dompurify__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _useProduct__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./useProduct */ "./src/components/useProduct.js");
 
+/**
+ * WordPress dependencies.
+ */
 
+/**
+ * External dependencies.
+ */
 
+/**
+ * Internal dependecies.
+ */
 
 const ProductExcerpt = _ref => {
   let {
@@ -2177,8 +2271,8 @@ const ProductExcerpt = _ref => {
   const {
     product,
     loading
-  } = (0,_useProduct__WEBPACK_IMPORTED_MODULE_2__["default"])(productId);
-  const sanitizer = (dompurify__WEBPACK_IMPORTED_MODULE_3___default().sanitize);
+  } = (0,_useProduct__WEBPACK_IMPORTED_MODULE_3__["default"])(productId);
+  const sanitizer = (dompurify__WEBPACK_IMPORTED_MODULE_2___default().sanitize);
   if (loading) {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading short description...', 'woo-lookblock'));
   }
@@ -2310,6 +2404,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _productTitle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./productTitle */ "./src/components/productTitle.js");
 /* harmony import */ var _productPrice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./productPrice */ "./src/components/productPrice.js");
 /* harmony import */ var _productExcerpt__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./productExcerpt */ "./src/components/productExcerpt.js");
+/* harmony import */ var _productAddToCart__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./productAddToCart */ "./src/components/productAddToCart.js");
+
 
 
 
@@ -2367,6 +2463,12 @@ const ProductItem = _ref => {
     "data-product-excerpt": productId,
     style: spacing
   }, isEdit && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_productExcerpt__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    productId: productId
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "product-add-to-cart product-element",
+    "data-product-addtocart": productId,
+    style: spacing
+  }, isEdit && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_productAddToCart__WEBPACK_IMPORTED_MODULE_5__["default"], {
     productId: productId
   }))));
 };
@@ -2483,7 +2585,7 @@ const useProduct = productId => {
     async function fetchProduct() {
       try {
         const product = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
-          path: `/wc/store/v1/products/${productId}?_fields=id,name,short_description,price_html,images,permalink`
+          path: `/wc/store/v1/products/${productId}?_fields=id,name,short_description,price_html,images,permalink,add_to_cart`
         });
         setProduct(product);
         setLoading(false);
@@ -2685,12 +2787,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
-/* harmony import */ var react_select_animated__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-select/animated */ "./node_modules/react-select/animated/dist/react-select-animated.esm.js");
-/* harmony import */ var _UnitRangeControl__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./UnitRangeControl */ "./src/controls/UnitRangeControl.js");
-/* harmony import */ var _ImageRadioSelectControl__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ImageRadioSelectControl */ "./src/controls/ImageRadioSelectControl.js");
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
+/* harmony import */ var react_select_animated__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-select/animated */ "./node_modules/react-select/animated/dist/react-select-animated.esm.js");
+/* harmony import */ var _UnitRangeControl__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./UnitRangeControl */ "./src/controls/UnitRangeControl.js");
+/* harmony import */ var _ImageRadioSelectControl__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ImageRadioSelectControl */ "./src/controls/ImageRadioSelectControl.js");
 
 /**
  * WordPress dependenices.
@@ -2700,14 +2800,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// import Creatable from 'react-select/creatable';
-
-
+/**
+ * External dependencies (React components).
+ * React select is replacement for FormTokenField Gutenberg component.
+ */
+// import React from 'react';
 
 
 
 /**
- * Internal dependency - custom UnitRangeControl.
+ * Internal dependencies - custom UnitRangeControl, ImageRadioSelectControl components.
+ * Built from Gutenberg components.
  */
 
 
@@ -2731,51 +2834,55 @@ const InspectorControlsComponent = _ref => {
     productsData,
     mediaID,
     mediaURL,
+    imageOption,
+    flexLayout,
+    flexGap,
+    imageWidth,
+    valign,
     productsLayout,
     columns,
     productsGap,
-    valign,
-    imageWidth,
-    flexLayout,
-    flexGap,
-    titleSize,
-    priceSize,
     productPadding,
     productSpacing,
+    titleSize,
+    priceSize,
     titleColor,
     priceColor,
-    markers,
-    imageOption
+    markers
   } = attributes;
 
   /**
    * FormTokenList functions
-   */
-  const displayList = getProducts?.records?.filter(item => productList?.includes(item.id)).map(item => item.title.rendered);
-
-  // FormTokenField suggestions.
-  const suggestions = getProducts?.records?.map(stream => {
-    return stream.title.rendered;
+   
+  const displayList = getProducts?.records
+  	?.filter((item) => productList?.includes(item.id))
+  	.map((item) => item.title.rendered);
+  	// FormTokenField suggestions.
+  const suggestions = getProducts?.records?.map((stream) => {
+  	return stream.title.rendered;
   });
   // FormTokenField Adding / removing products.
-  const onChangeProductList = newList => {
-    const newProductIds = getProducts?.records?.filter(item => newList.includes(item.title.rendered)).map(item => item.id);
-    const newProducts = getProducts?.records?.filter(item => newList.includes(item.title.rendered));
-    const productsData = getProducts?.records?.filter(item => newList.includes(item.title.rendered)).map(item => {
-      return {
-        value: item.id,
-        label: item.title.raw
-      };
-    });
-    setAttributes({
-      productList: newProductIds,
-      products: newProducts,
-      productsData: productsData
-    });
+  const onChangeProductList = (newList) => {
+  	const newProductIds = getProducts?.records
+  		?.filter((item) => newList.includes(item.title.rendered))
+  		.map((item) => item.id);
+  	const newProducts = getProducts?.records?.filter((item) =>
+  		newList.includes(item.title.rendered)
+  	);
+  	const productsData = getProducts?.records
+  		?.filter((item) => newList.includes(item.title.rendered))
+  		.map((item) => {
+  			return {
+  				value: item.id,
+  				label: item.title.raw,
+  			}
+  		});
+  	setAttributes({ productList: newProductIds, products: newProducts, productsData: productsData });
   };
-  const [newList, setNewList] = (0,react__WEBPACK_IMPORTED_MODULE_5__.useState)();
+  */
+
   const onChangeProduct = newList => {
-    setNewList(newList);
+    markerAssignedRemove(newList);
     setAttributes({
       productsData: newList
     });
@@ -2815,7 +2922,10 @@ const InspectorControlsComponent = _ref => {
     return true;
   };
 
-  // MARKER CONTROLS.
+  /**
+   * MARKER CONTROLS.
+   */
+  // Activate/deactivate marker.
   const markerToggle = markerIndex => {
     const updatedMarkers = [...markers];
     updatedMarkers[markerIndex].active = !updatedMarkers[markerIndex].active;
@@ -2823,11 +2933,20 @@ const InspectorControlsComponent = _ref => {
       markers: updatedMarkers
     });
   };
+  // Delete marker.
   const markerRemove = markerIndex => {
     const updatedMarkers = [...markers];
     updatedMarkers.splice(markerIndex, 1);
     setAttributes({
       markers: updatedMarkers
+    });
+  };
+  // Remove marker if assigned product is removed.
+  const markerAssignedRemove = productDataUpdated => {
+    // .some will keep the items in array matching the criteria (marker not assigned  or matching prod id's)
+    const filteredMarkers = markers.filter(marker => !marker.assigned || productDataUpdated.some(productDataItem => productDataItem.value === marker.productId));
+    setAttributes({
+      markers: filteredMarkers
     });
   };
 
@@ -2902,7 +3021,7 @@ const InspectorControlsComponent = _ref => {
   const productSettingsTabs = [{
     name: 'layout',
     title: 'Layout',
-    content: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ImageRadioSelectControl__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    content: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ImageRadioSelectControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Layout type', 'woo-lookblock'),
       help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Pick a grid type for displaying selected products', 'woo-lookblock'),
       options: layouts,
@@ -2916,7 +3035,7 @@ const InspectorControlsComponent = _ref => {
       }),
       min: 1,
       max: 4
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_UnitRangeControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_UnitRangeControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Products gap', 'woo-lookblock'),
       value: productsGap,
       onValueChange: handleProductsGap,
@@ -2927,7 +3046,7 @@ const InspectorControlsComponent = _ref => {
         }
       }),
       customUnitOptions: null
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_UnitRangeControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_UnitRangeControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Elements spacing', 'woo-lookblock'),
       value: productSpacing,
       onValueChange: handleproductSpacing,
@@ -2938,7 +3057,7 @@ const InspectorControlsComponent = _ref => {
         }
       }),
       customUnitOptions: null
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_UnitRangeControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_UnitRangeControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Product padding', 'woo-lookblock'),
       value: productPadding,
       onValueChange: handleproductPadding,
@@ -2955,7 +3074,7 @@ const InspectorControlsComponent = _ref => {
     title: 'Font sizes',
     content: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.CardDivider, {
       size: "xSmall"
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_UnitRangeControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_UnitRangeControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Product title size', 'woo-lookblock'),
       value: titleSize,
       onValueChange: handletitleSizeChange,
@@ -2975,7 +3094,7 @@ const InspectorControlsComponent = _ref => {
         label: 'rem',
         value: 'rem'
       }]
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_UnitRangeControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_UnitRangeControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Price size', 'woo-lookblock'),
       value: priceSize,
       onValueChange: handlePriceSizeChange,
@@ -3024,22 +3143,17 @@ const InspectorControlsComponent = _ref => {
       label: item.title.raw
     };
   });
-  const animatedComponents = (0,react_select_animated__WEBPACK_IMPORTED_MODULE_6__["default"])();
+  const animatedComponents = (0,react_select_animated__WEBPACK_IMPORTED_MODULE_5__["default"])();
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select products', 'woo-lookblock'),
-    initialOpen: false
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    initialOpen: true
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.CardDivider, null), getProducts.isResolving ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading products list', 'woo-lookblock') : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_8__["default"], {
     closeMenuOnSelect: false,
     components: animatedComponents,
     value: productsData,
     isMulti: true,
     options: productOptions,
     onChange: onChangeProduct
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.CardDivider, null), getProducts.isResolving ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading products list', 'woo-lookblock') : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.FormTokenField, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Start typing product name…', 'woo-lookblock'),
-    value: displayList,
-    suggestions: suggestions,
-    onChange: onChangeProductList
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Lookbook image', 'woo-lookblock'),
     initialOpen: false
@@ -3135,7 +3249,7 @@ const InspectorControlsComponent = _ref => {
     onChange: value => setAttributes({
       imageWidth: value
     })
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_UnitRangeControl__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_UnitRangeControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image/Products Gap', 'woo-lookblock'),
     value: flexGap,
     onValueChange: handleFlexGapChange,
@@ -3243,13 +3357,14 @@ const Edit = _ref => {
     productList,
     productsData,
     mediaURL,
-    columns,
-    productsGap,
-    valign,
-    imageWidth,
+    imageOption,
     flexLayout,
     flexGap,
+    imageWidth,
+    valign,
     productsLayout,
+    columns,
+    productsGap,
     productSpacing,
     productPadding,
     titleSize,
@@ -3259,11 +3374,12 @@ const Edit = _ref => {
     markers,
     selectedMarker,
     selectedProduct,
-    editModal,
-    imageOption
+    editModal
   } = attributes;
 
-  // Set unique block ID using 'clientId'.
+  // console.log(markers);
+
+  // Set unique block ID using 'clientId'. Useful when duplicating block.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (0 === id.length || id !== clientId) {
       setAttributes({
@@ -3271,6 +3387,9 @@ const Edit = _ref => {
       });
     }
   }, []);
+
+  // Array of selected product ID's for blocks 'data-product-ids' attribute.
+  // Used for frontend rendering.
   const productIds = productsData.map(item => {
     return item.value;
   });
@@ -3279,15 +3398,16 @@ const Edit = _ref => {
     'data-product-ids': JSON.stringify(productIds)
   });
 
-  // Product select options for modal, on marker click.
-  const producOptionsStart = [{
-    label: 'Select a product',
-    value: ''
+  // Modal products select options, on marker double click.
+  const productOptionsStart = [{
+    value: '',
+    label: 'Select a product'
   }];
-  const producOptions = products?.map(product => ({
-    label: product.title.rendered,
-    value: JSON.stringify([product.id, product.title.rendered])
+  const productOptionsPrepare = productsData.map(item => ({
+    label: item.label,
+    value: JSON.stringify([item.value, item.label])
   }));
+  const productOptions = productOptionsStart.concat(productOptionsPrepare);
 
   // Block Flex container and product grid styles.
   const flexAlignItems = dir => {
@@ -3347,10 +3467,15 @@ const Edit = _ref => {
     marker: marker
     // onClick={() => markerClick(marker, setAttributes)}
     ,
-    onDoubleClick: () => (0,_functions_markerFunctions__WEBPACK_IMPORTED_MODULE_8__.assignProductToMarker)(marker, setAttributes),
+    onDoubleClick: () => (0,_functions_markerFunctions__WEBPACK_IMPORTED_MODULE_8__.modalProductToMarker)(marker, setAttributes),
     onMouseOver: _functions_markerFunctions__WEBPACK_IMPORTED_MODULE_8__.onMarkerOver,
     onMouseOut: _functions_markerFunctions__WEBPACK_IMPORTED_MODULE_8__.onMarkerOut,
-    clientId: clientId
+    clientId: clientId,
+    unassignProduct: _functions_markerFunctions__WEBPACK_IMPORTED_MODULE_8__.unassignProduct,
+    removeMarker: _functions_markerFunctions__WEBPACK_IMPORTED_MODULE_8__.removeMarker,
+    markers: markers,
+    setAttributes: setAttributes,
+    context: "edit"
   }))))), editModal && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Modal, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Assign a product to this marker', 'woo-lookblock'),
     onRequestClose: () => setAttributes({
@@ -3360,8 +3485,10 @@ const Edit = _ref => {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.SelectControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Products', 'woo-lookblock'),
     value: selectedProduct ? JSON.stringify([selectedProduct.id, selectedProduct.name]) : '',
-    options: producOptionsStart.concat(producOptions),
-    onChange: value => (0,_functions_markerFunctions__WEBPACK_IMPORTED_MODULE_8__.onProductSelect)(value, markers, selectedMarker, setAttributes)
+    options: productOptions,
+    onChange: value => {
+      (0,_functions_markerFunctions__WEBPACK_IMPORTED_MODULE_8__.onProductSelect)(value, markers, selectedMarker, setAttributes);
+    }
   })));
 };
 /* harmony default export */ __webpack_exports__["default"] = (Edit);
@@ -3378,12 +3505,21 @@ const Edit = _ref => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addNewMarker": function() { return /* binding */ addNewMarker; },
-/* harmony export */   "assignProductToMarker": function() { return /* binding */ assignProductToMarker; },
+/* harmony export */   "modalProductToMarker": function() { return /* binding */ modalProductToMarker; },
 /* harmony export */   "onMarkerOut": function() { return /* binding */ onMarkerOut; },
 /* harmony export */   "onMarkerOver": function() { return /* binding */ onMarkerOver; },
-/* harmony export */   "onProductSelect": function() { return /* binding */ onProductSelect; }
+/* harmony export */   "onProductSelect": function() { return /* binding */ onProductSelect; },
+/* harmony export */   "removeMarker": function() { return /* binding */ removeMarker; },
+/* harmony export */   "unassignProduct": function() { return /* binding */ unassignProduct; }
 /* harmony export */ });
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/**
+ * WordPress dependenices.
+ */
+
+
 /**
  * External dependecies.
  */
@@ -3405,11 +3541,12 @@ const addNewMarker = (event, markers, setAttributes) => {
   const newMarker = {
     x: xPos,
     y: yPos,
-    id: (0,uuid__WEBPACK_IMPORTED_MODULE_0__["default"])(),
-    name: 'Double click on marker to assign product.',
+    id: (0,uuid__WEBPACK_IMPORTED_MODULE_1__["default"])(),
+    name: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Double click on marker to assign a product.', 'woo-lookblock'),
     active: true,
     productId: null,
-    productTitle: null
+    productTitle: null,
+    assigned: false
   };
   const updatedMarkers = markers?.concat(newMarker);
   setAttributes({
@@ -3422,9 +3559,12 @@ const addNewMarker = (event, markers, setAttributes) => {
  * @param {object} marker 
  * @param {Function} setAttributes 
  */
-const assignProductToMarker = (marker, setAttributes) => {
+const modalProductToMarker = (marker, setAttributes) => {
   setAttributes({
     selectedMarker: marker.id
+  });
+  setAttributes({
+    selectedProduct: null
   });
   setAttributes({
     editModal: true
@@ -3434,7 +3574,10 @@ const assignProductToMarker = (marker, setAttributes) => {
 /**
  * Select product from products object and assign to marker.
  * Select component is in modal component.
- * @param {String} value 
+ * @param {number} value 
+ * @param {object} markers 
+ * @param {string} selectedMarker 
+ * @param {Function} setAttributes 
  */
 const onProductSelect = (value, markers, selectedMarker, setAttributes) => {
   const [productId, productTitle] = JSON.parse(value);
@@ -3443,7 +3586,8 @@ const onProductSelect = (value, markers, selectedMarker, setAttributes) => {
       return {
         ...marker,
         productId,
-        productTitle
+        productTitle,
+        assigned: true
       };
     }
     return marker;
@@ -3455,13 +3599,18 @@ const onProductSelect = (value, markers, selectedMarker, setAttributes) => {
     selectedProduct: value
   });
   setAttributes({
+    selectedMarker: null
+  });
+  setAttributes({
     editModal: false
   });
 };
 
 /**
  * Add 'highlight' class name to assigned product
+ * @param {event} event 
  * @param {object} marker 
+ * @param {string} clientId 
  */
 const onMarkerOver = (event, marker, clientId) => {
   const thisBlock = event.target.closest(".wp-block-micemade-woo-lookblock");
@@ -3475,7 +3624,9 @@ const onMarkerOver = (event, marker, clientId) => {
 
 /**
  * Remove highligt class name from assigned product.
- * @param {object} marker 
+ * @param {*} event 
+ * @param {*} marker 
+ * @param {*} clientId 
  */
 const onMarkerOut = (event, marker, clientId) => {
   const thisBlock = event.target.closest(".wp-block-micemade-woo-lookblock");
@@ -3485,6 +3636,44 @@ const onMarkerOut = (event, marker, clientId) => {
   if (product && thisBlockId == clientId) {
     product.classList.remove('highlighted');
   }
+};
+
+/**
+ * Un-assign product to marker.
+ * @param {object} markers 
+ * @param {Function} setAttributes 
+ * @param {string} markerId 
+ */
+const unassignProduct = (markers, setAttributes, markerId) => {
+  const updatedMarkers = markers?.map(marker => {
+    if (marker.id === markerId) {
+      return {
+        ...marker,
+        productId: null,
+        productTitle: null,
+        assigned: false
+      };
+    }
+    return marker;
+  });
+  setAttributes({
+    markers: updatedMarkers
+  });
+};
+
+/**
+ * Delete marker.
+ * @param {object} markers 
+ * @param {Function} setAttributes 
+ * @param {string} markerId 
+ */
+const removeMarker = (markers, setAttributes, markerId) => {
+  const updatedMarkers = markers.filter(marker => {
+    return markerId !== marker.id;
+  });
+  setAttributes({
+    markers: updatedMarkers
+  });
 };
 
 /* export const markerClick = (marker, setAttributes) => {
@@ -3596,22 +3785,25 @@ const Save = _ref => {
     productList,
     productsData,
     mediaURL,
-    columns,
-    productsGap,
-    valign,
-    imageWidth,
+    imageOption,
     flexLayout,
     flexGap,
+    imageWidth,
+    valign,
     productsLayout,
+    columns,
+    productsGap,
     productPadding,
     productSpacing,
     titleSize,
     priceSize,
     titleColor,
     priceColor,
-    markers,
-    imageOption
+    markers
   } = attributes;
+
+  // Array of selected product ID's for blocks 'data-product-ids' attribute.
+  // Used for frontend rendering.
   const productIds = productsData.map(item => {
     return item.value;
   });
@@ -16555,7 +16747,7 @@ function combine (array, callback) {
 /***/ (function(module) {
 
 "use strict";
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"micemade/woo-lookblock","version":"0.1.0","title":"Woo Lookblock","category":"widgets","icon":"store","description":"Block plugin for creating WooCommerce lookbooks in the block editor.","supports":{"html":false,"color":{},"align":["wide","full","left","right"],"spacing":{"margin":true,"padding":true},"typography":{"fontSize":true,"lineHeight":true}},"attributes":{"id":{"type":"string","default":""},"products":{"type":"array","default":[]},"productsData":{"type":"array","default":[]},"productList":{"type":"array","default":[]},"mediaID":{"type":"number","default":null},"mediaURL":{"type":"string","default":null},"productsLayout":{"type":"string","default":"layout1"},"columns":{"type":"number","default":3},"flexGap":{"type":"object","default":{"value":1,"unit":"vw"}},"productsGap":{"type":"object","default":{"value":1,"unit":"vw"}},"productPadding":{"type":"object","default":{"value":1,"unit":"vw"}},"productSpacing":{"type":"object","default":{"value":0.7,"unit":"vw"}},"titleSize":{"type":"object","default":{"value":1,"unit":"em"}},"priceSize":{"type":"object","default":{"value":0.8,"unit":"em"}},"titleColor":{"type":"string","default":""},"priceColor":{"type":"string","default":""},"imageWidth":{"type":"number","default":50},"valign":{"type":"string","default":"flex-start"},"flexLayout":{"type":"string","default":"row"},"markers":{"type":"array","default":[]},"selectedMarker":{"type":"number","default":null},"selectedProduct":{"type":"string","default":""},"editModal":{"type":"boolean","default":false},"imageOption":{"type":"string","default":"backimage-none"},"style":{"type":"object","default":{"color":{"text":"#3a3a3a","background":"#fbf9f4"},"spacing":{"padding":{"top":"20px","right":"20px","bottom":"20px","left":"20px"}}}}},"textdomain":"woo-lookblock","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","script":"file:./frontend/index.js"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"micemade/woo-lookblock","version":"0.1.0","title":"Woo Lookblock","category":"widgets","icon":"store","description":"Block plugin for creating WooCommerce lookbooks in the block editor.","supports":{"html":false,"color":{},"align":["wide","full","left","right"],"spacing":{"margin":true,"padding":true},"typography":{"fontSize":true,"lineHeight":true}},"attributes":{"id":{"type":"string","default":""},"products":{"type":"array","default":[]},"productsData":{"type":"array","default":[]},"productList":{"type":"array","default":[]},"mediaID":{"type":"number","default":null},"mediaURL":{"type":"string","default":null},"productsLayout":{"type":"string","default":"layout1"},"columns":{"type":"number","default":3},"flexGap":{"type":"object","default":{"value":1,"unit":"vw"}},"productsGap":{"type":"object","default":{"value":1,"unit":"vw"}},"productPadding":{"type":"object","default":{"value":1,"unit":"vw"}},"productSpacing":{"type":"object","default":{"value":0.7,"unit":"vw"}},"titleSize":{"type":"object","default":{"value":1,"unit":"em"}},"priceSize":{"type":"object","default":{"value":0.8,"unit":"em"}},"titleColor":{"type":"string","default":""},"priceColor":{"type":"string","default":""},"imageWidth":{"type":"number","default":50},"valign":{"type":"string","default":"flex-start"},"flexLayout":{"type":"string","default":"row"},"markers":{"type":"array","default":[]},"selectedMarker":{"type":"number","default":null},"selectedProduct":{"type":"string","default":""},"editModal":{"type":"boolean","default":false},"imageOption":{"type":"string","default":"backimage-none"},"style":{"type":"object","default":{"color":{"text":"#3a3a3a","background":"#fbf9f4"},"spacing":{"padding":{"top":"2vw","right":"2vw","bottom":"2vw","left":"2vw"}}}}},"textdomain":"woo-lookblock","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./frontend/index.js"}');
 
 /***/ })
 

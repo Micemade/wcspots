@@ -2,6 +2,7 @@ import ProductImage from "./productImage";
 import ProductTitle from "./productTitle";
 import ProductPrice from "./productPrice";
 import ProductExcerpt from "./productExcerpt";
+import ProductAddToCart from "./productAddToCart";
 
 const ProductItem = ({ context, productId, productPadding, productSpacing, titleSize, priceSize, fontColors }) => {
 
@@ -48,6 +49,12 @@ const ProductItem = ({ context, productId, productPadding, productSpacing, title
 				<div className="product-excerpt product-element" data-product-excerpt={productId} style={spacing}>
 					{isEdit && (
 						<ProductExcerpt productId={productId} />
+					)}
+				</div>
+
+				<div className="product-add-to-cart product-element" data-product-addtocart={productId} style={spacing}>
+					{isEdit && (
+						<ProductAddToCart productId={productId} />
 					)}
 				</div>
 			</div>

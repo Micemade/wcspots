@@ -26,4 +26,46 @@
   margin-left: 0;
 }
 
+.marker-product-title .unassign {
+  visibility: hidden;
+  opacity: 0;
+}
+.marker-product-title:hover .unassign {
+  visibility: visible;
+  opacity: 1;
+}
+
+.product-marker .remove-marker {
+  visibility: hidden;
+  opacity: 0;
+}
+.product-marker:hover .remove-marker {
+  visibility: visible;
+  opacity: 1;
+}
+
+.components-button.unassign, .components-button.remove-marker {
+  position: absolute;
+  top: -12px;
+  left: calc(100% - 12px);
+  padding: 5px !important;
+  width: -moz-max-content;
+  width: max-content;
+  min-width: auto !important;
+  height: 24px;
+  border-radius: 50%;
+  z-index: 10;
+  transition: all 0.3s linear;
+}
+.components-button.unassign {
+  background: #246fb1;
+  color: #fff;
+  transform: scale(0.7);
+}
+.components-button.remove-marker {
+  background: #ed006b;
+  color: #fff;
+  transform: scale(0.6);
+}
+
 /*# sourceMappingURL=index.css.map*/

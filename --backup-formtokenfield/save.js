@@ -18,16 +18,14 @@ const Save = ({ attributes }) => {
 	const {
 		id,
 		productList,
-		productsData,
 		mediaURL,
-		imageOption,
-		flexLayout,
-		flexGap,
-		imageWidth,
-		valign,
-		productsLayout,
 		columns,
 		productsGap,
+		valign,
+		imageWidth,
+		flexLayout,
+		flexGap,
+		productsLayout,
 		productPadding,
 		productSpacing,
 		titleSize,
@@ -35,14 +33,10 @@ const Save = ({ attributes }) => {
 		titleColor,
 		priceColor,
 		markers,
+		imageOption,
 	} = attributes;
 
-	// Array of selected product ID's for blocks 'data-product-ids' attribute.
-	// Used for frontend rendering.
-	const productIds = productsData.map((item) => {
-		return item.value;
-	});
-	const blockProps = useBlockProps.save({ 'data-block-id': id, 'data-product-ids': JSON.stringify(productIds) });
+	const blockProps = useBlockProps.save({ 'data-block-id': id, 'data-product-ids': JSON.stringify(productList) });
 
 	// Block Flex container and product grid styles.
 	const flexAlignItems = (layout) => {
@@ -73,7 +67,7 @@ const Save = ({ attributes }) => {
 
 							<ProductGrid
 								context="save"
-								productList={productIds}
+								productList={productList}
 								columns={columns}
 								productsGap={productsGap}
 								productsLayout={productsLayout}

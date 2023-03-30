@@ -12,9 +12,10 @@ const ProductProperties = (productIds, blockId) => {
 	const _productIds = productIds.map((item) => item.toString()).join(",");
 
 	apiFetch({
-		path: `/wc/store/v1/products/?include=${_productIds}&_fields=id,name,short_description,price_html,images,permalink`
+		path: `/wc/store/v1/products/?include=${_productIds}&_fields=id,name,short_description,price_html,images,permalink,add_to_cart`
 
 	}).then((products) => {
+
 		products.forEach((product) => {
 
 			// Fetched product properties.
@@ -25,7 +26,7 @@ const ProductProperties = (productIds, blockId) => {
 			const permalink = product.permalink ? product.permalink : '#';
 			const description = product.short_description ? product.short_description : null;
 			const priceHtml = product.price_html ? product.price_html : null;
-
+			const addToCart = product.add_to_cart ? product.add_to_cart : null;
 
 			// Render elements.
 			render(imgSrcSet ? <img srcSet={imgSrcSet} alt={name} /> : 'No product image', thisBlock.querySelector(`[data-product-image="${productId}"]`));
@@ -33,7 +34,11 @@ const ProductProperties = (productIds, blockId) => {
 
 			// Price HTML sanitized.
 			render(<div dangerouslySetInnerHTML={{ __html: SanitizeHTML(priceHtml) }} />, thisBlock.querySelector(`[data-product-price="${productId}"]`));
+			// Excerpt HTML sanitized.
 			render(<div dangerouslySetInnerHTML={{ __html: SanitizeHTML(description) }} />, thisBlock.querySelector(`[data-product-excerpt="${productId}"]`));
+
+			render(<a className='button ajax_add_to_cart' href={addToCart.url} title={addToCart.description}>{addToCart.text}</a>, thisBlock.querySelector(`[data-product-addtocart="${productId}"]`));
+
 		});
 
 

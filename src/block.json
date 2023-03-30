@@ -126,10 +126,10 @@
 				},
 				"spacing": {
 					"padding": {
-						"top": "20px",
-						"right": "20px",
-						"bottom": "20px",
-						"left": "20px"
+						"top": "2vw",
+						"right": "2vw",
+						"bottom": "2vw",
+						"left": "2vw"
 					}
 				}
 			}
@@ -139,5 +139,5 @@
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
-	"script": "file:./frontend/index.js"
+	"viewScript":"file:./frontend/index.js"
 }

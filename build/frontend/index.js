@@ -86,7 +86,7 @@ const ProductProperties = (productIds, blockId) => {
   // Prepare product ID's for query arg (array to string).
   const _productIds = productIds.map(item => item.toString()).join(",");
   _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
-    path: `/wc/store/v1/products/?include=${_productIds}&_fields=id,name,short_description,price_html,images,permalink`
+    path: `/wc/store/v1/products/?include=${_productIds}&_fields=id,name,short_description,price_html,images,permalink,add_to_cart`
   }).then(products => {
     products.forEach(product => {
       // Fetched product properties.
@@ -97,6 +97,7 @@ const ProductProperties = (productIds, blockId) => {
       const permalink = product.permalink ? product.permalink : '#';
       const description = product.short_description ? product.short_description : null;
       const priceHtml = product.price_html ? product.price_html : null;
+      const addToCart = product.add_to_cart ? product.add_to_cart : null;
 
       // Render elements.
       (0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)(imgSrcSet ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
@@ -114,11 +115,17 @@ const ProductProperties = (productIds, blockId) => {
           __html: SanitizeHTML(priceHtml)
         }
       }), thisBlock.querySelector(`[data-product-price="${productId}"]`));
+      // Excerpt HTML sanitized.
       (0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
         dangerouslySetInnerHTML: {
           __html: SanitizeHTML(description)
         }
       }), thisBlock.querySelector(`[data-product-excerpt="${productId}"]`));
+      (0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+        className: "button ajax_add_to_cart",
+        href: addToCart.url,
+        title: addToCart.description
+      }, addToCart.text), thisBlock.querySelector(`[data-product-addtocart="${productId}"]`));
     });
   }).catch(error => {
     console.error(error);
@@ -2035,24 +2042,19 @@ window.addEventListener('resize', (event) => {
 }, true);
  */
 
-/* document.addEventListener('DOMContentLoaded', () => {
-	// Get every product item.
-	const productItems = document.querySelectorAll('.woo-lookblock-product');
-	// Call ProductProperties to fetch products via WC Store API.
-	productItems.forEach((item) => {
-		const productId = item.dataset.productId;
-		ProductProperties(productId);
-	});
-});
- */
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Get all block elements.
+  // Get every Woo LookBlock instance.
   const wooLookblockInstances = document.querySelectorAll('.wp-block-micemade-woo-lookblock');
   wooLookblockInstances.forEach(lookBlockInstance => {
     const productIds = JSON.parse(lookBlockInstance.dataset.productIds);
     const blockId = lookBlockInstance.dataset.blockId;
     (0,_productProperties__WEBPACK_IMPORTED_MODULE_0__["default"])(productIds, blockId);
+
+    // Create popover container.
+    const popover = document.createElement('div');
+    popover.classList.add('woo-lookblock-popover');
+    popover.setAttribute('id', `popover-${blockId}`);
+    document.body.appendChild(popover);
 
     // Get every marker item.
     const productMarkers = lookBlockInstance.querySelectorAll('.product-marker');

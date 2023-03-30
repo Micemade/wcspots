@@ -32,7 +32,6 @@
 		"@wordpress/hooks": "^3.29.0",
 		"@wordpress/viewport": "^5.5.0",
 		"dompurify": "^3.0.1",
-		"react-multiselect-checkboxes": "^0.1.1",
 		"react-redux": "^8.0.5",
 		"react-select": "^5.7.2",
 		"redux": "^4.2.1",
