@@ -6,7 +6,7 @@
   "title": "Woo Lookblock",
   "category": "widgets",
   "icon": "store",
-  "description": "Block plugin for creating WooCommerce lookbooks in the block editor.",
+  "description": "Creating WooCommerce lookbooks in the block editor.",
   "supports": {
     "html": false,
     "color": {},
@@ -75,7 +75,7 @@
     "productPadding": {
       "type": "object",
       "default": {
-        "value": 1,
+        "value": 0.7,
         "unit": "vw"
       }
     },

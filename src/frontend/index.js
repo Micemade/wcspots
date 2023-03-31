@@ -1,8 +1,11 @@
+import { render } from "react-dom";
+
 /**
  * Internal dependencies.
  */
-import ProductProperties from "./productProperties";
-import addMarkerEvents from "./markerEvents";
+import fetchRenderProducts from "./fetchRenderProducts";
+import AddMarkerEvents from "./markerEvents";
+import AddMarkerPopover from "./addMarkerPopover";
 
 /**
  * WordPress dependencies.
@@ -26,18 +29,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		const productIds = JSON.parse(lookBlockInstance.dataset.productIds);
 		const blockId = lookBlockInstance.dataset.blockId;
-		ProductProperties(productIds, blockId);
-
-		// Create popover container.
-		const popover = document.createElement('div');
-		popover.classList.add('woo-lookblock-popover');
-		popover.setAttribute('id', `popover-${blockId}`);
-		document.body.appendChild(popover);
+		fetchRenderProducts(productIds, blockId);
 
 		// Get every marker item.
 		const productMarkers = lookBlockInstance.querySelectorAll('.product-marker');
-		productMarkers.forEach((item) => {
-			addMarkerEvents(item, lookBlockInstance);
+		productMarkers.forEach((marker) => {
+
+			AddMarkerEvents(marker, lookBlockInstance);
+			// Popover on each marker.
+			const eventsHolder = marker.getElementsByClassName('events-holder')[0];
+			const assocProdId = marker.dataset.productId;
+			if (assocProdId) {
+				render(<AddMarkerPopover assocProdId={assocProdId} />, eventsHolder);
+			}
+
 		});
 	});
 

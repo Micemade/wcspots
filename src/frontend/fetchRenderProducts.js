@@ -2,7 +2,7 @@ import { render } from 'react-dom';
 import apiFetch from '@wordpress/api-fetch';
 import DOMPurify from 'dompurify';
 
-const ProductProperties = (productIds, blockId) => {
+const fetchRenderProducts = (productIds, blockId) => {
 
 	// Block instance by 'data-block-id' att.
 	const thisBlock = document.querySelector(`[data-block-id="${blockId}"]`);
@@ -37,7 +37,8 @@ const ProductProperties = (productIds, blockId) => {
 			// Excerpt HTML sanitized.
 			render(<div dangerouslySetInnerHTML={{ __html: SanitizeHTML(description) }} />, thisBlock.querySelector(`[data-product-excerpt="${productId}"]`));
 
-			render(<a className='button ajax_add_to_cart' href={addToCart.url} title={addToCart.description}>{addToCart.text}</a>, thisBlock.querySelector(`[data-product-addtocart="${productId}"]`));
+			const addToCartClasses = "wp-block-button__link wc-block-components-product-button__button add_to_cart_button ajax_add_to_cart";
+			render(<a className={addToCartClasses} href={addToCart.url} title={addToCart.description}>{addToCart.text}</a>, thisBlock.querySelector(`[data-product-addtocart="${productId}"]`));
 
 		});
 
@@ -49,4 +50,4 @@ const ProductProperties = (productIds, blockId) => {
 };
 
 
-export default ProductProperties;
+export default fetchRenderProducts;

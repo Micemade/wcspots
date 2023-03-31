@@ -81,9 +81,12 @@ export const onProductSelect = (value, markers, selectedMarker, setAttributes) =
  * @param {string} clientId 
  */
 export const onMarkerOver = (event, marker, clientId) => {
+	// Get lookblock instance specific to this marker.
 	const thisBlock = event.target.closest(".wp-block-micemade-woo-lookblock");
-	const thisBlockId = thisBlock.dataset.block;
+	// Bailing early.
+	if (!thisBlock) return;
 
+	const thisBlockId = thisBlock.dataset.block;
 	const productId = marker?.productId;
 	const product = thisBlock.querySelector(`[data-product-id="${productId}"]`);
 	if (product && thisBlockId == clientId) {
@@ -99,9 +102,12 @@ export const onMarkerOver = (event, marker, clientId) => {
  * @param {*} clientId 
  */
 export const onMarkerOut = (event, marker, clientId) => {
+	// Get lookblock instance specific to this marker.
 	const thisBlock = event.target.closest(".wp-block-micemade-woo-lookblock");
-	const thisBlockId = thisBlock.dataset.block;
+	// Bailing early.
+	if (!thisBlock) return;
 
+	const thisBlockId = thisBlock.dataset.block;
 	const productId = marker?.productId;
 	const product = thisBlock.querySelector(`[data-product-id="${productId}"]`);
 	if (product && thisBlockId == clientId) {
@@ -144,10 +150,3 @@ export const removeMarker = (markers, setAttributes, markerId) => {
 
 	setAttributes({ markers: updatedMarkers });
 };
-
-/* export const markerClick = (marker, setAttributes) => {
-	const productId = marker?.productId;
-	if (productId) {
-		setAttributes({ showModal: true, copiedProduct: productId });
-	}
-} */

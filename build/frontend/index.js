@@ -1,71 +1,344 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/frontend/markerEvents.js":
-/*!**************************************!*\
-  !*** ./src/frontend/markerEvents.js ***!
-  \**************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ "./src/components/productAddToCart.js":
+/*!********************************************!*\
+  !*** ./src/components/productAddToCart.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-// import React from "react";
-// import { render } from "react-dom";
-// import ProductItem from "../components/productItem";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _useProduct__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./useProduct */ "./src/components/useProduct.js");
 
 /**
- * Marker events.
- * @param {*} marker 
+ * WordPress dependencies.
  */
-const addMarkerEvents = (marker, lookBlockInstance) => {
-  marker.addEventListener('mouseover', event => {
-    const marker = event.target;
-    const productId = marker.dataset.productId;
-    const product = lookBlockInstance.querySelector(`[data-product-id="${productId}"]`);
-    if (product) {
-      product.classList.add('highlighted');
-    }
-    ;
-  });
-  marker.addEventListener('mouseleave', event => {
-    const marker = event.target;
-    const productId = marker.dataset.productId;
-    const product = lookBlockInstance.querySelector(`[data-product-id="${productId}"]`);
-    if (product) {
-      product.classList.remove('highlighted');
-    }
-    ;
-  });
 
-  /* 	marker.addEventListener('click', (event) => {
-  		const marker = event.target;
-  		const productId = marker.dataset.productId;
-  
-  		const modalContainer = document.createElement('div');
-  		modalContainer.setAttribute('id', 'modal-container');
-  		document.body.appendChild(modalContainer);
-  
-  		render(
-  			<div>
-  				<ProductItem productId={productId} />
-  			</div>,
-  
-  		);
-  	}) */
+
+/**
+ * Internal dependencies.
+ */
+
+const ProductAddToCart = _ref => {
+  let {
+    productId
+  } = _ref;
+  const {
+    product,
+    loading
+  } = (0,_useProduct__WEBPACK_IMPORTED_MODULE_2__["default"])(productId);
+  if (loading) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading...', 'woo-lookblock'));
+  }
+  if (!product) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Product not found', 'woo-lookblock'));
+  }
+  const {
+    text,
+    description,
+    url
+  } = product.add_to_cart;
+  const classNames = "wp-block-button__link wc-block-components-product-button__button add_to_cart_button ajax_add_to_cart";
+
+  // Product Add to cart HTML.
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    className: classNames,
+    href: url,
+    title: description
+  }, text);
 };
-
-/* harmony default export */ __webpack_exports__["default"] = (addMarkerEvents);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductAddToCart);
 
 /***/ }),
 
-/***/ "./src/frontend/productProperties.js":
-/*!*******************************************!*\
-  !*** ./src/frontend/productProperties.js ***!
-  \*******************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ "./src/components/productImage.js":
+/*!****************************************!*\
+  !*** ./src/components/productImage.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _useProduct__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./useProduct */ "./src/components/useProduct.js");
+
+
+
+
+const ProductImage = _ref => {
+  let {
+    productId
+  } = _ref;
+  const {
+    product,
+    loading
+  } = (0,_useProduct__WEBPACK_IMPORTED_MODULE_3__["default"])(productId);
+  if (loading) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Spinner, null);
+  }
+  if (!product) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Product not found', 'woo-lookblock'));
+  }
+  const imgSrcSet = product.images && product.images.length > 0 ? product.images[0].src : null;
+  const imageFallback = typeof wc == 'object' ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: wc?.wcSettings?.PLACEHOLDER_IMG_SRC,
+    alt: product.name
+  }) : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Product has no featured image', 'woo-lookblock');
+  return imgSrcSet ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    srcSet: imgSrcSet,
+    alt: product.name
+  }) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, imageFallback);
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductImage);
+
+/***/ }),
+
+/***/ "./src/components/productPrice.js":
+/*!****************************************!*\
+  !*** ./src/components/productPrice.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _useProduct__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./useProduct */ "./src/components/useProduct.js");
+/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dompurify */ "./node_modules/dompurify/dist/purify.js");
+/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dompurify__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+const ProductPrice = _ref => {
+  let {
+    productId
+  } = _ref;
+  const {
+    product,
+    loading
+  } = (0,_useProduct__WEBPACK_IMPORTED_MODULE_2__["default"])(productId);
+  const sanitizer = (dompurify__WEBPACK_IMPORTED_MODULE_3___default().sanitize);
+  if (loading) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading product price...', 'woo-lookblock'));
+  }
+  if (!product) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Product not found', 'woo-lookblock'));
+  }
+
+  // Product price HTML sanitized.
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    dangerouslySetInnerHTML: {
+      __html: sanitizer(product.price_html)
+    }
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductPrice);
+
+/***/ }),
+
+/***/ "./src/components/productTitle.js":
+/*!****************************************!*\
+  !*** ./src/components/productTitle.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _useProduct__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./useProduct */ "./src/components/useProduct.js");
+
+
+
+const ProductTitle = _ref => {
+  let {
+    productId
+  } = _ref;
+  const {
+    product,
+    loading
+  } = (0,_useProduct__WEBPACK_IMPORTED_MODULE_2__["default"])(productId);
+  if (loading) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading product title...', 'woo-lookblock'));
+  }
+  if (!product) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Product not found', 'woo-lookblock'));
+  }
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: product.permalink
+  }, product.name);
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductTitle);
+
+/***/ }),
+
+/***/ "./src/components/useProduct.js":
+/*!**************************************!*\
+  !*** ./src/components/useProduct.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
+/**
+ * WordPress Dependencies.
+ */
+// import { useState, useEffect } from '@wordpress/element';
+
+
+const useProduct = productId => {
+  const [product, setProduct] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    async function fetchProduct() {
+      try {
+        const product = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
+          path: `/wc/store/v1/products/${productId}?_fields=id,name,short_description,price_html,images,permalink,add_to_cart`
+        });
+        setProduct(product);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchProduct();
+  }, [productId]);
+  return {
+    product,
+    loading
+  };
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useProduct);
+
+/***/ }),
+
+/***/ "./src/frontend/addMarkerPopover.js":
+/*!******************************************!*\
+  !*** ./src/frontend/addMarkerPopover.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_tiny_popover__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-tiny-popover */ "./node_modules/react-tiny-popover/dist/Popover.js");
+/* harmony import */ var react_tiny_popover__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_tiny_popover__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_productTitle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/productTitle */ "./src/components/productTitle.js");
+/* harmony import */ var _components_productImage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/productImage */ "./src/components/productImage.js");
+/* harmony import */ var _components_productPrice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/productPrice */ "./src/components/productPrice.js");
+/* harmony import */ var _components_productAddToCart__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/productAddToCart */ "./src/components/productAddToCart.js");
+
+/**
+ * WordPress dependencies.
+ */
+
+/**
+ * External dependencies.
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+const AddMarkerPopover = props => {
+  const {
+    assocProdId,
+    parentElement
+  } = props;
+  const [isPopoverOpen, setIsPopoverOpen] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const togglePopover = () => {
+    setIsPopoverOpen(state => !state);
+  };
+  const popoverTogglerClass = {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "transparent",
+    borderRadius: "50%",
+    zIndex: "5"
+  };
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_tiny_popover__WEBPACK_IMPORTED_MODULE_1__.Popover, {
+    parentElement: parentElement,
+    isOpen: isPopoverOpen,
+    onClickOutside: () => setIsPopoverOpen(false)
+    // position={'bottom'} // preferred position
+    ,
+    positions: ['bottom', 'top', 'left', 'right'],
+    padding: 30,
+    reposition: true,
+    align: "center",
+    content: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_productImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      productId: assocProdId
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_productTitle__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      productId: assocProdId
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_productPrice__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      productId: assocProdId
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_productAddToCart__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      productId: assocProdId
+    })),
+    style: {
+      zIndex: '100'
+    }
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: popoverTogglerClass,
+    onClick: togglePopover
+  }));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AddMarkerPopover);
+
+/***/ }),
+
+/***/ "./src/frontend/fetchRenderProducts.js":
+/*!*********************************************!*\
+  !*** ./src/frontend/fetchRenderProducts.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "react-dom");
@@ -78,7 +351,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const ProductProperties = (productIds, blockId) => {
+const fetchRenderProducts = (productIds, blockId) => {
   // Block instance by 'data-block-id' att.
   const thisBlock = document.querySelector(`[data-block-id="${blockId}"]`);
   const SanitizeHTML = (dompurify__WEBPACK_IMPORTED_MODULE_3___default().sanitize);
@@ -121,8 +394,9 @@ const ProductProperties = (productIds, blockId) => {
           __html: SanitizeHTML(description)
         }
       }), thisBlock.querySelector(`[data-product-excerpt="${productId}"]`));
+      const addToCartClasses = "wp-block-button__link wc-block-components-product-button__button add_to_cart_button ajax_add_to_cart";
       (0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-        className: "button ajax_add_to_cart",
+        className: addToCartClasses,
         href: addToCart.url,
         title: addToCart.description
       }, addToCart.text), thisBlock.querySelector(`[data-product-addtocart="${productId}"]`));
@@ -131,7 +405,47 @@ const ProductProperties = (productIds, blockId) => {
     console.error(error);
   });
 };
-/* harmony default export */ __webpack_exports__["default"] = (ProductProperties);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (fetchRenderProducts);
+
+/***/ }),
+
+/***/ "./src/frontend/markerEvents.js":
+/*!**************************************!*\
+  !*** ./src/frontend/markerEvents.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * Marker events.
+ * @param {*} marker 
+ */
+
+const AddMarkerEvents = (marker, lookBlockInstance) => {
+  marker.addEventListener('mouseover', event => {
+    const marker = event.target;
+    const productId = marker.dataset.productId;
+    const product = lookBlockInstance.querySelector(`[data-product-id="${productId}"]`);
+    if (product) {
+      product.classList.add('highlighted');
+    }
+    ;
+  });
+  marker.addEventListener('mouseleave', event => {
+    const marker = event.target;
+    const productId = marker.dataset.productId;
+    const product = lookBlockInstance.querySelector(`[data-product-id="${productId}"]`);
+    if (product) {
+      product.classList.remove('highlighted');
+    }
+    ;
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AddMarkerEvents);
 
 /***/ }),
 
@@ -1912,11 +2226,2086 @@ const ProductProperties = (productIds, blockId) => {
 
 /***/ }),
 
+/***/ "./node_modules/react-tiny-popover/dist/ArrowContainer.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/react-tiny-popover/dist/ArrowContainer.js ***!
+  \****************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ArrowContainer = void 0;
+var jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var react_1 = __webpack_require__(/*! react */ "react");
+var useArrowContainer_1 = __webpack_require__(/*! ./useArrowContainer */ "./node_modules/react-tiny-popover/dist/useArrowContainer.js");
+var ArrowContainer = function (_a) {
+    var childRect = _a.childRect, popoverRect = _a.popoverRect, position = _a.position, arrowColor = _a.arrowColor, arrowSize = _a.arrowSize, arrowClassName = _a.arrowClassName, externalArrowStyle = _a.arrowStyle, className = _a.className, children = _a.children, externalArrowContainerStyle = _a.style;
+    var _b = useArrowContainer_1.useArrowContainer({
+        childRect: childRect,
+        popoverRect: popoverRect,
+        position: position,
+        arrowColor: arrowColor,
+        arrowSize: arrowSize,
+    }), arrowContainerStyle = _b.arrowContainerStyle, arrowStyle = _b.arrowStyle;
+    var mergedContainerStyle = react_1.useMemo(function () { return (__assign(__assign({}, arrowContainerStyle), externalArrowContainerStyle)); }, [arrowContainerStyle, externalArrowContainerStyle]);
+    var mergedArrowStyle = react_1.useMemo(function () { return (__assign(__assign({}, arrowStyle), externalArrowStyle)); }, [arrowStyle, externalArrowStyle]);
+    return (jsx_runtime_1.jsxs("div", __assign({ className: className, style: mergedContainerStyle }, { children: [jsx_runtime_1.jsx("div", { style: mergedArrowStyle, className: arrowClassName }, void 0), children] }), void 0));
+};
+exports.ArrowContainer = ArrowContainer;
+//# sourceMappingURL=ArrowContainer.js.map
+
+/***/ }),
+
+/***/ "./node_modules/react-tiny-popover/dist/Popover.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/react-tiny-popover/dist/Popover.js ***!
+  \*********************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Popover = exports.usePopover = exports.ArrowContainer = exports.useArrowContainer = void 0;
+var jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+var react_1 = __webpack_require__(/*! react */ "react");
+var PopoverPortal_1 = __webpack_require__(/*! ./PopoverPortal */ "./node_modules/react-tiny-popover/dist/PopoverPortal.js");
+var util_1 = __webpack_require__(/*! ./util */ "./node_modules/react-tiny-popover/dist/util.js");
+var usePopover_1 = __webpack_require__(/*! ./usePopover */ "./node_modules/react-tiny-popover/dist/usePopover.js");
+Object.defineProperty(exports, "usePopover", ({ enumerable: true, get: function () { return usePopover_1.usePopover; } }));
+var useMemoizedArray_1 = __webpack_require__(/*! ./useMemoizedArray */ "./node_modules/react-tiny-popover/dist/useMemoizedArray.js");
+var useArrowContainer_1 = __webpack_require__(/*! ./useArrowContainer */ "./node_modules/react-tiny-popover/dist/useArrowContainer.js");
+Object.defineProperty(exports, "useArrowContainer", ({ enumerable: true, get: function () { return useArrowContainer_1.useArrowContainer; } }));
+var ArrowContainer_1 = __webpack_require__(/*! ./ArrowContainer */ "./node_modules/react-tiny-popover/dist/ArrowContainer.js");
+Object.defineProperty(exports, "ArrowContainer", ({ enumerable: true, get: function () { return ArrowContainer_1.ArrowContainer; } }));
+var DEFAULT_POSITIONS = ['top', 'left', 'right', 'bottom'];
+var PopoverInternal = react_1.forwardRef(function (_a, externalRef) {
+    var isOpen = _a.isOpen, children = _a.children, content = _a.content, _b = _a.positions, externalPositions = _b === void 0 ? DEFAULT_POSITIONS : _b, _c = _a.align, align = _c === void 0 ? 'center' : _c, _d = _a.padding, padding = _d === void 0 ? 0 : _d, _e = _a.reposition, reposition = _e === void 0 ? true : _e, _f = _a.parentElement, parentElement = _f === void 0 ? window.document.body : _f, _g = _a.boundaryElement, boundaryElement = _g === void 0 ? parentElement : _g, _h = _a.containerClassName, containerClassName = _h === void 0 ? 'react-tiny-popover-container' : _h, containerStyle = _a.containerStyle, contentLocation = _a.contentLocation, _j = _a.boundaryInset, boundaryInset = _j === void 0 ? 0 : _j, onClickOutside = _a.onClickOutside, _k = _a.clickOutsideCapture, clickOutsideCapture = _k === void 0 ? false : _k;
+    var positions = useMemoizedArray_1.useMemoizedArray(externalPositions);
+    // TODO: factor prevs out into a custom prevs hook
+    var prevIsOpen = react_1.useRef(false);
+    var prevPositions = react_1.useRef();
+    var prevContentLocation = react_1.useRef();
+    var prevReposition = react_1.useRef(reposition);
+    var childRef = react_1.useRef();
+    var _l = react_1.useState({
+        align: align,
+        nudgedLeft: 0,
+        nudgedTop: 0,
+        position: positions[0],
+        padding: padding,
+        childRect: util_1.EMPTY_CLIENT_RECT,
+        popoverRect: util_1.EMPTY_CLIENT_RECT,
+        parentRect: util_1.EMPTY_CLIENT_RECT,
+        boundaryRect: util_1.EMPTY_CLIENT_RECT,
+        boundaryInset: boundaryInset,
+        violations: util_1.EMPTY_CLIENT_RECT,
+        hasViolations: false,
+    }), popoverState = _l[0], setPopoverState = _l[1];
+    var onPositionPopover = react_1.useCallback(function (popoverState) { return setPopoverState(popoverState); }, []);
+    var _m = usePopover_1.usePopover({
+        isOpen: isOpen,
+        childRef: childRef,
+        containerClassName: containerClassName,
+        parentElement: parentElement,
+        boundaryElement: boundaryElement,
+        contentLocation: contentLocation,
+        positions: positions,
+        align: align,
+        padding: padding,
+        boundaryInset: boundaryInset,
+        reposition: reposition,
+        onPositionPopover: onPositionPopover,
+    }), positionPopover = _m.positionPopover, popoverRef = _m.popoverRef, scoutRef = _m.scoutRef;
+    react_1.useLayoutEffect(function () {
+        var shouldUpdate = true;
+        var updatePopover = function () {
+            var _a, _b;
+            if (isOpen && shouldUpdate) {
+                var childRect = (_a = childRef === null || childRef === void 0 ? void 0 : childRef.current) === null || _a === void 0 ? void 0 : _a.getBoundingClientRect();
+                var popoverRect = (_b = popoverRef === null || popoverRef === void 0 ? void 0 : popoverRef.current) === null || _b === void 0 ? void 0 : _b.getBoundingClientRect();
+                if (childRect != null &&
+                    popoverRect != null &&
+                    (!util_1.rectsAreEqual(childRect, {
+                        top: popoverState.childRect.top,
+                        left: popoverState.childRect.left,
+                        width: popoverState.childRect.width,
+                        height: popoverState.childRect.height,
+                        bottom: popoverState.childRect.top + popoverState.childRect.height,
+                        right: popoverState.childRect.left + popoverState.childRect.width,
+                    }) ||
+                        popoverRect.width !== popoverState.popoverRect.width ||
+                        popoverRect.height !== popoverState.popoverRect.height ||
+                        popoverState.padding !== padding ||
+                        popoverState.align !== align ||
+                        positions !== prevPositions.current ||
+                        contentLocation !== prevContentLocation.current ||
+                        reposition !== prevReposition.current)) {
+                    positionPopover();
+                }
+                // TODO: factor prev checks out into the custom prevs hook
+                if (positions !== prevPositions.current) {
+                    prevPositions.current = positions;
+                }
+                if (contentLocation !== prevContentLocation.current) {
+                    prevContentLocation.current = contentLocation;
+                }
+                if (reposition !== prevReposition.current) {
+                    prevReposition.current = reposition;
+                }
+                if (shouldUpdate) {
+                    window.requestAnimationFrame(updatePopover);
+                }
+            }
+            prevIsOpen.current = isOpen;
+        };
+        window.requestAnimationFrame(updatePopover);
+        return function () {
+            shouldUpdate = false;
+        };
+    }, [
+        align,
+        contentLocation,
+        isOpen,
+        padding,
+        popoverRef,
+        popoverState.align,
+        popoverState.childRect.height,
+        popoverState.childRect.left,
+        popoverState.childRect.top,
+        popoverState.childRect.width,
+        popoverState.padding,
+        popoverState.popoverRect.height,
+        popoverState.popoverRect.width,
+        positionPopover,
+        positions,
+        reposition,
+    ]);
+    react_1.useEffect(function () {
+        var popoverElement = popoverRef.current;
+        Object.assign(popoverElement.style, containerStyle);
+        return function () {
+            Object.keys(containerStyle !== null && containerStyle !== void 0 ? containerStyle : {}).forEach(function (key) {
+                return delete popoverElement.style[key];
+            });
+        };
+    }, [containerStyle, isOpen, popoverRef]);
+    var handleOnClickOutside = react_1.useCallback(function (e) {
+        var _a, _b;
+        if (isOpen &&
+            !((_a = popoverRef.current) === null || _a === void 0 ? void 0 : _a.contains(e.target)) &&
+            !((_b = childRef.current) === null || _b === void 0 ? void 0 : _b.contains(e.target))) {
+            onClickOutside === null || onClickOutside === void 0 ? void 0 : onClickOutside(e);
+        }
+    }, [isOpen, onClickOutside, popoverRef]);
+    var handleWindowResize = react_1.useCallback(function () {
+        if (childRef.current) {
+            window.requestAnimationFrame(function () { return positionPopover(); });
+        }
+    }, [positionPopover]);
+    react_1.useEffect(function () {
+        var body = parentElement.ownerDocument.body;
+        body.addEventListener('click', handleOnClickOutside, clickOutsideCapture);
+        body.addEventListener('contextmenu', handleOnClickOutside, clickOutsideCapture);
+        body.addEventListener('resize', handleWindowResize);
+        return function () {
+            body.removeEventListener('click', handleOnClickOutside, clickOutsideCapture);
+            body.removeEventListener('contextmenu', handleOnClickOutside, clickOutsideCapture);
+            body.removeEventListener('resize', handleWindowResize);
+        };
+    }, [clickOutsideCapture, handleOnClickOutside, handleWindowResize, parentElement]);
+    var handleRef = react_1.useCallback(function (node) {
+        childRef.current = node;
+        if (externalRef != null) {
+            if (typeof externalRef === 'object') {
+                externalRef.current = node;
+            }
+            else if (typeof externalRef === 'function') {
+                externalRef(node);
+            }
+        }
+    }, [externalRef]);
+    var renderChild = function () {
+        return react_1.cloneElement(children, {
+            ref: handleRef,
+        });
+    };
+    var renderPopover = function () {
+        if (!isOpen)
+            return null;
+        return (jsx_runtime_1.jsx(PopoverPortal_1.PopoverPortal, __assign({ element: popoverRef.current, scoutElement: scoutRef.current, container: parentElement }, { children: typeof content === 'function' ? content(popoverState) : content }), void 0));
+    };
+    return (jsx_runtime_1.jsxs(jsx_runtime_1.Fragment, { children: [renderChild(), renderPopover()] }, void 0));
+});
+exports.Popover = react_1.forwardRef(function (props, ref) {
+    if (typeof window === 'undefined')
+        return props.children;
+    return jsx_runtime_1.jsx(PopoverInternal, __assign({}, props, { ref: ref }), void 0);
+});
+//# sourceMappingURL=Popover.js.map
+
+/***/ }),
+
+/***/ "./node_modules/react-tiny-popover/dist/PopoverPortal.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/react-tiny-popover/dist/PopoverPortal.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PopoverPortal = void 0;
+var react_1 = __webpack_require__(/*! react */ "react");
+var react_dom_1 = __webpack_require__(/*! react-dom */ "react-dom");
+var PopoverPortal = function (_a) {
+    var container = _a.container, element = _a.element, scoutElement = _a.scoutElement, children = _a.children;
+    react_1.useLayoutEffect(function () {
+        container.appendChild(element);
+        container.appendChild(scoutElement);
+        return function () {
+            container.removeChild(element);
+            container.removeChild(scoutElement);
+        };
+    }, [container, element, scoutElement]);
+    return react_dom_1.createPortal(children, element);
+};
+exports.PopoverPortal = PopoverPortal;
+//# sourceMappingURL=PopoverPortal.js.map
+
+/***/ }),
+
+/***/ "./node_modules/react-tiny-popover/dist/useArrowContainer.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/react-tiny-popover/dist/useArrowContainer.js ***!
+  \*******************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.useArrowContainer = void 0;
+var react_1 = __webpack_require__(/*! react */ "react");
+var useArrowContainer = function (_a) {
+    var childRect = _a.childRect, popoverRect = _a.popoverRect, position = _a.position, arrowSize = _a.arrowSize, arrowColor = _a.arrowColor;
+    var arrowContainerStyle = react_1.useMemo(function () {
+        return ({
+            padding: arrowSize,
+        });
+    }, [arrowSize]);
+    var arrowStyle = react_1.useMemo(function () {
+        return (__assign({ position: 'absolute' }, (function () {
+            var arrowWidth = arrowSize * 2;
+            var top = childRect.top - popoverRect.top + childRect.height / 2 - arrowWidth / 2;
+            var left = childRect.left - popoverRect.left + childRect.width / 2 - arrowWidth / 2;
+            var lowerBound = arrowSize;
+            var leftUpperBound = popoverRect.width - arrowSize;
+            var topUpperBound = popoverRect.height - arrowSize;
+            left = left < lowerBound ? lowerBound : left;
+            left = left + arrowWidth > leftUpperBound ? leftUpperBound - arrowWidth : left;
+            top = top < lowerBound ? lowerBound : top;
+            top = top + arrowWidth > topUpperBound ? topUpperBound - arrowWidth : top;
+            top = Number.isNaN(top) ? 0 : top;
+            left = Number.isNaN(left) ? 0 : left;
+            switch (position) {
+                case 'right':
+                    return {
+                        borderTop: arrowSize + "px solid transparent",
+                        borderBottom: arrowSize + "px solid transparent",
+                        borderRight: arrowSize + "px solid " + arrowColor,
+                        left: 0,
+                        top: top,
+                    };
+                case 'left':
+                    return {
+                        borderTop: arrowSize + "px solid transparent",
+                        borderBottom: arrowSize + "px solid transparent",
+                        borderLeft: arrowSize + "px solid " + arrowColor,
+                        right: 0,
+                        top: top,
+                    };
+                case 'bottom':
+                    return {
+                        borderLeft: arrowSize + "px solid transparent",
+                        borderRight: arrowSize + "px solid transparent",
+                        borderBottom: arrowSize + "px solid " + arrowColor,
+                        top: 0,
+                        left: left,
+                    };
+                case 'top':
+                    return {
+                        borderLeft: arrowSize + "px solid transparent",
+                        borderRight: arrowSize + "px solid transparent",
+                        borderTop: arrowSize + "px solid " + arrowColor,
+                        bottom: 0,
+                        left: left,
+                    };
+                default:
+                    return {
+                        display: 'hidden',
+                    };
+            }
+        })()));
+    }, [
+        arrowColor,
+        arrowSize,
+        childRect.height,
+        childRect.left,
+        childRect.top,
+        childRect.width,
+        popoverRect.height,
+        popoverRect.left,
+        popoverRect.top,
+        popoverRect.width,
+        position,
+    ]);
+    return {
+        arrowContainerStyle: arrowContainerStyle,
+        arrowStyle: arrowStyle,
+    };
+};
+exports.useArrowContainer = useArrowContainer;
+//# sourceMappingURL=useArrowContainer.js.map
+
+/***/ }),
+
+/***/ "./node_modules/react-tiny-popover/dist/useElementRef.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/react-tiny-popover/dist/useElementRef.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.useElementRef = void 0;
+var react_1 = __webpack_require__(/*! react */ "react");
+var util_1 = __webpack_require__(/*! ./util */ "./node_modules/react-tiny-popover/dist/util.js");
+var useElementRef = function (containerClassName, containerStyle) {
+    var ref = react_1.useRef();
+    var element = react_1.useMemo(function () { return util_1.createContainer(containerStyle, containerClassName); }, [containerClassName, containerStyle]);
+    ref.current = element;
+    return ref;
+};
+exports.useElementRef = useElementRef;
+//# sourceMappingURL=useElementRef.js.map
+
+/***/ }),
+
+/***/ "./node_modules/react-tiny-popover/dist/useMemoizedArray.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/react-tiny-popover/dist/useMemoizedArray.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.useMemoizedArray = void 0;
+var react_1 = __webpack_require__(/*! react */ "react");
+var useMemoizedArray = function (externalArray) {
+    var prevArrayRef = react_1.useRef(externalArray);
+    var array = react_1.useMemo(function () {
+        if (prevArrayRef.current === externalArray)
+            return prevArrayRef.current;
+        if (prevArrayRef.current.length !== externalArray.length) {
+            prevArrayRef.current = externalArray;
+            return externalArray;
+        }
+        for (var i = 0; i < externalArray.length; i += 1) {
+            if (externalArray[i] !== prevArrayRef.current[i]) {
+                prevArrayRef.current = externalArray;
+                return externalArray;
+            }
+        }
+        return prevArrayRef.current;
+    }, [externalArray]);
+    return array;
+};
+exports.useMemoizedArray = useMemoizedArray;
+//# sourceMappingURL=useMemoizedArray.js.map
+
+/***/ }),
+
+/***/ "./node_modules/react-tiny-popover/dist/usePopover.js":
+/*!************************************************************!*\
+  !*** ./node_modules/react-tiny-popover/dist/usePopover.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.usePopover = void 0;
+var react_1 = __webpack_require__(/*! react */ "react");
+var util_1 = __webpack_require__(/*! ./util */ "./node_modules/react-tiny-popover/dist/util.js");
+var useElementRef_1 = __webpack_require__(/*! ./useElementRef */ "./node_modules/react-tiny-popover/dist/useElementRef.js");
+var POPOVER_STYLE = {
+    position: 'fixed',
+    overflow: 'visible',
+    top: '0px',
+    left: '0px',
+};
+var SCOUT_STYLE = {
+    position: 'fixed',
+    top: '0px',
+    left: '0px',
+    width: '0px',
+    height: '0px',
+    visibility: 'hidden',
+};
+var usePopover = function (_a) {
+    var isOpen = _a.isOpen, childRef = _a.childRef, positions = _a.positions, containerClassName = _a.containerClassName, parentElement = _a.parentElement, contentLocation = _a.contentLocation, align = _a.align, padding = _a.padding, reposition = _a.reposition, boundaryInset = _a.boundaryInset, boundaryElement = _a.boundaryElement, onPositionPopover = _a.onPositionPopover;
+    var popoverRef = useElementRef_1.useElementRef(containerClassName, POPOVER_STYLE);
+    var scoutRef = useElementRef_1.useElementRef('react-tiny-popover-scout', SCOUT_STYLE);
+    var positionPopover = react_1.useCallback(function (_a) {
+        var _b, _c;
+        var _d = _a === void 0 ? {} : _a, _e = _d.positionIndex, positionIndex = _e === void 0 ? 0 : _e, _f = _d.parentRect, parentRect = _f === void 0 ? parentElement.getBoundingClientRect() : _f, _g = _d.childRect, childRect = _g === void 0 ? (_b = childRef === null || childRef === void 0 ? void 0 : childRef.current) === null || _b === void 0 ? void 0 : _b.getBoundingClientRect() : _g, _h = _d.scoutRect, scoutRect = _h === void 0 ? (_c = scoutRef === null || scoutRef === void 0 ? void 0 : scoutRef.current) === null || _c === void 0 ? void 0 : _c.getBoundingClientRect() : _h, _j = _d.popoverRect, popoverRect = _j === void 0 ? popoverRef.current.getBoundingClientRect() : _j, _k = _d.boundaryRect, boundaryRect = _k === void 0 ? boundaryElement === parentElement
+            ? parentRect
+            : boundaryElement.getBoundingClientRect() : _k;
+        if (!childRect || !parentRect || !isOpen) {
+            return;
+        }
+        if (contentLocation) {
+            var _l = typeof contentLocation === 'function'
+                ? contentLocation({
+                    childRect: childRect,
+                    popoverRect: popoverRect,
+                    parentRect: parentRect,
+                    boundaryRect: boundaryRect,
+                    padding: padding,
+                    nudgedTop: 0,
+                    nudgedLeft: 0,
+                    boundaryInset: boundaryInset,
+                    violations: util_1.EMPTY_CLIENT_RECT,
+                    hasViolations: false,
+                })
+                : contentLocation, inputTop = _l.top, inputLeft = _l.left;
+            var left_1 = Math.round(parentRect.left + inputLeft - scoutRect.left);
+            var top_1 = Math.round(parentRect.top + inputTop - scoutRect.top);
+            popoverRef.current.style.transform = "translate(" + left_1 + "px, " + top_1 + "px)";
+            onPositionPopover({
+                childRect: childRect,
+                popoverRect: popoverRect,
+                parentRect: parentRect,
+                boundaryRect: boundaryRect,
+                padding: padding,
+                nudgedTop: 0,
+                nudgedLeft: 0,
+                boundaryInset: boundaryInset,
+                violations: util_1.EMPTY_CLIENT_RECT,
+                hasViolations: false,
+            });
+            return;
+        }
+        var isExhausted = positionIndex === positions.length;
+        var position = isExhausted ? positions[0] : positions[positionIndex];
+        var _m = util_1.getNewPopoverRect({
+            childRect: childRect,
+            popoverRect: popoverRect,
+            boundaryRect: boundaryRect,
+            position: position,
+            align: align,
+            padding: padding,
+            reposition: reposition,
+        }, boundaryInset), rect = _m.rect, boundaryViolation = _m.boundaryViolation;
+        if (boundaryViolation && reposition && !isExhausted) {
+            positionPopover({
+                positionIndex: positionIndex + 1,
+                childRect: childRect,
+                popoverRect: popoverRect,
+                parentRect: parentRect,
+                boundaryRect: boundaryRect,
+            });
+            return;
+        }
+        var top = rect.top, left = rect.left, width = rect.width, height = rect.height;
+        var shouldNudge = reposition && !isExhausted;
+        var _o = util_1.getNudgedPopoverRect(rect, boundaryRect, boundaryInset), nudgedLeft = _o.left, nudgedTop = _o.top;
+        var finalTop = top;
+        var finalLeft = left;
+        if (shouldNudge) {
+            finalTop = nudgedTop;
+            finalLeft = nudgedLeft;
+        }
+        finalTop = Math.round(finalTop - scoutRect.top);
+        finalLeft = Math.round(finalLeft - scoutRect.left);
+        popoverRef.current.style.transform = "translate(" + finalLeft + "px, " + finalTop + "px)";
+        var potentialViolations = {
+            top: boundaryRect.top + boundaryInset - finalTop,
+            left: boundaryRect.left + boundaryInset - finalLeft,
+            right: finalLeft + width - boundaryRect.right + boundaryInset,
+            bottom: finalTop + height - boundaryRect.bottom + boundaryInset,
+        };
+        onPositionPopover({
+            childRect: childRect,
+            popoverRect: {
+                top: finalTop,
+                left: finalLeft,
+                width: width,
+                height: height,
+                right: finalLeft + width,
+                bottom: finalTop + height,
+            },
+            parentRect: parentRect,
+            boundaryRect: boundaryRect,
+            position: position,
+            align: align,
+            padding: padding,
+            nudgedTop: nudgedTop - top,
+            nudgedLeft: nudgedLeft - left,
+            boundaryInset: boundaryInset,
+            violations: {
+                top: potentialViolations.top <= 0 ? 0 : potentialViolations.top,
+                left: potentialViolations.left <= 0 ? 0 : potentialViolations.left,
+                right: potentialViolations.right <= 0 ? 0 : potentialViolations.right,
+                bottom: potentialViolations.bottom <= 0 ? 0 : potentialViolations.bottom,
+            },
+            hasViolations: potentialViolations.top > 0 ||
+                potentialViolations.left > 0 ||
+                potentialViolations.right > 0 ||
+                potentialViolations.bottom > 0,
+        });
+    }, [
+        parentElement,
+        childRef,
+        scoutRef,
+        popoverRef,
+        boundaryElement,
+        isOpen,
+        contentLocation,
+        positions,
+        align,
+        padding,
+        reposition,
+        boundaryInset,
+        onPositionPopover,
+    ]);
+    return {
+        positionPopover: positionPopover,
+        popoverRef: popoverRef,
+        scoutRef: scoutRef,
+    };
+};
+exports.usePopover = usePopover;
+//# sourceMappingURL=usePopover.js.map
+
+/***/ }),
+
+/***/ "./node_modules/react-tiny-popover/dist/util.js":
+/*!******************************************************!*\
+  !*** ./node_modules/react-tiny-popover/dist/util.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getNudgedPopoverRect = exports.getNewPopoverRect = exports.popoverRectForPosition = exports.createContainer = exports.rectsAreEqual = exports.EMPTY_CLIENT_RECT = void 0;
+exports.EMPTY_CLIENT_RECT = {
+    top: 0,
+    left: 0,
+    bottom: 0,
+    height: 0,
+    right: 0,
+    width: 0,
+};
+var rectsAreEqual = function (rectA, rectB) {
+    return rectA === rectB ||
+        ((rectA === null || rectA === void 0 ? void 0 : rectA.bottom) === (rectB === null || rectB === void 0 ? void 0 : rectB.bottom) &&
+            (rectA === null || rectA === void 0 ? void 0 : rectA.height) === (rectB === null || rectB === void 0 ? void 0 : rectB.height) &&
+            (rectA === null || rectA === void 0 ? void 0 : rectA.left) === (rectB === null || rectB === void 0 ? void 0 : rectB.left) &&
+            (rectA === null || rectA === void 0 ? void 0 : rectA.right) === (rectB === null || rectB === void 0 ? void 0 : rectB.right) &&
+            (rectA === null || rectA === void 0 ? void 0 : rectA.top) === (rectB === null || rectB === void 0 ? void 0 : rectB.top) &&
+            (rectA === null || rectA === void 0 ? void 0 : rectA.width) === (rectB === null || rectB === void 0 ? void 0 : rectB.width));
+};
+exports.rectsAreEqual = rectsAreEqual;
+var createContainer = function (containerStyle, containerClassName) {
+    var container = window.document.createElement('div');
+    if (containerClassName)
+        container.className = containerClassName;
+    Object.assign(container.style, containerStyle);
+    return container;
+};
+exports.createContainer = createContainer;
+var popoverRectForPosition = function (position, childRect, popoverRect, padding, align) {
+    var targetMidX = childRect.left + childRect.width / 2;
+    var targetMidY = childRect.top + childRect.height / 2;
+    var width = popoverRect.width, height = popoverRect.height;
+    var top;
+    var left;
+    switch (position) {
+        case 'left':
+            top = targetMidY - height / 2;
+            left = childRect.left - padding - width;
+            if (align === 'start') {
+                top = childRect.top;
+            }
+            if (align === 'end') {
+                top = childRect.bottom - height;
+            }
+            break;
+        case 'bottom':
+            top = childRect.bottom + padding;
+            left = targetMidX - width / 2;
+            if (align === 'start') {
+                left = childRect.left;
+            }
+            if (align === 'end') {
+                left = childRect.right - width;
+            }
+            break;
+        case 'right':
+            top = targetMidY - height / 2;
+            left = childRect.right + padding;
+            if (align === 'start') {
+                top = childRect.top;
+            }
+            if (align === 'end') {
+                top = childRect.bottom - height;
+            }
+            break;
+        default:
+            top = childRect.top - height - padding;
+            left = targetMidX - width / 2;
+            if (align === 'start') {
+                left = childRect.left;
+            }
+            if (align === 'end') {
+                left = childRect.right - width;
+            }
+            break;
+    }
+    return { top: top, left: left, width: width, height: height, right: left + width, bottom: top + height };
+};
+exports.popoverRectForPosition = popoverRectForPosition;
+var getNewPopoverRect = function (_a, boundaryInset) {
+    var position = _a.position, align = _a.align, childRect = _a.childRect, popoverRect = _a.popoverRect, boundaryRect = _a.boundaryRect, padding = _a.padding, reposition = _a.reposition;
+    var rect = exports.popoverRectForPosition(position, childRect, popoverRect, padding, align);
+    var boundaryViolation = reposition &&
+        ((position === 'top' && rect.top < boundaryRect.top + boundaryInset) ||
+            (position === 'left' && rect.left < boundaryRect.left + boundaryInset) ||
+            (position === 'right' && rect.right > boundaryRect.right - boundaryInset) ||
+            (position === 'bottom' && rect.bottom > boundaryRect.bottom - boundaryInset));
+    return {
+        rect: rect,
+        boundaryViolation: boundaryViolation,
+    };
+};
+exports.getNewPopoverRect = getNewPopoverRect;
+var getNudgedPopoverRect = function (popoverRect, boundaryRect, boundaryInset) {
+    var topBoundary = boundaryRect.top + boundaryInset;
+    var leftBoundary = boundaryRect.left + boundaryInset;
+    var rightBoundary = boundaryRect.right - boundaryInset;
+    var bottomBoundary = boundaryRect.bottom - boundaryInset;
+    var top = popoverRect.top < topBoundary ? topBoundary : popoverRect.top;
+    top = top + popoverRect.height > bottomBoundary ? bottomBoundary - popoverRect.height : top;
+    var left = popoverRect.left < leftBoundary ? leftBoundary : popoverRect.left;
+    left = left + popoverRect.width > rightBoundary ? rightBoundary - popoverRect.width : left;
+    return {
+        top: top,
+        left: left,
+        width: popoverRect.width,
+        height: popoverRect.height,
+        right: left + popoverRect.width,
+        bottom: top + popoverRect.height,
+    };
+};
+exports.getNudgedPopoverRect = getNudgedPopoverRect;
+//# sourceMappingURL=util.js.map
+
+/***/ }),
+
+/***/ "./node_modules/react/cjs/react-jsx-runtime.development.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/react/cjs/react-jsx-runtime.development.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+/**
+ * @license React
+ * react-jsx-runtime.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+if (true) {
+  (function() {
+'use strict';
+
+var React = __webpack_require__(/*! react */ "react");
+
+// ATTENTION
+// When adding new symbols to this file,
+// Please consider also adding to 'react-devtools-shared/src/backend/ReactSymbols'
+// The Symbol used to tag the ReactElement-like types.
+var REACT_ELEMENT_TYPE = Symbol.for('react.element');
+var REACT_PORTAL_TYPE = Symbol.for('react.portal');
+var REACT_FRAGMENT_TYPE = Symbol.for('react.fragment');
+var REACT_STRICT_MODE_TYPE = Symbol.for('react.strict_mode');
+var REACT_PROFILER_TYPE = Symbol.for('react.profiler');
+var REACT_PROVIDER_TYPE = Symbol.for('react.provider');
+var REACT_CONTEXT_TYPE = Symbol.for('react.context');
+var REACT_FORWARD_REF_TYPE = Symbol.for('react.forward_ref');
+var REACT_SUSPENSE_TYPE = Symbol.for('react.suspense');
+var REACT_SUSPENSE_LIST_TYPE = Symbol.for('react.suspense_list');
+var REACT_MEMO_TYPE = Symbol.for('react.memo');
+var REACT_LAZY_TYPE = Symbol.for('react.lazy');
+var REACT_OFFSCREEN_TYPE = Symbol.for('react.offscreen');
+var MAYBE_ITERATOR_SYMBOL = Symbol.iterator;
+var FAUX_ITERATOR_SYMBOL = '@@iterator';
+function getIteratorFn(maybeIterable) {
+  if (maybeIterable === null || typeof maybeIterable !== 'object') {
+    return null;
+  }
+
+  var maybeIterator = MAYBE_ITERATOR_SYMBOL && maybeIterable[MAYBE_ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL];
+
+  if (typeof maybeIterator === 'function') {
+    return maybeIterator;
+  }
+
+  return null;
+}
+
+var ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+
+function error(format) {
+  {
+    {
+      for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+        args[_key2 - 1] = arguments[_key2];
+      }
+
+      printWarning('error', format, args);
+    }
+  }
+}
+
+function printWarning(level, format, args) {
+  // When changing this logic, you might want to also
+  // update consoleWithStackDev.www.js as well.
+  {
+    var ReactDebugCurrentFrame = ReactSharedInternals.ReactDebugCurrentFrame;
+    var stack = ReactDebugCurrentFrame.getStackAddendum();
+
+    if (stack !== '') {
+      format += '%s';
+      args = args.concat([stack]);
+    } // eslint-disable-next-line react-internal/safe-string-coercion
+
+
+    var argsWithFormat = args.map(function (item) {
+      return String(item);
+    }); // Careful: RN currently depends on this prefix
+
+    argsWithFormat.unshift('Warning: ' + format); // We intentionally don't use spread (or .apply) directly because it
+    // breaks IE9: https://github.com/facebook/react/issues/13610
+    // eslint-disable-next-line react-internal/no-production-logging
+
+    Function.prototype.apply.call(console[level], console, argsWithFormat);
+  }
+}
+
+// -----------------------------------------------------------------------------
+
+var enableScopeAPI = false; // Experimental Create Event Handle API.
+var enableCacheElement = false;
+var enableTransitionTracing = false; // No known bugs, but needs performance testing
+
+var enableLegacyHidden = false; // Enables unstable_avoidThisFallback feature in Fiber
+// stuff. Intended to enable React core members to more easily debug scheduling
+// issues in DEV builds.
+
+var enableDebugTracing = false; // Track which Fiber(s) schedule render work.
+
+var REACT_MODULE_REFERENCE;
+
+{
+  REACT_MODULE_REFERENCE = Symbol.for('react.module.reference');
+}
+
+function isValidElementType(type) {
+  if (typeof type === 'string' || typeof type === 'function') {
+    return true;
+  } // Note: typeof might be other than 'symbol' or 'number' (e.g. if it's a polyfill).
+
+
+  if (type === REACT_FRAGMENT_TYPE || type === REACT_PROFILER_TYPE || enableDebugTracing  || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || enableLegacyHidden  || type === REACT_OFFSCREEN_TYPE || enableScopeAPI  || enableCacheElement  || enableTransitionTracing ) {
+    return true;
+  }
+
+  if (typeof type === 'object' && type !== null) {
+    if (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || // This needs to include all possible module reference object
+    // types supported by any Flight configuration anywhere since
+    // we don't know which Flight build this will end up being used
+    // with.
+    type.$$typeof === REACT_MODULE_REFERENCE || type.getModuleId !== undefined) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function getWrappedName(outerType, innerType, wrapperName) {
+  var displayName = outerType.displayName;
+
+  if (displayName) {
+    return displayName;
+  }
+
+  var functionName = innerType.displayName || innerType.name || '';
+  return functionName !== '' ? wrapperName + "(" + functionName + ")" : wrapperName;
+} // Keep in sync with react-reconciler/getComponentNameFromFiber
+
+
+function getContextName(type) {
+  return type.displayName || 'Context';
+} // Note that the reconciler package should generally prefer to use getComponentNameFromFiber() instead.
+
+
+function getComponentNameFromType(type) {
+  if (type == null) {
+    // Host root, text node or just invalid type.
+    return null;
+  }
+
+  {
+    if (typeof type.tag === 'number') {
+      error('Received an unexpected object in getComponentNameFromType(). ' + 'This is likely a bug in React. Please file an issue.');
+    }
+  }
+
+  if (typeof type === 'function') {
+    return type.displayName || type.name || null;
+  }
+
+  if (typeof type === 'string') {
+    return type;
+  }
+
+  switch (type) {
+    case REACT_FRAGMENT_TYPE:
+      return 'Fragment';
+
+    case REACT_PORTAL_TYPE:
+      return 'Portal';
+
+    case REACT_PROFILER_TYPE:
+      return 'Profiler';
+
+    case REACT_STRICT_MODE_TYPE:
+      return 'StrictMode';
+
+    case REACT_SUSPENSE_TYPE:
+      return 'Suspense';
+
+    case REACT_SUSPENSE_LIST_TYPE:
+      return 'SuspenseList';
+
+  }
+
+  if (typeof type === 'object') {
+    switch (type.$$typeof) {
+      case REACT_CONTEXT_TYPE:
+        var context = type;
+        return getContextName(context) + '.Consumer';
+
+      case REACT_PROVIDER_TYPE:
+        var provider = type;
+        return getContextName(provider._context) + '.Provider';
+
+      case REACT_FORWARD_REF_TYPE:
+        return getWrappedName(type, type.render, 'ForwardRef');
+
+      case REACT_MEMO_TYPE:
+        var outerName = type.displayName || null;
+
+        if (outerName !== null) {
+          return outerName;
+        }
+
+        return getComponentNameFromType(type.type) || 'Memo';
+
+      case REACT_LAZY_TYPE:
+        {
+          var lazyComponent = type;
+          var payload = lazyComponent._payload;
+          var init = lazyComponent._init;
+
+          try {
+            return getComponentNameFromType(init(payload));
+          } catch (x) {
+            return null;
+          }
+        }
+
+      // eslint-disable-next-line no-fallthrough
+    }
+  }
+
+  return null;
+}
+
+var assign = Object.assign;
+
+// Helpers to patch console.logs to avoid logging during side-effect free
+// replaying on render function. This currently only patches the object
+// lazily which won't cover if the log function was extracted eagerly.
+// We could also eagerly patch the method.
+var disabledDepth = 0;
+var prevLog;
+var prevInfo;
+var prevWarn;
+var prevError;
+var prevGroup;
+var prevGroupCollapsed;
+var prevGroupEnd;
+
+function disabledLog() {}
+
+disabledLog.__reactDisabledLog = true;
+function disableLogs() {
+  {
+    if (disabledDepth === 0) {
+      /* eslint-disable react-internal/no-production-logging */
+      prevLog = console.log;
+      prevInfo = console.info;
+      prevWarn = console.warn;
+      prevError = console.error;
+      prevGroup = console.group;
+      prevGroupCollapsed = console.groupCollapsed;
+      prevGroupEnd = console.groupEnd; // https://github.com/facebook/react/issues/19099
+
+      var props = {
+        configurable: true,
+        enumerable: true,
+        value: disabledLog,
+        writable: true
+      }; // $FlowFixMe Flow thinks console is immutable.
+
+      Object.defineProperties(console, {
+        info: props,
+        log: props,
+        warn: props,
+        error: props,
+        group: props,
+        groupCollapsed: props,
+        groupEnd: props
+      });
+      /* eslint-enable react-internal/no-production-logging */
+    }
+
+    disabledDepth++;
+  }
+}
+function reenableLogs() {
+  {
+    disabledDepth--;
+
+    if (disabledDepth === 0) {
+      /* eslint-disable react-internal/no-production-logging */
+      var props = {
+        configurable: true,
+        enumerable: true,
+        writable: true
+      }; // $FlowFixMe Flow thinks console is immutable.
+
+      Object.defineProperties(console, {
+        log: assign({}, props, {
+          value: prevLog
+        }),
+        info: assign({}, props, {
+          value: prevInfo
+        }),
+        warn: assign({}, props, {
+          value: prevWarn
+        }),
+        error: assign({}, props, {
+          value: prevError
+        }),
+        group: assign({}, props, {
+          value: prevGroup
+        }),
+        groupCollapsed: assign({}, props, {
+          value: prevGroupCollapsed
+        }),
+        groupEnd: assign({}, props, {
+          value: prevGroupEnd
+        })
+      });
+      /* eslint-enable react-internal/no-production-logging */
+    }
+
+    if (disabledDepth < 0) {
+      error('disabledDepth fell below zero. ' + 'This is a bug in React. Please file an issue.');
+    }
+  }
+}
+
+var ReactCurrentDispatcher = ReactSharedInternals.ReactCurrentDispatcher;
+var prefix;
+function describeBuiltInComponentFrame(name, source, ownerFn) {
+  {
+    if (prefix === undefined) {
+      // Extract the VM specific prefix used by each line.
+      try {
+        throw Error();
+      } catch (x) {
+        var match = x.stack.trim().match(/\n( *(at )?)/);
+        prefix = match && match[1] || '';
+      }
+    } // We use the prefix to ensure our stacks line up with native stack frames.
+
+
+    return '\n' + prefix + name;
+  }
+}
+var reentry = false;
+var componentFrameCache;
+
+{
+  var PossiblyWeakMap = typeof WeakMap === 'function' ? WeakMap : Map;
+  componentFrameCache = new PossiblyWeakMap();
+}
+
+function describeNativeComponentFrame(fn, construct) {
+  // If something asked for a stack inside a fake render, it should get ignored.
+  if ( !fn || reentry) {
+    return '';
+  }
+
+  {
+    var frame = componentFrameCache.get(fn);
+
+    if (frame !== undefined) {
+      return frame;
+    }
+  }
+
+  var control;
+  reentry = true;
+  var previousPrepareStackTrace = Error.prepareStackTrace; // $FlowFixMe It does accept undefined.
+
+  Error.prepareStackTrace = undefined;
+  var previousDispatcher;
+
+  {
+    previousDispatcher = ReactCurrentDispatcher.current; // Set the dispatcher in DEV because this might be call in the render function
+    // for warnings.
+
+    ReactCurrentDispatcher.current = null;
+    disableLogs();
+  }
+
+  try {
+    // This should throw.
+    if (construct) {
+      // Something should be setting the props in the constructor.
+      var Fake = function () {
+        throw Error();
+      }; // $FlowFixMe
+
+
+      Object.defineProperty(Fake.prototype, 'props', {
+        set: function () {
+          // We use a throwing setter instead of frozen or non-writable props
+          // because that won't throw in a non-strict mode function.
+          throw Error();
+        }
+      });
+
+      if (typeof Reflect === 'object' && Reflect.construct) {
+        // We construct a different control for this case to include any extra
+        // frames added by the construct call.
+        try {
+          Reflect.construct(Fake, []);
+        } catch (x) {
+          control = x;
+        }
+
+        Reflect.construct(fn, [], Fake);
+      } else {
+        try {
+          Fake.call();
+        } catch (x) {
+          control = x;
+        }
+
+        fn.call(Fake.prototype);
+      }
+    } else {
+      try {
+        throw Error();
+      } catch (x) {
+        control = x;
+      }
+
+      fn();
+    }
+  } catch (sample) {
+    // This is inlined manually because closure doesn't do it for us.
+    if (sample && control && typeof sample.stack === 'string') {
+      // This extracts the first frame from the sample that isn't also in the control.
+      // Skipping one frame that we assume is the frame that calls the two.
+      var sampleLines = sample.stack.split('\n');
+      var controlLines = control.stack.split('\n');
+      var s = sampleLines.length - 1;
+      var c = controlLines.length - 1;
+
+      while (s >= 1 && c >= 0 && sampleLines[s] !== controlLines[c]) {
+        // We expect at least one stack frame to be shared.
+        // Typically this will be the root most one. However, stack frames may be
+        // cut off due to maximum stack limits. In this case, one maybe cut off
+        // earlier than the other. We assume that the sample is longer or the same
+        // and there for cut off earlier. So we should find the root most frame in
+        // the sample somewhere in the control.
+        c--;
+      }
+
+      for (; s >= 1 && c >= 0; s--, c--) {
+        // Next we find the first one that isn't the same which should be the
+        // frame that called our sample function and the control.
+        if (sampleLines[s] !== controlLines[c]) {
+          // In V8, the first line is describing the message but other VMs don't.
+          // If we're about to return the first line, and the control is also on the same
+          // line, that's a pretty good indicator that our sample threw at same line as
+          // the control. I.e. before we entered the sample frame. So we ignore this result.
+          // This can happen if you passed a class to function component, or non-function.
+          if (s !== 1 || c !== 1) {
+            do {
+              s--;
+              c--; // We may still have similar intermediate frames from the construct call.
+              // The next one that isn't the same should be our match though.
+
+              if (c < 0 || sampleLines[s] !== controlLines[c]) {
+                // V8 adds a "new" prefix for native classes. Let's remove it to make it prettier.
+                var _frame = '\n' + sampleLines[s].replace(' at new ', ' at '); // If our component frame is labeled "<anonymous>"
+                // but we have a user-provided "displayName"
+                // splice it in to make the stack more readable.
+
+
+                if (fn.displayName && _frame.includes('<anonymous>')) {
+                  _frame = _frame.replace('<anonymous>', fn.displayName);
+                }
+
+                {
+                  if (typeof fn === 'function') {
+                    componentFrameCache.set(fn, _frame);
+                  }
+                } // Return the line we found.
+
+
+                return _frame;
+              }
+            } while (s >= 1 && c >= 0);
+          }
+
+          break;
+        }
+      }
+    }
+  } finally {
+    reentry = false;
+
+    {
+      ReactCurrentDispatcher.current = previousDispatcher;
+      reenableLogs();
+    }
+
+    Error.prepareStackTrace = previousPrepareStackTrace;
+  } // Fallback to just using the name if we couldn't make it throw.
+
+
+  var name = fn ? fn.displayName || fn.name : '';
+  var syntheticFrame = name ? describeBuiltInComponentFrame(name) : '';
+
+  {
+    if (typeof fn === 'function') {
+      componentFrameCache.set(fn, syntheticFrame);
+    }
+  }
+
+  return syntheticFrame;
+}
+function describeFunctionComponentFrame(fn, source, ownerFn) {
+  {
+    return describeNativeComponentFrame(fn, false);
+  }
+}
+
+function shouldConstruct(Component) {
+  var prototype = Component.prototype;
+  return !!(prototype && prototype.isReactComponent);
+}
+
+function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
+
+  if (type == null) {
+    return '';
+  }
+
+  if (typeof type === 'function') {
+    {
+      return describeNativeComponentFrame(type, shouldConstruct(type));
+    }
+  }
+
+  if (typeof type === 'string') {
+    return describeBuiltInComponentFrame(type);
+  }
+
+  switch (type) {
+    case REACT_SUSPENSE_TYPE:
+      return describeBuiltInComponentFrame('Suspense');
+
+    case REACT_SUSPENSE_LIST_TYPE:
+      return describeBuiltInComponentFrame('SuspenseList');
+  }
+
+  if (typeof type === 'object') {
+    switch (type.$$typeof) {
+      case REACT_FORWARD_REF_TYPE:
+        return describeFunctionComponentFrame(type.render);
+
+      case REACT_MEMO_TYPE:
+        // Memo may contain any component type so we recursively resolve it.
+        return describeUnknownElementTypeFrameInDEV(type.type, source, ownerFn);
+
+      case REACT_LAZY_TYPE:
+        {
+          var lazyComponent = type;
+          var payload = lazyComponent._payload;
+          var init = lazyComponent._init;
+
+          try {
+            // Lazy may contain any component type so we recursively resolve it.
+            return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
+          } catch (x) {}
+        }
+    }
+  }
+
+  return '';
+}
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+var loggedTypeFailures = {};
+var ReactDebugCurrentFrame = ReactSharedInternals.ReactDebugCurrentFrame;
+
+function setCurrentlyValidatingElement(element) {
+  {
+    if (element) {
+      var owner = element._owner;
+      var stack = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
+      ReactDebugCurrentFrame.setExtraStackFrame(stack);
+    } else {
+      ReactDebugCurrentFrame.setExtraStackFrame(null);
+    }
+  }
+}
+
+function checkPropTypes(typeSpecs, values, location, componentName, element) {
+  {
+    // $FlowFixMe This is okay but Flow doesn't know it.
+    var has = Function.call.bind(hasOwnProperty);
+
+    for (var typeSpecName in typeSpecs) {
+      if (has(typeSpecs, typeSpecName)) {
+        var error$1 = void 0; // Prop type validation may throw. In case they do, we don't want to
+        // fail the render phase where it didn't fail before. So we log it.
+        // After these have been cleaned up, we'll let them throw.
+
+        try {
+          // This is intentionally an invariant that gets caught. It's the same
+          // behavior as without this statement except with a better message.
+          if (typeof typeSpecs[typeSpecName] !== 'function') {
+            // eslint-disable-next-line react-internal/prod-error-codes
+            var err = Error((componentName || 'React class') + ': ' + location + ' type `' + typeSpecName + '` is invalid; ' + 'it must be a function, usually from the `prop-types` package, but received `' + typeof typeSpecs[typeSpecName] + '`.' + 'This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.');
+            err.name = 'Invariant Violation';
+            throw err;
+          }
+
+          error$1 = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED');
+        } catch (ex) {
+          error$1 = ex;
+        }
+
+        if (error$1 && !(error$1 instanceof Error)) {
+          setCurrentlyValidatingElement(element);
+
+          error('%s: type specification of %s' + ' `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error$1);
+
+          setCurrentlyValidatingElement(null);
+        }
+
+        if (error$1 instanceof Error && !(error$1.message in loggedTypeFailures)) {
+          // Only monitor this failure once because there tends to be a lot of the
+          // same error.
+          loggedTypeFailures[error$1.message] = true;
+          setCurrentlyValidatingElement(element);
+
+          error('Failed %s type: %s', location, error$1.message);
+
+          setCurrentlyValidatingElement(null);
+        }
+      }
+    }
+  }
+}
+
+var isArrayImpl = Array.isArray; // eslint-disable-next-line no-redeclare
+
+function isArray(a) {
+  return isArrayImpl(a);
+}
+
+/*
+ * The `'' + value` pattern (used in in perf-sensitive code) throws for Symbol
+ * and Temporal.* types. See https://github.com/facebook/react/pull/22064.
+ *
+ * The functions in this module will throw an easier-to-understand,
+ * easier-to-debug exception with a clear errors message message explaining the
+ * problem. (Instead of a confusing exception thrown inside the implementation
+ * of the `value` object).
+ */
+// $FlowFixMe only called in DEV, so void return is not possible.
+function typeName(value) {
+  {
+    // toStringTag is needed for namespaced types like Temporal.Instant
+    var hasToStringTag = typeof Symbol === 'function' && Symbol.toStringTag;
+    var type = hasToStringTag && value[Symbol.toStringTag] || value.constructor.name || 'Object';
+    return type;
+  }
+} // $FlowFixMe only called in DEV, so void return is not possible.
+
+
+function willCoercionThrow(value) {
+  {
+    try {
+      testStringCoercion(value);
+      return false;
+    } catch (e) {
+      return true;
+    }
+  }
+}
+
+function testStringCoercion(value) {
+  // If you ended up here by following an exception call stack, here's what's
+  // happened: you supplied an object or symbol value to React (as a prop, key,
+  // DOM attribute, CSS property, string ref, etc.) and when React tried to
+  // coerce it to a string using `'' + value`, an exception was thrown.
+  //
+  // The most common types that will cause this exception are `Symbol` instances
+  // and Temporal objects like `Temporal.Instant`. But any object that has a
+  // `valueOf` or `[Symbol.toPrimitive]` method that throws will also cause this
+  // exception. (Library authors do this to prevent users from using built-in
+  // numeric operators like `+` or comparison operators like `>=` because custom
+  // methods are needed to perform accurate arithmetic or comparison.)
+  //
+  // To fix the problem, coerce this object or symbol value to a string before
+  // passing it to React. The most reliable way is usually `String(value)`.
+  //
+  // To find which value is throwing, check the browser or debugger console.
+  // Before this exception was thrown, there should be `console.error` output
+  // that shows the type (Symbol, Temporal.PlainDate, etc.) that caused the
+  // problem and how that type was used: key, atrribute, input value prop, etc.
+  // In most cases, this console output also shows the component and its
+  // ancestor components where the exception happened.
+  //
+  // eslint-disable-next-line react-internal/safe-string-coercion
+  return '' + value;
+}
+function checkKeyStringCoercion(value) {
+  {
+    if (willCoercionThrow(value)) {
+      error('The provided key is an unsupported type %s.' + ' This value must be coerced to a string before before using it here.', typeName(value));
+
+      return testStringCoercion(value); // throw (to help callers find troubleshooting comments)
+    }
+  }
+}
+
+var ReactCurrentOwner = ReactSharedInternals.ReactCurrentOwner;
+var RESERVED_PROPS = {
+  key: true,
+  ref: true,
+  __self: true,
+  __source: true
+};
+var specialPropKeyWarningShown;
+var specialPropRefWarningShown;
+var didWarnAboutStringRefs;
+
+{
+  didWarnAboutStringRefs = {};
+}
+
+function hasValidRef(config) {
+  {
+    if (hasOwnProperty.call(config, 'ref')) {
+      var getter = Object.getOwnPropertyDescriptor(config, 'ref').get;
+
+      if (getter && getter.isReactWarning) {
+        return false;
+      }
+    }
+  }
+
+  return config.ref !== undefined;
+}
+
+function hasValidKey(config) {
+  {
+    if (hasOwnProperty.call(config, 'key')) {
+      var getter = Object.getOwnPropertyDescriptor(config, 'key').get;
+
+      if (getter && getter.isReactWarning) {
+        return false;
+      }
+    }
+  }
+
+  return config.key !== undefined;
+}
+
+function warnIfStringRefCannotBeAutoConverted(config, self) {
+  {
+    if (typeof config.ref === 'string' && ReactCurrentOwner.current && self && ReactCurrentOwner.current.stateNode !== self) {
+      var componentName = getComponentNameFromType(ReactCurrentOwner.current.type);
+
+      if (!didWarnAboutStringRefs[componentName]) {
+        error('Component "%s" contains the string ref "%s". ' + 'Support for string refs will be removed in a future major release. ' + 'This case cannot be automatically converted to an arrow function. ' + 'We ask you to manually fix this case by using useRef() or createRef() instead. ' + 'Learn more about using refs safely here: ' + 'https://reactjs.org/link/strict-mode-string-ref', getComponentNameFromType(ReactCurrentOwner.current.type), config.ref);
+
+        didWarnAboutStringRefs[componentName] = true;
+      }
+    }
+  }
+}
+
+function defineKeyPropWarningGetter(props, displayName) {
+  {
+    var warnAboutAccessingKey = function () {
+      if (!specialPropKeyWarningShown) {
+        specialPropKeyWarningShown = true;
+
+        error('%s: `key` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://reactjs.org/link/special-props)', displayName);
+      }
+    };
+
+    warnAboutAccessingKey.isReactWarning = true;
+    Object.defineProperty(props, 'key', {
+      get: warnAboutAccessingKey,
+      configurable: true
+    });
+  }
+}
+
+function defineRefPropWarningGetter(props, displayName) {
+  {
+    var warnAboutAccessingRef = function () {
+      if (!specialPropRefWarningShown) {
+        specialPropRefWarningShown = true;
+
+        error('%s: `ref` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://reactjs.org/link/special-props)', displayName);
+      }
+    };
+
+    warnAboutAccessingRef.isReactWarning = true;
+    Object.defineProperty(props, 'ref', {
+      get: warnAboutAccessingRef,
+      configurable: true
+    });
+  }
+}
+/**
+ * Factory method to create a new React element. This no longer adheres to
+ * the class pattern, so do not use new to call it. Also, instanceof check
+ * will not work. Instead test $$typeof field against Symbol.for('react.element') to check
+ * if something is a React Element.
+ *
+ * @param {*} type
+ * @param {*} props
+ * @param {*} key
+ * @param {string|object} ref
+ * @param {*} owner
+ * @param {*} self A *temporary* helper to detect places where `this` is
+ * different from the `owner` when React.createElement is called, so that we
+ * can warn. We want to get rid of owner and replace string `ref`s with arrow
+ * functions, and as long as `this` and owner are the same, there will be no
+ * change in behavior.
+ * @param {*} source An annotation object (added by a transpiler or otherwise)
+ * indicating filename, line number, and/or other information.
+ * @internal
+ */
+
+
+var ReactElement = function (type, key, ref, self, source, owner, props) {
+  var element = {
+    // This tag allows us to uniquely identify this as a React Element
+    $$typeof: REACT_ELEMENT_TYPE,
+    // Built-in properties that belong on the element
+    type: type,
+    key: key,
+    ref: ref,
+    props: props,
+    // Record the component responsible for creating this element.
+    _owner: owner
+  };
+
+  {
+    // The validation flag is currently mutative. We put it on
+    // an external backing store so that we can freeze the whole object.
+    // This can be replaced with a WeakMap once they are implemented in
+    // commonly used development environments.
+    element._store = {}; // To make comparing ReactElements easier for testing purposes, we make
+    // the validation flag non-enumerable (where possible, which should
+    // include every environment we run tests in), so the test framework
+    // ignores it.
+
+    Object.defineProperty(element._store, 'validated', {
+      configurable: false,
+      enumerable: false,
+      writable: true,
+      value: false
+    }); // self and source are DEV only properties.
+
+    Object.defineProperty(element, '_self', {
+      configurable: false,
+      enumerable: false,
+      writable: false,
+      value: self
+    }); // Two elements created in two different places should be considered
+    // equal for testing purposes and therefore we hide it from enumeration.
+
+    Object.defineProperty(element, '_source', {
+      configurable: false,
+      enumerable: false,
+      writable: false,
+      value: source
+    });
+
+    if (Object.freeze) {
+      Object.freeze(element.props);
+      Object.freeze(element);
+    }
+  }
+
+  return element;
+};
+/**
+ * https://github.com/reactjs/rfcs/pull/107
+ * @param {*} type
+ * @param {object} props
+ * @param {string} key
+ */
+
+function jsxDEV(type, config, maybeKey, source, self) {
+  {
+    var propName; // Reserved names are extracted
+
+    var props = {};
+    var key = null;
+    var ref = null; // Currently, key can be spread in as a prop. This causes a potential
+    // issue if key is also explicitly declared (ie. <div {...props} key="Hi" />
+    // or <div key="Hi" {...props} /> ). We want to deprecate key spread,
+    // but as an intermediary step, we will use jsxDEV for everything except
+    // <div {...props} key="Hi" />, because we aren't currently able to tell if
+    // key is explicitly declared to be undefined or not.
+
+    if (maybeKey !== undefined) {
+      {
+        checkKeyStringCoercion(maybeKey);
+      }
+
+      key = '' + maybeKey;
+    }
+
+    if (hasValidKey(config)) {
+      {
+        checkKeyStringCoercion(config.key);
+      }
+
+      key = '' + config.key;
+    }
+
+    if (hasValidRef(config)) {
+      ref = config.ref;
+      warnIfStringRefCannotBeAutoConverted(config, self);
+    } // Remaining properties are added to a new props object
+
+
+    for (propName in config) {
+      if (hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
+        props[propName] = config[propName];
+      }
+    } // Resolve default props
+
+
+    if (type && type.defaultProps) {
+      var defaultProps = type.defaultProps;
+
+      for (propName in defaultProps) {
+        if (props[propName] === undefined) {
+          props[propName] = defaultProps[propName];
+        }
+      }
+    }
+
+    if (key || ref) {
+      var displayName = typeof type === 'function' ? type.displayName || type.name || 'Unknown' : type;
+
+      if (key) {
+        defineKeyPropWarningGetter(props, displayName);
+      }
+
+      if (ref) {
+        defineRefPropWarningGetter(props, displayName);
+      }
+    }
+
+    return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);
+  }
+}
+
+var ReactCurrentOwner$1 = ReactSharedInternals.ReactCurrentOwner;
+var ReactDebugCurrentFrame$1 = ReactSharedInternals.ReactDebugCurrentFrame;
+
+function setCurrentlyValidatingElement$1(element) {
+  {
+    if (element) {
+      var owner = element._owner;
+      var stack = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
+      ReactDebugCurrentFrame$1.setExtraStackFrame(stack);
+    } else {
+      ReactDebugCurrentFrame$1.setExtraStackFrame(null);
+    }
+  }
+}
+
+var propTypesMisspellWarningShown;
+
+{
+  propTypesMisspellWarningShown = false;
+}
+/**
+ * Verifies the object is a ReactElement.
+ * See https://reactjs.org/docs/react-api.html#isvalidelement
+ * @param {?object} object
+ * @return {boolean} True if `object` is a ReactElement.
+ * @final
+ */
+
+
+function isValidElement(object) {
+  {
+    return typeof object === 'object' && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
+  }
+}
+
+function getDeclarationErrorAddendum() {
+  {
+    if (ReactCurrentOwner$1.current) {
+      var name = getComponentNameFromType(ReactCurrentOwner$1.current.type);
+
+      if (name) {
+        return '\n\nCheck the render method of `' + name + '`.';
+      }
+    }
+
+    return '';
+  }
+}
+
+function getSourceInfoErrorAddendum(source) {
+  {
+    if (source !== undefined) {
+      var fileName = source.fileName.replace(/^.*[\\\/]/, '');
+      var lineNumber = source.lineNumber;
+      return '\n\nCheck your code at ' + fileName + ':' + lineNumber + '.';
+    }
+
+    return '';
+  }
+}
+/**
+ * Warn if there's no key explicitly set on dynamic arrays of children or
+ * object keys are not valid. This allows us to keep track of children between
+ * updates.
+ */
+
+
+var ownerHasKeyUseWarning = {};
+
+function getCurrentComponentErrorInfo(parentType) {
+  {
+    var info = getDeclarationErrorAddendum();
+
+    if (!info) {
+      var parentName = typeof parentType === 'string' ? parentType : parentType.displayName || parentType.name;
+
+      if (parentName) {
+        info = "\n\nCheck the top-level render call using <" + parentName + ">.";
+      }
+    }
+
+    return info;
+  }
+}
+/**
+ * Warn if the element doesn't have an explicit key assigned to it.
+ * This element is in an array. The array could grow and shrink or be
+ * reordered. All children that haven't already been validated are required to
+ * have a "key" property assigned to it. Error statuses are cached so a warning
+ * will only be shown once.
+ *
+ * @internal
+ * @param {ReactElement} element Element that requires a key.
+ * @param {*} parentType element's parent's type.
+ */
+
+
+function validateExplicitKey(element, parentType) {
+  {
+    if (!element._store || element._store.validated || element.key != null) {
+      return;
+    }
+
+    element._store.validated = true;
+    var currentComponentErrorInfo = getCurrentComponentErrorInfo(parentType);
+
+    if (ownerHasKeyUseWarning[currentComponentErrorInfo]) {
+      return;
+    }
+
+    ownerHasKeyUseWarning[currentComponentErrorInfo] = true; // Usually the current owner is the offender, but if it accepts children as a
+    // property, it may be the creator of the child that's responsible for
+    // assigning it a key.
+
+    var childOwner = '';
+
+    if (element && element._owner && element._owner !== ReactCurrentOwner$1.current) {
+      // Give the component that originally created this child.
+      childOwner = " It was passed a child from " + getComponentNameFromType(element._owner.type) + ".";
+    }
+
+    setCurrentlyValidatingElement$1(element);
+
+    error('Each child in a list should have a unique "key" prop.' + '%s%s See https://reactjs.org/link/warning-keys for more information.', currentComponentErrorInfo, childOwner);
+
+    setCurrentlyValidatingElement$1(null);
+  }
+}
+/**
+ * Ensure that every element either is passed in a static location, in an
+ * array with an explicit keys property defined, or in an object literal
+ * with valid key property.
+ *
+ * @internal
+ * @param {ReactNode} node Statically passed child of any type.
+ * @param {*} parentType node's parent's type.
+ */
+
+
+function validateChildKeys(node, parentType) {
+  {
+    if (typeof node !== 'object') {
+      return;
+    }
+
+    if (isArray(node)) {
+      for (var i = 0; i < node.length; i++) {
+        var child = node[i];
+
+        if (isValidElement(child)) {
+          validateExplicitKey(child, parentType);
+        }
+      }
+    } else if (isValidElement(node)) {
+      // This element was passed in a valid location.
+      if (node._store) {
+        node._store.validated = true;
+      }
+    } else if (node) {
+      var iteratorFn = getIteratorFn(node);
+
+      if (typeof iteratorFn === 'function') {
+        // Entry iterators used to provide implicit keys,
+        // but now we print a separate warning for them later.
+        if (iteratorFn !== node.entries) {
+          var iterator = iteratorFn.call(node);
+          var step;
+
+          while (!(step = iterator.next()).done) {
+            if (isValidElement(step.value)) {
+              validateExplicitKey(step.value, parentType);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/**
+ * Given an element, validate that its props follow the propTypes definition,
+ * provided by the type.
+ *
+ * @param {ReactElement} element
+ */
+
+
+function validatePropTypes(element) {
+  {
+    var type = element.type;
+
+    if (type === null || type === undefined || typeof type === 'string') {
+      return;
+    }
+
+    var propTypes;
+
+    if (typeof type === 'function') {
+      propTypes = type.propTypes;
+    } else if (typeof type === 'object' && (type.$$typeof === REACT_FORWARD_REF_TYPE || // Note: Memo only checks outer props here.
+    // Inner props are checked in the reconciler.
+    type.$$typeof === REACT_MEMO_TYPE)) {
+      propTypes = type.propTypes;
+    } else {
+      return;
+    }
+
+    if (propTypes) {
+      // Intentionally inside to avoid triggering lazy initializers:
+      var name = getComponentNameFromType(type);
+      checkPropTypes(propTypes, element.props, 'prop', name, element);
+    } else if (type.PropTypes !== undefined && !propTypesMisspellWarningShown) {
+      propTypesMisspellWarningShown = true; // Intentionally inside to avoid triggering lazy initializers:
+
+      var _name = getComponentNameFromType(type);
+
+      error('Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?', _name || 'Unknown');
+    }
+
+    if (typeof type.getDefaultProps === 'function' && !type.getDefaultProps.isReactClassApproved) {
+      error('getDefaultProps is only used on classic React.createClass ' + 'definitions. Use a static property named `defaultProps` instead.');
+    }
+  }
+}
+/**
+ * Given a fragment, validate that it can only be provided with fragment props
+ * @param {ReactElement} fragment
+ */
+
+
+function validateFragmentProps(fragment) {
+  {
+    var keys = Object.keys(fragment.props);
+
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+
+      if (key !== 'children' && key !== 'key') {
+        setCurrentlyValidatingElement$1(fragment);
+
+        error('Invalid prop `%s` supplied to `React.Fragment`. ' + 'React.Fragment can only have `key` and `children` props.', key);
+
+        setCurrentlyValidatingElement$1(null);
+        break;
+      }
+    }
+
+    if (fragment.ref !== null) {
+      setCurrentlyValidatingElement$1(fragment);
+
+      error('Invalid attribute `ref` supplied to `React.Fragment`.');
+
+      setCurrentlyValidatingElement$1(null);
+    }
+  }
+}
+
+function jsxWithValidation(type, props, key, isStaticChildren, source, self) {
+  {
+    var validType = isValidElementType(type); // We warn in this case but don't throw. We expect the element creation to
+    // succeed and there will likely be errors in render.
+
+    if (!validType) {
+      var info = '';
+
+      if (type === undefined || typeof type === 'object' && type !== null && Object.keys(type).length === 0) {
+        info += ' You likely forgot to export your component from the file ' + "it's defined in, or you might have mixed up default and named imports.";
+      }
+
+      var sourceInfo = getSourceInfoErrorAddendum(source);
+
+      if (sourceInfo) {
+        info += sourceInfo;
+      } else {
+        info += getDeclarationErrorAddendum();
+      }
+
+      var typeString;
+
+      if (type === null) {
+        typeString = 'null';
+      } else if (isArray(type)) {
+        typeString = 'array';
+      } else if (type !== undefined && type.$$typeof === REACT_ELEMENT_TYPE) {
+        typeString = "<" + (getComponentNameFromType(type.type) || 'Unknown') + " />";
+        info = ' Did you accidentally export a JSX literal instead of a component?';
+      } else {
+        typeString = typeof type;
+      }
+
+      error('React.jsx: type is invalid -- expected a string (for ' + 'built-in components) or a class/function (for composite ' + 'components) but got: %s.%s', typeString, info);
+    }
+
+    var element = jsxDEV(type, props, key, source, self); // The result can be nullish if a mock or a custom function is used.
+    // TODO: Drop this when these are no longer allowed as the type argument.
+
+    if (element == null) {
+      return element;
+    } // Skip key warning if the type isn't valid since our key validation logic
+    // doesn't expect a non-string/function type and can throw confusing errors.
+    // We don't want exception behavior to differ between dev and prod.
+    // (Rendering will throw with a helpful message and as soon as the type is
+    // fixed, the key warnings will appear.)
+
+
+    if (validType) {
+      var children = props.children;
+
+      if (children !== undefined) {
+        if (isStaticChildren) {
+          if (isArray(children)) {
+            for (var i = 0; i < children.length; i++) {
+              validateChildKeys(children[i], type);
+            }
+
+            if (Object.freeze) {
+              Object.freeze(children);
+            }
+          } else {
+            error('React.jsx: Static children should always be an array. ' + 'You are likely explicitly calling React.jsxs or React.jsxDEV. ' + 'Use the Babel transform instead.');
+          }
+        } else {
+          validateChildKeys(children, type);
+        }
+      }
+    }
+
+    if (type === REACT_FRAGMENT_TYPE) {
+      validateFragmentProps(element);
+    } else {
+      validatePropTypes(element);
+    }
+
+    return element;
+  }
+} // These two functions exist to still get child warnings in dev
+// even with the prod transform. This means that jsxDEV is purely
+// opt-in behavior for better messages but that we won't stop
+// giving you warnings if you use production apis.
+
+function jsxWithValidationStatic(type, props, key) {
+  {
+    return jsxWithValidation(type, props, key, true);
+  }
+}
+function jsxWithValidationDynamic(type, props, key) {
+  {
+    return jsxWithValidation(type, props, key, false);
+  }
+}
+
+var jsx =  jsxWithValidationDynamic ; // we may want to special case jsxs internally to take advantage of static children.
+// for now we can ship identical prod functions
+
+var jsxs =  jsxWithValidationStatic ;
+
+exports.Fragment = REACT_FRAGMENT_TYPE;
+exports.jsx = jsx;
+exports.jsxs = jsxs;
+  })();
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/react/jsx-runtime.js":
+/*!*******************************************!*\
+  !*** ./node_modules/react/jsx-runtime.js ***!
+  \*******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+if (false) {} else {
+  module.exports = __webpack_require__(/*! ./cjs/react-jsx-runtime.development.js */ "./node_modules/react/cjs/react-jsx-runtime.development.js");
+}
+
+
+/***/ }),
+
+/***/ "react":
+/*!************************!*\
+  !*** external "React" ***!
+  \************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["React"];
+
+/***/ }),
+
 /***/ "react-dom":
 /*!***************************!*\
   !*** external "ReactDOM" ***!
   \***************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 module.exports = window["ReactDOM"];
@@ -1927,10 +4316,21 @@ module.exports = window["ReactDOM"];
 /*!**********************************!*\
   !*** external ["wp","apiFetch"] ***!
   \**********************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 module.exports = window["wp"]["apiFetch"];
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["components"];
 
 /***/ }),
 
@@ -1938,10 +4338,21 @@ module.exports = window["wp"]["apiFetch"];
 /*!*********************************!*\
   !*** external ["wp","element"] ***!
   \*********************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 module.exports = window["wp"]["element"];
+
+/***/ }),
+
+/***/ "@wordpress/i18n":
+/*!******************************!*\
+  !*** external ["wp","i18n"] ***!
+  \******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["i18n"];
 
 /***/ })
 
@@ -1973,59 +4384,68 @@ module.exports = window["wp"]["element"];
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = function(module) {
+/******/ 		__webpack_require__.n = (module) => {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				function() { return module['default']; } :
-/******/ 				function() { return module; };
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
-!function() {
+(() => {
 "use strict";
 /*!*******************************!*\
   !*** ./src/frontend/index.js ***!
   \*******************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _productProperties__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./productProperties */ "./src/frontend/productProperties.js");
-/* harmony import */ var _markerEvents__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./markerEvents */ "./src/frontend/markerEvents.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _fetchRenderProducts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fetchRenderProducts */ "./src/frontend/fetchRenderProducts.js");
+/* harmony import */ var _markerEvents__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./markerEvents */ "./src/frontend/markerEvents.js");
+/* harmony import */ var _addMarkerPopover__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./addMarkerPopover */ "./src/frontend/addMarkerPopover.js");
+
+
+
 /**
  * Internal dependencies.
  */
+
 
 
 
@@ -2048,22 +4468,25 @@ document.addEventListener('DOMContentLoaded', () => {
   wooLookblockInstances.forEach(lookBlockInstance => {
     const productIds = JSON.parse(lookBlockInstance.dataset.productIds);
     const blockId = lookBlockInstance.dataset.blockId;
-    (0,_productProperties__WEBPACK_IMPORTED_MODULE_0__["default"])(productIds, blockId);
-
-    // Create popover container.
-    const popover = document.createElement('div');
-    popover.classList.add('woo-lookblock-popover');
-    popover.setAttribute('id', `popover-${blockId}`);
-    document.body.appendChild(popover);
+    (0,_fetchRenderProducts__WEBPACK_IMPORTED_MODULE_2__["default"])(productIds, blockId);
 
     // Get every marker item.
     const productMarkers = lookBlockInstance.querySelectorAll('.product-marker');
-    productMarkers.forEach(item => {
-      (0,_markerEvents__WEBPACK_IMPORTED_MODULE_1__["default"])(item, lookBlockInstance);
+    productMarkers.forEach(marker => {
+      (0,_markerEvents__WEBPACK_IMPORTED_MODULE_3__["default"])(marker, lookBlockInstance);
+      // Popover on each marker.
+      const eventsHolder = marker.getElementsByClassName('events-holder')[0];
+      const assocProdId = marker.dataset.productId;
+      if (assocProdId) {
+        (0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_addMarkerPopover__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          assocProdId: assocProdId
+        }), eventsHolder);
+      }
     });
   });
 });
-}();
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map

@@ -4,7 +4,9 @@
 import { __ } from '@wordpress/i18n';
 import { IconButton } from "@wordpress/components";
 
-const Marker = ({ marker, onClick, onDoubleClick, onMouseOver, onMouseOut, clientId, markers, setAttributes, context, unassignProduct, removeMarker }) => {
+import AddMarkerPopover from '../frontend/addMarkerPopover';
+
+const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut, clientId, markers, setAttributes, context, unassignProduct, removeMarker }) => {
 
 	const styles = {
 		left: `${marker.x}%`,
@@ -14,6 +16,8 @@ const Marker = ({ marker, onClick, onDoubleClick, onMouseOver, onMouseOut, clien
 
 	const markerLabelDefault = (context == 'edit') ? marker.name : null;
 	const markerLabel = marker.productTitle ? marker.productTitle : markerLabelDefault;
+
+	const popoverParent = document.getElementsByClassName('editor-styles-wrapper')[0];
 
 	return (
 		<div
@@ -25,11 +29,15 @@ const Marker = ({ marker, onClick, onDoubleClick, onMouseOver, onMouseOut, clien
 		>
 			<div
 				className="events-holder"
-				// onClick={() => onClick(marker)}
 				onDoubleClick={() => onDoubleClick(marker)}
 				onMouseOver={() => onMouseOver(event, marker, clientId)}
 				onMouseOut={() => onMouseOut(event, marker, clientId)}
-			/>
+			>
+				{(context === 'edit' && marker.productId) && (
+					<AddMarkerPopover assocProdId={marker.productId} parentElement={popoverParent} />
+				)}
+
+			</div>
 
 			<div className='inner' />
 
@@ -55,6 +63,7 @@ const Marker = ({ marker, onClick, onDoubleClick, onMouseOver, onMouseOut, clien
 					isSmall
 				/>
 			)}
+
 		</div>
 	);
 };

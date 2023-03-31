@@ -127,6 +127,7 @@
 }
 .wp-block-micemade-woo-lookblock .flex-block .product-grid .woo-lookblock-product.highlighted {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.65);
 }
 .wp-block-micemade-woo-lookblock .flex-block .product-grid .woo-lookblock-product .product-featured-image {
   display: flex;
@@ -154,6 +155,9 @@
 .wp-block-micemade-woo-lookblock .flex-block .product-grid .woo-lookblock-product .product-price {
   font-weight: 700;
 }
+.wp-block-micemade-woo-lookblock .flex-block .product-grid .woo-lookblock-product .wp-block-button__link {
+  display: inline-flex;
+}
 .wp-block-micemade-woo-lookblock .flex-block .product-grid.layout2 .woo-lookblock-product {
   width: 100%;
   flex-direction: row;
@@ -164,6 +168,39 @@
 .wp-block-micemade-woo-lookblock .flex-block .product-grid.layout2 .woo-lookblock-product .product-elements {
   display: flex;
   flex-direction: column;
+}
+
+#modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 50vw;
+  height: 70vh;
+  background: #fff;
+  z-index: 9999;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+}
+
+.react-tiny-popover-container {
+  z-index: 100;
+  background: #fff;
+  max-width: 30vw;
+  min-width: 20vw;
+  display: flex;
+}
+.react-tiny-popover-container > div {
+  padding: 1.5vw;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+}
+.react-tiny-popover-container > div > * {
+  -webkit-margin-after: 0.8vw;
+          margin-block-end: 0.8vw;
+}
+.react-tiny-popover-container img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
 }
 
 @keyframes animation-1 {

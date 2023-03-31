@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Woo Lookblock
- * Description:       Block plugin for creating WooCommerce lookbooks in the block editor.
+ * Description:       Creating WooCommerce lookbooks in the block editor.
  * Requires at least: 6.1
  * Requires PHP:      7.0
  * Version:           0.1.0

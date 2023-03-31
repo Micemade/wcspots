@@ -22,10 +22,10 @@ const ProductAddToCart = ({ productId }) => {
 
 	const { text, description, url } = product.add_to_cart;
 
-	const classNames = "wp-block-button__link wc-block-components-product-button__button add_to_cart_button ajax_add_to_cart"
+	const classNames = "wp-block-button__link wc-block-components-product-button__button add_to_cart_button ajax_add_to_cart";
 
 	// Product Add to cart HTML.
-	return <a className='button ajax_add_to_cart' href={url} title={description}>{text}</a>
+	return <a className={classNames} href={url} title={description}>{text}</a>
 
 };
 
