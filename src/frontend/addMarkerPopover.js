@@ -16,7 +16,7 @@ import ProductAddToCart from '../components/productAddToCart';
 
 const AddMarkerPopover = (props) => {
 
-	const { assocProdId, parentElement } = props;
+	const { assocProdId, parentElement, isEditing, popoverStyle } = props;
 
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 	const togglePopover = () => {
@@ -31,26 +31,50 @@ const AddMarkerPopover = (props) => {
 		zIndex: "5"
 	}
 
+	const contentStyle = {
+		padding: `${popoverStyle.padding.value}${popoverStyle.padding.unit}`
+	}
+
+	const elementsStyle = {
+		margin: `${popoverStyle.innerSpacing.value}${popoverStyle.innerSpacing.unit} 0`
+	}
+
+	/*
+	// 'parentElement' is undefined on front (edit.js useEffect solves it when in editor)
+	let _parentElement = parentElement;
+		if (typeof _parentElement === 'undefined') {
+			_parentElement = document.body;
+		}
+	 */
 	return (
 
 		<MarkerPopover
 			parentElement={parentElement}
 			isOpen={isPopoverOpen}
-			onClickOutside={() => setIsPopoverOpen(false)}
+			onClickOutside={() => setIsPopoverOpen(isEditing)}
 			// position={'bottom'} // preferred position
 			positions={['bottom', 'top', 'left', 'right']}
 			padding={30}
 			reposition={true}
 			align='center'
 			content={(
-				<div>
+				<div className='popover-content' style={contentStyle}>
+
 					<ProductImage productId={assocProdId} />
-					<ProductTitle productId={assocProdId} />
-					<ProductPrice productId={assocProdId} />
-					<ProductAddToCart productId={assocProdId} />
+
+					<div className='product-elements'>
+						<div className="product-title product-element" style={elementsStyle}>
+							<h4><ProductTitle productId={assocProdId} /></h4>
+						</div>
+						<div className="product-price product-element" style={elementsStyle}>
+							<ProductPrice productId={assocProdId} />
+						</div>
+						<div className="product-add-to-cart product-element" style={elementsStyle}>
+							<ProductAddToCart productId={assocProdId} />
+						</div>
+					</div>
 				</div>
 			)}
-			style={{ zIndex: '100' }}
 		>
 			<div style={popoverTogglerClass} onClick={togglePopover} />
 		</MarkerPopover>

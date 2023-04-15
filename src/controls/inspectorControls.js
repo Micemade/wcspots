@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { useEntityRecords } from '@wordpress/core-data';
 import {
-	FormTokenField,
+	// FormTokenField,
 	RangeControl,
 	CardDivider,
 	PanelBody,
@@ -13,9 +13,10 @@ import {
 	IconButton,
 	SelectControl,
 	ToggleControl,
-	TabPanel,
+	TabPanel
 } from '@wordpress/components';
 import { InspectorControls, MediaUpload, PanelColorSettings } from '@wordpress/block-editor';
+
 
 /**
  * External dependencies (React components).
@@ -49,20 +50,24 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		mediaID,
 		mediaURL,
 		imageOption,
+		isStackedOnMobile,
 		flexLayout,
 		flexGap,
 		imageWidth,
 		valign,
 		productsLayout,
+		productsAlign,
 		columns,
 		productsGap,
 		productPadding,
 		productSpacing,
 		titleSize,
 		priceSize,
+		addToCartSize,
 		titleColor,
 		priceColor,
 		markers,
+		popoverStyle
 	} = attributes;
 
 
@@ -155,62 +160,91 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 
 	// Flex gap size (custom 'UnitRangeControl' control )
-	const handleFlexGapChange = (newSizeValue) => {
-		setAttributes({ flexGap: { value: newSizeValue, unit: flexGap.unit } });
+	const handleFlexGapChange = (newValue) => {
+		setAttributes({ flexGap: { value: newValue, unit: flexGap.unit } });
 	};
 	// Product padding size (custom 'UnitRangeControl' control )
-	const handleproductPadding = (newSizeValue) => {
-		setAttributes({ productPadding: { value: newSizeValue, unit: productPadding.unit } });
+	const handleproductPadding = (newValue) => {
+		setAttributes({ productPadding: { value: newValue, unit: productPadding.unit } });
 	};
 	// Product spacing size (custom 'UnitRangeControl' control )
-	const handleproductSpacing = (newSizeValue) => {
-		setAttributes({ productSpacing: { value: newSizeValue, unit: productSpacing.unit } });
+	const handleproductSpacing = (newValue) => {
+		setAttributes({ productSpacing: { value: newValue, unit: productSpacing.unit } });
 	};
 	// Products gap (custom 'UnitRangeControl' control )
-	const handleProductsGap = (newSizeValue) => {
-		setAttributes({ productsGap: { value: newSizeValue, unit: productsGap.unit } });
+	const handleProductsGap = (newValue) => {
+		setAttributes({ productsGap: { value: newValue, unit: productsGap.unit } });
 	};
 	// Product title size (custom 'UnitRangeControl' control )
-	const handletitleSizeChange = (newSizeValue) => {
-		setAttributes({ titleSize: { value: newSizeValue, unit: titleSize.unit } });
+	const handletitleSizeChange = (newValue) => {
+		setAttributes({ titleSize: { value: newValue, unit: titleSize.unit } });
 	};
 	// Product price size (custom 'UnitRangeControl' control )
-	const handlePriceSizeChange = (newSizeValue) => {
-		setAttributes({ priceSize: { value: newSizeValue, unit: priceSize.unit } });
+	const handlePriceSizeChange = (newValue) => {
+		setAttributes({ priceSize: { value: newValue, unit: priceSize.unit } });
 	};
 
-	const layouts = [
-		{
-			value: 'layout1',
-			label: 'Layout 1',
-			image: require('./icons/Layout_1.png')
-		},
-		{
-			value: 'layout2',
-			label: 'Layout 2',
-			image: require('./icons/Layout_2.png')
-		},
-	];
+	// Popover settings.
+	// Padding (custom 'UnitRangeControl' control )
+	const handlePopoverPadding = (newValue) => {
+		setAttributes({
+			popoverStyle: {
+				...popoverStyle,
+				padding: { value: newValue, unit: popoverStyle.padding.unit },
+			}
+		});
+	};
+	// Spacing for title, price, AddToCart ... (custom 'UnitRangeControl' control )
+	const handlePopoverInnerSpacing = (newValue) => {
+		setAttributes({
+			popoverStyle: {
+				...popoverStyle,
+				innerSpacing: { value: newValue, unit: popoverStyle.innerSpacing.unit }
+			}
+		});
+	};
 
-	const productsLayoutChange = (newSelectedOption) => {
-		setAttributes({ productsLayout: newSelectedOption });
+	// Product layouts.
+	const productsLayoutChange = (selectedLayout) => {
+		setAttributes({ productsLayout: selectedLayout });
+	};
+	const productsAlignChange = (selectedAlign) => {
+		setAttributes({ productsAlign: selectedAlign });
 	};
 
 
-	const productSettingsTabs = [
+
+	const productLayoutTabs = [
 		{
 			name: 'layout',
-			title: 'Layout',
+			title: 'Layout type',
 			content: (
 				<div>
-
 					<ImageRadioSelectControl
-						label={__('Layout type', 'woo-lookblock')}
+						label={__('Product layout type', 'woo-lookblock')}
 						help={__('Pick a grid type for displaying selected products', 'woo-lookblock')}
-						options={layouts}
+						options={[
+							{ value: 'layout1', label: 'Layout 1', image: require('./icons/Layout_1.png') },
+							{ value: 'layout2', label: 'Layout 2', image: require('./icons/Layout_2.png') },
+						]}
 						value={productsLayout}
 						onChange={productsLayoutChange}
+						height='28px'
 					/>
+					<ImageRadioSelectControl
+						label={__('Product align', 'woo-lookblock')}
+						help={__('How to align the products', 'woo-lookblock')}
+						options={[
+							{ value: 'flex-start', label: 'Flex start', icon: 'align-left' },
+							{ value: 'center', label: 'Center', icon: 'align-center' },
+							{ value: 'flex-end', label: 'Flex end', icon: 'align-right' },
+						]}
+						value={productsAlign}
+						onChange={productsAlignChange}
+						height='28px'
+					/>
+
+					<CardDivider />
 
 					<RangeControl
 						label={__('Columns', 'woo-lookblock')}
@@ -221,6 +255,15 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						min={1}
 						max={4}
 					/>
+
+				</div>
+			),
+		},
+		{
+			name: 'layoutSpacing',
+			title: 'Spacing',
+			content: (
+				<div>
 					<UnitRangeControl
 						label={__('Products gap', 'woo-lookblock')}
 						value={productsGap}
@@ -255,11 +298,13 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						customUnitOptions={null}
 					/>
 				</div>
-			),
-		},
+			)
+		}
+	];
+	const productStyleTabs = [
 		{
-			name: 'fontSizes',
-			title: 'Font sizes',
+			name: 'productSizes',
+			title: 'Sizes',
 			content: (
 				<div>
 					<CardDivider size="xSmall" />
@@ -296,6 +341,16 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 								{ label: 'rem', value: 'rem' },
 							]
 						}
+					/>
+					<RangeControl
+						label={__('Add to Cart size', 'woo-lookblock')}
+						value={addToCartSize}
+						onChange={(value) =>
+							setAttributes({ addToCartSize: value })
+						}
+						min={0.5}
+						max={2}
+						step={0.05}
 					/>
 
 				</div>
@@ -339,6 +394,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 	return (
 		<InspectorControls>
 			<PanelBody
+				icon={'store'}
 				title={__('Select products', 'woo-lookblock')}
 				initialOpen={true}
 			>
@@ -370,6 +426,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			</PanelBody>
 
 			<PanelBody
+				icon={'format-image'}
 				title={__('Lookbook image', 'woo-lookblock')}
 				initialOpen={false}
 			>
@@ -395,14 +452,14 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 							>
 								{!mediaID
 									? __('Add Image', 'woo-lookblock')
-									: __('Change Image', 'woo-lookblock')}
+									: __('Replace Image', 'woo-lookblock')}
 							</Button>
 						)}
 					/>
 					{mediaID && (
 						<PanelRow>
 							<IconButton
-								icon="trash"
+								icon="no-alt"
 								onClick={onRemoveImage}
 								label={__('Remove image', 'woo-lookblock')}
 							/>
@@ -428,8 +485,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						value={imageOption}
 						options={[
 							{ label: 'No background image', value: 'backimage-none' },
-							{ label: 'Also as background', value: 'backimage-same' },
-							{ label: 'Only as background', value: 'backimage-only' },
+							{ label: 'Also as a background', value: 'backimage-same' },
 							{ label: 'Custom background image', value: 'backimage-custom' },
 						]}
 						onChange={(value) => setAttributes({ imageOption: value })}
@@ -438,17 +494,28 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			</PanelBody>
 
 			<PanelBody
+				icon={'layout'}
 				title={__('Lookbook layout', 'woo-lookblock')}
 				initialOpen={false}
 			>
+
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={__('Stack on mobile', 'woo-lookblock')}
+					checked={isStackedOnMobile}
+					onChange={() =>
+						setAttributes({ isStackedOnMobile: !isStackedOnMobile })
+					}
+				/>
+
 				<SelectControl
 					//label={__('Layout', 'woo-lookblock')}
 					value={flexLayout}
 					options={[
-						{ label: 'Products left', value: 'row' },
-						{ label: 'Image left', value: 'row-reverse' },
-						{ label: 'Products on top', value: 'column' },
-						{ label: 'Image on top', value: 'column-reverse', },
+						{ label: 'Row - products first', value: 'row' },
+						{ label: 'Row - image first', value: 'row-reverse' },
+						{ label: 'Column - products first', value: 'column' },
+						{ label: 'Column - image first', value: 'column-reverse', },
 						{ label: 'Image only', value: 'image-only', },
 					]}
 					onChange={(value) =>
@@ -489,10 +556,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			</PanelBody>
 
 			<PanelBody
-				title={__('Products settings', 'woo-lookblock')}
+				icon={'products'}
+				title={__('Product layout', 'woo-lookblock')}
 				initialOpen={false}
 			>
-				<TabPanel className="product-settings" tabs={productSettingsTabs}>
+				<TabPanel className="product-settings" tabs={productLayoutTabs}>
 					{(tab) => (
 						<div>
 							{tab.content}
@@ -502,48 +570,94 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 			</PanelBody>
 
-			{mediaID && markers && (
-				<PanelBody
-					title={__('Product markers', 'woo-lookblock')}
-					initialOpen={true}
-				>
-					{markers.map((marker, markerIndex) => (
-						<div
-							key={markerIndex}
-							style={{
-								display: 'flex',
-								flexDirection: 'row',
-								justifyContent: 'space-between',
-								alignItems: 'baseline',
-							}}
-						>
-							<ToggleControl
-								label={
-									marker.productTitle
-										? marker.productTitle
-										: marker.name
-								}
-								checked={marker.active}
-								onChange={() => markerToggle(markerIndex)}
-							/>
-							<IconButton
-								icon="trash"
-								onClick={() => markerRemove(markerIndex)}
-								label={__('Remove marker', 'woo-lookblock')}
-							/>
+			<PanelBody
+				icon={'store'}
+				title={__('Product styles', 'woo-lookblock')}
+				initialOpen={false}
+			>
+				<TabPanel className="product-settings" tabs={productStyleTabs}>
+					{(tab) => (
+						<div>
+							{tab.content}
 						</div>
-					))}
-					{markers.length > 0 && (
-						<Button
-							isSecondary
-							isSmall
-							onClick={() => setAttributes({ markers: [] })}
-						>
-							{__('Remove All Markers', 'woo-lookblock')}
-						</Button>
 					)}
-					{markers.length == 0 && (<p>{__('Click on lookbook image to add markers', 'woo-lookblock')}</p>)}
-				</PanelBody>
+				</TabPanel>
+			</PanelBody>
+
+			{mediaID && markers && (
+				<>
+					<PanelBody
+						icon={'flag'}
+						title={__('Product markers', 'woo-lookblock')}
+						initialOpen={true}
+					>
+
+						{markers.map((marker, markerIndex) => (
+							<div
+								key={markerIndex}
+								style={{
+									display: 'flex',
+									flexDirection: 'row',
+									justifyContent: 'space-between',
+									alignItems: 'baseline',
+								}}
+							>
+								<ToggleControl
+									label={
+										marker.productTitle
+											? marker.productTitle
+											: marker.name
+									}
+									checked={marker.active}
+									onChange={() => markerToggle(markerIndex)}
+								/>
+								<IconButton
+									icon="trash"
+									onClick={() => markerRemove(markerIndex)}
+									label={__('Remove marker', 'woo-lookblock')}
+								/>
+							</div>
+						))}
+						{markers.length > 0 && (
+							<Button
+								isSecondary
+								isSmall
+								onClick={() => setAttributes({ markers: [] })}
+							>
+								{__('Remove All Markers', 'woo-lookblock')}
+							</Button>
+						)}
+						{markers.length == 0 && (<p>{__('Click on lookbook image to add markers', 'woo-lookblock')}</p>)}
+					</PanelBody>
+
+					<PanelBody title={__('Popover settings', 'woo-lookblock')}>
+
+						<UnitRangeControl
+							label={__('Padding', 'woo-lookblock')}
+							value={popoverStyle.padding}
+							onValueChange={handlePopoverPadding}
+							onUnitChange={(newUnit) =>
+								setAttributes({
+									popoverStyle: {
+										padding: { value: popoverStyle.padding.value, unit: newUnit }
+									}
+								})
+							}
+						/>
+						<UnitRangeControl
+							label={__('Elements spacing', 'woo-lookblock')}
+							value={popoverStyle.innerSpacing}
+							onValueChange={handlePopoverInnerSpacing}
+							onUnitChange={(newUnit) =>
+								setAttributes({
+									popoverStyle: {
+										innerSpacing: { value: popoverStyle.innerSpacing.value, unit: newUnit }
+									}
+								})
+							}
+						/>
+					</PanelBody>
+				</>
 			)}
 
 		</InspectorControls>

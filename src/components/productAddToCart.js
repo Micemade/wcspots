@@ -6,11 +6,11 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies.
  */
-import useProduct from './useProduct';
+import getProduct from '../functions/getProduct';
 
 
 const ProductAddToCart = ({ productId }) => {
-	const { product, loading } = useProduct(productId);
+	const { product, loading } = getProduct(productId);
 
 	if (loading) {
 		return <small>{__('Loading...', 'woo-lookblock')}</small>;

@@ -5,7 +5,7 @@
 import { useState, useEffect } from 'react';
 import apiFetch from '@wordpress/api-fetch';
 
-const useProduct = (productId) => {
+const getProduct = (productId) => {
 	const [product, setProduct] = useState(null);
 	const [loading, setLoading] = useState(true);
 
@@ -28,4 +28,4 @@ const useProduct = (productId) => {
 	return { product, loading };
 };
 
-export default useProduct;
+export default getProduct;

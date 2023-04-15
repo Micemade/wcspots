@@ -17,6 +17,11 @@
           margin-block-end: 10px;
 }
 
+.components-base-control.image-radio-select-control-label {
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+
 .woo-lookblock-products-layout {
   height: auto;
   border-radius: 5px !important;

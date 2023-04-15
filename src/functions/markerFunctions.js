@@ -150,3 +150,21 @@ export const removeMarker = (markers, setAttributes, markerId) => {
 
 	setAttributes({ markers: updatedMarkers });
 };
+
+/**
+ * Clear all markers when removeing/replacing lookbook image.
+ *
+ * @param {object} markers 
+ * @param {number} mediaID 
+ * @param {Function} setAttributes 
+ * @returns boolean.
+ */
+export const clearMarkersOnImageChange = (markers, mediaID, setAttributes) => {
+	if (markers.length > 0 && mediaID) {
+		if (!confirm("All existing markers will be removed - are you sure?")) {
+			return false;
+		};
+	}
+	setAttributes({ markers: [] });
+	return true;
+}

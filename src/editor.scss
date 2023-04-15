@@ -18,7 +18,12 @@
 	}
 }
 
-// Buttons in custom component ImageRadioSelectControl
+// Custom component ImageRadioSelectControl
+.components-base-control.image-radio-select-control-label {
+	margin-bottom: 5px;
+	margin-top: 10px;
+}
+// Buttons with images in ImageRadioSelectControl
 .woo-lookblock-products-layout {
 	height: auto;
 	border-radius: 5px !important;

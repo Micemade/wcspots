@@ -25,26 +25,35 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Get every Woo LookBlock instance.
 	const wooLookblockInstances = document.querySelectorAll('.wp-block-micemade-woo-lookblock');
 
-	wooLookblockInstances.forEach((lookBlockInstance) => {
+	wooLookblockInstances.forEach((blockInstance) => {
 
-		const productIds = JSON.parse(lookBlockInstance.dataset.productIds);
-		const blockId = lookBlockInstance.dataset.blockId;
-		fetchRenderProducts(productIds, blockId);
+		// Block datasets.
+		const productIds = JSON.parse(blockInstance.dataset.productIds);
+		const blockId = blockInstance.dataset.blockId;
+		const popoverStyle = blockInstance.dataset.popoverStyle;
+
+		// Look for products container to render products (for the only image with markers case) .
+		const productsContainer = blockInstance.getElementsByClassName('products-grid-container');
+		if (productsContainer.length > 0) {
+			fetchRenderProducts(productIds, blockId);
+		}
 
 		// Get every marker item.
-		const productMarkers = lookBlockInstance.querySelectorAll('.product-marker');
+		const productMarkers = blockInstance.querySelectorAll('.product-marker');
 		productMarkers.forEach((marker) => {
 
-			AddMarkerEvents(marker, lookBlockInstance);
+			const assocProdId = marker.dataset.productId;
+
 			// Popover on each marker.
 			const eventsHolder = marker.getElementsByClassName('events-holder')[0];
-			const assocProdId = marker.dataset.productId;
 			if (assocProdId) {
-				render(<AddMarkerPopover assocProdId={assocProdId} />, eventsHolder);
+				render(<AddMarkerPopover assocProdId={assocProdId} popoverStyle={JSON.parse(popoverStyle)} />, eventsHolder);
 			}
+
+			// Marker highlighting product on hover.
+			AddMarkerEvents(marker, blockInstance);
 
 		});
 	});
 
 });
-

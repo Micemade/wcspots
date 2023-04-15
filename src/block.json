@@ -49,6 +49,10 @@
 			"type":"string",
 			"default": "layout1"
 		},
+		"productsAlign": {
+			"type":"string",
+			"default": "flex-start"
+		},
 		"columns": {
 			"type": "number",
 			"default": 3
@@ -77,6 +81,10 @@
 			"type":"object",
 			"default": {"value":0.8, "unit": "em"}
 		},
+		"addToCartSize":{
+			"type": "number",
+			"default": 1
+		},
 		"titleColor": {
 			"type": "string",
 			"default": ""
@@ -92,6 +100,10 @@
 		"valign": {
 			"type": "string",
 			"default": "flex-start"
+		},
+		"isStackedOnMobile":{
+			"type":"boolean",
+			"default": true
 		},
 		"flexLayout": {
 			"type": "string",
@@ -116,6 +128,13 @@
 		"imageOption": {
 			"type": "string",
 			"default": "backimage-none"
+		},
+		"popoverStyle":{
+			"type":"object",
+			"default": {
+				"padding": {"value":1, "unit": "em"},
+				"innerSpacing": {"value":1, "unit": "em"}
+			}
 		},
 		"style": {
 			"type": "object",

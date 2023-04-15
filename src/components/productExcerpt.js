@@ -9,11 +9,11 @@ import DOMPurify from 'dompurify';
 /**
  * Internal dependecies.
  */
-import useProduct from './useProduct';
+import getProduct from '../functions/getProduct';
 
 
 const ProductExcerpt = ({ productId }) => {
-	const { product, loading } = useProduct(productId);
+	const { product, loading } = getProduct(productId);
 	const sanitizer = DOMPurify.sanitize;
 
 	if (loading) {

@@ -1,8 +1,8 @@
 import { __ } from '@wordpress/i18n';
-import useProduct from './useProduct';
+import getProduct from '../functions/getProduct';
 
 const ProductTitle = ({ productId }) => {
-	const { product, loading } = useProduct(productId);
+	const { product, loading } = getProduct(productId);
 
 	if (loading) {
 		return <small>{__('Loading product title...', 'woo-lookblock')}</small>;

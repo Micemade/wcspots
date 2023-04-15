@@ -3,10 +3,14 @@
  */
 import { __ } from '@wordpress/i18n';
 import { IconButton } from "@wordpress/components";
+import { useEffect, useState } from '@wordpress/element';
 
+/**
+ * Internal dependencies.
+ */
 import AddMarkerPopover from '../frontend/addMarkerPopover';
 
-const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut, clientId, markers, setAttributes, context, unassignProduct, removeMarker }) => {
+const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut, clientId, markers, setAttributes, context, unassignProduct, removeMarker, popoverStyle, popoverParent }) => {
 
 	const styles = {
 		left: `${marker.x}%`,
@@ -14,16 +18,14 @@ const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut, clientId, mark
 		visibility: !marker.active ? 'hidden' : 'visible',
 	};
 
-	const markerLabelDefault = (context == 'edit') ? marker.name : null;
-	const markerLabel = marker.productTitle ? marker.productTitle : markerLabelDefault;
-
-	const popoverParent = document.getElementsByClassName('editor-styles-wrapper')[0];
+	const markerTitleDefault = (context == 'edit') ? marker.name : null;
+	const markerTitle = marker.productTitle ? marker.productTitle : markerTitleDefault;
 
 	return (
 		<div
 			style={styles}
 			className="product-marker"
-			data-product-title={markerLabel}
+			data-product-title={markerTitle}
 			data-product-id={marker.productId ? marker.productId : ''}
 			data-client-id={clientId}
 		>
@@ -34,7 +36,7 @@ const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut, clientId, mark
 				onMouseOut={() => onMouseOut(event, marker, clientId)}
 			>
 				{(context === 'edit' && marker.productId) && (
-					<AddMarkerPopover assocProdId={marker.productId} parentElement={popoverParent} />
+					<AddMarkerPopover assocProdId={marker.productId} parentElement={popoverParent} popoverStyle={popoverStyle} isEditing />
 				)}
 
 			</div>
@@ -42,7 +44,7 @@ const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut, clientId, mark
 			<div className='inner' />
 
 			<div className="marker-product-title">
-				{markerLabel}
+				{markerTitle}
 				{(context == 'edit' && marker.productId) && (
 					<IconButton
 						className="unassign"

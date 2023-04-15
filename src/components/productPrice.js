@@ -1,10 +1,10 @@
 import { __ } from '@wordpress/i18n';
-import useProduct from './useProduct';
+import getProduct from '../functions/getProduct';
 import DOMPurify from 'dompurify';
 
 
 const ProductPrice = ({ productId }) => {
-	const { product, loading } = useProduct(productId);
+	const { product, loading } = getProduct(productId);
 	const sanitizer = DOMPurify.sanitize;
 
 	if (loading) {
