@@ -2,10 +2,13 @@
  * WordPress dependenices.
  */
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, BlockControls, MediaPlaceholder, MediaUpload } from '@wordpress/block-editor';
+import { useBlockProps, BlockControls, MediaPlaceholder, MediaUpload, RichText } from '@wordpress/block-editor';
 import { SelectControl, Modal, Button, ToolbarGroup, ToolbarButton, DropdownMenu } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 
+/**
+ * External dependecies.
+ */
 import classNames from 'classnames';
 
 /**
@@ -17,7 +20,7 @@ import InspectorControlsComponent from './controls/inspectorControls';
 import Marker from './components/marker';
 
 // Functions.
-import { addNewMarker, modalProductToMarker, onProductSelect, onMarkerOver, onMarkerOut, markerClick, unassignProduct, removeMarker, clearMarkersOnImageChange } from './functions/markerFunctions';
+import { addNewMarker, modalProductToMarker, onProductSelect, onMarkerOver, onMarkerOut, unassignProduct, removeMarker, clearMarkersOnImageChange } from './functions/markerFunctions';
 
 /**
  * The edit function.
@@ -30,16 +33,18 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 
 	const {
 		id,
-		products,
-		productList,
+		title,
 		productsData,
+		media,
+		srcSetAtt,
+		sizesAtt,
 		mediaURL,
 		mediaID,
 		imageOption,
 		isStackedOnMobile,
 		flexLayout,
 		flexGap,
-		imageWidth,
+		flexItemsRatio,
 		valign,
 		productsLayout,
 		productsAlign,
@@ -47,19 +52,23 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		productsGap,
 		productSpacing,
 		productPadding,
+		elementsToggle,
 		titleSize,
 		priceSize,
+		excerptSize,
 		addToCartSize,
+		productBackColor,
 		titleColor,
 		priceColor,
+		excerptColor,
 		markers,
 		selectedMarker,
 		selectedProduct,
 		editModal,
-		popoverStyle
+		popoverSettings
 	} = attributes;
 
-
+	const productSettings = { productsLayout, productsAlign, columns, elementsToggle, productsGap, productSpacing, productPadding, titleSize, priceSize, excerptSize, addToCartSize, productBackColor, titleColor, priceColor, excerptColor }
 
 	// Set Popover (React Tiny Popover) parent element in Editor.
 	const [popoverParent, setPopoverParent] = useState();
@@ -73,7 +82,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 
 
 
-	// Set unique block ID using 'clientId'. Useful when duplicating block.
+	// Set unique block ID using 'clientId' (For duplicating block).
 	useEffect(() => {
 		if (0 === id.length || id !== clientId) {
 			setAttributes({ id: clientId });
@@ -87,7 +96,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 	const blockProps = useBlockProps({
 		'data-block-id': clientId,
 		'data-product-ids': JSON.stringify(productIds),
-		'data-popover-style': JSON.stringify(popoverStyle)
+		'data-popover-settings': JSON.stringify(popoverSettings)
 	});
 
 	// Modal products select options, on marker double click.
@@ -99,7 +108,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 	const productOptions = productOptionsStart.concat(productOptionsPrepare);
 
 
-	// Block Flex container and product grid styles.
+	// STYLES AND CLASSES for block Flex container and product grid.
 	const flexAlignItems = (dir) => {
 		// If flexLayout is 'column' or 'column-reverse' set align fixed.
 		return dir.substring(0, 6) == 'column' ? 'center' : valign; // or dir.startsWith() ?
@@ -115,18 +124,19 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 	);
 	// Flex items.
 	const productsContainerStyle = {
-		width: (flexLayout.substring(0, 6) == 'column') ? `${imageWidth}%` : `${100 - imageWidth}%`
+		width: (flexLayout.substring(0, 6) == 'column') ? `${flexItemsRatio}%` : `${100 - flexItemsRatio}%`
 	}
 	const flexItemClasses = classNames({
 		['is-stacked-on-mobile ']: isStackedOnMobile
 	})
+
 
 	// Image controls in Block toolbar.
 	const onSelectImage = (media) => {
 		if (!clearMarkersOnImageChange(markers, mediaID, setAttributes)) {
 			return;
 		} else {
-			setAttributes({ mediaURL: media.url, mediaID: media.id });
+			setAttributes({ mediaURL: media.url, mediaID: media.id, media: media });
 		}
 	};
 	const onRemoveImage = () => {
@@ -177,6 +187,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		</ToolbarGroup>
 	);
 
+
 	return (
 		<>
 
@@ -195,6 +206,13 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 					(<div className='cover-image' style={{ backgroundImage: `url(${mediaURL})` }}></div>)
 				}
 
+				<RichText
+					tagName="h2"
+					value={title}
+					onChange={(value) => setAttributes({ title: value })}
+					placeholder={__('Add Lookblock title…', 'woo-lookblock')}
+				/>
+
 				<div className={`${flexContainerClasses} flex-container`} style={flexContainerStyles}>
 
 					{flexLayout !== 'image-only' && (
@@ -209,16 +227,18 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 								productsAlign={productsAlign}
 								productPadding={productPadding}
 								productSpacing={productSpacing}
+								elementsToggle={elementsToggle}
 								titleSize={titleSize}
 								priceSize={priceSize}
 								addToCartSize={addToCartSize}
-								fontColors={{ titleColor, priceColor }}
+								productBackColor={productBackColor}
+								fontColors={{ titleColor, priceColor, excerptColor }}
 							/>
 
 						</div>
 					)}
 
-					<div className={`${flexItemClasses}flex-block image-container`} style={{ width: `${imageWidth}%` }}>
+					<div className={`${flexItemClasses}flex-block image-container`} style={{ width: `${flexItemsRatio}%` }}>
 						{!mediaURL && (
 							<MediaPlaceholder
 								icon="format-image"
@@ -235,6 +255,8 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 							<img
 								className="lookbook-image"
 								src={mediaURL}
+								srcSet={srcSetAtt}
+								sizes={sizesAtt}
 								alt={__('Lookbook image', 'woo-lookblock')}
 								onClick={() => addNewMarker(event, markers, setAttributes)}
 							/>
@@ -254,7 +276,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 									removeMarker={removeMarker}
 									markers={markers}
 									setAttributes={setAttributes}
-									popoverStyle={popoverStyle}
+									popoverSettings={popoverSettings}
 									popoverParent={popoverParent}
 									context="edit"
 								/>

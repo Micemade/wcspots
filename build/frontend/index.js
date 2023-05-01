@@ -17,6 +17,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _functions_getProduct__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../functions/getProduct */ "./src/functions/getProduct.js");
+/* harmony import */ var _functions_addToCartPost__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions/addToCartPost */ "./src/functions/addToCartPost.js");
 
 /**
  * WordPress dependencies.
@@ -26,6 +27,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Internal dependencies.
  */
+
 
 const ProductAddToCart = _ref => {
   let {
@@ -49,11 +51,18 @@ const ProductAddToCart = _ref => {
   const classNames = "wp-block-button__link wc-block-components-product-button__button add_to_cart_button ajax_add_to_cart";
 
   // Product Add to cart HTML.
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     className: classNames,
-    href: url,
-    title: description
-  }, text);
+    href: product?.type !== 'simple' && url,
+    title: description,
+    onClick: () => {
+      {
+        product?.type === 'simple' && (0,_functions_addToCartPost__WEBPACK_IMPORTED_MODULE_3__["default"])(event, productId);
+      }
+    }
+  }, text), product?.type === 'simple' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", {
+    className: "view-cart"
+  }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductAddToCart);
 
@@ -229,9 +238,11 @@ __webpack_require__.r(__webpack_exports__);
  * WordPress dependencies.
  */
 
+
 /**
  * External dependencies.
  */
+
 
 /**
  * Internal dependencies
@@ -245,12 +256,14 @@ const AddMarkerPopover = props => {
     assocProdId,
     parentElement,
     isEditing,
-    popoverStyle
+    popoverSettings
   } = props;
   const [isPopoverOpen, setIsPopoverOpen] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const togglePopover = () => {
     setIsPopoverOpen(state => !state);
   };
+
+  // Popover classes and styles.
   const popoverTogglerClass = {
     width: "100%",
     height: "100%",
@@ -259,12 +272,22 @@ const AddMarkerPopover = props => {
     zIndex: "5"
   };
   const contentStyle = {
-    padding: `${popoverStyle.padding.value}${popoverStyle.padding.unit}`
+    padding: `${popoverSettings.padding.value}${popoverSettings.padding.unit}`,
+    ...(popoverSettings.productBackColor && {
+      backgroundColor: popoverSettings.productBackColor
+    })
+  };
+  const singleElementStyle = {
+    margin: `${popoverSettings.innerSpacing.value}${popoverSettings.innerSpacing.unit} 0`
   };
   const elementsStyle = {
-    margin: `${popoverStyle.innerSpacing.value}${popoverStyle.innerSpacing.unit} 0`
+    padding: `${popoverSettings.innerPadding.value}${popoverSettings.innerPadding.unit}`
   };
-
+  const titleStyle = {
+    ...(popoverSettings.titleColor && {
+      color: popoverSettings.titleColor
+    })
+  };
   /*
   // 'parentElement' is undefined on front (edit.js useEffect solves it when in editor)
   let _parentElement = parentElement;
@@ -288,24 +311,28 @@ const AddMarkerPopover = props => {
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_productImage__WEBPACK_IMPORTED_MODULE_3__["default"], {
       productId: assocProdId
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "product-elements"
+      className: "product-elements",
+      style: elementsStyle
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "product-title product-element",
-      style: elementsStyle
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_productTitle__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      style: singleElementStyle
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
+      style: titleStyle
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_productTitle__WEBPACK_IMPORTED_MODULE_2__["default"], {
       productId: assocProdId
     }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "product-price product-element",
-      style: elementsStyle
+      style: singleElementStyle
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_productPrice__WEBPACK_IMPORTED_MODULE_4__["default"], {
       productId: assocProdId
     })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "product-add-to-cart product-element",
-      style: elementsStyle
+      style: singleElementStyle
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_productAddToCart__WEBPACK_IMPORTED_MODULE_5__["default"], {
       productId: assocProdId
     }))))
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "popover-toggler",
     style: popoverTogglerClass,
     onClick: togglePopover
   }));
@@ -328,29 +355,50 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "react-dom");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! dompurify */ "./node_modules/dompurify/dist/purify.js");
-/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(dompurify__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! dompurify */ "./node_modules/dompurify/dist/purify.js");
+/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(dompurify__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _functions_addToCartPost__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../functions/addToCartPost */ "./src/functions/addToCartPost.js");
+/* harmony import */ var _components_productAddToCart__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/productAddToCart */ "./src/components/productAddToCart.js");
+
+
+/**
+ * WordPress dependencies.
+ */
 
 
 
+/**
+ * if DOMPurify doesn't sanitize:
+ * import { createInterpolateElement } from '@wordpress/element'; // 
+ * https://make.wordpress.org/core/2020/07/17/introducing-createinterpolateelement/
+ */
 
+/**
+ * React and external dependencies.
+ */
+
+
+
+/**
+ * Internal dependencies.
+ */
 
 
 const fetchRenderProducts = (productIds, blockId) => {
   // Block instance by 'data-block-id' att.
   const thisBlock = document.querySelector(`[data-block-id="${blockId}"]`);
-  const SanitizeHTML = (dompurify__WEBPACK_IMPORTED_MODULE_4___default().sanitize);
+  const SanitizeHTML = (dompurify__WEBPACK_IMPORTED_MODULE_5___default().sanitize);
 
   // Prepare product ID's for query arg (array to string).
   const _productIds = productIds.map(item => item.toString()).join(",");
   _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default()({
-    path: `/wc/store/v1/products/?include=${_productIds}&_fields=id,name,short_description,price_html,images,permalink,add_to_cart`
+    path: `/wc/store/v1/products/?include=${_productIds}&_fields=id,name,short_description,price_html,images,permalink,add_to_cart, type`
   }).then(products => {
     products.forEach(product => {
       // Fetched product properties.
@@ -360,50 +408,73 @@ const fetchRenderProducts = (productIds, blockId) => {
       const description = product.short_description ? product.short_description : null;
       const priceHtml = product.price_html ? product.price_html : null;
       const addToCart = product.add_to_cart ? product.add_to_cart : null;
+      const type = product.type ? product.type : null;
 
       // Product images.
       const hasImages = product.images && product.images.length > 0;
       const imgSrcSet = hasImages ? product.images[0].srcset : null;
       const imgSrc = hasImages ? product.images[0].src : null;
-      const fallBack = typeof wc === 'object' ? wc?.wcSettings?.PLACEHOLDER_IMG_SRC : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('Product has no featured image', 'woo-lookblock');
+      const fallBack = typeof wc === 'object' ? wc?.wcSettings?.PLACEHOLDER_IMG_SRC : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Product has no featured image', 'woo-lookblock');
       const imageToRender = imgSrcSet || imgSrc ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("img", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, imgSrcSet ? {
         srcSet: imgSrcSet
       } : {}, {
         src: imgSrc,
-        alt: name
+        alt: name,
+        sizes: "(max-width: 599px) 100vw, calc(100vw / 3)"
       })) : fallBack;
 
       /**
        * Render elements.
        */
+      const imageContainer = thisBlock.querySelector(`[data-product-image="${productId}"]`);
+      const titleContainer = thisBlock.querySelector(`[data-product-title="${productId}"]`);
+      const priceContainer = thisBlock.querySelector(`[data-product-price="${productId}"]`);
+      const excerptContainer = thisBlock.querySelector(`[data-product-excerpt="${productId}"]`);
+      const addToCartContainer = thisBlock.querySelector(`[data-product-addtocart="${productId}"]`);
+
       // Product image.
-      (0,react_dom__WEBPACK_IMPORTED_MODULE_2__.render)(imageToRender, thisBlock.querySelector(`[data-product-image="${productId}"]`));
+      {
+        imageContainer && (0,react_dom__WEBPACK_IMPORTED_MODULE_4__.render)(imageToRender, imageContainer);
+      }
       // Product title.
-      (0,react_dom__WEBPACK_IMPORTED_MODULE_2__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("a", {
-        href: permalink,
-        title: name
-      }, name), thisBlock.querySelector(`[data-product-title="${productId}"]`));
-
-      // Price HTML sanitized.
-      (0,react_dom__WEBPACK_IMPORTED_MODULE_2__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-        dangerouslySetInnerHTML: {
-          __html: SanitizeHTML(priceHtml)
-        }
-      }), thisBlock.querySelector(`[data-product-price="${productId}"]`));
-      // Excerpt HTML sanitized.
-      (0,react_dom__WEBPACK_IMPORTED_MODULE_2__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-        dangerouslySetInnerHTML: {
-          __html: SanitizeHTML(description)
-        }
-      }), thisBlock.querySelector(`[data-product-excerpt="${productId}"]`));
-
+      {
+        titleContainer && (0,react_dom__WEBPACK_IMPORTED_MODULE_4__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("a", {
+          href: permalink,
+          title: name
+        }, name), titleContainer);
+      }
+      // Price (HTML sanitized).
+      {
+        priceContainer && (0,react_dom__WEBPACK_IMPORTED_MODULE_4__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+          dangerouslySetInnerHTML: {
+            __html: SanitizeHTML(priceHtml)
+          }
+        }), priceContainer);
+      }
+      // Excerpt (HTML sanitized).
+      {
+        excerptContainer && (0,react_dom__WEBPACK_IMPORTED_MODULE_4__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+          dangerouslySetInnerHTML: {
+            __html: SanitizeHTML(description)
+          }
+        }), excerptContainer);
+      }
       // Add to cart button.
       const addToCartClasses = "wp-block-button__link wc-block-components-product-button__button add_to_cart_button ajax_add_to_cart";
-      (0,react_dom__WEBPACK_IMPORTED_MODULE_2__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("a", {
-        className: addToCartClasses,
-        href: addToCart.url,
-        title: addToCart.description
-      }, addToCart.text), thisBlock.querySelector(`[data-product-addtocart="${productId}"]`));
+      {
+        addToCartContainer && (0,react_dom__WEBPACK_IMPORTED_MODULE_4__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("a", {
+          className: addToCartClasses,
+          href: type !== 'simple' && addToCart?.url,
+          title: addToCart?.description,
+          onClick: () => {
+            {
+              type === 'simple' && (0,_functions_addToCartPost__WEBPACK_IMPORTED_MODULE_6__["default"])(event, productId);
+            }
+          }
+        }, addToCart?.text), type === 'simple' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("small", {
+          className: "view-cart"
+        })), addToCartContainer);
+      }
     });
   }).catch(error => {
     console.error(error);
@@ -453,6 +524,102 @@ const AddMarkerEvents = (marker, lookBlockInstance) => {
 
 /***/ }),
 
+/***/ "./src/functions/addToCartPost.js":
+/*!****************************************!*\
+  !*** ./src/functions/addToCartPost.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_3__);
+
+/**
+ * WordPress dependencies.
+ */
+
+
+
+/**
+ * React dependencies.
+ */
+
+
+/**
+ * API Fetch POST method to add product to cart.
+ * Nonce header is required for cart/add-item endpoint.
+ * Nonce created with wp_create_nonce( 'wc_store_api' ) php, added to 'wooLookblockVars'
+ * object with wp_localize_script.
+ *
+ * @param {number} productId 
+ */
+const addToCartPost = (event, productId) => {
+  event.preventDefault();
+  (0,react_dom__WEBPACK_IMPORTED_MODULE_3__.render)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Adding...', 'woo-lookblock'), event.target);
+  _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
+    path: '/wc/store/v1/cart/add-item',
+    method: 'POST',
+    data: {
+      id: productId,
+      quantity: 1
+    },
+    headers: {
+      'Nonce': window.wooLookblockVars.nonce
+    }
+  }).then(response => {
+    (0,react_dom__WEBPACK_IMPORTED_MODULE_3__.render)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Product added', 'woo-lookblock'), event.target);
+    (0,react_dom__WEBPACK_IMPORTED_MODULE_3__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+      href: window.wooLookblockVars.cartUrl
+    }, "View Cart"), event.target.nextElementSibling);
+    return response;
+  }).catch(error => {
+    console.log(error);
+    throw error;
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (addToCartPost);
+/* 
+// AJAX VERSION (for non-block mini cart)
+const addToCartPost = (productId) => {
+	jQuery.ajax({
+		url: '/?wc-ajax=add_to_cart',
+		method: 'POST',
+		data: {
+			product_id: productId,
+			quantity: 1
+		},
+		success: function (response) {
+			console.log(response);
+			// Update the Mini Cart block or the cart template, depending on the page
+			if (jQuery('.widget_shopping_cart_content').length) {
+				// Update the Mini Cart widget contents
+				jQuery('.widget_shopping_cart_content').html(response.fragments['div.widget_shopping_cart_content']);
+			} else {
+				// Update the cart template contents
+				jQuery('.cart').html(response.fragments['div.cart']);
+			}
+		},
+		error: function (error) {
+			console.log(error);
+		}
+	});
+};
+
+export default addToCartPost;
+ */
+
+/***/ }),
+
 /***/ "./src/functions/getProduct.js":
 /*!*************************************!*\
   !*** ./src/functions/getProduct.js ***!
@@ -481,7 +648,7 @@ const getProduct = productId => {
     async function fetchProduct() {
       try {
         const product = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
-          path: `/wc/store/v1/products/${productId}?_fields=id,name,short_description,price_html,images,permalink,add_to_cart`
+          path: `/wc/store/v1/products/${productId}?_fields=id,name,short_description,price_html,images,permalink,add_to_cart,type`
         });
         setProduct(product);
         setLoading(false);
@@ -4548,7 +4715,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Block datasets.
     const productIds = JSON.parse(blockInstance.dataset.productIds);
     const blockId = blockInstance.dataset.blockId;
-    const popoverStyle = blockInstance.dataset.popoverStyle;
+    const popoverSettings = blockInstance.dataset.popoverSettings;
 
     // Look for products container to render products (for the only image with markers case) .
     const productsContainer = blockInstance.getElementsByClassName('products-grid-container');
@@ -4566,7 +4733,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (assocProdId) {
         (0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_addMarkerPopover__WEBPACK_IMPORTED_MODULE_4__["default"], {
           assocProdId: assocProdId,
-          popoverStyle: JSON.parse(popoverStyle)
+          popoverSettings: JSON.parse(popoverSettings)
         }), eventsHolder);
       }
 

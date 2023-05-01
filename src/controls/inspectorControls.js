@@ -17,6 +17,11 @@ import {
 } from '@wordpress/components';
 import { InspectorControls, MediaUpload, PanelColorSettings } from '@wordpress/block-editor';
 
+/////////////////////////////////////
+import { useState, useEffect } from 'react';
+import { get } from 'lodash';
+/////////////////////////////////////
+
 
 /**
  * External dependencies (React components).
@@ -32,6 +37,7 @@ import makeAnimated from 'react-select/animated';
  */
 import UnitRangeControl from './UnitRangeControl';
 import ImageRadioSelectControl from './ImageRadioSelectControl';
+import PopoverControls from './popoverControls';
 
 /**
  * InspectorControlsComponent function.
@@ -45,15 +51,17 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 	});
 
 	const {
-		productList,
 		productsData,
+		media,
+		srcSetAtt,
+		sizesAtt,
 		mediaID,
 		mediaURL,
 		imageOption,
 		isStackedOnMobile,
 		flexLayout,
 		flexGap,
-		imageWidth,
+		flexItemsRatio,
 		valign,
 		productsLayout,
 		productsAlign,
@@ -61,19 +69,47 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		productsGap,
 		productPadding,
 		productSpacing,
+		elementsToggle,
 		titleSize,
 		priceSize,
 		addToCartSize,
+		productBackColor,
 		titleColor,
 		priceColor,
+		excerptColor,
 		markers,
-		popoverStyle
+		popoverSettings
 	} = attributes;
+
+	// Create 'srcset' and 'sizes' img attributes for lookbook image. Discard 'thumbnail' size.
+	useEffect(() => {
+		if (media && media.sizes) {
+			const mediaSizes = media.sizes;
+			// Filter out the 'thumbnail' media.sizes object property.
+			const sizesNoThumb = Object.keys(mediaSizes)
+				.filter(key => key !== 'thumbnail')
+				.reduce((obj, key) => {
+					obj[key] = mediaSizes[key];
+					return obj;
+				}, {});
+
+			// Create 'srcset' attribute for lookbook image. Usage of 'lodash' method 'get'.
+			const createdSrcSet = Object.keys(sizesNoThumb)
+				.map(size => `${get(sizesNoThumb, [size, 'url'], '')} ${get(sizesNoThumb, [size, 'width'], '')}w`)
+				.join(', ');
+			// Create 'sizes' img attribite for lookbook image. Usage of 'lodash' method 'get'.
+			const sizes = Object.keys(sizesNoThumb)
+				.map(size => `(max-width: ${get(sizesNoThumb, [size, 'width'], '')}px) ${get(sizesNoThumb, [size, 'width'], '')}px`).join(', ')
+
+			setAttributes({ srcSetAtt: createdSrcSet, sizesAtt: sizes })
+
+		}
+	}, [media]);
 
 
 	/**
 	 * FormTokenList functions
-	 
+	// 'productList' must be set in attributes(!).
 	const displayList = getProducts?.records
 		?.filter((item) => productList?.includes(item.id))
 		.map((item) => item.title.rendered);
@@ -82,6 +118,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 	const suggestions = getProducts?.records?.map((stream) => {
 		return stream.title.rendered;
 	});
+
 	// FormTokenField Adding / removing products.
 	const onChangeProductList = (newList) => {
 		const newProductIds = getProducts?.records
@@ -90,15 +127,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		const newProducts = getProducts?.records?.filter((item) =>
 			newList.includes(item.title.rendered)
 		);
-		const productsData = getProducts?.records
-			?.filter((item) => newList.includes(item.title.rendered))
-			.map((item) => {
-				return {
-					value: item.id,
-					label: item.title.raw,
-				}
-			});
-		setAttributes({ productList: newProductIds, products: newProducts, productsData: productsData });
+		setAttributes({ productList: newProductIds, products: newProducts});
 	};
 	*/
 
@@ -109,10 +138,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 	// IMAGE CONTROLS.
 	const onSelectImage = (media) => {
+		console.log(media.sizes);
 		if (!clearMarkersOnImageChange()) {
 			return;
 		} else {
-			setAttributes({ mediaURL: media.url, mediaID: media.id });
+			setAttributes({ mediaURL: media.url, mediaID: media.id, media: media });
 		}
 	};
 	const onRemoveImage = () => {
@@ -184,40 +214,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		setAttributes({ priceSize: { value: newValue, unit: priceSize.unit } });
 	};
 
-	// Popover settings.
-	// Padding (custom 'UnitRangeControl' control )
-	const handlePopoverPadding = (newValue) => {
-		setAttributes({
-			popoverStyle: {
-				...popoverStyle,
-				padding: { value: newValue, unit: popoverStyle.padding.unit },
-			}
-		});
-	};
-	// Spacing for title, price, AddToCart ... (custom 'UnitRangeControl' control )
-	const handlePopoverInnerSpacing = (newValue) => {
-		setAttributes({
-			popoverStyle: {
-				...popoverStyle,
-				innerSpacing: { value: newValue, unit: popoverStyle.innerSpacing.unit }
-			}
-		});
-	};
-
-	// Product layouts.
-	const productsLayoutChange = (selectedLayout) => {
-		setAttributes({ productsLayout: selectedLayout });
-	};
-	const productsAlignChange = (selectedAlign) => {
-		setAttributes({ productsAlign: selectedAlign });
-	};
-
-
-
+	// Product layout tabs.
 	const productLayoutTabs = [
 		{
-			name: 'layout',
-			title: 'Layout type',
+			name: 'productsLayout',
+			title: 'Layout',
 			content: (
 				<div>
 					<ImageRadioSelectControl
@@ -226,9 +227,12 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						options={[
 							{ value: 'layout1', label: 'Layout 1', image: require('./icons/Layout_1.png') },
 							{ value: 'layout2', label: 'Layout 2', image: require('./icons/Layout_2.png') },
+							{ value: 'layout3', label: 'Layout 3', image: require('./icons/Layout_3.png') },
 						]}
 						value={productsLayout}
-						onChange={productsLayoutChange}
+						onChange={(selectedLayout) => {
+							setAttributes({ productsLayout: selectedLayout });
+						}}
 						height='28px'
 					/>
 					<ImageRadioSelectControl
@@ -240,7 +244,9 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 							{ value: 'flex-end', label: 'Flex end', icon: 'align-right' },
 						]}
 						value={productsAlign}
-						onChange={productsAlignChange}
+						onChange={(selectedAlign) => {
+							setAttributes({ productsAlign: selectedAlign });
+						}}
 						height='28px'
 					/>
 
@@ -260,10 +266,76 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			),
 		},
 		{
-			name: 'layoutSpacing',
+			name: 'toggleElements',
+			title: 'Toggle elements',
+			content: (
+				<div>
+					<CardDivider />
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Show title', 'woo-lookblock')}
+						checked={elementsToggle.title}
+						onChange={() =>
+							setAttributes({
+								elementsToggle: {
+									...elementsToggle,
+									title: !elementsToggle.title
+								}
+							})
+						}
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Show price', 'woo-lookblock')}
+						checked={elementsToggle.price}
+						onChange={() =>
+							setAttributes({
+								elementsToggle: {
+									...elementsToggle,
+									price: !elementsToggle.price
+								}
+							})
+						}
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Show excerpt', 'woo-lookblock')}
+						checked={elementsToggle.excerpt}
+						onChange={() =>
+							setAttributes({
+								elementsToggle: {
+									...elementsToggle,
+									excerpt: !elementsToggle.excerpt
+								}
+							})
+						}
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Show Add to Cart', 'woo-lookblock')}
+						checked={elementsToggle.addToCart}
+						onChange={() =>
+							setAttributes({
+								elementsToggle: {
+									...elementsToggle,
+									addToCart: !elementsToggle.addToCart
+								}
+							})
+						}
+					/>
+				</div>
+			)
+		}
+	];
+
+	// Tabs for Product style section.
+	const productStyleTabs = [
+		{
+			name: 'productsSpacing',
 			title: 'Spacing',
 			content: (
 				<div>
+					<CardDivider />
 					<UnitRangeControl
 						label={__('Products gap', 'woo-lookblock')}
 						value={productsGap}
@@ -273,10 +345,9 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 								productsGap: { value: productsGap.value, unit: newUnit },
 							})
 						}
-						customUnitOptions={null}
 					/>
 					<UnitRangeControl
-						label={__('Elements spacing', 'woo-lookblock')}
+						label={__('Product elements spacing', 'woo-lookblock')}
 						value={productSpacing}
 						onValueChange={handleproductSpacing}
 						onUnitChange={(newUnit) =>
@@ -284,10 +355,9 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 								productSpacing: { value: productSpacing.value, unit: newUnit },
 							})
 						}
-						customUnitOptions={null}
 					/>
 					<UnitRangeControl
-						label={__('Product padding', 'woo-lookblock')}
+						label={__('Product elements padding', 'woo-lookblock')}
 						value={productPadding}
 						onValueChange={handleproductPadding}
 						onUnitChange={(newUnit) =>
@@ -295,13 +365,10 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 								productPadding: { value: productPadding.value, unit: newUnit },
 							})
 						}
-						customUnitOptions={null}
 					/>
 				</div>
 			)
-		}
-	];
-	const productStyleTabs = [
+		},
 		{
 			name: 'productSizes',
 			title: 'Sizes',
@@ -309,7 +376,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 				<div>
 					<CardDivider size="xSmall" />
 					<UnitRangeControl
-						label={__('Product title size', 'woo-lookblock')}
+						label={__('Title font size', 'woo-lookblock')}
 						value={titleSize}
 						onValueChange={handletitleSizeChange}
 						onUnitChange={(newUnit) =>
@@ -326,7 +393,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						}
 					/>
 					<UnitRangeControl
-						label={__('Price size', 'woo-lookblock')}
+						label={__('Price font size', 'woo-lookblock')}
 						value={priceSize}
 						onValueChange={handlePriceSizeChange}
 						onUnitChange={(newUnit) =>
@@ -362,23 +429,34 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			content: (
 
 				<PanelColorSettings
-					initialOpen={false}
+					initialOpen={true}
+					enableAlpha
 					colorSettings={[
+						{
+							value: productBackColor,
+							onChange: (newValue) => setAttributes({ productBackColor: newValue }),
+							label: __('Background Color', 'woo-lookblock'),
+						},
 						{
 							value: titleColor,
 							onChange: (newValue) => setAttributes({ titleColor: newValue }),
-							label: __('Title Color', 'woo-lookblock'),
+							label: __('Title color', 'woo-lookblock'),
 						},
 						{
 							value: priceColor,
 							onChange: (newValue) => setAttributes({ priceColor: newValue }),
-							label: __('Price Color', 'woo-lookblock'),
+							label: __('Price color', 'woo-lookblock'),
+						},
+						{
+							value: excerptColor,
+							onChange: (newValue) => setAttributes({ excerptColor: newValue }),
+							label: __('Short description color', 'woo-lookblock'),
 						}
 					]}
 				/>
 
 			)
-		}
+		},
 	];
 
 	// For React Select component.
@@ -391,12 +469,13 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		});
 	const animatedComponents = makeAnimated();
 
+	// Return Inspector controls.
 	return (
 		<InspectorControls>
 			<PanelBody
 				icon={'store'}
 				title={__('Select products', 'woo-lookblock')}
-				initialOpen={true}
+				initialOpen={false}
 			>
 				{/* 
 				<FormTokenField
@@ -530,16 +609,17 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						{ label: 'Top', value: 'flex-start' },
 						{ label: 'Center', value: 'center' },
 						{ label: 'Bottom', value: 'flex-end' },
+						{ label: 'Stretch', value: 'stretch' },
 					]}
 					onChange={(value) => setAttributes({ valign: value })}
 				/>
 				<RangeControl
-					label={__('Image width (%)', 'woo-lookblock')}
-					value={imageWidth}
+					label={__('Image / products ratio (%)', 'woo-lookblock')}
+					value={flexItemsRatio}
 					min={0}
 					max={100}
 					onChange={(value) =>
-						setAttributes({ imageWidth: value })
+						setAttributes({ flexItemsRatio: value })
 					}
 				/>
 				<UnitRangeControl
@@ -589,7 +669,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 					<PanelBody
 						icon={'flag'}
 						title={__('Product markers', 'woo-lookblock')}
-						initialOpen={true}
+						initialOpen={false}
 					>
 
 						{markers.map((marker, markerIndex) => (
@@ -632,30 +712,10 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 					<PanelBody title={__('Popover settings', 'woo-lookblock')}>
 
-						<UnitRangeControl
-							label={__('Padding', 'woo-lookblock')}
-							value={popoverStyle.padding}
-							onValueChange={handlePopoverPadding}
-							onUnitChange={(newUnit) =>
-								setAttributes({
-									popoverStyle: {
-										padding: { value: popoverStyle.padding.value, unit: newUnit }
-									}
-								})
-							}
-						/>
-						<UnitRangeControl
-							label={__('Elements spacing', 'woo-lookblock')}
-							value={popoverStyle.innerSpacing}
-							onValueChange={handlePopoverInnerSpacing}
-							onUnitChange={(newUnit) =>
-								setAttributes({
-									popoverStyle: {
-										innerSpacing: { value: popoverStyle.innerSpacing.value, unit: newUnit }
-									}
-								})
-							}
-						/>
+						{/* PopoverControls(popoverSettings, setAttributes) */}
+						<PopoverControls popoverSettings={popoverSettings} setAttributes={setAttributes} />
+
+
 					</PanelBody>
 				</>
 			)}

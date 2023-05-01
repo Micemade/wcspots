@@ -1,12 +1,13 @@
-import { PanelRow, RangeControl, SelectControl } from '@wordpress/components';
+import { PanelRow, RangeControl, SelectControl, BaseControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 
-function UnitRangeControl({ label, value, onValueChange, onUnitChange, customUnitOptions, ...props }) {
+function UnitRangeControl({ label, help, value, onValueChange, onUnitChange, customUnitOptions, maxPx, maxPerc, maxVw, maxVh, maxEm, maxRem, ...props }) {
 
 	const defaultUnitOptions = [
 		{ label: 'px', value: 'px' },
 		{ label: '%', value: '%' },
 		{ label: 'vw', value: 'vw' },
+		{ label: 'vh', value: 'vh' },
 		{ label: 'em', value: 'em' },
 		{ label: 'rem', value: 'rem' },
 	];
@@ -35,23 +36,27 @@ function UnitRangeControl({ label, value, onValueChange, onUnitChange, customUni
 		let max, step;
 		switch (unit) {
 			case 'px':
-				max = 100;
+				max = maxPx ? maxPx : 100;
 				step = 1;
 				break;
 			case '%':
-				max = 100;
+				max = maxPerc ? maxPerc : 100;
 				step = 1;
 				break;
 			case 'vw':
-				max = 10;
+				max = maxVw ? maxVw : 10;
+				step = 0.1;
+				break;
+			case 'vh':
+				max = maxVh ? maxVh : 10;
 				step = 0.1;
 				break;
 			case 'em':
-				max = 10;
+				max = maxEm ? maxEm : 10;
 				step = 0.1;
 				break;
 			case 'rem':
-				max = 10;
+				max = maxRem ? maxRem : 10;
 				step = 0.1;
 				break;
 			default:
@@ -66,16 +71,18 @@ function UnitRangeControl({ label, value, onValueChange, onUnitChange, customUni
 
 	return (
 		<>
+			<BaseControl label={label} help={help} className='unit-range-control-label woo-lookblock-label' />
+
 			<PanelRow className='editor-range-unit-combo'>
 				<RangeControl
-					label={label}
+					// label={label}
 					value={value.value}
 					onChange={handleValueChange}
 					{...rangeConfigForSelectedUnit}
 					{...props}
 				/>
 				<SelectControl
-					label="Unit"
+					// label="Unit"
 					value={value.unit}
 					options={unitOptions}
 					onChange={handleUnitChange}

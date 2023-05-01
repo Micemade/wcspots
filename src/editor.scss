@@ -7,7 +7,7 @@
 }
 
 
-// Custom InspectorControl component.
+// Custom component 'UnitRangeControl'.
 .editor-range-unit-combo {
 	
 	align-items: flex-start;
@@ -18,12 +18,12 @@
 	}
 }
 
-// Custom component ImageRadioSelectControl
+// Custom component 'ImageRadioSelectControl'
 .components-base-control.image-radio-select-control-label {
 	margin-bottom: 5px;
 	margin-top: 10px;
 }
-// Buttons with images in ImageRadioSelectControl
+// Buttons with images in 'ImageRadioSelectControl'
 .woo-lookblock-products-layout {
 	height: auto;
 	border-radius: 5px !important;
@@ -32,6 +32,10 @@
 	&:first-child {
 		margin-left: 0;
 	}
+}
+
+.block-editor-block-inspector .woo-lookblock-label {
+	margin-bottom: 12px;
 }
 
 // Marker edit buttons.

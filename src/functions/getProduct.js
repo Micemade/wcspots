@@ -13,7 +13,7 @@ const getProduct = (productId) => {
 		async function fetchProduct() {
 			try {
 				const product = await apiFetch({
-					path: `/wc/store/v1/products/${productId}?_fields=id,name,short_description,price_html,images,permalink,add_to_cart`,
+					path: `/wc/store/v1/products/${productId}?_fields=id,name,short_description,price_html,images,permalink,add_to_cart,type`,
 				});
 				setProduct(product);
 				setLoading(false);

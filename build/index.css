@@ -31,6 +31,10 @@
   margin-left: 0;
 }
 
+.block-editor-block-inspector .woo-lookblock-label {
+  margin-bottom: 12px;
+}
+
 .marker-product-title .unassign {
   visibility: hidden;
   opacity: 0;

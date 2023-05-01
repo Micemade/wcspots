@@ -10,7 +10,7 @@ import { useEffect, useState } from '@wordpress/element';
  */
 import AddMarkerPopover from '../frontend/addMarkerPopover';
 
-const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut, clientId, markers, setAttributes, context, unassignProduct, removeMarker, popoverStyle, popoverParent }) => {
+const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut, clientId, markers, setAttributes, context, unassignProduct, removeMarker, popoverSettings, popoverParent }) => {
 
 	const styles = {
 		left: `${marker.x}%`,
@@ -36,7 +36,7 @@ const Marker = ({ marker, onDoubleClick, onMouseOver, onMouseOut, clientId, mark
 				onMouseOut={() => onMouseOut(event, marker, clientId)}
 			>
 				{(context === 'edit' && marker.productId) && (
-					<AddMarkerPopover assocProdId={marker.productId} parentElement={popoverParent} popoverStyle={popoverStyle} isEditing />
+					<AddMarkerPopover assocProdId={marker.productId} parentElement={popoverParent} popoverSettings={popoverSettings} isEditing />
 				)}
 
 			</div>

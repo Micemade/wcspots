@@ -10,7 +10,7 @@
 	"supports": {
 		"html": false,
 		"color": {},
-		"align": [ "wide", "full", "left", "right" ],
+		"align": [ "wide", "full"],
 		"spacing": {
 			"margin": true,
 			"padding": true
@@ -25,17 +25,35 @@
 			"type":"string",
 			"default": ""
 		},
-		"products": {
-			"type": "array",
-			"default": []
+		"title":{
+			"type": "string",
+			"default": ""
+		},
+		"titleSettings":{
+			"type":"object",
+			"default": {
+				"active": true,
+				"tagName": "h2",
+				"align": "center",
+				"spacing": { "value": 1, "unit": "em"},
+				"color": ""
+			}
 		},
 		"productsData": {
 			"type": "array",
 			"default": []
 		},
-		"productList": {
-			"type": "array",
-			"default": []
+		"media":{
+			"type": "object",
+			"default": {}
+		},
+		"srcSetAtt":{
+			"type":"string",
+			"default": ""
+		},
+		"sizesAtt":{
+			"type":"string",
+			"default": ""
 		},
 		"mediaID": {
 			"type": "number",
@@ -45,6 +63,32 @@
 			"type": "string",
 			"default": null
 		},
+		"imageOption": {
+			"type": "string",
+			"default": "backimage-none"
+		},
+
+		"isStackedOnMobile":{
+			"type":"boolean",
+			"default": true
+		},
+		"flexLayout": {
+			"type": "string",
+			"default": "row"
+		},
+		"valign": {
+			"type": "string",
+			"default": "flex-start"
+		},
+		"flexItemsRatio": {
+			"type": "number",
+			"default": 50
+		},
+		"flexGap": {
+			"type": "object",
+			"default": {"value":1, "unit": "vw"}
+		},
+
 		"productsLayout": {
 			"type":"string",
 			"default": "layout1"
@@ -57,22 +101,29 @@
 			"type": "number",
 			"default": 3
 		},
-		"flexGap": {
+		"elementsToggle":{
 			"type": "object",
-			"default": {"value":1, "unit": "vw"}
-		},		
+			"default": {
+				"title": true,
+				"price": true,
+				"excerpt": true,
+				"addToCart": true
+			}
+		},
+		
 		"productsGap": {
 			"type": "object",
 			"default": {"value":1, "unit": "vw"}
-		},
-		"productPadding": {
-			"type": "object",
-			"default": {"value":0.7, "unit": "vw"}
 		},
 		"productSpacing":{
 			"type":"object",
 			"default": {"value":0.7, "unit": "vw"}
 		},
+		"productPadding": {
+			"type": "object",
+			"default": {"value":0.7, "unit": "vw"}
+		},
+		
 		"titleSize":{
 			"type":"object",
 			"default": {"value":1, "unit": "em"}
@@ -81,9 +132,18 @@
 			"type":"object",
 			"default": {"value":0.8, "unit": "em"}
 		},
+		"excerptSize":{
+			"type":"object",
+			"default": {"value":0.8, "unit": "em"}
+		},
 		"addToCartSize":{
 			"type": "number",
 			"default": 1
+		},
+
+		"productBackColor": {
+			"type": "string",
+			"default": ""
 		},
 		"titleColor": {
 			"type": "string",
@@ -93,22 +153,37 @@
 			"type": "string",
 			"default": ""
 		},
-		"imageWidth": {
-			"type": "number",
-			"default": 50
-		},
-		"valign": {
+		"excerptColor": {
 			"type": "string",
-			"default": "flex-start"
+			"default": ""
 		},
-		"isStackedOnMobile":{
-			"type":"boolean",
-			"default": true
+
+		"productStyles":{
+			"type":"object",
+			"default": {
+				"productsLayout": "layout1",
+				"productsAlign": "flex-start",
+				"columns": 3,
+				"productsHeight": {"value": 18, "unit": "em"},
+				"elementsToggle": {
+					"title": true,
+					"price": true,
+					"excerpt": true,
+					"addToCart": true
+				},
+				"productsGap": {"value":1, "unit": "vw"},
+				"productSpacing": {"value":0.7, "unit": "vw"},
+				"productPadding": {"value":0.7, "unit": "vw"},
+				"titleSize": {"value":1, "unit": "em"},
+				"priceSize": {"value":0.8, "unit": "em"},
+				"addToCartSize": 1,
+				"productBackColor": "",
+				"titleColor": "",
+				"priceColor": "",
+				"excerptColor": ""
+			}
 		},
-		"flexLayout": {
-			"type": "string",
-			"default": "row"
-		},
+		
 		"markers": {
 			"type": "array",
 			"default": []
@@ -125,17 +200,19 @@
 			"type": "boolean",
 			"default": false
 		},
-		"imageOption": {
-			"type": "string",
-			"default": "backimage-none"
-		},
-		"popoverStyle":{
+
+		"popoverSettings":{
 			"type":"object",
 			"default": {
 				"padding": {"value":1, "unit": "em"},
-				"innerSpacing": {"value":1, "unit": "em"}
+				"innerSpacing": {"value":1, "unit": "em"},
+				"innerPadding": {"value":0, "unit": "em"},
+				"productBackColor": "",
+				"titleColor": "",
+				"priceColor": ""
 			}
 		},
+
 		"style": {
 			"type": "object",
 			"default": {

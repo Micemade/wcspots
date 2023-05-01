@@ -11,7 +11,7 @@ function ImageRadioSelectControl({ value, options, onChange, label, height, help
 
 	return (
 		<>
-			<BaseControl __nextHasNoMarginBottom={true} label={label} help="" className='image-radio-select-control-label' />
+			<BaseControl label={label} help="" className='image-radio-select-control-label woo-lookblock-label' />
 
 			<ButtonGroup>
 				{options.map((option) => (

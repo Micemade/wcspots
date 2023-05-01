@@ -2,10 +2,12 @@
  * WordPress dependencies.
  */
 import { useState } from '@wordpress/element';
+
 /**
  * External dependencies.
  */
 import { Popover as MarkerPopover } from 'react-tiny-popover';
+
 /**
  * Internal dependencies
  */
@@ -16,13 +18,14 @@ import ProductAddToCart from '../components/productAddToCart';
 
 const AddMarkerPopover = (props) => {
 
-	const { assocProdId, parentElement, isEditing, popoverStyle } = props;
+	const { assocProdId, parentElement, isEditing, popoverSettings } = props;
 
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 	const togglePopover = () => {
 		setIsPopoverOpen((state) => !state);
 	};
 
+	// Popover classes and styles.
 	const popoverTogglerClass = {
 		width: "100%",
 		height: "100%",
@@ -32,13 +35,21 @@ const AddMarkerPopover = (props) => {
 	}
 
 	const contentStyle = {
-		padding: `${popoverStyle.padding.value}${popoverStyle.padding.unit}`
+		padding: `${popoverSettings.padding.value}${popoverSettings.padding.unit}`,
+		...popoverSettings.productBackColor && { backgroundColor: popoverSettings.productBackColor }
+	}
+
+	const singleElementStyle = {
+		margin: `${popoverSettings.innerSpacing.value}${popoverSettings.innerSpacing.unit} 0`
 	}
 
 	const elementsStyle = {
-		margin: `${popoverStyle.innerSpacing.value}${popoverStyle.innerSpacing.unit} 0`
+		padding: `${popoverSettings.innerPadding.value}${popoverSettings.innerPadding.unit}`
 	}
 
+	const titleStyle = {
+		...popoverSettings.titleColor && { color: popoverSettings.titleColor }
+	}
 	/*
 	// 'parentElement' is undefined on front (edit.js useEffect solves it when in editor)
 	let _parentElement = parentElement;
@@ -62,21 +73,26 @@ const AddMarkerPopover = (props) => {
 
 					<ProductImage productId={assocProdId} />
 
-					<div className='product-elements'>
-						<div className="product-title product-element" style={elementsStyle}>
-							<h4><ProductTitle productId={assocProdId} /></h4>
+					<div className='product-elements' style={elementsStyle}>
+
+						<div className="product-title product-element" style={singleElementStyle}>
+							<h4 style={titleStyle}><ProductTitle productId={assocProdId} /></h4>
 						</div>
-						<div className="product-price product-element" style={elementsStyle}>
+
+						<div className="product-price product-element" style={singleElementStyle}>
 							<ProductPrice productId={assocProdId} />
 						</div>
-						<div className="product-add-to-cart product-element" style={elementsStyle}>
+
+						<div className="product-add-to-cart product-element" style={singleElementStyle}>
 							<ProductAddToCart productId={assocProdId} />
 						</div>
+
 					</div>
 				</div>
 			)}
 		>
-			<div style={popoverTogglerClass} onClick={togglePopover} />
+			<div className='popover-toggler' style={popoverTogglerClass} onClick={togglePopover} />
+
 		</MarkerPopover>
 
 	);
