@@ -111,6 +111,7 @@ const Save = ({ attributes }) => {
 								elementsToggle={elementsToggle}
 								titleSize={titleSize}
 								priceSize={priceSize}
+								excerptSize={excerptSize}
 								addToCartSize={addToCartSize}
 								productBackColor={productBackColor}
 								fontColors={{ titleColor, priceColor, excerptColor }}

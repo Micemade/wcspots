@@ -57,11 +57,5 @@ function micemade_woo_lookblock_block_init() {
 	wp_set_script_translations( 'micemade-woo-lookblock-view-script', 'woo-lookblock', plugin_dir_path( __FILE__ ) . 'languages/' );
 	wp_set_script_translations( 'micemade-woo-lookblock-editor-script', 'woo-lookblock', plugin_dir_path( __FILE__ ) . 'languages/' );
 
-	/*
-	wp_add_inline_script(
-		'micemade-woo-lookblock-editor-script',
-		'apiFetch.use( apiFetch.createNonceMiddleware( ' . $nonce . ' ) );',
-	);
-	 */
 }
 add_action( 'init', 'micemade_woo_lookblock_block_init' );

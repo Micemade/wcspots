@@ -36,7 +36,7 @@
       "type": "object",
       "default": {
         "active": true,
-        "tagName": "h2",
+        "level": "h2",
         "align": "center",
         "spacing": {
           "value": 1,

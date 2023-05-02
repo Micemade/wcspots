@@ -14,6 +14,7 @@ const ProductItem = ({
 	elementsToggle,
 	titleSize,
 	priceSize,
+	excerptSize,
 	addToCartSize,
 	productBackColor,
 	fontColors
@@ -39,7 +40,7 @@ const ProductItem = ({
 		...fontColors.priceColor && { color: fontColors.priceColor }
 	};
 	const excerptStyle = {
-		// fontSize: `${priceSize.value}${priceSize.unit}`,
+		fontSize: `${excerptSize.value}${excerptSize.unit}`,
 		...fontColors.excerptColor && { color: fontColors.excerptColor }
 	};
 

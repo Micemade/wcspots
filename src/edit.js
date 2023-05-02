@@ -3,9 +3,11 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, BlockControls, MediaPlaceholder, MediaUpload, RichText } from '@wordpress/block-editor';
-import { SelectControl, Modal, Button, ToolbarGroup, ToolbarButton, DropdownMenu } from '@wordpress/components';
+import { SelectControl, Modal, ToolbarGroup, Toolbar, ToolbarButton, DropdownMenu } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 
+import { registerFormatType, toggleFormat } from '@wordpress/rich-text';
+const ALIGNMENT_FORMAT = 'woo-lookblock/alignment';
 /**
  * External dependecies.
  */
@@ -34,6 +36,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 	const {
 		id,
 		title,
+		titleSettings,
 		productsData,
 		media,
 		srcSetAtt,
@@ -68,6 +71,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		popoverSettings
 	} = attributes;
 
+	// Transfer product style settings to Popover.
 	const productSettings = { productsLayout, productsAlign, columns, elementsToggle, productsGap, productSpacing, productPadding, titleSize, priceSize, excerptSize, addToCartSize, productBackColor, titleColor, priceColor, excerptColor }
 
 	// Set Popover (React Tiny Popover) parent element in Editor.
@@ -149,22 +153,27 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 	const onUploadError = (error) => {
 		console.error('Media upload error:', error);
 	};
-	const imageControls = (
-		<ToolbarGroup>
-			{/* <DropdownMenu
-				icon="edit"
-				label="Image Settings"
-				controls={[
-					{
-						icon: 'edit',
-						title: 'Change image',
-						onClick: () => {
-							// return ();
-						},
-					},
-				]}
-			/> */}
 
+	const onToggleAlignment = (alignment) => {
+		setAttributes({ titleSettings: { ...titleSettings, align: alignment } });
+	};
+	const formatButton = (
+		<Toolbar.Button
+			icon="align-left"
+			title="Change text alignment"
+			onClick={() => {
+				const currentAlignment = titleSettings.align || 'left';
+				const newAlignment =
+					currentAlignment === 'left' ? 'center' : currentAlignment === 'center' ? 'right' : 'left';
+				onToggleAlignment(newAlignment);
+				toggleFormat(title, { type: ALIGNMENT_FORMAT, attributes: { align: newAlignment } });
+			}}
+			isActive={titleSettings.align !== undefined}
+		/>
+	);
+
+	const blockToolbarControls = (
+		<ToolbarGroup>
 			<MediaUpload
 				onSelect={onSelectImage}
 				onError={onUploadError}
@@ -184,15 +193,15 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 				label="Remove Image"
 				onClick={onRemoveImage}
 			/>
+			<Toolbar controls={[formatButton]} />
 		</ToolbarGroup>
 	);
-
 
 	return (
 		<>
 
 			<BlockControls>
-				{mediaURL && imageControls}
+				{mediaURL && blockToolbarControls}
 			</BlockControls>
 
 			<InspectorControlsComponent
@@ -211,6 +220,8 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 					value={title}
 					onChange={(value) => setAttributes({ title: value })}
 					placeholder={__('Add Lookblock title…', 'woo-lookblock')}
+					allowedFormats={[ALIGNMENT_FORMAT]}
+					formattingControls={['bold', 'italic', 'underline']}
 				/>
 
 				<div className={`${flexContainerClasses} flex-container`} style={flexContainerStyles}>
@@ -230,6 +241,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 								elementsToggle={elementsToggle}
 								titleSize={titleSize}
 								priceSize={priceSize}
+								excerptSize={excerptSize}
 								addToCartSize={addToCartSize}
 								productBackColor={productBackColor}
 								fontColors={{ titleColor, priceColor, excerptColor }}
@@ -325,5 +337,26 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		</>
 	);
 }
+
+registerFormatType(ALIGNMENT_FORMAT, {
+	title: 'Alignment',
+	tagName: 'mojtag',
+	className: null,
+	attributes: { align: 'style' },
+	edit: ({ isActive, value, onChange }) => {
+		const onToggleAlignment = (alignment) => {
+			onChange(toggleFormat(value, { type: ALIGNMENT_FORMAT, attributes: { align: alignment } }));
+		};
+
+		return (
+			<Toolbar controls={[['left', 'center', 'right'].map((alignment) => ({
+				icon: `align-${alignment}`,
+				title: alignment,
+				isActive: isActive && value.align === alignment,
+				onClick: () => onToggleAlignment(alignment),
+			}))]} />
+		);
+	},
+});
 
 export default Edit;

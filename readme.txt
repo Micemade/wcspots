@@ -1,5 +1,5 @@
-=== Postpicker ===
-Contributors:      The WordPress Contributors
+=== Woo Lookblock ===
+Contributors:      Micemade
 Tags:              block
 Tested up to:      6.1
 Stable tag:        0.1.0

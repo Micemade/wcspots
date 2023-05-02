@@ -72,6 +72,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		elementsToggle,
 		titleSize,
 		priceSize,
+		excerptSize,
 		addToCartSize,
 		productBackColor,
 		titleColor,
@@ -212,6 +213,10 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 	// Product price size (custom 'UnitRangeControl' control )
 	const handlePriceSizeChange = (newValue) => {
 		setAttributes({ priceSize: { value: newValue, unit: priceSize.unit } });
+	};
+	// Product excerpt size (custom 'UnitRangeControl' control )
+	const handleExcerptSizeChange = (newValue) => {
+		setAttributes({ excerptSize: { value: newValue, unit: excerptSize.unit } });
 	};
 
 	// Product layout tabs.
@@ -399,6 +404,23 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						onUnitChange={(newUnit) =>
 							setAttributes({
 								priceSize: { value: priceSize.value, unit: newUnit },
+							})
+						}
+						customUnitOptions={
+							[
+								{ label: 'px', value: 'px' },
+								{ label: 'em', value: 'em' },
+								{ label: 'rem', value: 'rem' },
+							]
+						}
+					/>
+					<UnitRangeControl
+						label={__('Short description font size', 'woo-lookblock')}
+						value={excerptSize}
+						onValueChange={handleExcerptSizeChange}
+						onUnitChange={(newUnit) =>
+							setAttributes({
+								excerptSize: { value: excerptSize.value, unit: newUnit },
 							})
 						}
 						customUnitOptions={

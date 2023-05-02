@@ -15,6 +15,7 @@ const ProductGrid = ({
 	elementsToggle,
 	titleSize,
 	priceSize,
+	excerptSize,
 	addToCartSize,
 	productBackColor,
 	fontColors
@@ -39,6 +40,7 @@ const ProductGrid = ({
 					elementsToggle={elementsToggle}
 					titleSize={titleSize}
 					priceSize={priceSize}
+					excerptSize={excerptSize}
 					addToCartSize={addToCartSize}
 					productBackColor={productBackColor}
 					fontColors={fontColors}
