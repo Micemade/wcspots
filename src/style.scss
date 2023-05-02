@@ -21,6 +21,16 @@
 
 	position: relative;
 
+	*, ::before, ::after {
+		box-sizing: inherit;
+		outline: none;
+	}
+
+	> *:not(.cover-image) {
+		position: relative;
+		z-index: 1;
+	}
+
 	.cover-image {
 		z-index: 0;
 		background-size: cover;
@@ -35,7 +45,6 @@
 
 	.flex-container {
 		display: flex;
-		z-index: 1;
 		position: relative;
 
 		&.row, &.image-only { flex-direction: row; }
@@ -64,47 +73,92 @@
 			}
 
 			.product-marker {
+				// transition: border-color 250ms ease-in-out,opacity 250ms ease-in-out,visibility 250ms ease-in-out;
+				transition: all 250ms ease-in-out;
+				transform: translateX(-1rem) translateY(-1rem) scale(0.999);
+				padding: 0;
+				width: 2rem;
+				height: 2rem;
+				border: 2px solid transparent;
 				position: absolute;
+				background: rgba(17, 17, 17, 0.2);
+				border-radius: 64px;
+				line-height: .5;
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				z-index: 10;
-				transform: translate(-50%, -50%);
-				transition: all 0.2s linear;
-				width: 20px;
-				height: 20px;
-				border-radius: 50%;
-				border: 1px solid rgb(100, 100, 100, 0.5);
-				background: rgba(255, 255, 255, 0.9);
-				opacity: 0.85;
+				z-index: 5;
 				// mix-blend-mode: difference;
 
+				&:before {
+					content: "";
+					position: absolute;
+					top: -0.5rem;
+					left: -0.5rem;
+					right: -0.5rem;
+					bottom: -0.5rem;
+					display: block;
+				}
+				&:after {
+					content: "";
+					transition: transform 250ms ease-in-out;
+					position: relative;
+					display: block;
+					background: rgb(255, 255, 255);
+					box-shadow: 0 1px 4px rgba(17, 17, 17, 0.55);
+					width: .75rem;
+					height: .75rem;
+					border-radius: 64px;
+				}
+				&:hover {
+					border-color: rgba(255, 255, 255, 0.5);
+					background: rgba( 17, 17, 17, 0.4);
+					&::after {
+						transform: scale(0.7);
+					}
+				}
+/* 
 				&::after {
 					position: absolute;
 					content: "";
 					display: block;
-					top: 100%;
-					left: 50%;
-					transform: translateX(-50%);
+					top: 0;
+					left: 0;
 					width: 100%;
 					height: 100%;
-				}
-/* 
-				&::before {
-					content: attr(data-product-title);
-				}
- */
-				&::after {
 					z-index: 0;
-					top: 50%;
 					border: 1px solid rgb(100, 100, 100, 0.5);
 					border-radius: 50%;
-					animation: animation-1 2s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+					// animation: animation-1 2s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
 				}
-
+ */
+				.inner, .events-holder {
+					position: absolute;
+					display: block;
+					cursor: pointer;
+				}
+				/* .inner {
+					width: 10px;
+					height: 10px;
+					background-color: #fff;
+					border: 1px solid rgb(100, 100, 100, 0.8);
+					border-radius: 50%;
+					z-index: 2;
+				} 
 				&:hover {
-					transform: translate(-50%, -50%) scale(1.05);
-					opacity: 1;
+					box-shadow: inset 0 0 0 2px #ccc;
+					.inner {
+						width: 8px;
+						height: 8px;
+					}
+				}*/
+
+				.events-holder {
+					width: 100%;
+					height: 100%;
+					background-color: transparent;
+					border-radius: 50%;
+					z-index: 3;
 				}
 
 				.marker-product-title {
@@ -121,27 +175,6 @@
 					font-weight: 600;
 					border: none;
 					box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-				}
-
-				.inner, .events-holder {
-					position: absolute;
-					display: block;
-					cursor: pointer;
-				}
-				.inner {
-					width: 6px;
-					height: 6px;
-					background-color: #df00ff;
-					border-radius: 50%;
-					z-index: 2;
-				}
-
-				.events-holder {
-					width: 100%;
-					height: 100%;
-					background-color: transparent;
-					border-radius: 50%;
-					z-index: 3;
 				}
 			}
 
@@ -379,7 +412,7 @@
 	box-shadow: 0 0 30px rgba(0,0,0,0.2);
 }
 .react-tiny-popover-container {
-	z-index: 100;
+	z-index: 1000;
 	width: clamp(340px, 50% + 20px, 600px);
 
 	> .popover-content {

@@ -14,6 +14,7 @@ import classNames from 'classnames';
 import './style.scss';
 import ProductGrid from './components/productGrid';
 import Marker from './components/marker';
+import LookBlockTitle from './components/LookblockTitle';
 
 const Save = ({ attributes }) => {
 
@@ -91,7 +92,7 @@ const Save = ({ attributes }) => {
 				}
 
 				{title && (
-					<RichText.Content tagName="h2" value={title} />
+					<LookBlockTitle attributes={attributes} />
 				)}
 
 				<div className={`${flexContainerClasses} flex-container`} style={flexContainerStyles}>
@@ -102,7 +103,7 @@ const Save = ({ attributes }) => {
 							<ProductGrid
 								context="save"
 								productList={productIds}
-								columns={columns}
+								columns={productsData.length <= columns ? productsData.length : columns}
 								productsGap={productsGap}
 								productsLayout={productsLayout}
 								productsAlign={productsAlign}

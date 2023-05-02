@@ -33,7 +33,7 @@
 			"type":"object",
 			"default": {
 				"active": true,
-				"level": "h2",
+				"tagName": "h2",
 				"align": "center",
 				"spacing": { "value": 1, "unit": "em"},
 				"color": ""

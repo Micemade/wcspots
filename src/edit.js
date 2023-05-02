@@ -6,8 +6,6 @@ import { useBlockProps, BlockControls, MediaPlaceholder, MediaUpload, RichText }
 import { SelectControl, Modal, ToolbarGroup, Toolbar, ToolbarButton, DropdownMenu } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 
-import { registerFormatType, toggleFormat } from '@wordpress/rich-text';
-const ALIGNMENT_FORMAT = 'woo-lookblock/alignment';
 /**
  * External dependecies.
  */
@@ -20,6 +18,7 @@ import './editor.scss';
 import ProductGrid from './components/productGrid';
 import InspectorControlsComponent from './controls/inspectorControls';
 import Marker from './components/marker';
+import LookBlockTitle from './components/LookblockTitle';
 
 // Functions.
 import { addNewMarker, modalProductToMarker, onProductSelect, onMarkerOver, onMarkerOut, unassignProduct, removeMarker, clearMarkersOnImageChange } from './functions/markerFunctions';
@@ -104,8 +103,8 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 	});
 
 	// Modal products select options, on marker double click.
-	const productOptionsStart = [{ value: '', label: 'Select a product' }];
-	const productOptionsPrepare = productsData.map((item) => ({
+	const productOptionsStart = [{ value: '', label: 'Choose a lookblock product' }];
+	const productOptionsPrepare = productsData?.map((item) => ({
 		label: item.label,
 		value: JSON.stringify([item.value, item.label]),
 	}));
@@ -154,24 +153,6 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		console.error('Media upload error:', error);
 	};
 
-	const onToggleAlignment = (alignment) => {
-		setAttributes({ titleSettings: { ...titleSettings, align: alignment } });
-	};
-	const formatButton = (
-		<Toolbar.Button
-			icon="align-left"
-			title="Change text alignment"
-			onClick={() => {
-				const currentAlignment = titleSettings.align || 'left';
-				const newAlignment =
-					currentAlignment === 'left' ? 'center' : currentAlignment === 'center' ? 'right' : 'left';
-				onToggleAlignment(newAlignment);
-				toggleFormat(title, { type: ALIGNMENT_FORMAT, attributes: { align: newAlignment } });
-			}}
-			isActive={titleSettings.align !== undefined}
-		/>
-	);
-
 	const blockToolbarControls = (
 		<ToolbarGroup>
 			<MediaUpload
@@ -193,21 +174,22 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 				label="Remove Image"
 				onClick={onRemoveImage}
 			/>
-			<Toolbar controls={[formatButton]} />
 		</ToolbarGroup>
 	);
 
+	const noProductsNotice = __('Pick your Lookblock products in the sidebar "Lookblock products" section.', 'woo-lookblock');
+
 	return (
 		<>
-
-			<BlockControls>
-				{mediaURL && blockToolbarControls}
-			</BlockControls>
 
 			<InspectorControlsComponent
 				attributes={attributes}
 				setAttributes={setAttributes}
 			/>
+
+			<BlockControls>
+				{mediaURL && blockToolbarControls}
+			</BlockControls>
 
 			<div {...blockProps}>
 
@@ -215,37 +197,36 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 					(<div className='cover-image' style={{ backgroundImage: `url(${mediaURL})` }}></div>)
 				}
 
-				<RichText
-					tagName="h2"
-					value={title}
-					onChange={(value) => setAttributes({ title: value })}
-					placeholder={__('Add Lookblock title…', 'woo-lookblock')}
-					allowedFormats={[ALIGNMENT_FORMAT]}
-					formattingControls={['bold', 'italic', 'underline']}
-				/>
+				<LookBlockTitle attributes={attributes} setAttributes={setAttributes} context="edit" />
 
 				<div className={`${flexContainerClasses} flex-container`} style={flexContainerStyles}>
 
-					{flexLayout !== 'image-only' && (
+					{(flexLayout !== 'image-only') && (
 						<div className={`${flexItemClasses}flex-block products-grid-container`} style={productsContainerStyle}>
 
-							<ProductGrid
-								context="edit"
-								productList={productIds}
-								columns={columns}
-								productsGap={productsGap}
-								productsLayout={productsLayout}
-								productsAlign={productsAlign}
-								productPadding={productPadding}
-								productSpacing={productSpacing}
-								elementsToggle={elementsToggle}
-								titleSize={titleSize}
-								priceSize={priceSize}
-								excerptSize={excerptSize}
-								addToCartSize={addToCartSize}
-								productBackColor={productBackColor}
-								fontColors={{ titleColor, priceColor, excerptColor }}
-							/>
+							{productsData.length > 0 && (
+								<ProductGrid
+									context="edit"
+									productList={productIds}
+									columns={productsData.length <= columns ? productsData.length : columns}
+									productsGap={productsGap}
+									productsLayout={productsLayout}
+									productsAlign={productsAlign}
+									productPadding={productPadding}
+									productSpacing={productSpacing}
+									elementsToggle={elementsToggle}
+									titleSize={titleSize}
+									priceSize={priceSize}
+									excerptSize={excerptSize}
+									addToCartSize={addToCartSize}
+									productBackColor={productBackColor}
+									fontColors={{ titleColor, priceColor, excerptColor }}
+								/>
+							)}
+
+							{productsData.length === 0 && (
+								<p>{noProductsNotice}</p>
+							)}
 
 						</div>
 					)}
@@ -316,47 +297,32 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 						})
 					}
 				>
-					<SelectControl
-						label={__('Products', 'woo-lookblock')}
-						value={
-							selectedProduct
-								? JSON.stringify([
-									selectedProduct.id,
-									selectedProduct.name,
-								])
-								: ''
-						}
-						options={productOptions}
-						onChange={(value) => {
-							onProductSelect(value, markers, selectedMarker, setAttributes);
-						}}
-					/>
+					{productsData.length > 0 && (
+						<SelectControl
+							label={__('Products', 'woo-lookblock')}
+							value={
+								selectedProduct
+									? JSON.stringify([
+										selectedProduct.id,
+										selectedProduct.name,
+									])
+									: ''
+							}
+							options={productOptions}
+							onChange={(value) => {
+								onProductSelect(value, markers, selectedMarker, setAttributes);
+							}}
+						/>
+					)}
+					{productsData.length === 0 && (
+						<p>{noProductsNotice}</p>
+					)}
+
 				</Modal>
 			)}
 
 		</>
 	);
 }
-
-registerFormatType(ALIGNMENT_FORMAT, {
-	title: 'Alignment',
-	tagName: 'mojtag',
-	className: null,
-	attributes: { align: 'style' },
-	edit: ({ isActive, value, onChange }) => {
-		const onToggleAlignment = (alignment) => {
-			onChange(toggleFormat(value, { type: ALIGNMENT_FORMAT, attributes: { align: alignment } }));
-		};
-
-		return (
-			<Toolbar controls={[['left', 'center', 'right'].map((alignment) => ({
-				icon: `align-${alignment}`,
-				title: alignment,
-				isActive: isActive && value.align === alignment,
-				onClick: () => onToggleAlignment(alignment),
-			}))]} />
-		);
-	},
-});
 
 export default Edit;

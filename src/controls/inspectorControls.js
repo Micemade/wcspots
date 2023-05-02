@@ -496,7 +496,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		<InspectorControls>
 			<PanelBody
 				icon={'store'}
-				title={__('Select products', 'woo-lookblock')}
+				title={__('Lookblock products', 'woo-lookblock')}
 				initialOpen={false}
 			>
 				{/* 
