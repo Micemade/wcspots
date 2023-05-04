@@ -71,7 +71,7 @@ function UnitRangeControl({ label, help, value, onValueChange, onUnitChange, cus
 
 	return (
 		<>
-			<BaseControl label={label} help={help} className='unit-range-control-label woo-lookblock-label' />
+			<BaseControl label={label} help={help} className='unit-range-control-label woohotspots-label' />
 
 			<PanelRow className='editor-range-unit-combo'>
 				<RangeControl

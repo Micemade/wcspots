@@ -6,7 +6,7 @@ import { useState } from '@wordpress/element';
 /**
  * External dependencies.
  */
-import { Popover as MarkerPopover } from 'react-tiny-popover';
+import { Popover as HotspotPopover } from 'react-tiny-popover';
 
 /**
  * Internal dependencies
@@ -17,7 +17,7 @@ import ProductPrice from '../components/productPrice';
 import ProductExcerpt from '../components/productExcerpt';
 import ProductAddToCart from '../components/productAddToCart';
 
-const AddMarkerPopover = (props) => {
+const AddHotspotPopover = (props) => {
 
 	const { assocProdId, parentElement, isEditing, popoverSettings } = props;
 
@@ -91,7 +91,7 @@ const AddMarkerPopover = (props) => {
 	 */
 	return (
 
-		<MarkerPopover
+		<HotspotPopover
 			parentElement={parentElement}
 			isOpen={isPopoverOpen}
 			onClickOutside={() => setIsPopoverOpen(isEditing)}
@@ -136,8 +136,8 @@ const AddMarkerPopover = (props) => {
 		>
 			<div className='popover-toggler' style={popoverTogglerClass} onClick={togglePopover} />
 
-		</MarkerPopover>
+		</HotspotPopover>
 
 	);
 }
-export default AddMarkerPopover;
+export default AddHotspotPopover;

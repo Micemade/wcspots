@@ -1,7 +1,7 @@
 {
-	"name": "woo-lookblock",
+	"name": "woohotspots",
 	"version": "0.1.0",
-	"description": "Creating WooCommerce lookbooks in the block editor.",
+	"description": "Creating WooCommerce showcases with image hotspots in the block editor.",
 	"author": "Micemade",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
@@ -13,7 +13,7 @@
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start --webpack-copy-php",
-		"update-pot": "wp i18n make-pot . languages/icon-block.pot --exclude=src"
+		"update-pot": "wp i18n make-pot . languages/woohotspots.pot --exclude=src"
 	},
 	"devDependencies": {
 		"@svgr/webpack": "^7.0.0",

@@ -1,12 +1,12 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
-	"name": "micemade/woo-lookblock",
+	"name": "micemade/woohotspots",
 	"version": "0.1.0",
-	"title": "Woo Lookblock",
+	"title": "WooHotSpots",
 	"category": "widgets",
 	"icon": "store",
-	"description": "Creating WooCommerce lookbooks in the block editor.",
+	"description": "Creating WooCommerce showcases with image hotspots in the block editor.",
 	"supports": {
 		"html": false,
 		"color": {},
@@ -168,11 +168,11 @@
 			"default": ""
 		},
 		
-		"markers": {
+		"hotspots": {
 			"type": "array",
 			"default": []
 		},
-		"selectedMarker": {
+		"selectedHotspot": {
 			"type": "number",
 			"default": null
 		},
@@ -231,7 +231,7 @@
 			}
 		}
 	},
-	"textdomain": "woo-lookblock",
+	"textdomain": "woohotspots",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

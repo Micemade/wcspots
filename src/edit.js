@@ -17,11 +17,11 @@ import classNames from 'classnames';
 import './editor.scss';
 import ProductGrid from './components/productGrid';
 import InspectorControlsComponent from './controls/inspectorControls';
-import Marker from './components/marker';
-import LookBlockTitle from './components/LookblockTitle';
+import Hotspot from './components/hotspot';
+import woohotspotsTitle from './components/woohotspotsTitle';
 
 // Functions.
-import { addNewMarker, modalProductToMarker, onProductSelect, onMarkerOver, onMarkerOut, unassignProduct, removeMarker, clearMarkersOnImageChange } from './functions/markerFunctions';
+import { addNewHotspot, modalProductToHotspot, onProductSelect, onHotspotOver, onHotspotOut, unassignProduct, removeHotspot, clearHotspotsOnImageChange } from './functions/hotspotFunctions';
 
 /**
  * The edit function.
@@ -65,8 +65,8 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		titleColor,
 		priceColor,
 		excerptColor,
-		markers,
-		selectedMarker,
+		hotspots,
+		selectedHotspot,
 		selectedProduct,
 		editModal,
 		usePopoverCustomSettings,
@@ -111,7 +111,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		'data-popover-settings': JSON.stringify(popSettings)
 	});
 
-	// Modal products select options, on marker double click.
+	// Modal products select options, on hotspot double click.
 	const productOptionsStart = [{ value: '', label: 'Choose a lookblock product' }];
 	const productOptionsPrepare = productsData?.map((item) => ({
 		label: item.label,
@@ -145,14 +145,14 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 
 	// Image controls in Block toolbar.
 	const onSelectImage = (media) => {
-		if (!clearMarkersOnImageChange(markers, mediaID, setAttributes)) {
+		if (!clearHotspotsOnImageChange(hotspots, mediaID, setAttributes)) {
 			return;
 		} else {
 			setAttributes({ mediaURL: media.url, mediaID: media.id, media: media });
 		}
 	};
 	const onRemoveImage = () => {
-		if (!clearMarkersOnImageChange(markers, mediaID, setAttributes)) {
+		if (!clearHotspotsOnImageChange(hotspots, mediaID, setAttributes)) {
 			return;
 		} else {
 			setAttributes({ mediaURL: null, mediaID: null });
@@ -186,7 +186,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		</ToolbarGroup>
 	);
 
-	const noProductsNotice = __('Pick your Lookblock products in the sidebar "Lookblock products" section.', 'woo-lookblock');
+	const noProductsNotice = __('Pick your Lookblock products in the sidebar "Lookblock products" section.', 'woohotspots');
 
 	return (
 		<>
@@ -207,7 +207,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 				}
 
 				{settingsTitleDesc.activeTitle && (
-					<LookBlockTitle
+					<woohotspotsTitle
 						attributes={attributes}
 						setAttributes={setAttributes}
 						context="edit" />
@@ -224,7 +224,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 							textAlign: settingsTitleDesc.align,
 							margin: `${settingsTitleDesc.spacingDesc} 0`
 						}}
-						placeholder={__('Enter your description here', 'woo-lookblock')}
+						placeholder={__('Enter your description here', 'woohotspots')}
 						keepPlaceholderOnFocus
 					/>
 				)}
@@ -269,44 +269,44 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 								onSelectURL={onSelectImage}
 								allowedTypes={['image']}
 								labels={{
-									title: __('Add lookbook image', 'woo-lookblock'),
-									instructions: __('Drag & drop or select an image file', 'woo-lookblock'),
+									title: __('Add image', 'woohotspots'),
+									instructions: __('Drag & drop or select an image file', 'woohotspots'),
 								}}
 							/>
 						)}
 						{mediaURL && (
 							<img
-								className="lookbook-image"
+								className="hotspot-image"
 								src={mediaURL}
 								srcSet={srcSetAtt}
 								sizes={sizesAtt}
-								alt={__('Lookbook image', 'woo-lookblock')}
-								onClick={() => addNewMarker(event, markers, setAttributes)}
+								alt={__('Lookbook image', 'woohotspots')}
+								onClick={() => addNewHotspot(event, hotspots, setAttributes)}
 							/>
 						)}
 
-						{markers?.length > 0 &&
-							markers.map((marker, index) => (
-								<Marker
-									key={`marker-${marker.id}`}
-									marker={marker}
-									// onClick={() => markerClick(marker, setAttributes)}
-									onDoubleClick={() => modalProductToMarker(marker, setAttributes)}
-									onMouseOver={onMarkerOver}
-									onMouseOut={onMarkerOut}
+						{hotspots?.length > 0 &&
+							hotspots.map((hotspot, index) => (
+								<Hotspot
+									key={`hotspot-${hotspot.id}`}
+									hotspot={hotspot}
+									// onClick={() => hotspotClick(hotspot, setAttributes)}
+									onDoubleClick={() => modalProductToHotspot(hotspot, setAttributes)}
+									onMouseOver={onHotspotOver}
+									onMouseOut={onHotspotOut}
 									clientId={clientId}
 									unassignProduct={unassignProduct}
-									removeMarker={removeMarker}
-									markers={markers}
+									removeHotspot={removeHotspot}
+									hotspots={hotspots}
 									setAttributes={setAttributes}
 									popoverSettings={popSettings}
 									popoverParent={popoverParent}
 									context="edit"
 								/>
 							))}
-						{(markers?.length == 0 && mediaURL) && (
-							<div className='add-some-markers'>
-								{__('Click on lookbook image to add markers.', 'woo-lookblock')}
+						{(hotspots?.length == 0 && mediaURL) && (
+							<div className='add-some-hotspots'>
+								{__('Click on image to add hotspots.', 'woohotspots')}
 							</div>
 						)}
 					</div>
@@ -317,19 +317,19 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 			{editModal && (
 				<Modal
 					title={__(
-						'Assign a product to this marker',
-						'woo-lookblock'
+						'Assign a product to this hotspot',
+						'woohotspots'
 					)}
 					onRequestClose={() =>
 						setAttributes({
 							editModal: false,
-							selectedMarker: null,
+							selectedHotspot: null,
 						})
 					}
 				>
 					{productsData.length > 0 && (
 						<SelectControl
-							label={__('Products', 'woo-lookblock')}
+							label={__('Products', 'woohotspots')}
 							value={
 								selectedProduct
 									? JSON.stringify([
@@ -340,7 +340,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 							}
 							options={productOptions}
 							onChange={(value) => {
-								onProductSelect(value, markers, selectedMarker, setAttributes);
+								onProductSelect(value, hotspots, selectedHotspot, setAttributes);
 							}}
 						/>
 					)}

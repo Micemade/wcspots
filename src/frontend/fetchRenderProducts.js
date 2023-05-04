@@ -53,7 +53,7 @@ const fetchRenderProducts = (productIds, blockId) => {
 			const imgSrcSet = featuredImg?.srcset;
 			const imgSizes = featuredImg?.sizes;
 			const imgSrc = featuredImg?.src;
-			const fallBack = typeof wc === 'object' ? wc.wcSettings?.PLACEHOLDER_IMG_SRC : (__('Product has no featured image', 'woo-lookblock'));
+			const fallBack = typeof wc === 'object' ? wc.wcSettings?.PLACEHOLDER_IMG_SRC : (__('Product has no featured image', 'woohotspots'));
 
 			const imageToRender = (imgSrcSet || imgSrc) ? <img {...(imgSrcSet ? { srcSet: imgSrcSet } : {})} src={imgSrc} alt={name} sizes="(max-width: 599px) 100vw, calc(100vw / 3)" /> : fallBack;
 

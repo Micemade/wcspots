@@ -13,8 +13,8 @@ import classNames from 'classnames';
  */
 import './style.scss';
 import ProductGrid from './components/productGrid';
-import Marker from './components/marker';
-import LookBlockTitle from './components/LookblockTitle';
+import Hotspot from './components/hotspot';
+import woohotspotsTitle from './components/woohotspotsTitle';
 
 const Save = ({ attributes }) => {
 
@@ -50,7 +50,7 @@ const Save = ({ attributes }) => {
 		titleColor,
 		priceColor,
 		excerptColor,
-		markers,
+		hotspots,
 		usePopoverCustomSettings,
 		popoverSettings
 	} = attributes;
@@ -104,7 +104,7 @@ const Save = ({ attributes }) => {
 				}
 
 				{title && settingsTitleDesc.activeTitle && (
-					<LookBlockTitle
+					<woohotspotsTitle
 						attributes={attributes}
 						style={{ margin: `${settingsTitleDesc.spacingTitle} 0` }} />
 				)}
@@ -148,22 +148,22 @@ const Save = ({ attributes }) => {
 					{mediaURL && (
 						<div className={`${flexItemClasses}flex-block image-container`} style={{ width: `${flexItemsRatio}%` }}>
 							<img
-								className="lookbook-image"
+								className="hotspot-image"
 								src={mediaURL}
 								srcSet={srcSetAtt}
 								sizes={sizesAtt}
-								alt={__('Lookbook image', 'woo-lookblock')}
+								alt={__('Lookbook image', 'woohotspots')}
 							/>
-							{markers?.length > 0 &&
-								markers.filter((marker) => {
-									if (!marker.productId) return false;
+							{hotspots?.length > 0 &&
+								hotspots.filter((hotspot) => {
+									if (!hotspot.productId) return false;
 									return true;
 								})
-									.map((marker, index) => (
+									.map((hotspot, index) => (
 
-										<Marker
-											key={`marker-${index}`}
-											marker={marker}
+										<Hotspot
+											key={`hotspot-${index}`}
+											hotspot={hotspot}
 											clientId={id}
 										/>
 									))}

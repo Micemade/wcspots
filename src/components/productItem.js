@@ -53,7 +53,7 @@ const ProductItem = ({
 
 	return (
 		<div
-			className={`woo-lookblock-product align-${productsAlign}`}
+			className={`woohotspots-product align-${productsAlign}`}
 			data-product-id={productId}
 			style={productStyle}
 		>

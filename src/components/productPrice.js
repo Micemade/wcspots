@@ -8,11 +8,11 @@ const ProductPrice = ({ productId }) => {
 	const sanitizer = DOMPurify.sanitize;
 
 	if (loading) {
-		return <small>{__('Loading product price...', 'woo-lookblock')}</small>;
+		return <small>{__('Loading product price...', 'woohotspots')}</small>;
 	}
 
 	if (!product) {
-		return <div>{__('Product not found', 'woo-lookblock')}</div>;
+		return <div>{__('Product not found', 'woohotspots')}</div>;
 	}
 
 	// Product price HTML sanitized.

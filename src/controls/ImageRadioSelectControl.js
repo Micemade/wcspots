@@ -11,7 +11,7 @@ function ImageRadioSelectControl({ value, options, onChange, label, height, help
 
 	return (
 		<>
-			<BaseControl label={label} help="" className='image-radio-select-control-label woo-lookblock-label' />
+			<BaseControl label={label} help="" className='image-radio-select-control-label woohotspots-label' />
 
 			<ButtonGroup>
 				{options.map((option) => (
@@ -20,7 +20,7 @@ function ImageRadioSelectControl({ value, options, onChange, label, height, help
 						isPrimary={activeOption === option.value}
 						onClick={() => handleClick(option.value)}
 						style={{ padding: "4px", boxShadow: "none", border: "none" }}
-						className='woo-lookblock-products-layout'
+						className='woohotspots-products-layout'
 					>
 						{option.icon ? (
 							<Dashicon icon={option.icon} />

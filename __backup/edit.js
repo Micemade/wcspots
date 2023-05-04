@@ -12,10 +12,10 @@ import { useEffect } from '@wordpress/element';
 import './editor.scss';
 import ProductGrid from './components/productGrid';
 import InspectorControlsComponent from './controls/inspectorControls';
-import Marker from './components/marker';
+import Hotspot from './components/hotspot';
 
 // Functions.
-import { addNewMarker, assignProductToMarker, onProductSelect, onMarkerOver, onMarkerOut, markerClick } from './functions/markerFunctions';
+import { addNewHotspot, assignProductToHotspot, onProductSelect, onHotspotOver, onHotspotOut, hotspotClick } from './functions/hotspotFunctions';
 
 /**
  * The edit function.
@@ -44,8 +44,8 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		priceSize,
 		titleColor,
 		priceColor,
-		markers,
-		selectedMarker,
+		hotspots,
+		selectedHotspot,
 		selectedProduct,
 		editModal,
 		imageOption,
@@ -60,7 +60,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 
 	const blockProps = useBlockProps({ 'data-block-id': clientId, 'data-product-ids': JSON.stringify(productList) });
 
-	// Product select options for modal, on marker click.
+	// Product select options for modal, on hotspot click.
 	const producOptionsStart = [{ label: 'Select a product', value: '' }];
 	const producOptions = products?.map((product) => ({
 		label: product.title.rendered,
@@ -120,20 +120,20 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 					{mediaURL && (
 						<div className="flex-block image-container" style={{ width: `${imageWidth}%` }}>
 							<img
-								className="lookbook-image"
+								className="hotspot-image"
 								src={mediaURL}
-								alt={__('Lookbook image', 'woo-lookblock')}
-								onClick={() => addNewMarker(event, markers, setAttributes)}
+								alt={__('Lookbook image', 'woohotspots')}
+								onClick={() => addNewHotspot(event, hotspots, setAttributes)}
 							/>
-							{markers?.length > 0 &&
-								markers.map((marker, index) => (
-									<Marker
-										key={`marker-${marker.id}`}
-										marker={marker}
-										// onClick={() => markerClick(marker, setAttributes)}
-										onDoubleClick={() => assignProductToMarker(marker, setAttributes)}
-										onMouseOver={onMarkerOver}
-										onMouseOut={onMarkerOut}
+							{hotspots?.length > 0 &&
+								hotspots.map((hotspot, index) => (
+									<Hotspot
+										key={`hotspot-${hotspot.id}`}
+										hotspot={hotspot}
+										// onClick={() => hotspotClick(hotspot, setAttributes)}
+										onDoubleClick={() => assignProductToHotspot(hotspot, setAttributes)}
+										onMouseOver={onHotspotOver}
+										onMouseOut={onHotspotOut}
 										clientId={clientId}
 									/>
 								))}
@@ -144,18 +144,18 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 			{editModal && (
 				<Modal
 					title={__(
-						'Assign a product to this marker',
-						'woo-lookblock'
+						'Assign a product to this hotspot',
+						'woohotspots'
 					)}
 					onRequestClose={() =>
 						setAttributes({
 							editModal: false,
-							selectedMarker: null,
+							selectedHotspot: null,
 						})
 					}
 				>
 					<SelectControl
-						label={__('Products', 'woo-lookblock')}
+						label={__('Products', 'woohotspots')}
 						value={
 							selectedProduct
 								? JSON.stringify([
@@ -165,7 +165,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 								: ''
 						}
 						options={producOptionsStart.concat(producOptions)}
-						onChange={(value) => onProductSelect(value, markers, selectedMarker, setAttributes)}
+						onChange={(value) => onProductSelect(value, hotspots, selectedHotspot, setAttributes)}
 					/>
 				</Modal>
 			)}

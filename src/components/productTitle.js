@@ -5,11 +5,11 @@ const ProductTitle = ({ productId }) => {
 	const { product, loading } = getProduct(productId);
 
 	if (loading) {
-		return <small>{__('Loading product title...', 'woo-lookblock')}</small>;
+		return <small>{__('Loading product title...', 'woohotspots')}</small>;
 	}
 
 	if (!product) {
-		return <div>{__('Product not found', 'woo-lookblock')}</div>;
+		return <div>{__('Product not found', 'woohotspots')}</div>;
 	}
 
 	return <a href={product.permalink}>{product.name}</a>;

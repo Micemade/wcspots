@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name:       Woo Lookblock
- * Description:       Creating WooCommerce lookbooks in the block editor.
+ * Plugin Name:       WooHotSpots
+ * Description:       Creating WooCommerce showcases with image hotspots in the block editor.
  * Requires at least: 6.1
  * Requires PHP:      7.0
  * Version:           0.1.0
  * Author:            Micemade
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       woo-lookblock
+ * Text Domain:       woohotspots
  *
  * @package           micemade
  */
@@ -20,7 +20,7 @@
  *
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
-function micemade_woo_lookblock_block_init() {
+function micemade_woohotspots_block_init() {
 	register_block_type( __DIR__ . '/build' );
 
 	// Create nonce value for apiFetch.
@@ -36,26 +36,26 @@ function micemade_woo_lookblock_block_init() {
 
 	// Add JS vars to frontend and editor.
 	wp_localize_script(
-		'micemade-woo-lookblock-view-script',
-		'wooLookblockVars',
+		'micemade-woohotspots-view-script',
+		'woohotspotsVars',
 		$js_vars
 	);
 	wp_localize_script(
-		'micemade-woo-lookblock-editor-script',
-		'wooLookblockVars',
+		'micemade-woohotspots-editor-script',
+		'woohotspotsVars',
 		$js_vars
 	);
 	wp_add_inline_script(
-		'micemade-woo-lookblock-view-script',
-		'var wooLookblockVars2 = {"nonce": "' . esc_attr( $nonce ) . '", "cartUrl": "' . esc_url( $cart_url ) . '"};'
+		'micemade-woohotspots-view-script',
+		'var woohotspotsVars2 = {"nonce": "' . esc_attr( $nonce ) . '", "cartUrl": "' . esc_url( $cart_url ) . '"};'
 	);
 	wp_add_inline_script(
-		'micemade-woo-lookblock-editor-script',
-		'var wooLookblockVars2 = {"nonce": "' . esc_attr( $nonce ) . '", "cartUrl": "' . esc_url( $cart_url ) . '"};'
+		'micemade-woohotspots-editor-script',
+		'var woohotspotsVars2 = {"nonce": "' . esc_attr( $nonce ) . '", "cartUrl": "' . esc_url( $cart_url ) . '"};'
 	);
 
-	wp_set_script_translations( 'micemade-woo-lookblock-view-script', 'woo-lookblock', plugin_dir_path( __FILE__ ) . 'languages/' );
-	wp_set_script_translations( 'micemade-woo-lookblock-editor-script', 'woo-lookblock', plugin_dir_path( __FILE__ ) . 'languages/' );
+	wp_set_script_translations( 'micemade-woohotspots-view-script', 'woohotspots', plugin_dir_path( __FILE__ ) . 'languages/' );
+	wp_set_script_translations( 'micemade-woohotspots-editor-script', 'woohotspots', plugin_dir_path( __FILE__ ) . 'languages/' );
 
 }
-add_action( 'init', 'micemade_woo_lookblock_block_init' );
+add_action( 'init', 'micemade_woohotspots_block_init' );

@@ -83,12 +83,12 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		titleColor,
 		priceColor,
 		excerptColor,
-		markers,
+		hotspots,
 		usePopoverCustomSettings,
 		popoverSettings
 	} = attributes;
 
-	// Create 'srcset' and 'sizes' img attributes for lookbook image. Discard 'thumbnail' size.
+	// Create 'srcset' and 'sizes' img attributes for  image. Discard 'thumbnail' size.
 	useEffect(() => {
 		if (media && media.sizes) {
 			const mediaSizes = media.sizes;
@@ -100,11 +100,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 					return obj;
 				}, {});
 
-			// Create 'srcset' attribute for lookbook image. Usage of 'lodash' method 'get'.
+			// Create 'srcset' attribute for  image. Usage of 'lodash' method 'get'.
 			const createdSrcSet = Object.keys(sizesNoThumb)
 				.map(size => `${get(sizesNoThumb, [size, 'url'], '')} ${get(sizesNoThumb, [size, 'width'], '')}w`)
 				.join(', ');
-			// Create 'sizes' img attribite for lookbook image. Usage of 'lodash' method 'get'.
+			// Create 'sizes' img attribite for  image. Usage of 'lodash' method 'get'.
 			const sizes = Object.keys(sizesNoThumb)
 				.map(size => `(max-width: ${get(sizesNoThumb, [size, 'width'], '')}px) ${get(sizesNoThumb, [size, 'width'], '')}px`).join(', ')
 
@@ -139,59 +139,59 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 	*/
 
 	const onChangeProduct = (newList) => {
-		markerAssignedRemove(newList);
+		hotspotAssignedRemove(newList);
 		setAttributes({ productsData: newList })
 	}
 
 	// IMAGE CONTROLS.
 	const onSelectImage = (media) => {
-		if (!clearMarkersOnImageChange()) {
+		if (!clearHotspotsOnImageChange()) {
 			return;
 		} else {
 			setAttributes({ mediaURL: media.url, mediaID: media.id, media: media });
 		}
 	};
 	const onRemoveImage = () => {
-		if (!clearMarkersOnImageChange()) {
+		if (!clearHotspotsOnImageChange()) {
 			return;
 		} else {
 			setAttributes({ mediaURL: null, mediaID: null });
 		}
 
 	};
-	const clearMarkersOnImageChange = () => {
-		if (markers.length > 0 && mediaID) {
-			if (!confirm("All existing markers will be removed - are you sure?")) {
+	const clearHotspotsOnImageChange = () => {
+		if (hotspots.length > 0 && mediaID) {
+			if (!confirm("All existing hotspots will be removed - are you sure?")) {
 				return false;
 			};
 		}
-		setAttributes({ markers: [] });
+		setAttributes({ hotspots: [] });
 		return true;
 	}
 
 	/**
 	 * MARKER CONTROLS.
 	 */
-	// Activate/deactivate marker.
-	/* const markerToggle = (markerIndex) => {
-		const updatedMarkers = [...markers];
-		updatedMarkers[markerIndex].active =
-			!updatedMarkers[markerIndex].active;
-		setAttributes({ markers: updatedMarkers });
+	// Activate/deactivate hotspot.
+	/* const hotspotToggle = (hotspotIndex) => {
+		const updatedHotspots = [...hotspots];
+		updatedHotspots[hotspotIndex].active =
+			!updatedHotspots[hotspotIndex].active;
+		setAttributes({ hotspots: updatedHotspots });
 	}; */
-	// Delete marker.
-	const markerRemove = (markerIndex) => {
-		const updatedMarkers = [...markers];
-		updatedMarkers.splice(markerIndex, 1);
-		setAttributes({ markers: updatedMarkers });
+	// Delete hotspot.
+	const hotspotRemove = (hotspotIndex) => {
+		const updatedHotspots = [...hotspots];
+		updatedHotspots.splice(hotspotIndex, 1);
+		setAttributes({ hotspots: updatedHotspots });
 	};
-	// Remove marker if assigned product is removed.
-	const markerAssignedRemove = (productDataUpdated) => {
-		// .some will keep the items in array matching the criteria (marker not assigned  or matching prod id's)
-		const filteredMarkers = markers.filter((marker) =>
-			!marker.assigned || productDataUpdated.some((productDataItem) => productDataItem.value === marker.productId)
+	// Remove hotspot if assigned product is removed.
+	const hotspotAssignedRemove = (productDataUpdated) => {
+		// .some will keep the items in array matching the criteria (hotspot not assigned  or matching prod id's)
+		const filteredHotspots = hotspots.filter((hotspot) =>
+			!hotspot.assigned || productDataUpdated.some((productDataItem) => productDataItem.value === hotspot.productId)
 		);
-		setAttributes({ markers: filteredMarkers });
+		setAttributes({ hotspots: filteredHotspots });
 	}
 
 
@@ -232,8 +232,8 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			content: (
 				<div>
 					<ImageRadioSelectControl
-						label={__('Product layout type', 'woo-lookblock')}
-						help={__('Pick a grid type for displaying selected products', 'woo-lookblock')}
+						label={__('Product layout type', 'woohotspots')}
+						help={__('Pick a grid type for displaying selected products', 'woohotspots')}
 						options={[
 							{ value: 'layout1', label: 'Layout 1', image: require('./icons/Layout_1.png') },
 							{ value: 'layout2', label: 'Layout 2', image: require('./icons/Layout_2.png') },
@@ -246,8 +246,8 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						height='28px'
 					/>
 					<ImageRadioSelectControl
-						label={__('Product align', 'woo-lookblock')}
-						help={__('How to align the products', 'woo-lookblock')}
+						label={__('Product align', 'woohotspots')}
+						help={__('How to align the products', 'woohotspots')}
 						options={[
 							{ value: 'flex-start', label: 'Flex start', icon: 'align-left' },
 							{ value: 'center', label: 'Center', icon: 'align-center' },
@@ -263,7 +263,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 					<CardDivider />
 
 					<RangeControl
-						label={__('Columns', 'woo-lookblock')}
+						label={__('Columns', 'woohotspots')}
 						value={columns}
 						onChange={(value) =>
 							setAttributes({ columns: value })
@@ -283,7 +283,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 					<CardDivider />
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show title', 'woo-lookblock')}
+						label={__('Show title', 'woohotspots')}
 						checked={elementsToggle.title}
 						onChange={() =>
 							setAttributes({
@@ -296,7 +296,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show price', 'woo-lookblock')}
+						label={__('Show price', 'woohotspots')}
 						checked={elementsToggle.price}
 						onChange={() =>
 							setAttributes({
@@ -309,7 +309,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show excerpt', 'woo-lookblock')}
+						label={__('Show excerpt', 'woohotspots')}
 						checked={elementsToggle.excerpt}
 						onChange={() =>
 							setAttributes({
@@ -322,7 +322,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show Add to Cart', 'woo-lookblock')}
+						label={__('Show Add to Cart', 'woohotspots')}
 						checked={elementsToggle.addToCart}
 						onChange={() =>
 							setAttributes({
@@ -347,7 +347,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 				<div>
 					<CardDivider />
 					<UnitRangeControl
-						label={__('Products gap', 'woo-lookblock')}
+						label={__('Products gap', 'woohotspots')}
 						value={productsGap}
 						onValueChange={handleProductsGap}
 						onUnitChange={(newUnit) =>
@@ -357,7 +357,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						}
 					/>
 					<UnitRangeControl
-						label={__('Product elements spacing', 'woo-lookblock')}
+						label={__('Product elements spacing', 'woohotspots')}
 						value={productSpacing}
 						onValueChange={handleproductSpacing}
 						onUnitChange={(newUnit) =>
@@ -367,7 +367,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						}
 					/>
 					<UnitRangeControl
-						label={__('Product elements padding', 'woo-lookblock')}
+						label={__('Product elements padding', 'woohotspots')}
 						value={productPadding}
 						onValueChange={handleproductPadding}
 						onUnitChange={(newUnit) =>
@@ -386,7 +386,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 				<div>
 					<CardDivider size="xSmall" />
 					<UnitRangeControl
-						label={__('Title font size', 'woo-lookblock')}
+						label={__('Title font size', 'woohotspots')}
 						value={titleSize}
 						onValueChange={handletitleSizeChange}
 						onUnitChange={(newUnit) =>
@@ -403,7 +403,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						}
 					/>
 					<UnitRangeControl
-						label={__('Price font size', 'woo-lookblock')}
+						label={__('Price font size', 'woohotspots')}
 						value={priceSize}
 						onValueChange={handlePriceSizeChange}
 						onUnitChange={(newUnit) =>
@@ -420,7 +420,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						}
 					/>
 					<UnitRangeControl
-						label={__('Short description font size', 'woo-lookblock')}
+						label={__('Short description font size', 'woohotspots')}
 						value={excerptSize}
 						onValueChange={handleExcerptSizeChange}
 						onUnitChange={(newUnit) =>
@@ -437,7 +437,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						}
 					/>
 					<RangeControl
-						label={__('Add to Cart size', 'woo-lookblock')}
+						label={__('Add to Cart size', 'woohotspots')}
 						value={addToCartSize}
 						onChange={(value) =>
 							setAttributes({ addToCartSize: value })
@@ -462,22 +462,22 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						{
 							value: productBackColor,
 							onChange: (newValue) => setAttributes({ productBackColor: newValue }),
-							label: __('Background Color', 'woo-lookblock'),
+							label: __('Background Color', 'woohotspots'),
 						},
 						{
 							value: titleColor,
 							onChange: (newValue) => setAttributes({ titleColor: newValue }),
-							label: __('Title color', 'woo-lookblock'),
+							label: __('Title color', 'woohotspots'),
 						},
 						{
 							value: priceColor,
 							onChange: (newValue) => setAttributes({ priceColor: newValue }),
-							label: __('Price color', 'woo-lookblock'),
+							label: __('Price color', 'woohotspots'),
 						},
 						{
 							value: excerptColor,
 							onChange: (newValue) => setAttributes({ excerptColor: newValue }),
-							label: __('Short description color', 'woo-lookblock'),
+							label: __('Short description color', 'woohotspots'),
 						}
 					]}
 				/>
@@ -502,13 +502,13 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		<InspectorControls>
 			<PanelBody
 				icon={'text'}
-				title={__('Title and description', 'woo-lookblock')}
+				title={__('Title and description', 'woohotspots')}
 				initialOpen={false}
 			>
 
 				<ToggleControl
 					__nextHasNoMarginBottom
-					label={__('Show title', 'woo-lookblock')}
+					label={__('Show title', 'woohotspots')}
 					checked={settingsTitleDesc.activeTitle}
 					onChange={() =>
 						setAttributes({
@@ -521,7 +521,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 				/>
 				<ToggleControl
 					__nextHasNoMarginBottom
-					label={__('Show description', 'woo-lookblock')}
+					label={__('Show description', 'woohotspots')}
 					checked={settingsTitleDesc.activeDesc}
 					onChange={() =>
 						setAttributes({
@@ -563,14 +563,14 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 			<PanelBody
 				icon={'store'}
-				title={__('WooCommerce products', 'woo-lookblock')}
+				title={__('WooCommerce products', 'woohotspots')}
 				initialOpen={true}
 			>
 				{/* 
 				<FormTokenField
 					label={__(
 						'Start typing product name…',
-						'woo-lookblock'
+						'woohotspots'
 					)}
 					value={displayList}
 					suggestions={suggestions}
@@ -580,7 +580,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 				<CardDivider />
 
 				{getProducts.isResolving ? (
-					__('Loading products list', 'woo-lookblock')
+					__('Loading products list', 'woohotspots')
 				) : (
 					<Select
 						closeMenuOnSelect={false}
@@ -595,14 +595,14 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 			<PanelBody
 				icon={'format-image'}
-				title={__('Lookblock image', 'woo-lookblock')}
+				title={__('Lookblock image', 'woohotspots')}
 				initialOpen={false}
 			>
 				<PanelRow>
 					<MediaUpload
 						label={__(
-							'Choose image for lookbook item',
-							'woo-lookblock'
+							'Choose image for Woo HotSpots Block',
+							'woohotspots'
 						)}
 						onSelect={onSelectImage}
 						allowedTypes="image"
@@ -619,8 +619,8 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 								onClick={open}
 							>
 								{!mediaID
-									? __('Add Image', 'woo-lookblock')
-									: __('Replace Image', 'woo-lookblock')}
+									? __('Add Image', 'woohotspots')
+									: __('Replace Image', 'woohotspots')}
 							</Button>
 						)}
 					/>
@@ -629,7 +629,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 							<IconButton
 								icon="no-alt"
 								onClick={onRemoveImage}
-								label={__('Remove image', 'woo-lookblock')}
+								label={__('Remove image', 'woohotspots')}
 							/>
 						</PanelRow>
 					)}
@@ -640,18 +640,18 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 							src={mediaURL}
 							alt={__(
 								'Upload Lookbook image',
-								'woo-lookblock'
+								'woohotspots'
 							)}
 						/>
 					) : (
-						__('No LookBook image selected', 'woo-lookblock')
+						__('No LookBook image selected', 'woohotspots')
 					)}
 				</PanelRow>
 
 				<CardDivider />
 
 				<SelectControl
-					label={__('Background image', 'woo-lookblock')}
+					label={__('Background image', 'woohotspots')}
 					value={backImage}
 					options={[
 						{ label: 'No background image', value: 'backimage-none' },
@@ -662,7 +662,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 				{(backImage !== 'backimage-none') && (
 					<RangeControl
-						label={__('Background image opacity', 'woo-lookblock')}
+						label={__('Background image opacity', 'woohotspots')}
 						value={backimageOpacity}
 						onChange={(value) =>
 							setAttributes({ backimageOpacity: value })
@@ -677,13 +677,13 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 			<PanelBody
 				icon={'layout'}
-				title={__('Lookbook layout', 'woo-lookblock')}
+				title={__('Lookbook layout', 'woohotspots')}
 				initialOpen={false}
 			>
 
 				<ToggleControl
 					__nextHasNoMarginBottom
-					label={__('Stack on mobile', 'woo-lookblock')}
+					label={__('Stack on mobile', 'woohotspots')}
 					checked={isStackedOnMobile}
 					onChange={() =>
 						setAttributes({ isStackedOnMobile: !isStackedOnMobile })
@@ -691,7 +691,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 				/>
 
 				<SelectControl
-					//label={__('Layout', 'woo-lookblock')}
+					//label={__('Layout', 'woohotspots')}
 					value={flexLayout}
 					options={[
 						{ label: 'Row - products first', value: 'row' },
@@ -707,7 +707,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 				{flexLayout !== 'image-only' && (
 					<SelectControl
-						label={__('Vertical align', 'woo-lookblock')}
+						label={__('Vertical align', 'woohotspots')}
 						value={valign}
 						options={[
 							{ label: 'Top', value: 'flex-start' },
@@ -720,7 +720,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 				)}
 
 				<RangeControl
-					label={__('Image / products ratio (%)', 'woo-lookblock')}
+					label={__('Image / products ratio (%)', 'woohotspots')}
 					value={flexItemsRatio}
 					min={0}
 					max={100}
@@ -730,7 +730,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 				/>
 				{flexLayout !== 'image-only' && (
 					<UnitRangeControl
-						label={__('Image/Products Gap', 'woo-lookblock')}
+						label={__('Image/Products Gap', 'woohotspots')}
 						value={flexGap}
 						onValueChange={handleFlexGapChange}
 						onUnitChange={(newUnit) =>
@@ -746,7 +746,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 			<PanelBody
 				icon={'products'}
-				title={__('Product layout', 'woo-lookblock')}
+				title={__('Product layout', 'woohotspots')}
 				initialOpen={false}
 			>
 				<TabPanel className="product-settings" tabs={productLayoutTabs}>
@@ -761,10 +761,10 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 			<PanelBody
 				icon={'store'}
-				title={__('Product styles', 'woo-lookblock')}
+				title={__('Product styles', 'woohotspots')}
 				initialOpen={false}
 			>
-				<BaseControl help={__('Product styles are also used for Popover. To override, switch the "Use custom Popover styles" in the "Popover styles" section', 'woo-lookblock')} />
+				<BaseControl help={__('Product styles are also used for Popover. To override, switch the "Use custom Popover styles" in the "Popover styles" section', 'woohotspots')} />
 
 				<TabPanel className="product-settings" tabs={productStyleTabs}>
 					{(tab) => (
@@ -775,18 +775,18 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 				</TabPanel>
 			</PanelBody>
 
-			{mediaID && markers && (
+			{mediaID && hotspots && (
 				<>
 					<PanelBody
-						icon={'marker'}
-						title={__('Product markers', 'woo-lookblock')}
+						icon={'hotspot'}
+						title={__('Product hotspots', 'woohotspots')}
 						initialOpen={false}
 					>
 
-						{markers.map((marker, markerIndex) => (
+						{hotspots.map((hotspot, hotspotIndex) => (
 							<Fragment>
 								<div
-									key={markerIndex}
+									key={hotspotIndex}
 									style={{
 										display: 'flex',
 										flexDirection: 'row',
@@ -796,16 +796,16 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 								>
 									{/* 
 									<ToggleControl
-										label={marker.productTitle ? marker.productTitle : marker.name}
-										checked={marker.active}
-										onChange={() => markerToggle(markerIndex)}
+										label={hotspot.productTitle ? hotspot.productTitle : hotspot.name}
+										checked={hotspot.active}
+										onChange={() => hotspotToggle(hotspotIndex)}
 									/>
 									*/}
-									<p>{marker.productTitle ? marker.productTitle : marker.name}</p>
+									<p>{hotspot.productTitle ? hotspot.productTitle : hotspot.name}</p>
 									<IconButton
 										icon="trash"
-										onClick={() => markerRemove(markerIndex)}
-										label={__('Remove marker', 'woo-lookblock')}
+										onClick={() => hotspotRemove(hotspotIndex)}
+										label={__('Remove hotspot', 'woohotspots')}
 									/>
 								</div>
 								<PanelBody title='Hotspot settings' initialOpen={false}>
@@ -815,28 +815,28 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 							</Fragment>
 
 						))}
-						{markers.length > 0 && (
+						{hotspots.length > 0 && (
 							<Button
 								isSecondary
 								isSmall
-								onClick={() => setAttributes({ markers: [] })}
+								onClick={() => setAttributes({ hotspots: [] })}
 							>
-								{__('Remove All Markers', 'woo-lookblock')}
+								{__('Remove All Hotspots', 'woohotspots')}
 							</Button>
 						)}
-						{markers.length == 0 && (<p>{__('Click on lookbook image to add markers', 'woo-lookblock')}</p>)}
+						{hotspots.length == 0 && (<p>{__('Click on image to add hotspots', 'woohotspots')}</p>)}
 					</PanelBody>
 
-					<PanelBody title={__('Popover styles', 'woo-lookblock')} icon={''}>
+					<PanelBody title={__('Popover styles', 'woohotspots')} icon={''}>
 
 						<ToggleControl
 							__nextHasNoMarginBottom
-							label={__('Use custom Popover styles', 'woo-lookblock')}
+							label={__('Use custom Popover styles', 'woohotspots')}
 							checked={usePopoverCustomSettings}
 							onChange={() =>
 								setAttributes({ usePopoverCustomSettings: !usePopoverCustomSettings })
 							}
-							help={__('Popover shares styles with lookblock products. Switch this on to use custom styles for Popover', 'woo-lookblock')}
+							help={__('Popover shares styles with lookblock products. Switch this on to use custom styles for Popover', 'woohotspots')}
 						/>
 						{usePopoverCustomSettings && (
 							<PopoverControls

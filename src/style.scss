@@ -17,7 +17,7 @@
 	}
 }
 
-.wp-block-micemade-woo-lookblock {
+.wp-block-micemade-woohotspots {
 
 	position: relative;
 
@@ -60,7 +60,7 @@
 
 		.product-grid,
 		&.image-container,
-		&.image-container .marker,
+		&.image-container .hotspot,
 		&.image-container img {
 			position: relative;
 		}
@@ -72,7 +72,7 @@
 				z-index: 1;
 			}
 
-			.product-marker {
+			.product-hotspot {
 				// transition: border-color 250ms ease-in-out,opacity 250ms ease-in-out,visibility 250ms ease-in-out;
 				transition: all 250ms ease-in-out;
 				transform: translateX(-1rem) translateY(-1rem) scale(0.999);
@@ -161,7 +161,7 @@
 					z-index: 3;
 				}
 
-				.marker-product-title {
+				.hotspot-product-title {
 					display: flex;
 					position: absolute;
 					top: 130%;
@@ -178,7 +178,7 @@
 				}
 			}
 
-			.add-some-markers {
+			.add-some-hotspots {
 				position: absolute;
 				bottom: 14px;
 				left: 50%;
@@ -199,7 +199,7 @@
 			box-sizing: border-box;
 			width: 100%;
 
-			.woo-lookblock-product {
+			.woohotspots-product {
 				display: flex;
 				flex-direction: column;
 				position: relative;
@@ -324,7 +324,7 @@
 			}
 
 			&.layout2 {
-				.woo-lookblock-product {
+				.woohotspots-product {
 					width: 100%;
 					flex-direction: row;
 
@@ -335,7 +335,7 @@
 				}
 			}
 			&.layout3 {
-				.woo-lookblock-product {
+				.woohotspots-product {
 					position: relative;
 
 					.overlay {

@@ -52,7 +52,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		productSpacing,
 		titleColor,
 		priceColor,
-		markers,
+		hotspots,
 		imageOption,
 	} = attributes;
 
@@ -92,41 +92,41 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 	// IMAGE CONTROLS.
 	const onSelectImage = (media) => {
-		if (!clearMarkersOnImageChange()) {
+		if (!clearHotspotsOnImageChange()) {
 			return;
 		} else {
 			setAttributes({ mediaURL: media.url, mediaID: media.id });
 		}
 	};
 	const onRemoveImage = () => {
-		if (!clearMarkersOnImageChange()) {
+		if (!clearHotspotsOnImageChange()) {
 			return;
 		} else {
 			setAttributes({ mediaURL: null, mediaID: null });
 		}
 
 	};
-	const clearMarkersOnImageChange = () => {
-		if (markers.length > 0 && mediaID) {
-			if (!confirm("All existing markers will be removed - are you sure?")) {
+	const clearHotspotsOnImageChange = () => {
+		if (hotspots.length > 0 && mediaID) {
+			if (!confirm("All existing hotspots will be removed - are you sure?")) {
 				return false;
 			};
 		}
-		setAttributes({ markers: [] });
+		setAttributes({ hotspots: [] });
 		return true;
 	}
 
 	// MARKER CONTROLS.
-	const markerToggle = (markerIndex) => {
-		const updatedMarkers = [...markers];
-		updatedMarkers[markerIndex].active =
-			!updatedMarkers[markerIndex].active;
-		setAttributes({ markers: updatedMarkers });
+	const hotspotToggle = (hotspotIndex) => {
+		const updatedHotspots = [...hotspots];
+		updatedHotspots[hotspotIndex].active =
+			!updatedHotspots[hotspotIndex].active;
+		setAttributes({ hotspots: updatedHotspots });
 	};
-	const markerRemove = (markerIndex) => {
-		const updatedMarkers = [...markers];
-		updatedMarkers.splice(markerIndex, 1);
-		setAttributes({ markers: updatedMarkers });
+	const hotspotRemove = (hotspotIndex) => {
+		const updatedHotspots = [...hotspots];
+		updatedHotspots.splice(hotspotIndex, 1);
+		setAttributes({ hotspots: updatedHotspots });
 	};
 
 	// Flex gap size (custom 'UnitRangeControl' control )
@@ -180,15 +180,15 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 				<div>
 
 					<ImageRadioSelectControl
-						label={__('Layout type', 'woo-lookblock')}
-						help={__('Pick a grid type for displaying selected products', 'woo-lookblock')}
+						label={__('Layout type', 'woohotspots')}
+						help={__('Pick a grid type for displaying selected products', 'woohotspots')}
 						options={layouts}
 						value={productsLayout}
 						onChange={productsLayoutChange}
 					/>
 
 					<RangeControl
-						label={__('Columns', 'woo-lookblock')}
+						label={__('Columns', 'woohotspots')}
 						value={columns}
 						onChange={(value) =>
 							setAttributes({ columns: value })
@@ -197,7 +197,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						max={4}
 					/>
 					<UnitRangeControl
-						label={__('Products gap', 'woo-lookblock')}
+						label={__('Products gap', 'woohotspots')}
 						value={productsGap}
 						onValueChange={handleProductsGap}
 						onUnitChange={(newUnit) =>
@@ -208,7 +208,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						customUnitOptions={null}
 					/>
 					<UnitRangeControl
-						label={__('Elements spacing', 'woo-lookblock')}
+						label={__('Elements spacing', 'woohotspots')}
 						value={productSpacing}
 						onValueChange={handleproductSpacing}
 						onUnitChange={(newUnit) =>
@@ -219,7 +219,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						customUnitOptions={null}
 					/>
 					<UnitRangeControl
-						label={__('Product padding', 'woo-lookblock')}
+						label={__('Product padding', 'woohotspots')}
 						value={productPadding}
 						onValueChange={handleproductPadding}
 						onUnitChange={(newUnit) =>
@@ -239,7 +239,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 				<div>
 					<CardDivider size="xSmall" />
 					<UnitRangeControl
-						label={__('Product title size', 'woo-lookblock')}
+						label={__('Product title size', 'woohotspots')}
 						value={titleSize}
 						onValueChange={handletitleSizeChange}
 						onUnitChange={(newUnit) =>
@@ -256,7 +256,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						}
 					/>
 					<UnitRangeControl
-						label={__('Price size', 'woo-lookblock')}
+						label={__('Price size', 'woohotspots')}
 						value={priceSize}
 						onValueChange={handlePriceSizeChange}
 						onUnitChange={(newUnit) =>
@@ -287,12 +287,12 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						{
 							value: titleColor,
 							onChange: (newValue) => setAttributes({ titleColor: newValue }),
-							label: __('Title Color', 'woo-lookblock'),
+							label: __('Title Color', 'woohotspots'),
 						},
 						{
 							value: priceColor,
 							onChange: (newValue) => setAttributes({ priceColor: newValue }),
-							label: __('Price Color', 'woo-lookblock'),
+							label: __('Price Color', 'woohotspots'),
 						}
 					]}
 				/>
@@ -304,17 +304,17 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 	return (
 		<InspectorControls>
 			<PanelBody
-				title={__('Select products', 'woo-lookblock')}
+				title={__('Select products', 'woohotspots')}
 				initialOpen={false}
 			>
 
 				{getProducts.isResolving ? (
-					__('Loading products list', 'woo-lookblock')
+					__('Loading products list', 'woohotspots')
 				) : (
 					<FormTokenField
 						label={__(
 							'Start typing product name…',
-							'woo-lookblock'
+							'woohotspots'
 						)}
 						value={displayList}
 						suggestions={suggestions}
@@ -325,14 +325,14 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			</PanelBody>
 
 			<PanelBody
-				title={__('Lookbook image', 'woo-lookblock')}
+				title={__('Lookbook image', 'woohotspots')}
 				initialOpen={false}
 			>
 				<PanelRow>
 					<MediaUpload
 						label={__(
-							'Choose image for lookbook item',
-							'woo-lookblock'
+							'Choose image for Woo HotSpots Block',
+							'woohotspots'
 						)}
 						onSelect={onSelectImage}
 						allowedTypes="image"
@@ -349,8 +349,8 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 								onClick={open}
 							>
 								{!mediaID
-									? __('Add Image', 'woo-lookblock')
-									: __('Change Image', 'woo-lookblock')}
+									? __('Add Image', 'woohotspots')
+									: __('Change Image', 'woohotspots')}
 							</Button>
 						)}
 					/>
@@ -359,7 +359,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 							<IconButton
 								icon="trash"
 								onClick={onRemoveImage}
-								label={__('Remove image', 'woo-lookblock')}
+								label={__('Remove image', 'woohotspots')}
 							/>
 						</PanelRow>
 					)}
@@ -370,16 +370,16 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 							src={mediaURL}
 							alt={__(
 								'Upload Lookbook image',
-								'woo-lookblock'
+								'woohotspots'
 							)}
 						/>
 					) : (
-						__('No LookBook image selected', 'woo-lookblock')
+						__('No LookBook image selected', 'woohotspots')
 					)}
 				</PanelRow>
 				<PanelRow>
 					<SelectControl
-						label={__('Image options', 'woo-lookblock')}
+						label={__('Image options', 'woohotspots')}
 						value={imageOption}
 						options={[
 							{ label: 'No background image', value: 'backimage-none' },
@@ -393,11 +393,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			</PanelBody>
 
 			<PanelBody
-				title={__('Lookbook layout', 'woo-lookblock')}
+				title={__('Lookbook layout', 'woohotspots')}
 				initialOpen={false}
 			>
 				<SelectControl
-					//label={__('Layout', 'woo-lookblock')}
+					//label={__('Layout', 'woohotspots')}
 					value={flexLayout}
 					options={[
 						{ label: 'Products left', value: 'row' },
@@ -412,7 +412,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 				/>
 
 				<SelectControl
-					label={__('Vertical align', 'woo-lookblock')}
+					label={__('Vertical align', 'woohotspots')}
 					value={valign}
 					options={[
 						{ label: 'Top', value: 'flex-start' },
@@ -422,7 +422,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 					onChange={(value) => setAttributes({ valign: value })}
 				/>
 				<RangeControl
-					label={__('Image width (%)', 'woo-lookblock')}
+					label={__('Image width (%)', 'woohotspots')}
 					value={imageWidth}
 					min={0}
 					max={100}
@@ -431,7 +431,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 					}
 				/>
 				<UnitRangeControl
-					label={__('Image/Products Gap', 'woo-lookblock')}
+					label={__('Image/Products Gap', 'woohotspots')}
 					value={flexGap}
 					onValueChange={handleFlexGapChange}
 					onUnitChange={(newUnit) =>
@@ -444,7 +444,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			</PanelBody>
 
 			<PanelBody
-				title={__('Products settings', 'woo-lookblock')}
+				title={__('Products settings', 'woohotspots')}
 				initialOpen={false}
 			>
 				<TabPanel className="product-settings" tabs={productSettingsTabs}>
@@ -457,14 +457,14 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 			</PanelBody>
 
-			{mediaID && markers && (
+			{mediaID && hotspots && (
 				<PanelBody
-					title={__('Product markers', 'woo-lookblock')}
+					title={__('Product hotspots', 'woohotspots')}
 					initialOpen={true}
 				>
-					{markers.map((marker, markerIndex) => (
+					{hotspots.map((hotspot, hotspotIndex) => (
 						<div
-							key={markerIndex}
+							key={hotspotIndex}
 							style={{
 								display: 'flex',
 								flexDirection: 'row',
@@ -474,30 +474,30 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						>
 							<ToggleControl
 								label={
-									marker.productTitle
-										? marker.productTitle
-										: marker.name
+									hotspot.productTitle
+										? hotspot.productTitle
+										: hotspot.name
 								}
-								checked={marker.active}
-								onChange={() => markerToggle(markerIndex)}
+								checked={hotspot.active}
+								onChange={() => hotspotToggle(hotspotIndex)}
 							/>
 							<IconButton
 								icon="trash"
-								onClick={() => markerRemove(markerIndex)}
-								label={__('Remove marker', 'woo-lookblock')}
+								onClick={() => hotspotRemove(hotspotIndex)}
+								label={__('Remove hotspot', 'woohotspots')}
 							/>
 						</div>
 					))}
-					{markers.length > 0 && (
+					{hotspots.length > 0 && (
 						<Button
 							isSecondary
 							isSmall
-							onClick={() => setAttributes({ markers: [] })}
+							onClick={() => setAttributes({ hotspots: [] })}
 						>
-							{__('Remove All Markers', 'woo-lookblock')}
+							{__('Remove All Hotspots', 'woohotspots')}
 						</Button>
 					)}
-					{markers.length == 0 && (<p>{__('Click on lookbook image to add markers', 'woo-lookblock')}</p>)}
+					{hotspots.length == 0 && (<p>{__('Click on image to add hotspots', 'woohotspots')}</p>)}
 				</PanelBody>
 			)}
 

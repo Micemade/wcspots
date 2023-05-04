@@ -11,7 +11,7 @@ import { useSelect } from '@wordpress/data';
  */
 import './style.scss';
 import ProductGrid from './components/productGrid';
-import Marker from './components/marker';
+import Hotspot from './components/hotspot';
 
 const Save = ({ attributes }) => {
 
@@ -32,7 +32,7 @@ const Save = ({ attributes }) => {
 		priceSize,
 		titleColor,
 		priceColor,
-		markers,
+		hotspots,
 		imageOption,
 	} = attributes;
 
@@ -84,15 +84,15 @@ const Save = ({ attributes }) => {
 					{mediaURL && (
 						<div className="flex-block image-container" style={{ width: `${imageWidth}%` }}>
 							<img
-								className="lookbook-image"
+								className="hotspot-image"
 								src={mediaURL}
-								alt={__('Lookbook image', 'woo-lookblock')}
+								alt={__('Lookbook image', 'woohotspots')}
 							/>
-							{markers?.length > 0 &&
-								markers.map((marker, index) => (
-									<Marker
-										key={`marker-${index}`}
-										marker={marker}
+							{hotspots?.length > 0 &&
+								hotspots.map((hotspot, index) => (
+									<Hotspot
+										key={`hotspot-${index}`}
+										hotspot={hotspot}
 										clientId={id}
 									/>
 								))}

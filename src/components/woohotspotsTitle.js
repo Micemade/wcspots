@@ -6,7 +6,7 @@ import { Fragment } from '@wordpress/element';
 import { RichText, BlockControls, AlignmentControl } from '@wordpress/block-editor';
 import { Toolbar, DropdownMenu } from '@wordpress/components';
 
-const LookBlockTitle = (props) => {
+const woohotspotsTitle = (props) => {
 	const { attributes, setAttributes, context } = props;
 	const {
 		title,
@@ -64,7 +64,7 @@ const LookBlockTitle = (props) => {
 						textAlign: settingsTitleDesc.align,
 						margin: `${settingsTitleDesc.spacingTitle} 0`
 					}}
-					placeholder={__('Enter your title here', 'woo-lookblock')}
+					placeholder={__('Enter your title here', 'woohotspots')}
 					keepPlaceholderOnFocus
 				/>
 			) : (
@@ -75,4 +75,4 @@ const LookBlockTitle = (props) => {
 	);
 };
 
-export default LookBlockTitle;
+export default woohotspotsTitle;

@@ -47,7 +47,7 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 					<CardDivider />
 
 					<UnitRangeControl
-						label={__('Popover padding', 'woo-lookblock')}
+						label={__('Popover padding', 'woohotspots')}
 						value={popoverSettings.productsGap}
 						onValueChange={handlePopoverPadding}
 						onUnitChange={(newUnit) =>
@@ -60,7 +60,7 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 						}
 					/>
 					<UnitRangeControl
-						label={__('Product elements spacing', 'woo-lookblock')}
+						label={__('Product elements spacing', 'woohotspots')}
 						value={popoverSettings.productSpacing}
 						onValueChange={handlePopoverProductSpacing}
 						onUnitChange={(newUnit) =>
@@ -73,7 +73,7 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 						}
 					/>
 					<UnitRangeControl
-						label={__('Product elements padding', 'woo-lookblock')}
+						label={__('Product elements padding', 'woohotspots')}
 						value={popoverSettings.productPadding}
 						onValueChange={handlePopoverInnerPadding}
 						onUnitChange={(newUnit) =>
@@ -95,7 +95,7 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 				<div>
 					<CardDivider size="xSmall" />
 					<UnitRangeControl
-						label={__('Title font size', 'woo-lookblock')}
+						label={__('Title font size', 'woohotspots')}
 						value={popoverSettings.titleSize}
 						onValueChange={(newValue) => {
 							setAttributes({
@@ -122,7 +122,7 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 						}
 					/>
 					<UnitRangeControl
-						label={__('Price font size', 'woo-lookblock')}
+						label={__('Price font size', 'woohotspots')}
 						value={popoverSettings.priceSize}
 						onValueChange={(newValue) => {
 							setAttributes({
@@ -149,7 +149,7 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 						}
 					/>
 					<UnitRangeControl
-						label={__('Short description font size', 'woo-lookblock')}
+						label={__('Short description font size', 'woohotspots')}
 						value={popoverSettings.excerptSize}
 						onValueChange={(newValue) => {
 							setAttributes({
@@ -176,7 +176,7 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 						}
 					/>
 					<RangeControl
-						label={__('Add to Cart size', 'woo-lookblock')}
+						label={__('Add to Cart size', 'woohotspots')}
 						value={popoverSettings.addToCartSize}
 						onChange={(value) =>
 							setAttributes({
@@ -211,7 +211,7 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 											productBackColor: newValue
 										}
 									}),
-								label: __('Background Color', 'woo-lookblock'),
+								label: __('Background Color', 'woohotspots'),
 							},
 							{
 								value: popoverSettings.titleColor,
@@ -222,7 +222,7 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 											titleColor: newValue
 										}
 									}),
-								label: __('Title Color', 'woo-lookblock'),
+								label: __('Title Color', 'woohotspots'),
 							},
 							{
 								value: popoverSettings.priceColor,
@@ -233,7 +233,7 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 											priceColor: newValue
 										}
 									}),
-								label: __('Price Color', 'woo-lookblock'),
+								label: __('Price Color', 'woohotspots'),
 							},
 							{
 								value: popoverSettings.excerptColor,
@@ -244,7 +244,7 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 											excerptColor: newValue
 										}
 									}),
-								label: __('Excerpt Color', 'woo-lookblock'),
+								label: __('Excerpt Color', 'woohotspots'),
 							},
 						]}
 					/>
