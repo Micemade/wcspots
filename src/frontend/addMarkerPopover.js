@@ -14,6 +14,7 @@ import { Popover as MarkerPopover } from 'react-tiny-popover';
 import ProductTitle from '../components/productTitle';
 import ProductImage from '../components/productImage';
 import ProductPrice from '../components/productPrice';
+import ProductExcerpt from '../components/productExcerpt';
 import ProductAddToCart from '../components/productAddToCart';
 
 const AddMarkerPopover = (props) => {
@@ -25,6 +26,23 @@ const AddMarkerPopover = (props) => {
 		setIsPopoverOpen((state) => !state);
 	};
 
+	const {
+		productsGap,
+		productsLayout,
+		productsAlign,
+		elementsToggle,
+		productSpacing,
+		productPadding,
+		titleSize,
+		priceSize,
+		excerptSize,
+		addToCartSize,
+		productBackColor,
+		titleColor,
+		priceColor,
+		excerptColor
+	} = popoverSettings;
+
 	// Popover classes and styles.
 	const popoverTogglerClass = {
 		width: "100%",
@@ -35,20 +53,34 @@ const AddMarkerPopover = (props) => {
 	}
 
 	const contentStyle = {
-		padding: `${popoverSettings.padding.value}${popoverSettings.padding.unit}`,
-		...popoverSettings.productBackColor && { backgroundColor: popoverSettings.productBackColor }
+		padding: `${productsGap.value}${productsGap.unit}`,
+		...productBackColor && { backgroundColor: productBackColor }
 	}
 
-	const singleElementStyle = {
-		margin: `${popoverSettings.innerSpacing.value}${popoverSettings.innerSpacing.unit} 0`
+	const spacing = {
+		margin: `${productSpacing.value}${productSpacing.unit} 0`
 	}
 
 	const elementsStyle = {
-		padding: `${popoverSettings.innerPadding.value}${popoverSettings.innerPadding.unit}`
+		padding: `${productPadding.value}${productPadding.unit}`
 	}
 
 	const titleStyle = {
-		...popoverSettings.titleColor && { color: popoverSettings.titleColor }
+		fontSize: `${titleSize.value}${titleSize.unit}`,
+		...titleColor && { color: titleColor }
+	}
+
+	const priceStyle = {
+		fontSize: `${priceSize.value}${priceSize.unit}`,
+		...priceColor && { color: priceColor }
+	}
+
+	const excerptStyle = {
+		fontSize: `${excerptSize.value}${excerptSize.unit}`,
+		...excerptColor && { color: excerptColor }
+	}
+	const addToCartStyle = {
+		transform: `scale(${addToCartSize})`,
 	}
 	/*
 	// 'parentElement' is undefined on front (edit.js useEffect solves it when in editor)
@@ -75,17 +107,28 @@ const AddMarkerPopover = (props) => {
 
 					<div className='product-elements' style={elementsStyle}>
 
-						<div className="product-title product-element" style={singleElementStyle}>
-							<h4 style={titleStyle}><ProductTitle productId={assocProdId} /></h4>
-						</div>
+						{elementsToggle.title && (
+							<div className="product-title product-element" style={Object.assign(titleStyle, spacing)}>
+								<h4><ProductTitle productId={assocProdId} /></h4>
+							</div>
+						)}
 
-						<div className="product-price product-element" style={singleElementStyle}>
-							<ProductPrice productId={assocProdId} />
-						</div>
+						{elementsToggle.price && (
+							<div className="product-price product-element" style={Object.assign(priceStyle, spacing)}>
+								<ProductPrice productId={assocProdId} />
+							</div>
+						)}
 
-						<div className="product-add-to-cart product-element" style={singleElementStyle}>
-							<ProductAddToCart productId={assocProdId} />
-						</div>
+						{elementsToggle.excerpt && (
+							<div className="product-excerpt product-element" style={Object.assign(excerptStyle, spacing)}>
+								<ProductExcerpt productId={assocProdId} />
+							</div>
+						)}
+						{elementsToggle.addToCart && (
+							<div className="product-add-to-cart product-element" style={Object.assign(addToCartStyle, spacing)}>
+								<ProductAddToCart productId={assocProdId} />
+							</div>
+						)}
 
 					</div>
 				</div>

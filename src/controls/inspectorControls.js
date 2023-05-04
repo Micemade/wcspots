@@ -13,9 +13,10 @@ import {
 	IconButton,
 	SelectControl,
 	ToggleControl,
-	TabPanel
+	TabPanel,
+	BaseControl
 } from '@wordpress/components';
-import { InspectorControls, MediaUpload, PanelColorSettings } from '@wordpress/block-editor';
+import { InspectorControls, MediaUpload, PanelColorSettings, HeightControl } from '@wordpress/block-editor';
 
 /////////////////////////////////////
 import { useState, useEffect } from 'react';
@@ -38,6 +39,7 @@ import makeAnimated from 'react-select/animated';
 import UnitRangeControl from './UnitRangeControl';
 import ImageRadioSelectControl from './ImageRadioSelectControl';
 import PopoverControls from './popoverControls';
+import { Fragment } from 'react';
 
 /**
  * InspectorControlsComponent function.
@@ -51,13 +53,16 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 	});
 
 	const {
+		title,
+		settingsTitleDesc,
 		productsData,
 		media,
 		srcSetAtt,
 		sizesAtt,
 		mediaID,
 		mediaURL,
-		imageOption,
+		backImage,
+		backimageOpacity,
 		isStackedOnMobile,
 		flexLayout,
 		flexGap,
@@ -79,6 +84,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		priceColor,
 		excerptColor,
 		markers,
+		usePopoverCustomSettings,
 		popoverSettings
 	} = attributes;
 
@@ -139,7 +145,6 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 	// IMAGE CONTROLS.
 	const onSelectImage = (media) => {
-		console.log(media.sizes);
 		if (!clearMarkersOnImageChange()) {
 			return;
 		} else {
@@ -168,12 +173,12 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 	 * MARKER CONTROLS.
 	 */
 	// Activate/deactivate marker.
-	const markerToggle = (markerIndex) => {
+	/* const markerToggle = (markerIndex) => {
 		const updatedMarkers = [...markers];
 		updatedMarkers[markerIndex].active =
 			!updatedMarkers[markerIndex].active;
 		setAttributes({ markers: updatedMarkers });
-	};
+	}; */
 	// Delete marker.
 	const markerRemove = (markerIndex) => {
 		const updatedMarkers = [...markers];
@@ -491,13 +496,75 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		});
 	const animatedComponents = makeAnimated();
 
+
 	// Return Inspector controls.
 	return (
 		<InspectorControls>
 			<PanelBody
-				icon={'store'}
-				title={__('Lookblock products', 'woo-lookblock')}
+				icon={'text'}
+				title={__('Title and description', 'woo-lookblock')}
 				initialOpen={false}
+			>
+
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={__('Show title', 'woo-lookblock')}
+					checked={settingsTitleDesc.activeTitle}
+					onChange={() =>
+						setAttributes({
+							settingsTitleDesc: {
+								...settingsTitleDesc,
+								activeTitle: !settingsTitleDesc.activeTitle
+							}
+						})
+					}
+				/>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={__('Show description', 'woo-lookblock')}
+					checked={settingsTitleDesc.activeDesc}
+					onChange={() =>
+						setAttributes({
+							settingsTitleDesc: {
+								...settingsTitleDesc,
+								activeDesc: !settingsTitleDesc.activeDesc
+							}
+						})
+					}
+				/>
+
+				<HeightControl
+					label={'Title spacing'}
+					value={settingsTitleDesc.spacingTitle}
+					onChange={(newSpacing) => {
+						setAttributes({
+							settingsTitleDesc: {
+								...settingsTitleDesc,
+								spacingTitle: newSpacing
+							}
+						});
+					}}
+				/>
+
+				<HeightControl
+					label={'Decription spacing'}
+					value={settingsTitleDesc.spacingDesc}
+					onChange={(newSpacing) => {
+						setAttributes({
+							settingsTitleDesc: {
+								...settingsTitleDesc,
+								spacingDesc: newSpacing
+							}
+						});
+					}}
+				/>
+
+			</PanelBody>
+
+			<PanelBody
+				icon={'store'}
+				title={__('WooCommerce products', 'woo-lookblock')}
+				initialOpen={true}
 			>
 				{/* 
 				<FormTokenField
@@ -528,7 +595,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 			<PanelBody
 				icon={'format-image'}
-				title={__('Lookbook image', 'woo-lookblock')}
+				title={__('Lookblock image', 'woo-lookblock')}
 				initialOpen={false}
 			>
 				<PanelRow>
@@ -580,18 +647,32 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						__('No LookBook image selected', 'woo-lookblock')
 					)}
 				</PanelRow>
-				<PanelRow>
-					<SelectControl
-						label={__('Image options', 'woo-lookblock')}
-						value={imageOption}
-						options={[
-							{ label: 'No background image', value: 'backimage-none' },
-							{ label: 'Also as a background', value: 'backimage-same' },
-							{ label: 'Custom background image', value: 'backimage-custom' },
-						]}
-						onChange={(value) => setAttributes({ imageOption: value })}
+
+				<CardDivider />
+
+				<SelectControl
+					label={__('Background image', 'woo-lookblock')}
+					value={backImage}
+					options={[
+						{ label: 'No background image', value: 'backimage-none' },
+						{ label: 'Lookblock image as background', value: 'backimage-same' },
+					]}
+					onChange={(value) => setAttributes({ backImage: value })}
+				/>
+
+				{(backImage !== 'backimage-none') && (
+					<RangeControl
+						label={__('Background image opacity', 'woo-lookblock')}
+						value={backimageOpacity}
+						onChange={(value) =>
+							setAttributes({ backimageOpacity: value })
+						}
+						min={0}
+						max={1}
+						step={0.05}
 					/>
-				</PanelRow>
+				)}
+
 			</PanelBody>
 
 			<PanelBody
@@ -624,17 +705,20 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 					}
 				/>
 
-				<SelectControl
-					label={__('Vertical align', 'woo-lookblock')}
-					value={valign}
-					options={[
-						{ label: 'Top', value: 'flex-start' },
-						{ label: 'Center', value: 'center' },
-						{ label: 'Bottom', value: 'flex-end' },
-						{ label: 'Stretch', value: 'stretch' },
-					]}
-					onChange={(value) => setAttributes({ valign: value })}
-				/>
+				{flexLayout !== 'image-only' && (
+					<SelectControl
+						label={__('Vertical align', 'woo-lookblock')}
+						value={valign}
+						options={[
+							{ label: 'Top', value: 'flex-start' },
+							{ label: 'Center', value: 'center' },
+							{ label: 'Bottom', value: 'flex-end' },
+							{ label: 'Stretch', value: 'stretch' },
+						]}
+						onChange={(value) => setAttributes({ valign: value })}
+					/>
+				)}
+
 				<RangeControl
 					label={__('Image / products ratio (%)', 'woo-lookblock')}
 					value={flexItemsRatio}
@@ -644,17 +728,20 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						setAttributes({ flexItemsRatio: value })
 					}
 				/>
-				<UnitRangeControl
-					label={__('Image/Products Gap', 'woo-lookblock')}
-					value={flexGap}
-					onValueChange={handleFlexGapChange}
-					onUnitChange={(newUnit) =>
-						setAttributes({
-							flexGap: { value: flexGap.value, unit: newUnit },
-						})
-					}
-					customUnitOptions={null}
-				/>
+				{flexLayout !== 'image-only' && (
+					<UnitRangeControl
+						label={__('Image/Products Gap', 'woo-lookblock')}
+						value={flexGap}
+						onValueChange={handleFlexGapChange}
+						onUnitChange={(newUnit) =>
+							setAttributes({
+								flexGap: { value: flexGap.value, unit: newUnit },
+							})
+						}
+						customUnitOptions={null}
+					/>
+				)}
+
 			</PanelBody>
 
 			<PanelBody
@@ -677,6 +764,8 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 				title={__('Product styles', 'woo-lookblock')}
 				initialOpen={false}
 			>
+				<BaseControl help={__('Product styles are also used for Popover. To override, switch the "Use custom Popover styles" in the "Popover styles" section', 'woo-lookblock')} />
+
 				<TabPanel className="product-settings" tabs={productStyleTabs}>
 					{(tab) => (
 						<div>
@@ -689,36 +778,42 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			{mediaID && markers && (
 				<>
 					<PanelBody
-						icon={'flag'}
+						icon={'marker'}
 						title={__('Product markers', 'woo-lookblock')}
 						initialOpen={false}
 					>
 
 						{markers.map((marker, markerIndex) => (
-							<div
-								key={markerIndex}
-								style={{
-									display: 'flex',
-									flexDirection: 'row',
-									justifyContent: 'space-between',
-									alignItems: 'baseline',
-								}}
-							>
-								<ToggleControl
-									label={
-										marker.productTitle
-											? marker.productTitle
-											: marker.name
-									}
-									checked={marker.active}
-									onChange={() => markerToggle(markerIndex)}
-								/>
-								<IconButton
-									icon="trash"
-									onClick={() => markerRemove(markerIndex)}
-									label={__('Remove marker', 'woo-lookblock')}
-								/>
-							</div>
+							<Fragment>
+								<div
+									key={markerIndex}
+									style={{
+										display: 'flex',
+										flexDirection: 'row',
+										justifyContent: 'space-between',
+										alignItems: 'baseline',
+									}}
+								>
+									{/* 
+									<ToggleControl
+										label={marker.productTitle ? marker.productTitle : marker.name}
+										checked={marker.active}
+										onChange={() => markerToggle(markerIndex)}
+									/>
+									*/}
+									<p>{marker.productTitle ? marker.productTitle : marker.name}</p>
+									<IconButton
+										icon="trash"
+										onClick={() => markerRemove(markerIndex)}
+										label={__('Remove marker', 'woo-lookblock')}
+									/>
+								</div>
+								<PanelBody title='Hotspot settings' initialOpen={false}>
+
+								</PanelBody>
+								<CardDivider />
+							</Fragment>
+
 						))}
 						{markers.length > 0 && (
 							<Button
@@ -732,11 +827,23 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						{markers.length == 0 && (<p>{__('Click on lookbook image to add markers', 'woo-lookblock')}</p>)}
 					</PanelBody>
 
-					<PanelBody title={__('Popover settings', 'woo-lookblock')}>
+					<PanelBody title={__('Popover styles', 'woo-lookblock')} icon={''}>
 
-						{/* PopoverControls(popoverSettings, setAttributes) */}
-						<PopoverControls popoverSettings={popoverSettings} setAttributes={setAttributes} />
-
+						<ToggleControl
+							__nextHasNoMarginBottom
+							label={__('Use custom Popover styles', 'woo-lookblock')}
+							checked={usePopoverCustomSettings}
+							onChange={() =>
+								setAttributes({ usePopoverCustomSettings: !usePopoverCustomSettings })
+							}
+							help={__('Popover shares styles with lookblock products. Switch this on to use custom styles for Popover', 'woo-lookblock')}
+						/>
+						{usePopoverCustomSettings && (
+							<PopoverControls
+								popoverSettings={popoverSettings}
+								setAttributes={setAttributes}
+							/>
+						)}
 
 					</PanelBody>
 				</>

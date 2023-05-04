@@ -104,7 +104,6 @@ const ProductItem = ({
 					</div>
 				)}
 
-
 			</div>
 
 		</div>

@@ -10,7 +10,7 @@ const LookBlockTitle = (props) => {
 	const { attributes, setAttributes, context } = props;
 	const {
 		title,
-		titleSettings
+		settingsTitleDesc
 	} = attributes;
 
 
@@ -18,7 +18,7 @@ const LookBlockTitle = (props) => {
 		setAttributes({ title: newTitle });
 	};
 	const onChangeTagName = (newTagName) => {
-		setAttributes({ titleSettings: { ...titleSettings, tagName: newTagName } });
+		setAttributes({ settingsTitleDesc: { ...settingsTitleDesc, tagName: newTagName } });
 	};
 	const formatTypes = [
 		{ name: 'p', title: 'Paragraph' },
@@ -37,9 +37,9 @@ const LookBlockTitle = (props) => {
 					<BlockControls>
 						<Toolbar>
 							<AlignmentControl
-								value={titleSettings.align}
+								value={settingsTitleDesc.align}
 								onChange={(nextAlign) => {
-									setAttributes({ titleSettings: { ...titleSettings, align: nextAlign } });
+									setAttributes({ settingsTitleDesc: { ...settingsTitleDesc, align: nextAlign } });
 								}}
 							/>
 							<DropdownMenu
@@ -48,7 +48,7 @@ const LookBlockTitle = (props) => {
 								controls={formatTypes.map((type) => ({
 									title: type.title,
 									onClick: () => onChangeTagName(type.name),
-									isActive: titleSettings.tagName === type.name,
+									isActive: settingsTitleDesc.tagName === type.name,
 								}))}
 							/>
 						</Toolbar>
@@ -57,15 +57,18 @@ const LookBlockTitle = (props) => {
 			}
 			{context === 'edit' ? (
 				<RichText
-					tagName={titleSettings.tagName}
+					tagName={settingsTitleDesc.tagName}
 					value={title}
 					onChange={onChangeTitle}
-					style={{ textAlign: titleSettings.align }}
+					style={{
+						textAlign: settingsTitleDesc.align,
+						margin: `${settingsTitleDesc.spacingTitle} 0`
+					}}
 					placeholder={__('Enter your title here', 'woo-lookblock')}
 					keepPlaceholderOnFocus
 				/>
 			) : (
-				<RichText.Content tagName={titleSettings.tagName} value={title} style={{ textAlign: titleSettings.align }} />
+				<RichText.Content tagName={settingsTitleDesc.tagName} value={title} style={{ textAlign: settingsTitleDesc.align }} />
 			)}
 
 		</Fragment>

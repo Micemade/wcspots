@@ -3,28 +3,28 @@
  */
 import { __ } from '@wordpress/i18n';
 import { PanelColorSettings } from '@wordpress/block-editor';
-import { TabPanel, CardDivider } from '@wordpress/components';
+import { TabPanel, CardDivider, RangeControl } from '@wordpress/components';
 
 import UnitRangeControl from './UnitRangeControl';
 
 const PopoverControls = ({ popoverSettings, setAttributes }) => {
 
 	// Popover setting handlers.
-	// Padding (custom 'UnitRangeControl' control )
+	// Padding (custom 'UnitRangeControl' control ) - uses 'productsGap' property (sharing).
 	const handlePopoverPadding = (newValue) => {
 		setAttributes({
 			popoverSettings: {
 				...popoverSettings,
-				padding: { value: newValue, unit: popoverSettings.padding.unit },
+				productsGap: { value: newValue, unit: popoverSettings.productsGap.unit }
 			}
 		});
 	};
 	// Spacing for title, price, AddToCart ... (custom 'UnitRangeControl' control )
-	const handlePopoverInnerSpacing = (newValue) => {
+	const handlePopoverProductSpacing = (newValue) => {
 		setAttributes({
 			popoverSettings: {
 				...popoverSettings,
-				innerSpacing: { value: newValue, unit: popoverSettings.innerSpacing.unit }
+				productSpacing: { value: newValue, unit: popoverSettings.productSpacing.unit }
 			}
 		});
 	};
@@ -33,7 +33,7 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 		setAttributes({
 			popoverSettings: {
 				...popoverSettings,
-				innerPadding: { value: newValue, unit: popoverSettings.innerPadding.unit }
+				productPadding: { value: newValue, unit: popoverSettings.productPadding.unit }
 			}
 		});
 	};
@@ -45,41 +45,42 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 			content: (
 				<div>
 					<CardDivider />
+
 					<UnitRangeControl
 						label={__('Popover padding', 'woo-lookblock')}
-						value={popoverSettings.padding}
+						value={popoverSettings.productsGap}
 						onValueChange={handlePopoverPadding}
 						onUnitChange={(newUnit) =>
 							setAttributes({
 								popoverSettings: {
 									...popoverSettings,
-									padding: { value: popoverSettings.padding.value, unit: newUnit }
+									productsGap: { value: popoverSettings.productsGap.value, unit: newUnit }
 								}
 							})
 						}
 					/>
 					<UnitRangeControl
 						label={__('Product elements spacing', 'woo-lookblock')}
-						value={popoverSettings.innerSpacing}
-						onValueChange={handlePopoverInnerSpacing}
+						value={popoverSettings.productSpacing}
+						onValueChange={handlePopoverProductSpacing}
 						onUnitChange={(newUnit) =>
 							setAttributes({
 								popoverSettings: {
 									...popoverSettings,
-									innerSpacing: { value: popoverSettings.innerSpacing.value, unit: newUnit }
+									productSpacing: { value: popoverSettings.productSpacing.value, unit: newUnit }
 								}
 							})
 						}
 					/>
 					<UnitRangeControl
 						label={__('Product elements padding', 'woo-lookblock')}
-						value={popoverSettings.innerPadding}
+						value={popoverSettings.productPadding}
 						onValueChange={handlePopoverInnerPadding}
 						onUnitChange={(newUnit) =>
 							setAttributes({
 								popoverSettings: {
 									...popoverSettings,
-									innerPadding: { value: popoverSettings.innerPadding.value, unit: newUnit }
+									productPadding: { value: popoverSettings.productPadding.value, unit: newUnit }
 								}
 							})
 						}
@@ -92,7 +93,103 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 			title: 'Sizes',
 			content: (
 				<div>
-
+					<CardDivider size="xSmall" />
+					<UnitRangeControl
+						label={__('Title font size', 'woo-lookblock')}
+						value={popoverSettings.titleSize}
+						onValueChange={(newValue) => {
+							setAttributes({
+								popoverSettings: {
+									...popoverSettings,
+									titleSize: { value: newValue, unit: popoverSettings.titleSize.unit }
+								}
+							})
+						}}
+						onUnitChange={(newUnit) =>
+							setAttributes({
+								popoverSettings: {
+									...popoverSettings,
+									titleSize: { value: popoverSettings.titleSize.value, unit: newUnit }
+								}
+							})
+						}
+						customUnitOptions={
+							[
+								{ label: 'px', value: 'px' },
+								{ label: 'em', value: 'em' },
+								{ label: 'rem', value: 'rem' },
+							]
+						}
+					/>
+					<UnitRangeControl
+						label={__('Price font size', 'woo-lookblock')}
+						value={popoverSettings.priceSize}
+						onValueChange={(newValue) => {
+							setAttributes({
+								popoverSettings: {
+									...popoverSettings,
+									priceSize: { value: newValue, unit: popoverSettings.priceSize.unit }
+								}
+							})
+						}}
+						onUnitChange={(newUnit) =>
+							setAttributes({
+								popoverSettings: {
+									...popoverSettings,
+									priceSize: { value: popoverSettings.priceSize.value, unit: newUnit }
+								}
+							})
+						}
+						customUnitOptions={
+							[
+								{ label: 'px', value: 'px' },
+								{ label: 'em', value: 'em' },
+								{ label: 'rem', value: 'rem' },
+							]
+						}
+					/>
+					<UnitRangeControl
+						label={__('Short description font size', 'woo-lookblock')}
+						value={popoverSettings.excerptSize}
+						onValueChange={(newValue) => {
+							setAttributes({
+								popoverSettings: {
+									...popoverSettings,
+									excerptSize: { value: newValue, unit: popoverSettings.excerptSize.unit }
+								}
+							})
+						}}
+						onUnitChange={(newUnit) =>
+							setAttributes({
+								popoverSettings: {
+									...popoverSettings,
+									excerptSize: { value: popoverSettings.excerptSize.value, unit: newUnit }
+								}
+							})
+						}
+						customUnitOptions={
+							[
+								{ label: 'px', value: 'px' },
+								{ label: 'em', value: 'em' },
+								{ label: 'rem', value: 'rem' },
+							]
+						}
+					/>
+					<RangeControl
+						label={__('Add to Cart size', 'woo-lookblock')}
+						value={popoverSettings.addToCartSize}
+						onChange={(value) =>
+							setAttributes({
+								popoverSettings: {
+									...popoverSettings,
+									addToCartSize: value
+								}
+							})
+						}
+						min={0.5}
+						max={2}
+						step={0.05}
+					/>
 				</div>
 			)
 		},
@@ -137,6 +234,17 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 										}
 									}),
 								label: __('Price Color', 'woo-lookblock'),
+							},
+							{
+								value: popoverSettings.excerptColor,
+								onChange: (newValue) =>
+									setAttributes({
+										popoverSettings: {
+											...popoverSettings,
+											excerptColor: newValue
+										}
+									}),
+								label: __('Excerpt Color', 'woo-lookblock'),
 							},
 						]}
 					/>

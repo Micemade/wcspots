@@ -29,16 +29,22 @@
 			"type": "string",
 			"default": ""
 		},
-		"titleSettings":{
+		"description":{
+			"type":"string",
+			"default": ""
+		},
+		"settingsTitleDesc":{
 			"type":"object",
 			"default": {
-				"active": true,
+				"activeTitle": true,
 				"tagName": "h2",
 				"align": "center",
-				"spacing": { "value": 1, "unit": "em"},
-				"color": ""
+				"spacingTitle": "20px",
+				"activeDesc": true,
+				"spacingDesc": "10px"
 			}
 		},
+
 		"productsData": {
 			"type": "array",
 			"default": []
@@ -63,9 +69,13 @@
 			"type": "string",
 			"default": null
 		},
-		"imageOption": {
+		"backImage": {
 			"type": "string",
 			"default": "backimage-none"
+		},
+		"backimageOpacity": {
+			"type":"number",
+			"default": 0.5
 		},
 
 		"isStackedOnMobile":{
@@ -157,32 +167,6 @@
 			"type": "string",
 			"default": ""
 		},
-
-		"productStyles":{
-			"type":"object",
-			"default": {
-				"productsLayout": "layout1",
-				"productsAlign": "flex-start",
-				"columns": 3,
-				"productsHeight": {"value": 18, "unit": "em"},
-				"elementsToggle": {
-					"title": true,
-					"price": true,
-					"excerpt": true,
-					"addToCart": true
-				},
-				"productsGap": {"value":1, "unit": "vw"},
-				"productSpacing": {"value":0.7, "unit": "vw"},
-				"productPadding": {"value":0.7, "unit": "vw"},
-				"titleSize": {"value":1, "unit": "em"},
-				"priceSize": {"value":0.8, "unit": "em"},
-				"addToCartSize": 1,
-				"productBackColor": "",
-				"titleColor": "",
-				"priceColor": "",
-				"excerptColor": ""
-			}
-		},
 		
 		"markers": {
 			"type": "array",
@@ -200,16 +184,32 @@
 			"type": "boolean",
 			"default": false
 		},
-
+		"usePopoverCustomSettings":{
+			"type": "boolean",
+			"default": false
+		},
 		"popoverSettings":{
 			"type":"object",
 			"default": {
-				"padding": {"value":1, "unit": "em"},
-				"innerSpacing": {"value":1, "unit": "em"},
-				"innerPadding": {"value":0, "unit": "em"},
+				"productsGap": {"value":1, "unit": "em"},
+				"productsLayout": "layout1",
+				"productsAlign": "flex-start",
+				"elementsToggle": {
+					"title": true,
+					"price": true,
+					"excerpt": true,
+					"addToCart": true
+				},
+				"productSpacing": {"value":1, "unit": "em"},
+				"productPadding": {"value":0, "unit": "em"},
+				"titleSize": {"value":1, "unit": "em"},
+				"priceSize": {"value":0.8, "unit": "em"},
+				"excerptSize": {"value":0.8, "unit": "em"},
+				"addToCartSize": 1,
 				"productBackColor": "",
 				"titleColor": "",
-				"priceColor": ""
+				"priceColor": "",
+				"excerptColor": ""
 			}
 		},
 

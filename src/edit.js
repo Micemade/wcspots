@@ -35,14 +35,16 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 	const {
 		id,
 		title,
-		titleSettings,
+		settingsTitleDesc,
+		description,
 		productsData,
 		media,
 		srcSetAtt,
 		sizesAtt,
 		mediaURL,
 		mediaID,
-		imageOption,
+		backImage,
+		backimageOpacity,
 		isStackedOnMobile,
 		flexLayout,
 		flexGap,
@@ -67,11 +69,19 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		selectedMarker,
 		selectedProduct,
 		editModal,
+		usePopoverCustomSettings,
 		popoverSettings
 	} = attributes;
 
-	// Transfer product style settings to Popover.
-	const productSettings = { productsLayout, productsAlign, columns, elementsToggle, productsGap, productSpacing, productPadding, titleSize, priceSize, excerptSize, addToCartSize, productBackColor, titleColor, priceColor, excerptColor }
+
+	/**
+	 * Apply product style settings to Popover.
+	 * properties are same for product elements and for popover elements.
+	 * The 'productGap' for products is used as 'padding' popover property.
+	 */
+	const productSharedSettings = { productsGap, productsLayout, productsAlign, elementsToggle, productSpacing, productPadding, titleSize, priceSize, excerptSize, addToCartSize, productBackColor, titleColor, priceColor, excerptColor }
+	const popSettings = usePopoverCustomSettings ? popoverSettings : productSharedSettings;
+
 
 	// Set Popover (React Tiny Popover) parent element in Editor.
 	const [popoverParent, setPopoverParent] = useState();
@@ -82,7 +92,6 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		const _popoverParent = popoverParentMobile ? popoverParentMobile : popoverParentDesktop;
 		setPopoverParent(_popoverParent);
 	}, []);
-
 
 
 	// Set unique block ID using 'clientId' (For duplicating block).
@@ -99,7 +108,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 	const blockProps = useBlockProps({
 		'data-block-id': clientId,
 		'data-product-ids': JSON.stringify(productIds),
-		'data-popover-settings': JSON.stringify(popoverSettings)
+		'data-popover-settings': JSON.stringify(popSettings)
 	});
 
 	// Modal products select options, on marker double click.
@@ -193,11 +202,32 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 
 			<div {...blockProps}>
 
-				{(imageOption !== 'backimage-none' && mediaURL) &&
-					(<div className='cover-image' style={{ backgroundImage: `url(${mediaURL})` }}></div>)
+				{(backImage !== 'backimage-none' && mediaURL) &&
+					(<div className='cover-image' style={{ backgroundImage: `url(${mediaURL})`, opacity: backimageOpacity }}></div>)
 				}
 
-				<LookBlockTitle attributes={attributes} setAttributes={setAttributes} context="edit" />
+				{settingsTitleDesc.activeTitle && (
+					<LookBlockTitle
+						attributes={attributes}
+						setAttributes={setAttributes}
+						context="edit" />
+				)}
+
+				{settingsTitleDesc.activeDesc && (
+					<RichText
+						tagName="p"
+						value={description}
+						onChange={(newDesc) => {
+							setAttributes({ description: newDesc });
+						}}
+						style={{
+							textAlign: settingsTitleDesc.align,
+							margin: `${settingsTitleDesc.spacingDesc} 0`
+						}}
+						placeholder={__('Enter your description here', 'woo-lookblock')}
+						keepPlaceholderOnFocus
+					/>
+				)}
 
 				<div className={`${flexContainerClasses} flex-container`} style={flexContainerStyles}>
 
@@ -269,7 +299,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 									removeMarker={removeMarker}
 									markers={markers}
 									setAttributes={setAttributes}
-									popoverSettings={popoverSettings}
+									popoverSettings={popSettings}
 									popoverParent={popoverParent}
 									context="edit"
 								/>

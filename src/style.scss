@@ -270,7 +270,6 @@
 					font-size: 1.2em;
 
 					a { color: inherit; }
-
 				}
 
 				.product-excerpt {
@@ -437,7 +436,14 @@
 				* {
 					margin: 0;
 				}
-			} 
+			}
+			.product-excerpt {
+				font-size: 0.8em;
+				div > * {
+					margin: inherit;
+					color: inherit;
+				}
+			}
 			.product-add-to-cart {
 				position: relative;
 

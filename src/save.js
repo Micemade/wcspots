@@ -21,12 +21,15 @@ const Save = ({ attributes }) => {
 	const {
 		id,
 		title,
+		settingsTitleDesc,
+		description,
 		productsData,
 		media,
 		srcSetAtt,
 		sizesAtt,
 		mediaURL,
-		imageOption,
+		backImage,
+		backimageOpacity,
 		isStackedOnMobile,
 		flexLayout,
 		flexGap,
@@ -48,8 +51,17 @@ const Save = ({ attributes }) => {
 		priceColor,
 		excerptColor,
 		markers,
+		usePopoverCustomSettings,
 		popoverSettings
 	} = attributes;
+
+	/**
+	 * Apply product style settings to Popover.
+	 * properties are same for product elements and for popover elements.
+	 * The 'productGap' for products is used as 'padding' popover property.
+	 */
+	const productSharedSettings = { productsGap, productsLayout, productsAlign, elementsToggle, productSpacing, productPadding, titleSize, priceSize, excerptSize, addToCartSize, productBackColor, titleColor, priceColor, excerptColor }
+	const popSettings = usePopoverCustomSettings ? popoverSettings : productSharedSettings;
 
 	// Array of selected product ID's for blocks 'data-product-ids' attribute.
 	// Used for frontend rendering.
@@ -59,7 +71,7 @@ const Save = ({ attributes }) => {
 	const blockProps = useBlockProps.save({
 		'data-block-id': id,
 		'data-product-ids': JSON.stringify(productIds),
-		'data-popover-settings': JSON.stringify(popoverSettings)
+		'data-popover-settings': JSON.stringify(popSettings)
 	});
 
 	// Block Flex container and product grid styles.
@@ -87,12 +99,24 @@ const Save = ({ attributes }) => {
 	return (
 		<>
 			<div {...blockProps}>
-				{(imageOption !== 'backimage-none' && mediaURL) &&
-					(<div className='cover-image' style={{ backgroundImage: `url(${mediaURL})` }}></div>)
+				{(backImage !== 'backimage-none' && mediaURL) &&
+					(<div className='cover-image' style={{ backgroundImage: `url(${mediaURL})`, opacity: backimageOpacity }}></div>)
 				}
 
-				{title && (
-					<LookBlockTitle attributes={attributes} />
+				{title && settingsTitleDesc.activeTitle && (
+					<LookBlockTitle
+						attributes={attributes}
+						style={{ margin: `${settingsTitleDesc.spacingTitle} 0` }} />
+				)}
+
+				{settingsTitleDesc.activeDesc && (
+					<RichText.Content
+						tagName="p"
+						value={description}
+						style={{
+							textAlign: settingsTitleDesc.align,
+							margin: `${settingsTitleDesc.spacingDesc} 0`
+						}} />
 				)}
 
 				<div className={`${flexContainerClasses} flex-container`} style={flexContainerStyles}>

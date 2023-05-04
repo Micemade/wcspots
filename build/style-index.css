@@ -389,6 +389,13 @@
 .react-tiny-popover-container > .popover-content .product-elements .product-title * {
   margin: 0;
 }
+.react-tiny-popover-container > .popover-content .product-elements .product-excerpt {
+  font-size: 0.8em;
+}
+.react-tiny-popover-container > .popover-content .product-elements .product-excerpt div > * {
+  margin: inherit;
+  color: inherit;
+}
 .react-tiny-popover-container > .popover-content .product-elements .product-add-to-cart {
   position: relative;
 }
