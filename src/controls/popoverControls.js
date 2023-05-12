@@ -2,88 +2,309 @@
  * WordPress dependenices.
  */
 import { __ } from '@wordpress/i18n';
-import { PanelColorSettings } from '@wordpress/block-editor';
-import { TabPanel, CardDivider, RangeControl } from '@wordpress/components';
+import {
+	InspectorControls,
+	PanelColorSettings,
+	HeightControl
+} from '@wordpress/block-editor';
+import {
+	PanelBody,
+	PanelRow,
+	TabPanel,
+	CardDivider,
+	RangeControl,
+	ToggleControl,
+	BaseControl,
+	Button
+} from '@wordpress/components';
 
+import { Fragment } from 'react';
+
+/**
+ * Internal dependecies.
+ */
 import UnitRangeControl from './UnitRangeControl';
+import ImageRadioSelectControl from './ImageRadioSelectControl';
+import metadata from '../block.json';
 
-const PopoverControls = ({ popoverSettings, setAttributes }) => {
+const PopoverControls = ({ popoverAtts, setAttributes }) => {
 
-	// Popover setting handlers.
-	// Padding (custom 'UnitRangeControl' control ) - uses 'productsGap' property (sharing).
-	const handlePopoverPadding = (newValue) => {
-		setAttributes({
-			popoverSettings: {
-				...popoverSettings,
-				productsGap: { value: newValue, unit: popoverSettings.productsGap.unit }
-			}
+	// Desctructure attribute objects for simpler properties access.
+	const { elementsToggle, popoverWidth } = popoverAtts;
+
+	// Access default attribute values from block.json for reset.
+	const defaultpopoverAtts = metadata.attributes.popoverAtts.default;
+	// Resetting the attributes.
+	const resetPopoverAtts = (atts) => {
+		const newPopoverAtts = { ...popoverAtts };
+		atts.forEach((att) => {
+			newPopoverAtts[att] = defaultpopoverAtts[att];
 		});
-	};
-	// Spacing for title, price, AddToCart ... (custom 'UnitRangeControl' control )
-	const handlePopoverProductSpacing = (newValue) => {
-		setAttributes({
-			popoverSettings: {
-				...popoverSettings,
-				productSpacing: { value: newValue, unit: popoverSettings.productSpacing.unit }
-			}
-		});
-	};
-	// Padding for product elements ... (custom 'UnitRangeControl' control )
-	const handlePopoverInnerPadding = (newValue) => {
-		setAttributes({
-			popoverSettings: {
-				...popoverSettings,
-				productPadding: { value: newValue, unit: popoverSettings.productPadding.unit }
-			}
-		});
+		setAttributes({ popoverAtts: newPopoverAtts });
 	};
 
-	const popoverTabs = [
+	// Popover settings tabs.
+	const popoverAttsTabs = [
+		{
+			name: 'popoverLayout',
+			title: 'Layout',
+			content: (
+				<div>
+					<CardDivider size="xSmall" />
+
+					<ImageRadioSelectControl
+						label={__('Popover layout type', 'woohotspots')}
+						help={__('Pick a layout for popover with product', 'woohotspots')}
+						options={[
+							{ value: 'layout1', label: 'Layout 1', image: require('./icons/popoverLayout_1.png') },
+							{ value: 'layout2', label: 'Layout 2', image: require('./icons/popoverLayout_2.png') },
+							{ value: 'layout3', label: 'Layout 3', image: require('./icons/popoverLayout_3.png') },
+						]}
+						value={popoverAtts.productsLayout}
+						onChange={(selectedLayout) => {
+							setAttributes({
+								popoverAtts: {
+									...popoverAtts,
+									productsLayout: selectedLayout
+								}
+							});
+						}}
+						height='38px'
+					/>
+					<ImageRadioSelectControl
+						label={__('Popover align', 'woohotspots')}
+						help={__('Align product elements in the popover', 'woohotspots')}
+						options={[
+							{ value: 'flex-start', label: 'Flex start', icon: 'align-left' },
+							{ value: 'center', label: 'Center', icon: 'align-center' },
+							{ value: 'flex-end', label: 'Flex end', icon: 'align-right' },
+						]}
+						value={popoverAtts.productsAlign}
+						onChange={(selectedAlign) => {
+							setAttributes({
+								popoverAtts: {
+									...popoverAtts,
+									productsAlign: selectedAlign
+								}
+							});
+						}}
+					/>
+
+					<CardDivider size="xSmall" />
+
+					<HeightControl
+						label={__('Popover width: minimum', 'woohotspots')}
+						value={popoverWidth.min}
+						onChange={(newValue) => {
+							setAttributes({
+								popoverAtts: {
+									...popoverAtts,
+									popoverWidth: {
+										...popoverWidth,
+										min: newValue
+									}
+								}
+							});
+						}}
+					/>
+					<HeightControl
+						label={__('Popover width: preferred', 'woohotspots')}
+						value={popoverWidth.val}
+						onChange={(newValue) => {
+							setAttributes({
+								popoverAtts: {
+									...popoverAtts,
+									popoverWidth: {
+										...popoverWidth,
+										val: newValue
+									}
+								}
+							});
+						}}
+					/>
+					<HeightControl
+						label={__('Popover width: maximum', 'woohotspots')}
+						value={popoverWidth.max}
+						onChange={(newValue) => {
+							setAttributes({
+								popoverAtts: {
+									...popoverAtts,
+									popoverWidth: {
+										...popoverWidth,
+										max: newValue
+									}
+								}
+							});
+						}}
+					/>
+
+					<Button
+						isLink
+						isSmall
+						text={__('Reset layout, align, and width', 'woohotspots')}
+						onClick={() => {
+							resetPopoverAtts(['productsLayout', 'productsAlign', 'popoverWidth'])
+						}}
+						className='woohotspots-reset-attributes'
+					/>
+
+				</div>
+			),
+		},
+		{
+			name: 'toggleElements',
+			title: 'Toggle elements',
+			content: (
+				<div>
+					<CardDivider size="xSmall" />
+
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Show image', 'woohotspots')}
+						checked={elementsToggle?.image}
+						onChange={() =>
+							setAttributes({
+								popoverAtts: {
+									...popoverAtts,
+									elementsToggle: {
+										...elementsToggle,
+										image: !elementsToggle?.image
+									}
+								}
+							})
+						}
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Show title', 'woohotspots')}
+						checked={elementsToggle?.title}
+						onChange={() =>
+							setAttributes({
+								popoverAtts: {
+									...popoverAtts,
+									elementsToggle: {
+										...elementsToggle,
+										title: !elementsToggle?.title
+									}
+								}
+							})
+						}
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Show price', 'woohotspots')}
+						checked={elementsToggle?.price}
+						onChange={() =>
+							setAttributes({
+								popoverAtts: {
+									...popoverAtts,
+									elementsToggle: {
+										...elementsToggle,
+										price: !elementsToggle?.price
+									}
+								}
+							})
+						}
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Show excerpt', 'woohotspots')}
+						checked={elementsToggle?.excerpt}
+						onChange={() =>
+							setAttributes({
+								popoverAtts: {
+									...popoverAtts,
+									elementsToggle: {
+										...elementsToggle,
+										excerpt: !elementsToggle?.excerpt
+									}
+								}
+							})
+						}
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Show Add to Cart', 'woohotspots')}
+						checked={elementsToggle?.addToCart}
+						onChange={() =>
+							setAttributes({
+								popoverAtts: {
+									...popoverAtts,
+									elementsToggle: {
+										...elementsToggle,
+										addToCart: !elementsToggle?.addToCart
+									}
+								}
+							})
+						}
+					/>
+					<Button
+						isLink
+						isSmall
+						text={__('Reset toggle', 'woohotspots')}
+						onClick={() => {
+							resetPopoverAtts(['elementsToggle'])
+						}}
+						className='woohotspots-reset-attributes'
+					/>
+				</div>
+			)
+		}
+	];
+	// Popover style tabs
+	const popoverStyleTabs = [
 		{
 			name: 'popoverSpacing',
 			title: 'Spacing',
 			content: (
 				<div>
-					<CardDivider />
+					<CardDivider size="xSmall" />
 
-					<UnitRangeControl
+					<HeightControl
 						label={__('Popover padding', 'woohotspots')}
-						value={popoverSettings.productsGap}
-						onValueChange={handlePopoverPadding}
-						onUnitChange={(newUnit) =>
+						value={popoverAtts.popoverPadding}
+						onChange={(newValue) => {
 							setAttributes({
-								popoverSettings: {
-									...popoverSettings,
-									productsGap: { value: popoverSettings.productsGap.value, unit: newUnit }
+								popoverAtts: {
+									...popoverAtts,
+									popoverPadding: newValue
 								}
-							})
-						}
+							});
+						}}
 					/>
-					<UnitRangeControl
+					<HeightControl
 						label={__('Product elements spacing', 'woohotspots')}
-						value={popoverSettings.productSpacing}
-						onValueChange={handlePopoverProductSpacing}
-						onUnitChange={(newUnit) =>
+						value={popoverAtts.productSpacing}
+						onChange={(newValue) => {
 							setAttributes({
-								popoverSettings: {
-									...popoverSettings,
-									productSpacing: { value: popoverSettings.productSpacing.value, unit: newUnit }
+								popoverAtts: {
+									...popoverAtts,
+									productSpacing: newValue
 								}
-							})
-						}
+							});
+						}}
 					/>
-					<UnitRangeControl
+					<HeightControl
 						label={__('Product elements padding', 'woohotspots')}
-						value={popoverSettings.productPadding}
-						onValueChange={handlePopoverInnerPadding}
-						onUnitChange={(newUnit) =>
+						value={popoverAtts.productPadding}
+						onChange={(newValue) => {
 							setAttributes({
-								popoverSettings: {
-									...popoverSettings,
-									productPadding: { value: popoverSettings.productPadding.value, unit: newUnit }
+								popoverAtts: {
+									...popoverAtts,
+									productPadding: newValue
 								}
-							})
-						}
+							});
+						}}
+					/>
+
+					<Button
+						isLink
+						isSmall
+						text={__('Reset spacing', 'woohotspots')}
+						onClick={() => {
+							resetPopoverAtts(['popoverPadding', 'productSpacing', 'productPadding'])
+						}}
+						className='woohotspots-reset-attributes'
 					/>
 				</div>
 			)
@@ -94,94 +315,51 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 			content: (
 				<div>
 					<CardDivider size="xSmall" />
-					<UnitRangeControl
+
+					<HeightControl
 						label={__('Title font size', 'woohotspots')}
-						value={popoverSettings.titleSize}
-						onValueChange={(newValue) => {
+						value={popoverAtts.titleSize}
+						onChange={(newValue) => {
 							setAttributes({
-								popoverSettings: {
-									...popoverSettings,
-									titleSize: { value: newValue, unit: popoverSettings.titleSize.unit }
+								popoverAtts: {
+									...popoverAtts,
+									titleSize: newValue
 								}
-							})
+							});
 						}}
-						onUnitChange={(newUnit) =>
-							setAttributes({
-								popoverSettings: {
-									...popoverSettings,
-									titleSize: { value: popoverSettings.titleSize.value, unit: newUnit }
-								}
-							})
-						}
-						customUnitOptions={
-							[
-								{ label: 'px', value: 'px' },
-								{ label: 'em', value: 'em' },
-								{ label: 'rem', value: 'rem' },
-							]
-						}
 					/>
-					<UnitRangeControl
+					<HeightControl
 						label={__('Price font size', 'woohotspots')}
-						value={popoverSettings.priceSize}
-						onValueChange={(newValue) => {
+						value={popoverAtts.priceSize}
+						onChange={(newValue) => {
 							setAttributes({
-								popoverSettings: {
-									...popoverSettings,
-									priceSize: { value: newValue, unit: popoverSettings.priceSize.unit }
+								popoverAtts: {
+									...popoverAtts,
+									priceSize: newValue
 								}
-							})
+							});
 						}}
-						onUnitChange={(newUnit) =>
-							setAttributes({
-								popoverSettings: {
-									...popoverSettings,
-									priceSize: { value: popoverSettings.priceSize.value, unit: newUnit }
-								}
-							})
-						}
-						customUnitOptions={
-							[
-								{ label: 'px', value: 'px' },
-								{ label: 'em', value: 'em' },
-								{ label: 'rem', value: 'rem' },
-							]
-						}
 					/>
-					<UnitRangeControl
+					<HeightControl
 						label={__('Short description font size', 'woohotspots')}
-						value={popoverSettings.excerptSize}
-						onValueChange={(newValue) => {
+						value={popoverAtts.excerptSize}
+						onChange={(newValue) => {
 							setAttributes({
-								popoverSettings: {
-									...popoverSettings,
-									excerptSize: { value: newValue, unit: popoverSettings.excerptSize.unit }
+								popoverAtts: {
+									...popoverAtts,
+									excerptSize: newValue
 								}
-							})
+							});
 						}}
-						onUnitChange={(newUnit) =>
-							setAttributes({
-								popoverSettings: {
-									...popoverSettings,
-									excerptSize: { value: popoverSettings.excerptSize.value, unit: newUnit }
-								}
-							})
-						}
-						customUnitOptions={
-							[
-								{ label: 'px', value: 'px' },
-								{ label: 'em', value: 'em' },
-								{ label: 'rem', value: 'rem' },
-							]
-						}
 					/>
+
 					<RangeControl
 						label={__('Add to Cart size', 'woohotspots')}
-						value={popoverSettings.addToCartSize}
+						value={popoverAtts.addToCartSize}
 						onChange={(value) =>
 							setAttributes({
-								popoverSettings: {
-									...popoverSettings,
+								popoverAtts: {
+									...popoverAtts,
 									addToCartSize: value
 								}
 							})
@@ -189,6 +367,15 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 						min={0.5}
 						max={2}
 						step={0.05}
+					/>
+					<Button
+						isLink
+						isSmall
+						text={__('Reset sizes', 'woohotspots')}
+						onClick={() => {
+							resetPopoverAtts(['titleSize', 'priceSize', 'excerptSize', 'addToCartSize'])
+						}}
+						className='woohotspots-reset-attributes'
 					/>
 				</div>
 			)
@@ -203,44 +390,44 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 						enableAlpha
 						colorSettings={[
 							{
-								value: popoverSettings.productBackColor,
+								value: popoverAtts.productBackColor,
 								onChange: (newValue) =>
 									setAttributes({
-										popoverSettings: {
-											...popoverSettings,
+										popoverAtts: {
+											...popoverAtts,
 											productBackColor: newValue
 										}
 									}),
 								label: __('Background Color', 'woohotspots'),
 							},
 							{
-								value: popoverSettings.titleColor,
+								value: popoverAtts.titleColor,
 								onChange: (newValue) =>
 									setAttributes({
-										popoverSettings: {
-											...popoverSettings,
+										popoverAtts: {
+											...popoverAtts,
 											titleColor: newValue
 										}
 									}),
 								label: __('Title Color', 'woohotspots'),
 							},
 							{
-								value: popoverSettings.priceColor,
+								value: popoverAtts.priceColor,
 								onChange: (newValue) =>
 									setAttributes({
-										popoverSettings: {
-											...popoverSettings,
+										popoverAtts: {
+											...popoverAtts,
 											priceColor: newValue
 										}
 									}),
 								label: __('Price Color', 'woohotspots'),
 							},
 							{
-								value: popoverSettings.excerptColor,
+								value: popoverAtts.excerptColor,
 								onChange: (newValue) =>
 									setAttributes({
-										popoverSettings: {
-											...popoverSettings,
+										popoverAtts: {
+											...popoverAtts,
 											excerptColor: newValue
 										}
 									}),
@@ -248,19 +435,96 @@ const PopoverControls = ({ popoverSettings, setAttributes }) => {
 							},
 						]}
 					/>
+					<Button
+						isLink
+						isSmall
+						text={__('Reset colors', 'woohotspots')}
+						onClick={() => {
+							resetPopoverAtts(['productBackColor', 'titleColor', 'priceColor', 'excerptColor'])
+						}}
+						className='woohotspots-reset-attributes'
+					/>
 				</div>
 			)
 		},
 	];
 
+
 	return (
-		<TabPanel className="popover-settings" tabs={popoverTabs}>
-			{(tab) => (
-				<div>
-					{tab.content}
-				</div>
-			)}
-		</TabPanel>
+		<Fragment>
+			<InspectorControls group="settings">
+				<PanelBody
+					title={__('Popover layout', 'woohotspots')}
+					icon={'images-alt2'}
+					initialOpen={false}
+				>
+					<TabPanel className="popover-layout" tabs={popoverAttsTabs}>
+						{(tab) => (
+							<div>
+								{tab.content}
+							</div>
+						)}
+					</TabPanel>
+
+					<BaseControl help={__('Style properties like colors, sizes, and spacing are available in the editor styles tab.', 'woohotspots')} />
+
+
+
+				</PanelBody>
+
+			</InspectorControls>
+
+			<InspectorControls group="styles">
+				<PanelBody
+					title={__('Popover styles', 'woohotspots')}
+					icon={'images-alt2'}
+					initialOpen={false}
+				>
+
+					<TabPanel className="popover-style" tabs={popoverStyleTabs}>
+						{(tab) => (
+							<div>
+								{tab.content}
+							</div>
+						)}
+					</TabPanel>
+
+					<CardDivider size="xSmall" />
+
+					<HeightControl
+						label={'Rounded corners'}
+						value={popoverAtts.roundCorners}
+						onChange={(newValue) => {
+							setAttributes({
+								popoverAtts: {
+									...popoverAtts,
+									roundCorners: newValue
+								}
+							});
+						}}
+					/>
+
+					<HeightControl
+						label={'Arrow size'}
+						value={popoverAtts.arrowSize}
+						onChange={(newValue) => {
+							setAttributes({
+								popoverAtts: {
+									...popoverAtts,
+									arrowSize: newValue
+								}
+							});
+						}}
+					/>
+
+					<BaseControl help={__('Arrow color is set in "Background Color" ("Colors" tab).', 'woohotspots')} />
+
+				</PanelBody>
+
+			</InspectorControls>
+
+
+		</Fragment>
 	);
 }
 

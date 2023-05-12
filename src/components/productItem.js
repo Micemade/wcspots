@@ -27,20 +27,20 @@ const ProductItem = ({
 	}
 
 	const elementsStyle = {
-		padding: `${productPadding.value}${productPadding.unit}`,
+		padding: productPadding,
 		alignItems: productsAlign,
 	}
 
 	const titleStyle = {
-		fontSize: `${titleSize.value}${titleSize.unit}`,
+		fontSize: titleSize,
 		...fontColors.titleColor && { color: fontColors.titleColor }
 	};
 	const priceStyle = {
-		fontSize: `${priceSize.value}${priceSize.unit}`,
+		fontSize: priceSize,
 		...fontColors.priceColor && { color: fontColors.priceColor }
 	};
 	const excerptStyle = {
-		fontSize: `${excerptSize.value}${excerptSize.unit}`,
+		fontSize: excerptSize,
 		...fontColors.excerptColor && { color: fontColors.excerptColor }
 	};
 
@@ -48,7 +48,7 @@ const ProductItem = ({
 		transform: `scale(${addToCartSize})`,
 	}
 	const spacing = {
-		marginBottom: `${productSpacing.value}${productSpacing.unit}`
+		marginBottom: productSpacing
 	}
 
 	return (
@@ -62,11 +62,13 @@ const ProductItem = ({
 				<div className="overlay" style={{ background: productBackColor }} />
 			)}
 
-			<div className="product-featured-image" data-product-image={productId}>
-				{isEdit && (
-					<ProductImage productId={productId} />
-				)}
-			</div>
+			{elementsToggle.image && (
+				<div className="product-featured-image" data-product-image={productId}>
+					{isEdit && (
+						<ProductImage productId={productId} />
+					)}
+				</div>
+			)}
 
 			<div className="product-elements" style={elementsStyle}>
 

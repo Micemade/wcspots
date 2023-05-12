@@ -6,9 +6,7 @@
 
 # Ignore following directories and contents
 /node_modules* export-ignore
-/tests export-ignore
-/bin export-ignore
-/__backup export-ignore
+/src* export-ignore
 
 # Ignore following configuration files
 /phpcs.xml export-ignore

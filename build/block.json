@@ -6,10 +6,13 @@
   "title": "WooHotSpots",
   "category": "widgets",
   "icon": "store",
-  "description": "Creating WooCommerce showcases with image hotspots in the block editor.",
+  "description": "Create WooCommerce product showcases with image hotspots in the block editor.",
   "supports": {
     "html": false,
-    "color": {},
+    "color": {
+      "background": true,
+      "gradients": true
+    },
     "align": [
       "wide",
       "full"
@@ -17,10 +20,6 @@
     "spacing": {
       "margin": true,
       "padding": true
-    },
-    "typography": {
-      "fontSize": true,
-      "lineHeight": true
     }
   },
   "attributes": {
@@ -96,11 +95,8 @@
       "default": 50
     },
     "flexGap": {
-      "type": "object",
-      "default": {
-        "value": 1,
-        "unit": "vw"
-      }
+      "type": "string",
+      "default": "1vw"
     },
     "productsLayout": {
       "type": "string",
@@ -117,6 +113,7 @@
     "elementsToggle": {
       "type": "object",
       "default": {
+        "image": true,
         "title": true,
         "price": true,
         "excerpt": true,
@@ -124,46 +121,28 @@
       }
     },
     "productsGap": {
-      "type": "object",
-      "default": {
-        "value": 1,
-        "unit": "vw"
-      }
+      "type": "string",
+      "default": "1em"
     },
     "productSpacing": {
-      "type": "object",
-      "default": {
-        "value": 0.7,
-        "unit": "vw"
-      }
+      "type": "string",
+      "default": "0.7em"
     },
     "productPadding": {
-      "type": "object",
-      "default": {
-        "value": 0.7,
-        "unit": "vw"
-      }
+      "type": "string",
+      "default": "0.5em"
     },
     "titleSize": {
-      "type": "object",
-      "default": {
-        "value": 1,
-        "unit": "em"
-      }
+      "type": "string",
+      "default": "1em"
     },
     "priceSize": {
-      "type": "object",
-      "default": {
-        "value": 0.8,
-        "unit": "em"
-      }
+      "type": "string",
+      "default": "0.8em"
     },
     "excerptSize": {
-      "type": "object",
-      "default": {
-        "value": 0.8,
-        "unit": "em"
-      }
+      "type": "string",
+      "default": "0.8em"
     },
     "addToCartSize": {
       "type": "number",
@@ -201,50 +180,36 @@
       "type": "boolean",
       "default": false
     },
-    "usePopoverCustomSettings": {
-      "type": "boolean",
-      "default": false
-    },
-    "popoverSettings": {
+    "popoverAtts": {
       "type": "object",
       "default": {
-        "productsGap": {
-          "value": 1,
-          "unit": "em"
+        "popoverWidth": {
+          "min": "340px",
+          "val": "80%",
+          "max": "600px"
         },
+        "popoverPadding": "0.5em",
         "productsLayout": "layout1",
         "productsAlign": "flex-start",
         "elementsToggle": {
+          "image": true,
           "title": true,
           "price": true,
           "excerpt": true,
           "addToCart": true
         },
-        "productSpacing": {
-          "value": 1,
-          "unit": "em"
-        },
-        "productPadding": {
-          "value": 0,
-          "unit": "em"
-        },
-        "titleSize": {
-          "value": 1,
-          "unit": "em"
-        },
-        "priceSize": {
-          "value": 0.8,
-          "unit": "em"
-        },
-        "excerptSize": {
-          "value": 0.8,
-          "unit": "em"
-        },
+        "productSpacing": "0.6em",
+        "productPadding": "0.8em",
+        "titleSize": "1em",
+        "priceSize": "1em",
+        "excerptSize": "0.8em",
         "addToCartSize": 1,
         "productBackColor": "",
         "titleColor": "",
         "priceColor": "",
-        "excerptColor": ""
+        "excerptColor": "",
+        "roundCorners": "8px",
+        "arrowSize": "10px"
       }
     },
     "style": {

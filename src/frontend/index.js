@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		// Block datasets.
 		const productIds = JSON.parse(blockInstance.dataset.productIds);
 		const blockId = blockInstance.dataset.blockId;
-		const popoverSettings = blockInstance.dataset.popoverSettings;
+		const popoverAtts = blockInstance.dataset.popoverAtts;
 
 		// Look for products container to render products (for the only image with hotspots case) .
 		const productsContainer = blockInstance.getElementsByClassName('products-grid-container');
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			// Popover on each hotspot.
 			const eventsHolder = hotspot.getElementsByClassName('events-holder')[0];
 			if (assocProdId) {
-				render(<AddHotspotPopover assocProdId={assocProdId} popoverSettings={JSON.parse(popoverSettings)} />, eventsHolder);
+				render(<AddHotspotPopover assocProdId={assocProdId} popoverAtts={JSON.parse(popoverAtts)} />, eventsHolder);
 			}
 
 			// Hotspot highlighting product on hover.

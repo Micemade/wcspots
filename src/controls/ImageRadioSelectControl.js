@@ -1,13 +1,18 @@
 import { Button, ButtonGroup, BaseControl, Dashicon } from '@wordpress/components';
-import { useState } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 
 function ImageRadioSelectControl({ value, options, onChange, label, height, help }) {
 	const [activeOption, setActiveOption] = useState(value);
 
-	const handleClick = (option) => {
-		setActiveOption(option);
-		onChange(option);
+	const handleClick = (optionValue) => {
+		setActiveOption(optionValue); // update the button.
+		onChange(optionValue); // update the value for setAttribute.
 	};
+
+	// Update the button on reset.
+	useEffect(() => {
+		setActiveOption(value);
+	}, [value]) // parameter change to listen
 
 	return (
 		<>
@@ -19,8 +24,8 @@ function ImageRadioSelectControl({ value, options, onChange, label, height, help
 						key={option.value}
 						isPrimary={activeOption === option.value}
 						onClick={() => handleClick(option.value)}
-						style={{ padding: "4px", boxShadow: "none", border: "none" }}
-						className='woohotspots-products-layout'
+						style={{ padding: "4px", boxShadow: "none", borderWidth: "0" }}
+						className='woohotspots-image-button'
 					>
 						{option.icon ? (
 							<Dashicon icon={option.icon} />

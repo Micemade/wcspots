@@ -10,13 +10,17 @@ import { useEffect, useState } from '@wordpress/element';
  */
 import AddHotspotPopover from '../frontend/addHotspotPopover';
 
-const Hotspot = ({ hotspot, onDoubleClick, onMouseOver, onMouseOut, clientId, hotspots, setAttributes, context, unassignProduct, removeHotspot, popoverSettings, popoverParent }) => {
+const Hotspot = ({ hotspot, onDoubleClick, onMouseOver, onMouseOut, clientId, hotspots, setAttributes, context, unassignProduct, removeHotspot, popoverAtts, popoverParent }) => {
 
 	const styles = {
 		left: `${hotspot.x}%`,
 		top: `${hotspot.y}%`,
-		visibility: !hotspot.active ? 'hidden' : 'visible',
+		...hotspot.backColor && { backgroundColor: hotspot.backColor, outlineColor: hotspot.backColor }
 	};
+
+	const innerStyles = {
+		...hotspot.innerColor && { backgroundColor: hotspot.innerColor }
+	}
 
 	const hotspotTitleDefault = (context == 'edit') ? hotspot.name : null;
 	const hotspotTitle = hotspot.productTitle ? hotspot.productTitle : hotspotTitleDefault;
@@ -24,7 +28,7 @@ const Hotspot = ({ hotspot, onDoubleClick, onMouseOver, onMouseOut, clientId, ho
 	return (
 		<div
 			style={styles}
-			className="product-hotspot"
+			className={`product-hotspot ${hotspot.iconStyle}`}
 			data-product-title={hotspotTitle}
 			data-product-id={hotspot.productId ? hotspot.productId : ''}
 			data-client-id={clientId}
@@ -36,12 +40,12 @@ const Hotspot = ({ hotspot, onDoubleClick, onMouseOver, onMouseOut, clientId, ho
 				onMouseOut={() => onMouseOut(event, hotspot, clientId)}
 			>
 				{(context === 'edit' && hotspot.productId) && (
-					<AddHotspotPopover assocProdId={hotspot.productId} parentElement={popoverParent} popoverSettings={popoverSettings} isEditing />
+					<AddHotspotPopover assocProdId={hotspot.productId} parentElement={popoverParent} popoverAtts={popoverAtts} isEditing />
 				)}
 
 			</div>
 
-			<div className='inner' />
+			<div className='inner' style={innerStyles} />
 
 			<div className="hotspot-product-title">
 				{hotspotTitle}

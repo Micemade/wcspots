@@ -23,7 +23,7 @@ const ProductGrid = ({
 
 	const gridStyle = {
 		gridTemplateColumns: `repeat(${columns}, 1fr)`,
-		gap: `${productsGap.value}${productsGap.unit}`,
+		gap: productsGap,
 	};
 
 	return (

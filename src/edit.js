@@ -15,10 +15,10 @@ import classNames from 'classnames';
  * Internal dependencies.
  */
 import './editor.scss';
-import ProductGrid from './components/productGrid';
 import InspectorControlsComponent from './controls/inspectorControls';
+import ProductGrid from './components/productGrid';
 import Hotspot from './components/hotspot';
-import woohotspotsTitle from './components/woohotspotsTitle';
+import WooHotSpotsTitle from './components/woohotspotsTitle';
 
 // Functions.
 import { addNewHotspot, modalProductToHotspot, onProductSelect, onHotspotOver, onHotspotOut, unassignProduct, removeHotspot, clearHotspotsOnImageChange } from './functions/hotspotFunctions';
@@ -69,18 +69,8 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		selectedHotspot,
 		selectedProduct,
 		editModal,
-		usePopoverCustomSettings,
-		popoverSettings
+		popoverAtts
 	} = attributes;
-
-
-	/**
-	 * Apply product style settings to Popover.
-	 * properties are same for product elements and for popover elements.
-	 * The 'productGap' for products is used as 'padding' popover property.
-	 */
-	const productSharedSettings = { productsGap, productsLayout, productsAlign, elementsToggle, productSpacing, productPadding, titleSize, priceSize, excerptSize, addToCartSize, productBackColor, titleColor, priceColor, excerptColor }
-	const popSettings = usePopoverCustomSettings ? popoverSettings : productSharedSettings;
 
 
 	// Set Popover (React Tiny Popover) parent element in Editor.
@@ -108,11 +98,11 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 	const blockProps = useBlockProps({
 		'data-block-id': clientId,
 		'data-product-ids': JSON.stringify(productIds),
-		'data-popover-settings': JSON.stringify(popSettings)
+		'data-popover-atts': JSON.stringify(popoverAtts)
 	});
 
 	// Modal products select options, on hotspot double click.
-	const productOptionsStart = [{ value: '', label: 'Choose a lookblock product' }];
+	const productOptionsStart = [{ value: '', label: 'Choose one of selected products' }];
 	const productOptionsPrepare = productsData?.map((item) => ({
 		label: item.label,
 		value: JSON.stringify([item.value, item.label]),
@@ -127,7 +117,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 	};
 	const flexContainerStyles = {
 		alignItems: flexAlignItems(flexLayout),
-		gap: `${flexGap.value}${flexGap.unit}`,
+		gap: flexGap,
 		justifyContent: 'center'
 	}
 	const flexContainerClasses = classNames(
@@ -186,7 +176,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		</ToolbarGroup>
 	);
 
-	const noProductsNotice = __('Pick your Lookblock products in the sidebar "Lookblock products" section.', 'woohotspots');
+	const noProductsNotice = __('Pick your products in the sidebar "WooCommerce products" section.', 'woohotspots');
 
 	return (
 		<>
@@ -194,6 +184,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 			<InspectorControlsComponent
 				attributes={attributes}
 				setAttributes={setAttributes}
+				clientId={clientId}
 			/>
 
 			<BlockControls>
@@ -207,10 +198,11 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 				}
 
 				{settingsTitleDesc.activeTitle && (
-					<woohotspotsTitle
+					<WooHotSpotsTitle
 						attributes={attributes}
 						setAttributes={setAttributes}
-						context="edit" />
+						context="edit"
+					/>
 				)}
 
 				{settingsTitleDesc.activeDesc && (
@@ -280,7 +272,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 								src={mediaURL}
 								srcSet={srcSetAtt}
 								sizes={sizesAtt}
-								alt={__('Lookbook image', 'woohotspots')}
+								alt={__('WooHotSpots image', 'woohotspots')}
 								onClick={() => addNewHotspot(event, hotspots, setAttributes)}
 							/>
 						)}
@@ -299,7 +291,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 									removeHotspot={removeHotspot}
 									hotspots={hotspots}
 									setAttributes={setAttributes}
-									popoverSettings={popSettings}
+									popoverAtts={popoverAtts}
 									popoverParent={popoverParent}
 									context="edit"
 								/>
@@ -316,10 +308,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 
 			{editModal && (
 				<Modal
-					title={__(
-						'Assign a product to this hotspot',
-						'woohotspots'
-					)}
+					title={__('Assign a product to this hotspot', 'woohotspots')}
 					onRequestClose={() =>
 						setAttributes({
 							editModal: false,

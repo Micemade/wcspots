@@ -14,7 +14,7 @@ import classNames from 'classnames';
 import './style.scss';
 import ProductGrid from './components/productGrid';
 import Hotspot from './components/hotspot';
-import woohotspotsTitle from './components/woohotspotsTitle';
+import WooHotSpotsTitle from './components/woohotspotsTitle';
 
 const Save = ({ attributes }) => {
 
@@ -51,17 +51,8 @@ const Save = ({ attributes }) => {
 		priceColor,
 		excerptColor,
 		hotspots,
-		usePopoverCustomSettings,
-		popoverSettings
+		popoverAtts
 	} = attributes;
-
-	/**
-	 * Apply product style settings to Popover.
-	 * properties are same for product elements and for popover elements.
-	 * The 'productGap' for products is used as 'padding' popover property.
-	 */
-	const productSharedSettings = { productsGap, productsLayout, productsAlign, elementsToggle, productSpacing, productPadding, titleSize, priceSize, excerptSize, addToCartSize, productBackColor, titleColor, priceColor, excerptColor }
-	const popSettings = usePopoverCustomSettings ? popoverSettings : productSharedSettings;
 
 	// Array of selected product ID's for blocks 'data-product-ids' attribute.
 	// Used for frontend rendering.
@@ -71,7 +62,7 @@ const Save = ({ attributes }) => {
 	const blockProps = useBlockProps.save({
 		'data-block-id': id,
 		'data-product-ids': JSON.stringify(productIds),
-		'data-popover-settings': JSON.stringify(popSettings)
+		'data-popover-atts': JSON.stringify(popoverAtts)
 	});
 
 	// Block Flex container and product grid styles.
@@ -81,7 +72,7 @@ const Save = ({ attributes }) => {
 	};
 	const flexContainerStyles = {
 		alignItems: flexAlignItems(flexLayout),
-		gap: `${flexGap.value}${flexGap.unit}`,
+		gap: flexGap,
 		justifyContent: 'center'
 	}
 	const flexContainerClasses = classNames(
@@ -104,9 +95,9 @@ const Save = ({ attributes }) => {
 				}
 
 				{title && settingsTitleDesc.activeTitle && (
-					<woohotspotsTitle
+					<WooHotSpotsTitle
 						attributes={attributes}
-						style={{ margin: `${settingsTitleDesc.spacingTitle} 0` }} />
+					/>
 				)}
 
 				{settingsTitleDesc.activeDesc && (

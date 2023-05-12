@@ -19,7 +19,7 @@ import ProductAddToCart from '../components/productAddToCart';
 
 const AddHotspotPopover = (props) => {
 
-	const { assocProdId, parentElement, isEditing, popoverSettings } = props;
+	const { assocProdId, parentElement, isEditing, popoverAtts } = props;
 
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 	const togglePopover = () => {
@@ -27,7 +27,8 @@ const AddHotspotPopover = (props) => {
 	};
 
 	const {
-		productsGap,
+		popoverWidth,
+		popoverPadding,
 		productsLayout,
 		productsAlign,
 		elementsToggle,
@@ -40,8 +41,10 @@ const AddHotspotPopover = (props) => {
 		productBackColor,
 		titleColor,
 		priceColor,
-		excerptColor
-	} = popoverSettings;
+		excerptColor,
+		roundCorners,
+		arrowSize
+	} = popoverAtts;
 
 	// Popover classes and styles.
 	const popoverTogglerClass = {
@@ -52,31 +55,44 @@ const AddHotspotPopover = (props) => {
 		zIndex: "5"
 	}
 
-	const contentStyle = {
-		padding: `${productsGap.value}${productsGap.unit}`,
-		...productBackColor && { backgroundColor: productBackColor }
+	const popoverStyle = {
+		width: `clamp(${popoverWidth.min},${popoverWidth.val},${popoverWidth.max})`
+	}
+
+	const contentDivStyle = {
+		...roundCorners && { borderRadius: roundCorners },
+	}
+
+	const arrowStyle = {
+		borderWidth: arrowSize,
+		...productBackColor && { borderColor: productBackColor }
+	}
+
+	const innerDivStyle = {
+		...productsLayout !== 'layout3' && { padding: popoverPadding },
+		...productBackColor && { backgroundColor: productBackColor },
 	}
 
 	const spacing = {
-		margin: `${productSpacing.value}${productSpacing.unit} 0`
+		margin: productSpacing
 	}
 
 	const elementsStyle = {
-		padding: `${productPadding.value}${productPadding.unit}`
+		padding: productPadding
 	}
 
 	const titleStyle = {
-		fontSize: `${titleSize.value}${titleSize.unit}`,
+		fontSize: titleSize,
 		...titleColor && { color: titleColor }
 	}
 
 	const priceStyle = {
-		fontSize: `${priceSize.value}${priceSize.unit}`,
+		fontSize: priceSize,
 		...priceColor && { color: priceColor }
 	}
 
 	const excerptStyle = {
-		fontSize: `${excerptSize.value}${excerptSize.unit}`,
+		fontSize: excerptSize,
 		...excerptColor && { color: excerptColor }
 	}
 	const addToCartStyle = {
@@ -100,36 +116,56 @@ const AddHotspotPopover = (props) => {
 			padding={30}
 			reposition={true}
 			align='center'
-			content={(
-				<div className='popover-content' style={contentStyle}>
+			containerStyle={popoverStyle}
+			content={({ position, nudgedLeft, nudgedTop }) => (
+				<div className={`popover-content ${productsLayout}`} style={contentDivStyle}>
 
-					<ProductImage productId={assocProdId} />
+					<div
+						className={`arrow ${position}`}
+						style={Object.assign(arrowStyle, { marginLeft: -nudgedLeft, marginTop: -nudgedTop })} />
 
-					<div className='product-elements' style={elementsStyle}>
+					<div
+						className={`woohotspots-product align-${productsAlign}`}
+						style={innerDivStyle}
+					>
 
-						{elementsToggle.title && (
-							<div className="product-title product-element" style={Object.assign(titleStyle, spacing)}>
-								<h4><ProductTitle productId={assocProdId} /></h4>
+						{productsLayout === 'layout3' && (
+							<div className="overlay" style={{ background: productBackColor }} />
+						)}
+
+						{elementsToggle?.image && (
+							<div className="product-featured-image">
+								<ProductImage productId={assocProdId} />
 							</div>
 						)}
 
-						{elementsToggle.price && (
-							<div className="product-price product-element" style={Object.assign(priceStyle, spacing)}>
-								<ProductPrice productId={assocProdId} />
-							</div>
-						)}
+						<div className="product-elements" style={elementsStyle}>
 
-						{elementsToggle.excerpt && (
-							<div className="product-excerpt product-element" style={Object.assign(excerptStyle, spacing)}>
-								<ProductExcerpt productId={assocProdId} />
-							</div>
-						)}
-						{elementsToggle.addToCart && (
-							<div className="product-add-to-cart product-element" style={Object.assign(addToCartStyle, spacing)}>
-								<ProductAddToCart productId={assocProdId} />
-							</div>
-						)}
+							{elementsToggle?.title && (
+								<h4 className="product-title product-element" style={Object.assign(titleStyle, spacing)}>
+									<ProductTitle productId={assocProdId} />
+								</h4>
+							)}
 
+							{elementsToggle?.price && (
+								<div className="product-price product-element" style={Object.assign(priceStyle, spacing)}>
+									<ProductPrice productId={assocProdId} />
+								</div>
+							)}
+
+							{elementsToggle?.excerpt && (
+								<div className="product-excerpt product-element" style={Object.assign(excerptStyle, spacing)}>
+									<ProductExcerpt productId={assocProdId} />
+								</div>
+							)}
+
+							{elementsToggle?.addToCart && (
+								<div className="product-add-to-cart product-element" style={Object.assign(addToCartStyle, spacing)}>
+									<ProductAddToCart productId={assocProdId} />
+								</div>
+							)}
+
+						</div>
 					</div>
 				</div>
 			)}

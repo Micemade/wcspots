@@ -75,14 +75,12 @@ function UnitRangeControl({ label, help, value, onValueChange, onUnitChange, cus
 
 			<PanelRow className='editor-range-unit-combo'>
 				<RangeControl
-					// label={label}
 					value={value.value}
 					onChange={handleValueChange}
 					{...rangeConfigForSelectedUnit}
 					{...props}
 				/>
 				<SelectControl
-					// label="Unit"
 					value={value.unit}
 					options={unitOptions}
 					onChange={handleUnitChange}

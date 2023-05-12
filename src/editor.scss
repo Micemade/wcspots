@@ -7,7 +7,9 @@
 }
 
 
-// Custom component 'UnitRangeControl'.
+/*
+ * Custom component 'UnitRangeControl'.
+ */
 .editor-range-unit-combo {
 	
 	align-items: flex-start;
@@ -18,13 +20,15 @@
 	}
 }
 
-// Custom component 'ImageRadioSelectControl'
+/*
+ * Custom component 'ImageRadioSelectControl'
+ */
 .components-base-control.image-radio-select-control-label {
 	margin-bottom: 5px;
 	margin-top: 10px;
 }
 // Buttons with images in 'ImageRadioSelectControl'
-.woohotspots-products-layout {
+.woohotspots-image-button {
 	height: auto;
 	border-radius: 5px !important;
 	margin: 0 2px;
@@ -34,11 +38,14 @@
 	}
 }
 
+
 .block-editor-block-inspector .woohotspots-label {
 	margin-bottom: 12px;
 }
 
-// Hotspot edit buttons.
+/*
+ * Hotspot edit buttons.
+ */
 .hotspot-product-title {
 	.unassign { visibility: hidden; opacity: 0; }
 	&:hover {
@@ -52,6 +59,9 @@
 	}
 }
 
+/*
+ * Various custom styles for component buttons.
+ */
 .components-button {
 	&.unassign, &.remove-hotspot {
 		position: absolute;
@@ -77,5 +87,33 @@
 		background: #ed006b;
 		color: #fff;
 		transform: scale(0.6);
+	}
+
+	&.woohotspots-reset-attributes {
+		padding: 0;
+		display: flex;
+		width: 100%;
+		justify-content: right;
+	}
+}
+
+.components-panel__body.hotspot-settings { 
+	
+	border-radius: 4px;
+	background: #f5f5f5;
+	flex: 1;
+
+	> .components-panel__body-title button {
+		border-radius: 4px;
+		font-weight: normal;
+		font-size: 12px;
+		padding: 10px 42px 10px 10px;
+
+		> span svg {
+			height: 18px;
+		}
+	}
+	> div {
+		padding: 0px;
 	}
 }

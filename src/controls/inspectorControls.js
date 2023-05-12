@@ -18,17 +18,17 @@ import {
 } from '@wordpress/components';
 import { InspectorControls, MediaUpload, PanelColorSettings, HeightControl } from '@wordpress/block-editor';
 
-/////////////////////////////////////
+/**
+ * React dependencies.
+ */
 import { useState, useEffect } from 'react';
 import { get } from 'lodash';
-/////////////////////////////////////
-
+import { Fragment } from 'react';
 
 /**
  * External dependencies (React components).
  * React select is replacement for FormTokenField Gutenberg component.
  */
-// import React from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
@@ -36,17 +36,16 @@ import makeAnimated from 'react-select/animated';
  * Internal dependencies - custom UnitRangeControl, ImageRadioSelectControl components.
  * Built from Gutenberg components.
  */
-import UnitRangeControl from './UnitRangeControl';
 import ImageRadioSelectControl from './ImageRadioSelectControl';
 import PopoverControls from './popoverControls';
-import { Fragment } from 'react';
+import metadata from '../block.json';
 
 /**
  * InspectorControlsComponent function.
  * @param {*} props 
  * @returns 
  */
-const InspectorControlsComponent = ({ attributes, setAttributes }) => {
+const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => {
 	// Get data for product post type.
 	const getProducts = useEntityRecords('postType', 'product', {
 		per_page: -1,
@@ -84,11 +83,22 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		priceColor,
 		excerptColor,
 		hotspots,
-		usePopoverCustomSettings,
-		popoverSettings
+		popoverAtts
 	} = attributes;
 
-	// Create 'srcset' and 'sizes' img attributes for  image. Discard 'thumbnail' size.
+	// Access default attribute values from block.json for reset.
+	const defaultAtts = metadata.attributes;
+	// Resetting the attributes.
+	const resetAtts = (attsToUpdate) => {
+		const savedAtts = { ...attributes };
+		attsToUpdate.forEach((att) => {
+			savedAtts[att] = defaultAtts[att].default;
+		});
+		setAttributes(savedAtts);
+	};
+	/**
+	 * Create 'srcset' and 'sizes' img attributes for  image. Discard 'thumbnail' size.
+	 */
 	useEffect(() => {
 		if (media && media.sizes) {
 			const mediaSizes = media.sizes;
@@ -143,7 +153,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		setAttributes({ productsData: newList })
 	}
 
-	// IMAGE CONTROLS.
+	// IMAGE and HOTSPOT CONTROLS.
 	const onSelectImage = (media) => {
 		if (!clearHotspotsOnImageChange()) {
 			return;
@@ -170,15 +180,8 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 	}
 
 	/**
-	 * MARKER CONTROLS.
+	 * HOTSPOT CONTROLS.
 	 */
-	// Activate/deactivate hotspot.
-	/* const hotspotToggle = (hotspotIndex) => {
-		const updatedHotspots = [...hotspots];
-		updatedHotspots[hotspotIndex].active =
-			!updatedHotspots[hotspotIndex].active;
-		setAttributes({ hotspots: updatedHotspots });
-	}; */
 	// Delete hotspot.
 	const hotspotRemove = (hotspotIndex) => {
 		const updatedHotspots = [...hotspots];
@@ -194,8 +197,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 		setAttributes({ hotspots: filteredHotspots });
 	}
 
-
+	/**
+	 * FLEX and PRODUCT LAYOUT STYLES.
+	 */
 	// Flex gap size (custom 'UnitRangeControl' control )
+	/* 
 	const handleFlexGapChange = (newValue) => {
 		setAttributes({ flexGap: { value: newValue, unit: flexGap.unit } });
 	};
@@ -211,6 +217,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 	const handleProductsGap = (newValue) => {
 		setAttributes({ productsGap: { value: newValue, unit: productsGap.unit } });
 	};
+	
 	// Product title size (custom 'UnitRangeControl' control )
 	const handletitleSizeChange = (newValue) => {
 		setAttributes({ titleSize: { value: newValue, unit: titleSize.unit } });
@@ -219,10 +226,12 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 	const handlePriceSizeChange = (newValue) => {
 		setAttributes({ priceSize: { value: newValue, unit: priceSize.unit } });
 	};
+	
 	// Product excerpt size (custom 'UnitRangeControl' control )
 	const handleExcerptSizeChange = (newValue) => {
 		setAttributes({ excerptSize: { value: newValue, unit: excerptSize.unit } });
 	};
+	*/
 
 	// Product layout tabs.
 	const productLayoutTabs = [
@@ -243,7 +252,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						onChange={(selectedLayout) => {
 							setAttributes({ productsLayout: selectedLayout });
 						}}
-						height='28px'
+						height='38px'
 					/>
 					<ImageRadioSelectControl
 						label={__('Product align', 'woohotspots')}
@@ -260,7 +269,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						height='28px'
 					/>
 
-					<CardDivider />
+					<CardDivider size="xSmall" />
 
 					<RangeControl
 						label={__('Columns', 'woohotspots')}
@@ -272,6 +281,16 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						max={4}
 					/>
 
+					<Button
+						isLink
+						isSmall
+						text={__('Reset layout, align, and columns', 'woohotspots')}
+						onClick={() => {
+							resetAtts(['productsLayout', 'productsAlign', 'columns'])
+						}}
+						className='woohotspots-reset-attributes'
+					/>
+
 				</div>
 			),
 		},
@@ -280,7 +299,20 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			title: 'Toggle elements',
 			content: (
 				<div>
-					<CardDivider />
+					<CardDivider size="xSmall" />
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Show image', 'woohotspots')}
+						checked={elementsToggle.image}
+						onChange={() =>
+							setAttributes({
+								elementsToggle: {
+									...elementsToggle,
+									image: !elementsToggle.image
+								}
+							})
+						}
+					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
 						label={__('Show title', 'woohotspots')}
@@ -333,6 +365,16 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 							})
 						}
 					/>
+
+					<Button
+						isLink
+						isSmall
+						text={__('Reset toggles', 'woohotspots')}
+						onClick={() => {
+							resetAtts(['elementsToggle'])
+						}}
+						className='woohotspots-reset-attributes'
+					/>
 				</div>
 			)
 		}
@@ -345,36 +387,39 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			title: 'Spacing',
 			content: (
 				<div>
-					<CardDivider />
-					<UnitRangeControl
-						label={__('Products gap', 'woohotspots')}
+					<CardDivider size="xSmall" />
+
+					<HeightControl
+						label={__('Gap between products', 'woohotspots')}
 						value={productsGap}
-						onValueChange={handleProductsGap}
-						onUnitChange={(newUnit) =>
-							setAttributes({
-								productsGap: { value: productsGap.value, unit: newUnit },
-							})
-						}
+						onChange={(newValue) => {
+							setAttributes({ productsGap: newValue });
+						}}
 					/>
-					<UnitRangeControl
+					<HeightControl
 						label={__('Product elements spacing', 'woohotspots')}
 						value={productSpacing}
-						onValueChange={handleproductSpacing}
-						onUnitChange={(newUnit) =>
-							setAttributes({
-								productSpacing: { value: productSpacing.value, unit: newUnit },
-							})
-						}
+						onChange={(newValue) => {
+							setAttributes({ productSpacing: newValue });
+						}}
 					/>
-					<UnitRangeControl
+					<HeightControl
 						label={__('Product elements padding', 'woohotspots')}
 						value={productPadding}
-						onValueChange={handleproductPadding}
-						onUnitChange={(newUnit) =>
-							setAttributes({
-								productPadding: { value: productPadding.value, unit: newUnit },
-							})
-						}
+						onChange={(newValue) => {
+							setAttributes({ productPadding: newValue });
+						}}
+						step={0.5}
+					/>
+
+					<Button
+						isLink
+						isSmall
+						text={__('Reset spacing', 'woohotspots')}
+						onClick={() => {
+							resetAtts(['productsGap', 'productSpacing', 'productPadding'])
+						}}
+						className='woohotspots-reset-attributes'
 					/>
 				</div>
 			)
@@ -385,56 +430,27 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			content: (
 				<div>
 					<CardDivider size="xSmall" />
-					<UnitRangeControl
+
+					<HeightControl
 						label={__('Title font size', 'woohotspots')}
 						value={titleSize}
-						onValueChange={handletitleSizeChange}
-						onUnitChange={(newUnit) =>
-							setAttributes({
-								titleSize: { value: titleSize.value, unit: newUnit },
-							})
-						}
-						customUnitOptions={
-							[
-								{ label: 'px', value: 'px' },
-								{ label: 'em', value: 'em' },
-								{ label: 'rem', value: 'rem' },
-							]
-						}
+						onChange={(newValue) => {
+							setAttributes({ titleSize: newValue });
+						}}
 					/>
-					<UnitRangeControl
+					<HeightControl
 						label={__('Price font size', 'woohotspots')}
 						value={priceSize}
-						onValueChange={handlePriceSizeChange}
-						onUnitChange={(newUnit) =>
-							setAttributes({
-								priceSize: { value: priceSize.value, unit: newUnit },
-							})
-						}
-						customUnitOptions={
-							[
-								{ label: 'px', value: 'px' },
-								{ label: 'em', value: 'em' },
-								{ label: 'rem', value: 'rem' },
-							]
-						}
+						onChange={(newValue) => {
+							setAttributes({ priceSize: newValue });
+						}}
 					/>
-					<UnitRangeControl
+					<HeightControl
 						label={__('Short description font size', 'woohotspots')}
 						value={excerptSize}
-						onValueChange={handleExcerptSizeChange}
-						onUnitChange={(newUnit) =>
-							setAttributes({
-								excerptSize: { value: excerptSize.value, unit: newUnit },
-							})
-						}
-						customUnitOptions={
-							[
-								{ label: 'px', value: 'px' },
-								{ label: 'em', value: 'em' },
-								{ label: 'rem', value: 'rem' },
-							]
-						}
+						onChange={(newValue) => {
+							setAttributes({ excerptSize: newValue });
+						}}
 					/>
 					<RangeControl
 						label={__('Add to Cart size', 'woohotspots')}
@@ -447,6 +463,16 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 						step={0.05}
 					/>
 
+					<Button
+						isLink
+						isSmall
+						text={__('Reset sizes', 'woohotspots')}
+						onClick={() => {
+							resetAtts(['titleSize', 'priceSize', 'excerptSize', 'excerptSize', 'addToCartSize'])
+						}}
+						className='woohotspots-reset-attributes'
+					/>
+
 				</div>
 			),
 		},
@@ -454,33 +480,43 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 			name: 'colors',
 			title: 'Colors',
 			content: (
-
-				<PanelColorSettings
-					initialOpen={true}
-					enableAlpha
-					colorSettings={[
-						{
-							value: productBackColor,
-							onChange: (newValue) => setAttributes({ productBackColor: newValue }),
-							label: __('Background Color', 'woohotspots'),
-						},
-						{
-							value: titleColor,
-							onChange: (newValue) => setAttributes({ titleColor: newValue }),
-							label: __('Title color', 'woohotspots'),
-						},
-						{
-							value: priceColor,
-							onChange: (newValue) => setAttributes({ priceColor: newValue }),
-							label: __('Price color', 'woohotspots'),
-						},
-						{
-							value: excerptColor,
-							onChange: (newValue) => setAttributes({ excerptColor: newValue }),
-							label: __('Short description color', 'woohotspots'),
-						}
-					]}
-				/>
+				<Fragment>
+					<PanelColorSettings
+						initialOpen={true}
+						enableAlpha
+						colorSettings={[
+							{
+								value: productBackColor,
+								onChange: (newValue) => setAttributes({ productBackColor: newValue }),
+								label: __('Background Color', 'woohotspots'),
+							},
+							{
+								value: titleColor,
+								onChange: (newValue) => setAttributes({ titleColor: newValue }),
+								label: __('Title color', 'woohotspots'),
+							},
+							{
+								value: priceColor,
+								onChange: (newValue) => setAttributes({ priceColor: newValue }),
+								label: __('Price color', 'woohotspots'),
+							},
+							{
+								value: excerptColor,
+								onChange: (newValue) => setAttributes({ excerptColor: newValue }),
+								label: __('Short description color', 'woohotspots'),
+							}
+						]}
+					/>
+					<Button
+						isLink
+						isSmall
+						text={__('Reset colors', 'woohotspots')}
+						onClick={() => {
+							resetAtts(['productBackColor', 'titleColor', 'priceColor', 'excerptColor'])
+						}}
+						className='woohotspots-reset-attributes'
+					/>
+				</Fragment>
 
 			)
 		},
@@ -499,357 +535,425 @@ const InspectorControlsComponent = ({ attributes, setAttributes }) => {
 
 	// Return Inspector controls.
 	return (
-		<InspectorControls>
-			<PanelBody
-				icon={'text'}
-				title={__('Title and description', 'woohotspots')}
-				initialOpen={false}
-			>
+		<Fragment>
+			<InspectorControls group="settings">
+				<PanelBody
+					icon={'text'}
+					title={__('Title and description', 'woohotspots')}
+					initialOpen={false}
+				>
 
-				<ToggleControl
-					__nextHasNoMarginBottom
-					label={__('Show title', 'woohotspots')}
-					checked={settingsTitleDesc.activeTitle}
-					onChange={() =>
-						setAttributes({
-							settingsTitleDesc: {
-								...settingsTitleDesc,
-								activeTitle: !settingsTitleDesc.activeTitle
-							}
-						})
-					}
-				/>
-				<ToggleControl
-					__nextHasNoMarginBottom
-					label={__('Show description', 'woohotspots')}
-					checked={settingsTitleDesc.activeDesc}
-					onChange={() =>
-						setAttributes({
-							settingsTitleDesc: {
-								...settingsTitleDesc,
-								activeDesc: !settingsTitleDesc.activeDesc
-							}
-						})
-					}
-				/>
-
-				<HeightControl
-					label={'Title spacing'}
-					value={settingsTitleDesc.spacingTitle}
-					onChange={(newSpacing) => {
-						setAttributes({
-							settingsTitleDesc: {
-								...settingsTitleDesc,
-								spacingTitle: newSpacing
-							}
-						});
-					}}
-				/>
-
-				<HeightControl
-					label={'Decription spacing'}
-					value={settingsTitleDesc.spacingDesc}
-					onChange={(newSpacing) => {
-						setAttributes({
-							settingsTitleDesc: {
-								...settingsTitleDesc,
-								spacingDesc: newSpacing
-							}
-						});
-					}}
-				/>
-
-			</PanelBody>
-
-			<PanelBody
-				icon={'store'}
-				title={__('WooCommerce products', 'woohotspots')}
-				initialOpen={true}
-			>
-				{/* 
-				<FormTokenField
-					label={__(
-						'Start typing product name…',
-						'woohotspots'
-					)}
-					value={displayList}
-					suggestions={suggestions}
-					onChange={onChangeProductList}
-				/>
-				*/}
-				<CardDivider />
-
-				{getProducts.isResolving ? (
-					__('Loading products list', 'woohotspots')
-				) : (
-					<Select
-						closeMenuOnSelect={false}
-						components={animatedComponents}
-						value={productsData}
-						isMulti
-						options={productOptions}
-						onChange={onChangeProduct}
-					/>
-				)}
-			</PanelBody>
-
-			<PanelBody
-				icon={'format-image'}
-				title={__('Lookblock image', 'woohotspots')}
-				initialOpen={false}
-			>
-				<PanelRow>
-					<MediaUpload
-						label={__(
-							'Choose image for Woo HotSpots Block',
-							'woohotspots'
-						)}
-						onSelect={onSelectImage}
-						allowedTypes="image"
-						value={mediaID}
-						render={({ open }) => (
-							<Button
-								isSmall
-								isSecondary
-								className={
-									mediaID
-										? 'image-button'
-										: 'button button-large'
-								}
-								onClick={open}
-							>
-								{!mediaID
-									? __('Add Image', 'woohotspots')
-									: __('Replace Image', 'woohotspots')}
-							</Button>
-						)}
-					/>
-					{mediaID && (
-						<PanelRow>
-							<IconButton
-								icon="no-alt"
-								onClick={onRemoveImage}
-								label={__('Remove image', 'woohotspots')}
-							/>
-						</PanelRow>
-					)}
-				</PanelRow>
-				<PanelRow>
-					{mediaID ? (
-						<img
-							src={mediaURL}
-							alt={__(
-								'Upload Lookbook image',
-								'woohotspots'
-							)}
-						/>
-					) : (
-						__('No LookBook image selected', 'woohotspots')
-					)}
-				</PanelRow>
-
-				<CardDivider />
-
-				<SelectControl
-					label={__('Background image', 'woohotspots')}
-					value={backImage}
-					options={[
-						{ label: 'No background image', value: 'backimage-none' },
-						{ label: 'Lookblock image as background', value: 'backimage-same' },
-					]}
-					onChange={(value) => setAttributes({ backImage: value })}
-				/>
-
-				{(backImage !== 'backimage-none') && (
-					<RangeControl
-						label={__('Background image opacity', 'woohotspots')}
-						value={backimageOpacity}
-						onChange={(value) =>
-							setAttributes({ backimageOpacity: value })
-						}
-						min={0}
-						max={1}
-						step={0.05}
-					/>
-				)}
-
-			</PanelBody>
-
-			<PanelBody
-				icon={'layout'}
-				title={__('Lookbook layout', 'woohotspots')}
-				initialOpen={false}
-			>
-
-				<ToggleControl
-					__nextHasNoMarginBottom
-					label={__('Stack on mobile', 'woohotspots')}
-					checked={isStackedOnMobile}
-					onChange={() =>
-						setAttributes({ isStackedOnMobile: !isStackedOnMobile })
-					}
-				/>
-
-				<SelectControl
-					//label={__('Layout', 'woohotspots')}
-					value={flexLayout}
-					options={[
-						{ label: 'Row - products first', value: 'row' },
-						{ label: 'Row - image first', value: 'row-reverse' },
-						{ label: 'Column - products first', value: 'column' },
-						{ label: 'Column - image first', value: 'column-reverse', },
-						{ label: 'Image only', value: 'image-only', },
-					]}
-					onChange={(value) =>
-						setAttributes({ flexLayout: value })
-					}
-				/>
-
-				{flexLayout !== 'image-only' && (
-					<SelectControl
-						label={__('Vertical align', 'woohotspots')}
-						value={valign}
-						options={[
-							{ label: 'Top', value: 'flex-start' },
-							{ label: 'Center', value: 'center' },
-							{ label: 'Bottom', value: 'flex-end' },
-							{ label: 'Stretch', value: 'stretch' },
-						]}
-						onChange={(value) => setAttributes({ valign: value })}
-					/>
-				)}
-
-				<RangeControl
-					label={__('Image / products ratio (%)', 'woohotspots')}
-					value={flexItemsRatio}
-					min={0}
-					max={100}
-					onChange={(value) =>
-						setAttributes({ flexItemsRatio: value })
-					}
-				/>
-				{flexLayout !== 'image-only' && (
-					<UnitRangeControl
-						label={__('Image/Products Gap', 'woohotspots')}
-						value={flexGap}
-						onValueChange={handleFlexGapChange}
-						onUnitChange={(newUnit) =>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Show title', 'woohotspots')}
+						checked={settingsTitleDesc.activeTitle}
+						onChange={() =>
 							setAttributes({
-								flexGap: { value: flexGap.value, unit: newUnit },
+								settingsTitleDesc: {
+									...settingsTitleDesc,
+									activeTitle: !settingsTitleDesc.activeTitle
+								}
 							})
 						}
-						customUnitOptions={null}
 					/>
-				)}
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Show description', 'woohotspots')}
+						checked={settingsTitleDesc.activeDesc}
+						onChange={() =>
+							setAttributes({
+								settingsTitleDesc: {
+									...settingsTitleDesc,
+									activeDesc: !settingsTitleDesc.activeDesc
+								}
+							})
+						}
+					/>
 
-			</PanelBody>
+					<HeightControl
+						label={'Title spacing'}
+						value={settingsTitleDesc.spacingTitle}
+						onChange={(newSpacing) => {
+							setAttributes({
+								settingsTitleDesc: {
+									...settingsTitleDesc,
+									spacingTitle: newSpacing
+								}
+							});
+						}}
+					/>
 
-			<PanelBody
-				icon={'products'}
-				title={__('Product layout', 'woohotspots')}
-				initialOpen={false}
-			>
-				<TabPanel className="product-settings" tabs={productLayoutTabs}>
-					{(tab) => (
-						<div>
-							{tab.content}
-						</div>
-					)}
-				</TabPanel>
+					<HeightControl
+						label={'Decription spacing'}
+						value={settingsTitleDesc.spacingDesc}
+						onChange={(newSpacing) => {
+							setAttributes({
+								settingsTitleDesc: {
+									...settingsTitleDesc,
+									spacingDesc: newSpacing
+								}
+							});
+						}}
+					/>
 
-			</PanelBody>
+				</PanelBody>
 
-			<PanelBody
-				icon={'store'}
-				title={__('Product styles', 'woohotspots')}
-				initialOpen={false}
-			>
-				<BaseControl help={__('Product styles are also used for Popover. To override, switch the "Use custom Popover styles" in the "Popover styles" section', 'woohotspots')} />
-
-				<TabPanel className="product-settings" tabs={productStyleTabs}>
-					{(tab) => (
-						<div>
-							{tab.content}
-						</div>
-					)}
-				</TabPanel>
-			</PanelBody>
-
-			{mediaID && hotspots && (
-				<>
+				{Boolean(window.woohotspotsVars?.wooActive) && (
 					<PanelBody
-						icon={'hotspot'}
-						title={__('Product hotspots', 'woohotspots')}
-						initialOpen={false}
+						icon={'store'}
+						title={__('WooCommerce products', 'woohotspots')}
+						initialOpen={true}
 					>
-
-						{hotspots.map((hotspot, hotspotIndex) => (
-							<Fragment>
-								<div
-									key={hotspotIndex}
-									style={{
-										display: 'flex',
-										flexDirection: 'row',
-										justifyContent: 'space-between',
-										alignItems: 'baseline',
-									}}
-								>
-									{/* 
-									<ToggleControl
-										label={hotspot.productTitle ? hotspot.productTitle : hotspot.name}
-										checked={hotspot.active}
-										onChange={() => hotspotToggle(hotspotIndex)}
-									/>
-									*/}
-									<p>{hotspot.productTitle ? hotspot.productTitle : hotspot.name}</p>
-									<IconButton
-										icon="trash"
-										onClick={() => hotspotRemove(hotspotIndex)}
-										label={__('Remove hotspot', 'woohotspots')}
-									/>
-								</div>
-								<PanelBody title='Hotspot settings' initialOpen={false}>
-
-								</PanelBody>
-								<CardDivider />
-							</Fragment>
-
-						))}
-						{hotspots.length > 0 && (
-							<Button
-								isSecondary
-								isSmall
-								onClick={() => setAttributes({ hotspots: [] })}
-							>
-								{__('Remove All Hotspots', 'woohotspots')}
-							</Button>
+						{/* 
+					<FormTokenField
+						label={__(
+							'Start typing product name…',
+							'woohotspots'
 						)}
-						{hotspots.length == 0 && (<p>{__('Click on image to add hotspots', 'woohotspots')}</p>)}
-					</PanelBody>
+						value={displayList}
+						suggestions={suggestions}
+						onChange={onChangeProductList}
+					/>
+					*/}
+						<CardDivider size="xSmall" />
 
-					<PanelBody title={__('Popover styles', 'woohotspots')} icon={''}>
-
-						<ToggleControl
-							__nextHasNoMarginBottom
-							label={__('Use custom Popover styles', 'woohotspots')}
-							checked={usePopoverCustomSettings}
-							onChange={() =>
-								setAttributes({ usePopoverCustomSettings: !usePopoverCustomSettings })
-							}
-							help={__('Popover shares styles with lookblock products. Switch this on to use custom styles for Popover', 'woohotspots')}
-						/>
-						{usePopoverCustomSettings && (
-							<PopoverControls
-								popoverSettings={popoverSettings}
-								setAttributes={setAttributes}
+						{getProducts.isResolving ? (
+							__('Loading products list', 'woohotspots')
+						) : (
+							<Select
+								closeMenuOnSelect={false}
+								components={animatedComponents}
+								value={productsData}
+								isMulti
+								options={productOptions}
+								onChange={onChangeProduct}
 							/>
 						)}
-
 					</PanelBody>
-				</>
-			)}
+				)}
 
-		</InspectorControls>
+
+				<PanelBody
+					icon={'format-image'}
+					title={__('Image for Hot Spots', 'woohotspots')}
+					initialOpen={false}
+				>
+					<PanelRow>
+						<MediaUpload
+							label={__(
+								'Choose image for Woo HotSpots Block',
+								'woohotspots'
+							)}
+							onSelect={onSelectImage}
+							allowedTypes="image"
+							value={mediaID}
+							render={({ open }) => (
+								<Button
+									isSmall
+									isSecondary
+									className={
+										mediaID
+											? 'image-button'
+											: 'button button-large'
+									}
+									onClick={open}
+								>
+									{!mediaID
+										? __('Add Image', 'woohotspots')
+										: __('Replace Image', 'woohotspots')}
+								</Button>
+							)}
+						/>
+						{mediaID && (
+							<PanelRow>
+								<IconButton
+									icon="no-alt"
+									onClick={onRemoveImage}
+									label={__('Remove image', 'woohotspots')}
+								/>
+							</PanelRow>
+						)}
+					</PanelRow>
+					<PanelRow>
+						{mediaID ? (
+							<img
+								src={mediaURL}
+								alt={__(
+									'Upload image',
+									'woohotspots'
+								)}
+							/>
+						) : (
+							__('No image selected', 'woohotspots')
+						)}
+					</PanelRow>
+
+					<CardDivider size="xSmall" />
+
+					<SelectControl
+						label={__('Background image', 'woohotspots')}
+						value={backImage}
+						options={[
+							{ label: 'No background image', value: 'backimage-none' },
+							{ label: 'Same image as background', value: 'backimage-same' },
+						]}
+						onChange={(value) => setAttributes({ backImage: value })}
+					/>
+
+					{(backImage !== 'backimage-none') && (
+						<RangeControl
+							label={__('Background image opacity', 'woohotspots')}
+							value={backimageOpacity}
+							onChange={(value) =>
+								setAttributes({ backimageOpacity: value })
+							}
+							min={0}
+							max={1}
+							step={0.05}
+						/>
+					)}
+
+				</PanelBody>
+
+				<PanelBody
+					icon={'layout'}
+					title={__('Layout', 'woohotspots')}
+					initialOpen={false}
+				>
+
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Stack on mobile', 'woohotspots')}
+						checked={isStackedOnMobile}
+						onChange={() =>
+							setAttributes({ isStackedOnMobile: !isStackedOnMobile })
+						}
+					/>
+
+					<SelectControl
+						value={flexLayout}
+						options={[
+							{ label: 'Row - products first', value: 'row' },
+							{ label: 'Row - image first', value: 'row-reverse' },
+							{ label: 'Column - products first', value: 'column' },
+							{ label: 'Column - image first', value: 'column-reverse', },
+							{ label: 'Image only', value: 'image-only', },
+						]}
+						onChange={(value) =>
+							setAttributes({ flexLayout: value })
+						}
+					/>
+
+					{!['image-only', 'column', 'column-reverse'].includes(flexLayout) && (
+						<SelectControl
+							label={__('Vertical align', 'woohotspots')}
+							value={valign}
+							options={[
+								{ label: 'Top', value: 'flex-start' },
+								{ label: 'Center', value: 'center' },
+								{ label: 'Bottom', value: 'flex-end' },
+								{ label: 'Stretch', value: 'stretch' },
+							]}
+							onChange={(value) => setAttributes({ valign: value })}
+						/>
+					)}
+
+					<RangeControl
+						label={['image-only', 'column', 'column-reverse'].includes(flexLayout) ?
+							(__('Image width (%)', 'woohotspots')) :
+							(__('Image / products ratio (%)', 'woohotspots'))
+						}
+						value={flexItemsRatio}
+						min={0}
+						max={100}
+						onChange={(value) =>
+							setAttributes({ flexItemsRatio: value })
+						}
+					/>
+					{flexLayout !== 'image-only' && (
+
+						<HeightControl
+							label={'Image/products gap'}
+							value={flexGap}
+							onChange={(newValue) => {
+								setAttributes({ flexGap: newValue });
+							}}
+						/>
+					)}
+
+					<Button
+						isLink
+						isSmall
+						text={__('Reset layout', 'woohotspots')}
+						onClick={() => {
+							resetAtts(['isStackedOnMobile', 'flexLayout', 'valign', 'flexItemsRatio', 'flexGap'])
+						}}
+						className='woohotspots-reset-attributes'
+					/>
+
+				</PanelBody>
+
+				<PanelBody
+					icon={'products'}
+					title={__('Product layout', 'woohotspots')}
+					initialOpen={false}
+				>
+					<TabPanel className="product-settings" tabs={productLayoutTabs}>
+						{(tab) => (
+							<div>
+								{tab.content}
+							</div>
+						)}
+					</TabPanel>
+
+					<BaseControl help={__('Style properties like colors, sizes, and spacing are available in the editor styles tab.', 'woohotspots')} />
+
+				</PanelBody>
+
+			</InspectorControls>
+
+			<InspectorControls group="styles">
+				<PanelBody
+					icon={'store'}
+					title={__('Product styles', 'woohotspots')}
+					initialOpen={false}
+				>
+
+					<TabPanel className="product-settings" tabs={productStyleTabs}>
+						{(tab) => (
+							<div>
+								{tab.content}
+							</div>
+						)}
+					</TabPanel>
+				</PanelBody>
+
+				{mediaID && hotspots && (
+					<Fragment>
+
+						<PanelBody
+							icon={'marker'}
+							title={__('Hotspot styles', 'woohotspots')}
+							initialOpen={false}
+						>
+							<CardDivider size="xSmall" />
+							{hotspots.map((hotspot, hotspotIndex) => (
+								<Fragment key={hotspot.id}>
+									<div
+										key={hotspotIndex}
+										style={{
+											display: 'flex',
+											flexDirection: 'row',
+											justifyContent: 'space-between',
+											alignItems: 'center',
+										}}
+									>
+										<PanelBody
+											title={hotspot.productTitle ? hotspot.productTitle : hotspot.name}
+											initialOpen={false}
+											className="hotspot-settings"
+										>
+											<SelectControl
+												label={__('Hotspot style', 'woohotspots')}
+												value={hotspot.iconStyle}
+												options={[
+													{ label: 'Default style', value: 'default' },
+													{ label: 'Style 2', value: 'iconstyle-2' },
+													{ label: 'Style 3', value: 'iconstyle-3' },
+												]}
+												onChange={(value) => {
+													setAttributes({
+														hotspots: [
+															...hotspots.slice(0, hotspotIndex),
+															{
+																...hotspot,
+																iconStyle: value,
+															},
+															...hotspots.slice(hotspotIndex + 1),
+														],
+													})
+												}}
+											/>
+
+											<PanelColorSettings
+												initialOpen={true}
+												enableAlpha
+												colorSettings={[
+													{
+														value: hotspot.backColor,
+														onChange: (newValue) => {
+															setAttributes({
+																hotspots: [
+																	...hotspots.slice(0, hotspotIndex),
+																	{
+																		...hotspot,
+																		backColor: newValue,
+																	},
+																	...hotspots.slice(hotspotIndex + 1),
+																],
+															})
+														},
+														label: __('Back Color', 'woohotspots'),
+													},
+													{
+														value: hotspot.innerColor,
+														onChange: (newValue) => {
+															setAttributes({
+																hotspots: [
+																	...hotspots.slice(0, hotspotIndex),
+																	{
+																		...hotspot,
+																		innerColor: newValue,
+																	},
+																	...hotspots.slice(hotspotIndex + 1),
+																],
+															})
+														},
+														label: __('Inner Color', 'woohotspots'),
+													}
+
+												]}
+											/>
+
+										</PanelBody>
+
+										<IconButton
+											icon="trash"
+											onClick={() => hotspotRemove(hotspotIndex)}
+											label={__('Remove hotspot', 'woohotspots')}
+										/>
+									</div>
+									{/* <CardDivider size="xSmall" /> */}
+								</Fragment>
+
+							))}
+							{hotspots.length > 0 && (
+								<Fragment>
+									<CardDivider size="xSmall" />
+									<Button
+										isSecondary
+										isSmall
+										onClick={() => setAttributes({ hotspots: [] })}
+									>
+										{__('Remove All Hotspots', 'woohotspots')}
+									</Button>
+								</Fragment>
+							)}
+							{hotspots.length == 0 && (<p>{__('Click on image to add hotspots', 'woohotspots')}</p>)}
+						</PanelBody>
+
+					</Fragment>
+				)}
+			</InspectorControls>
+
+			{mediaID && hotspots && (
+				<PopoverControls
+					popoverAtts={popoverAtts}
+					setAttributes={setAttributes}
+					clientId={clientId}
+				/>
+			)}
+		</Fragment>
 	);
 };
 export default InspectorControlsComponent;
