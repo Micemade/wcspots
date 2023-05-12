@@ -22,7 +22,7 @@
 
 %layouts {
 	&.layout2 {
-		.woohotspots-product {
+		.woo-hotspots-product {
 			width: 100%;
 			flex-direction: row;
 
@@ -33,7 +33,7 @@
 		}
 	}
 	&.layout3 {
-		.woohotspots-product {
+		.woo-hotspots-product {
 			position: relative;
 
 			> * { flex: 1; }
@@ -101,8 +101,8 @@
 	}
 }
 
-%woohotspots-product {
-	.woohotspots-product {
+%woo-hotspots-product {
+	.woo-hotspots-product {
 		display: flex;
 		flex-direction: column;
 		position: relative;
@@ -268,7 +268,7 @@
 	}
 }
 
-.wp-block-micemade-woohotspots {
+.wp-block-micemade-woo-hotspots {
 
 	position: relative;
 
@@ -421,7 +421,7 @@
 			box-sizing: border-box;
 			width: 100%;
 
-			@extend %woohotspots-product;
+			@extend %woo-hotspots-product;
 
 			@extend %layouts;
 
@@ -471,9 +471,9 @@
 		overflow: hidden;
 		box-shadow: 0 0 30px 0 rgba(0,0,0,0.3);
 
-		@extend %woohotspots-product;
+		@extend %woo-hotspots-product;
 
-		.woohotspots-product {
+		.woo-hotspots-product {
 			background-color: #fff;
 			background: var(--wp--preset--color--background);
 			box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);

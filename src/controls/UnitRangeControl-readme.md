@@ -32,7 +32,7 @@ const handleUnitChange = (newUnit) =>{
 function myCustomControl() {
 	return (
 		<UnitRangeControl
-			label={__('My attribute size', 'woohotspots')}
+			label={__('My attribute size', 'woo-hotspots')}
 			value={myAttribute}
 			onValueChange={handleValueChange}
 			onUnitChange={handleUnitChange}

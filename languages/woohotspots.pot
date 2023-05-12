@@ -2,8 +2,8 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooHotSpots 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woohotspots\n"
+"Project-Id-Version: Woo Hotspots 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-hotspots\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,10 +12,10 @@ msgstr ""
 "POT-Creation-Date: 2023-05-12T07:39:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
-"X-Domain: woohotspots\n"
+"X-Domain: woo-hotspots\n"
 
 #. Plugin Name of the plugin
-msgid "WooHotSpots"
+msgid "Woo Hotspots"
 msgstr ""
 
 #. Description of the plugin
@@ -26,15 +26,15 @@ msgstr ""
 msgid "Micemade"
 msgstr ""
 
-#: woohotspots.php:59
-msgid "WooHotSpots Notice"
+#: woo-hotspots.php:59
+msgid "Woo Hotspots Notice"
 msgstr ""
 
-#: woohotspots.php:60
-msgid "WooHotSpots plugin is a block plugin for creating WooCommerce product showcases with image hotspots. To enable the WooHotSpots, please install and activate the WooCommerce plugin."
+#: woo-hotspots.php:60
+msgid "Woo Hotspots plugin is a block plugin for creating WooCommerce product showcases with image hotspots. To enable the Woo Hotspots, please install and activate the WooCommerce plugin."
 msgstr ""
 
-#: woohotspots.php:61
+#: woo-hotspots.php:61
 msgid "Get WooCommerce"
 msgstr ""
 
@@ -126,7 +126,7 @@ msgstr ""
 
 #: build/index.js:2761
 #: build/index.js:2340
-msgid "Format WooHotspots Title"
+msgid "Format Woo Hotspots Title"
 msgstr ""
 
 #: build/index.js:2776
@@ -540,7 +540,7 @@ msgstr ""
 
 #: build/index.js:4575
 #: build/index.js:4284
-msgid "WooHotSpots image"
+msgid "Woo Hotspots image"
 msgstr ""
 
 #: build/index.js:4595
@@ -570,7 +570,7 @@ msgstr ""
 
 #: build/block.json
 msgctxt "block title"
-msgid "WooHotSpots"
+msgid "Woo Hotspots"
 msgstr ""
 
 #: build/block.json

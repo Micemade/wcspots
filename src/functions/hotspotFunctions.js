@@ -25,7 +25,7 @@ export const addNewHotspot = (event, hotspots, setAttributes) => {
 		x: xPos,
 		y: yPos,
 		id: uuidv4(),
-		name: __('Double click on hotspot to assign a product.', 'woohotspots'),
+		name: __('Double click on hotspot to assign a product.', 'woo-hotspots'),
 		productId: null,
 		productTitle: null,
 		assigned: false,
@@ -85,8 +85,8 @@ export const onProductSelect = (value, hotspots, selectedHotspot, setAttributes)
  * @param {string} clientId 
  */
 export const onHotspotOver = (event, hotspot, clientId) => {
-	// Get "WooHotSpots" block instance specific to this hotspot.
-	const thisBlock = event.target.closest(".wp-block-micemade-woohotspots");
+	// Get "Woo Hotspots" block instance specific to this hotspot.
+	const thisBlock = event.target.closest(".wp-block-micemade-woo-hotspots");
 	// Bailing early.
 	if (!thisBlock) return;
 
@@ -106,8 +106,8 @@ export const onHotspotOver = (event, hotspot, clientId) => {
  * @param {*} clientId 
  */
 export const onHotspotOut = (event, hotspot, clientId) => {
-	// Get "WooHotSpots" block instance specific to this hotspot.
-	const thisBlock = event.target.closest(".wp-block-micemade-woohotspots");
+	// Get "Woo Hotspots" block instance specific to this hotspot.
+	const thisBlock = event.target.closest(".wp-block-micemade-woo-hotspots");
 	// Bailing early.
 	if (!thisBlock) return;
 

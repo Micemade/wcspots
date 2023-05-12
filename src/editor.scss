@@ -2,7 +2,7 @@
  * The following styles get applied inside the editor only.
  */
 
-.wp-block-micemade-woohotspots:hover {
+.wp-block-micemade-woo-hotspots:hover {
 	outline: 1px dotted #f00;
 }
 
@@ -28,7 +28,7 @@
 	margin-top: 10px;
 }
 // Buttons with images in 'ImageRadioSelectControl'
-.woohotspots-image-button {
+.woo-hotspots-image-button {
 	height: auto;
 	border-radius: 5px !important;
 	margin: 0 2px;
@@ -39,7 +39,7 @@
 }
 
 
-.block-editor-block-inspector .woohotspots-label {
+.block-editor-block-inspector .woo-hotspots-label {
 	margin-bottom: 12px;
 }
 
@@ -89,7 +89,7 @@
 		transform: scale(0.6);
 	}
 
-	&.woohotspots-reset-attributes {
+	&.woo-hotspots-reset-attributes {
 		padding: 0;
 		display: flex;
 		width: 100%;

@@ -10,13 +10,13 @@ const ProductImage = ({ productId }) => {
 	}
 
 	if (!product) {
-		return <div>{__('Product not found', 'woohotspots')}</div>;
+		return <div>{__('Product not found', 'woo-hotspots')}</div>;
 	}
 
 	const hasImages = product.images && product.images.length > 0;
 	const imgSrcSet = hasImages ? product.images[0].srcset : null;
 	const imgSrc = hasImages ? product.images[0].src : null;
-	const fallback = typeof wc == 'object' ? (<img src={wc?.wcSettings?.PLACEHOLDER_IMG_SRC} alt={product.name} />) : (__('Product has no featured image', 'woohotspots'));
+	const fallback = typeof wc == 'object' ? (<img src={wc?.wcSettings?.PLACEHOLDER_IMG_SRC} alt={product.name} />) : (__('Product has no featured image', 'woo-hotspots'));
 
 	return (imgSrcSet || imgSrc) ? (
 		<img {...(imgSrcSet ? { srcSet: imgSrcSet } : {})} src={imgSrc} alt={product.name} />

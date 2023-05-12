@@ -14,7 +14,7 @@ import classNames from 'classnames';
 import './style.scss';
 import ProductGrid from './components/productGrid';
 import Hotspot from './components/hotspot';
-import WooHotSpotsTitle from './components/woohotspotsTitle';
+import WooHotspotsTitle from './components/woohotspotsTitle';
 
 const Save = ({ attributes }) => {
 
@@ -95,7 +95,7 @@ const Save = ({ attributes }) => {
 				}
 
 				{title && settingsTitleDesc.activeTitle && (
-					<WooHotSpotsTitle
+					<WooHotspotsTitle
 						attributes={attributes}
 					/>
 				)}
@@ -143,7 +143,7 @@ const Save = ({ attributes }) => {
 								src={mediaURL}
 								srcSet={srcSetAtt}
 								sizes={sizesAtt}
-								alt={__('Lookbook image', 'woohotspots')}
+								alt={__('Lookbook image', 'woo-hotspots')}
 							/>
 							{hotspots?.length > 0 &&
 								hotspots.filter((hotspot) => {

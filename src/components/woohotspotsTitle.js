@@ -6,7 +6,7 @@ import { Fragment } from '@wordpress/element';
 import { RichText, BlockControls, AlignmentControl } from '@wordpress/block-editor';
 import { Toolbar, DropdownMenu } from '@wordpress/components';
 
-const WooHotSpotsTitle = (props) => {
+const WooHotspotsTitle = (props) => {
 	const { attributes, setAttributes, context } = props;
 	const {
 		title,
@@ -44,7 +44,7 @@ const WooHotSpotsTitle = (props) => {
 								}}
 							/>
 							<DropdownMenu
-								label={__('Format WooHotspots Title', 'woohotspots')}
+								label={__('Format Woo Hotspots Title', 'woo-hotspots')}
 								icon="heading"
 								controls={formatTypes.map((type) => ({
 									title: type.title,
@@ -65,7 +65,7 @@ const WooHotSpotsTitle = (props) => {
 						textAlign: settingsTitleDesc.align,
 						margin: `${settingsTitleDesc.spacingTitle} 0`
 					}}
-					placeholder={__('Enter your title here', 'woohotspots')}
+					placeholder={__('Enter your title here', 'woo-hotspots')}
 					keepPlaceholderOnFocus
 				/>
 			) : (
@@ -83,4 +83,4 @@ const WooHotSpotsTitle = (props) => {
 	);
 };
 
-export default WooHotSpotsTitle;
+export default WooHotspotsTitle;

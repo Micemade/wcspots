@@ -22,8 +22,8 @@ window.addEventListener('resize', (event) => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-	// Get every WooHotSpots instance.
-	const woohotspotsInstances = document.querySelectorAll('.wp-block-micemade-woohotspots');
+	// Get every Woo Hotspots instance.
+	const woohotspotsInstances = document.querySelectorAll('.wp-block-micemade-woo-hotspots');
 
 	woohotspotsInstances.forEach((blockInstance) => {
 

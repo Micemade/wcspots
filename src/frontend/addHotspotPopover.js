@@ -125,7 +125,7 @@ const AddHotspotPopover = (props) => {
 						style={Object.assign(arrowStyle, { marginLeft: -nudgedLeft, marginTop: -nudgedTop })} />
 
 					<div
-						className={`woohotspots-product align-${productsAlign}`}
+						className={`woo-hotspots-product align-${productsAlign}`}
 						style={innerDivStyle}
 					>
 

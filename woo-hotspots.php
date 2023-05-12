@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       WooHotSpots
+ * Plugin Name:       Woo Hotspots
  * Description:       Create WooCommerce product showcases with image hotspots in the block editor.
  * Requires at least: 6.1
  * Requires PHP:      7.0
@@ -8,7 +8,7 @@
  * Author:            Micemade
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       woohotspots
+ * Text Domain:       woo-hotspots
  *
  * @package           micemade
  */
@@ -54,11 +54,11 @@ function woohotspots_block_init() {
 		 */
 		function woohotspots_admin_plugin_notice() {
 			?>
-			<div class="notice notice-info is-dismissible woohotspots-admin-notice">
-				<div class="woohotspots-admin-notice-wrapper">
-					<h2><?php esc_html_e( 'WooHotSpots Notice', 'woohotspots' ); ?></h2>
-					<p><?php esc_html_e( 'WooHotSpots plugin is a block plugin for creating WooCommerce product showcases with image hotspots. To enable the WooHotSpots, please install and activate the WooCommerce plugin.', 'woohotspots' ); ?></p>
-					<a target="_blank" class="button-primary button" href="<?php echo esc_url( 'https://wordpress.org/plugins/woocommerce/' ); ?>"><?php esc_html_e( 'Get WooCommerce', 'woohotspots' ); ?></a>
+			<div class="notice notice-info is-dismissible woo-hotspots-admin-notice">
+				<div class="woo-hotspots-admin-notice-wrapper">
+					<h2><?php esc_html_e( 'Woo Hotspots Notice', 'woo-hotspots' ); ?></h2>
+					<p><?php esc_html_e( 'Woo Hotspots plugin is a block plugin for creating WooCommerce product showcases with image hotspots. To enable the Woo Hotspots, please install and activate the WooCommerce plugin.', 'woo-hotspots' ); ?></p>
+					<a target="_blank" class="button-primary button" href="<?php echo esc_url( 'https://wordpress.org/plugins/woocommerce/' ); ?>"><?php esc_html_e( 'Get WooCommerce', 'woo-hotspots' ); ?></a>
 				</div>
 			</div>
 			<?php
@@ -68,18 +68,18 @@ function woohotspots_block_init() {
 
 	// Add JS vars to frontend and editor.
 	wp_localize_script(
-		'micemade-woohotspots-view-script',
+		'micemade-woo-hotspots-view-script',
 		'woohotspotsVars',
 		$js_vars
 	);
 	wp_localize_script(
-		'micemade-woohotspots-editor-script',
+		'micemade-woo-hotspots-editor-script',
 		'woohotspotsVars',
 		$js_vars
 	);
 
-	wp_set_script_translations( 'micemade-woohotspots-view-script', 'woohotspots', plugin_dir_path( __FILE__ ) . 'languages/' );
-	wp_set_script_translations( 'micemade-woohotspots-editor-script', 'woohotspots', plugin_dir_path( __FILE__ ) . 'languages/' );
+	wp_set_script_translations( 'micemade-woo-hotspots-view-script', 'woo-hotspots', plugin_dir_path( __FILE__ ) . 'languages/' );
+	wp_set_script_translations( 'micemade-woo-hotspots-editor-script', 'woo-hotspots', plugin_dir_path( __FILE__ ) . 'languages/' );
 
 }
 

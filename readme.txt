@@ -1,4 +1,4 @@
-=== WooHotSpots ===
+=== Woo Hotspots ===
 Contributors:      Anydog
 Tags:              woocommerce, hotspots, showcase, lookbook,block
 Requires at least: 6.0
@@ -12,7 +12,7 @@ Create WooCommerce product showcases with image hotspots in the block editor.
 
 == Description ==
 
-Introducing WooHotspots - our WooCommerce Product Hotspot Gutenberg Block – the ultimate solution for showcasing your products in a creative and interactive way!
+Introducing Woo Hotspots - our WooCommerce Product Hotspot Gutenberg Block – the ultimate solution for showcasing your products in a creative and interactive way!
 
 With our plugin, you can easily create a custom image with hotspots that link to selected WooCommerce products. Simply select the products you want to showcase, upload an image, and add hotspots on top. Each hotspot is associated with a product, and when clicked, displays a product popover with all the necessary details – including price, description, and a "Buy Now" button.
 
@@ -20,7 +20,7 @@ This plugin is perfect for any WooCommerce store owner looking to showcase their
 
 === Key Features ===
 
-Here are some of the key features of WooHotSpots:
+Here are some of the key features of Woo Hotspots:
 
 * Easy setup: Simply install the plugin, select your products, upload an image, and add hotspots.
 * Customizable hotspots: Choose from a range of hotspot styles and customize the color, and shape to match your brand.
@@ -29,32 +29,32 @@ Here are some of the key features of WooHotSpots:
 * SEO-friendly: Each hotspot is an anchor link, which is great for SEO and allows users to share individual product links.
 * Fast loading: Our plugin is optimized for speed, ensuring your page loads quickly and efficiently.
 
-So why wait? Download our WooHotSpots Block today and start showcasing your products like never before!
+So why wait? Download our Woo Hotspots Block today and start showcasing your products like never before!
 
 == Installation ==
 
-There are a couple of ways to install the WooHotSpots block plugin.
+There are a couple of ways to install the Woo Hotspots block plugin.
 
 1. In WordPress Admin Dashboard:
-	* Go to "Plugins" &rarr; "Add New" and search for "WooHotSpots". Once found, click "Install".
+	* Go to "Plugins" &rarr; "Add New" and search for "Woo Hotspots". Once found, click "Install".
 	* When the installation is done, click on "Activate" button.
 2. Manually:
-	* Download the WooHotSpots from wordpress.org and make sure the folder is zipped.
-	* Upload the plugin files to the `/wp-content/plugins/woohotspots` directory, or install the plugin through the WordPress plugins screen directly.
+	* Download the Woo Hotspots from wordpress.org and make sure the folder is zipped.
+	* Upload the plugin files to the `/wp-content/plugins/woo-hotspots` directory, or install the plugin through the WordPress plugins screen directly.
 	* Activate the plugin through the "Plugins" screen in WordPress
 3. Search for the block within the Block Editor (Gutenberg) and start using it.
 
 
 == Frequently Asked Questions ==
 
-= Does WooHotSpots require WooCommerce plugin being installed and activated? =
+= Does Woo Hotspots require WooCommerce plugin being installed and activated? =
 
-Yes, in current version, the WooHotSpots requires that WooCommerce plugin is installed and active. For the commercial version of WooHotSpots, there is a roadmap with custom hotspot products or content included.
+Yes, in current version, the Woo Hotspots requires that WooCommerce plugin is installed and active. For the commercial version of Woo Hotspots, there is a roadmap with custom hotspot products or content included.
 
-= Which features will be added to commercial version of WooHotSpots?
+= Which features will be added to commercial version of Woo Hotspots?
 
 * Custom products featuring assigning custom content to hotspots and popovers, other than WooCommerce products.
-* Patterns with pre-designed WooHotSpots blocks to easily start with showcase layouts
+* Patterns with pre-designed Woo Hotspots blocks to easily start with showcase layouts
 * Inner blocks before and after main block content (image, products, and hotspots), replacing fixed title and description.
 * Additional controls for block background image: size, position, filters.
 * Additional hotspot icon styles.

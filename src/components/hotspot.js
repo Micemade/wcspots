@@ -54,7 +54,7 @@ const Hotspot = ({ hotspot, onDoubleClick, onMouseOver, onMouseOut, clientId, ho
 						className="unassign"
 						icon="remove"
 						onClick={() => unassignProduct(hotspots, setAttributes, hotspot.id)}
-						label={__('Unassign product', 'woohotspots')}
+						label={__('Unassign product', 'woo-hotspots')}
 						isSmall
 					/>
 				)}
@@ -65,7 +65,7 @@ const Hotspot = ({ hotspot, onDoubleClick, onMouseOver, onMouseOut, clientId, ho
 					className="remove-hotspot"
 					icon="no"
 					onClick={() => removeHotspot(hotspots, setAttributes, hotspot.id)}
-					label={__('Remove hotspot', 'woohotspots')}
+					label={__('Remove hotspot', 'woo-hotspots')}
 					isSmall
 				/>
 			)}

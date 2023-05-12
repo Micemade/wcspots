@@ -1,5 +1,5 @@
 {
-	"name": "woohotspots",
+	"name": "woo-hotspots",
 	"version": "0.1.0",
 	"description": "Create WooCommerce product showcases with image hotspots in the block editor.",
 	"author": "Micemade",
@@ -13,7 +13,7 @@
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start --webpack-copy-php",
-		"update-pot": "wp i18n make-pot . languages/woohotspots.pot --exclude=src"
+		"update-pot": "wp i18n make-pot . languages/woo-hotspots.pot --exclude=src"
 	},
 	"devDependencies": {
 		"@svgr/webpack": "^7.0.0",

@@ -18,7 +18,7 @@ import './editor.scss';
 import InspectorControlsComponent from './controls/inspectorControls';
 import ProductGrid from './components/productGrid';
 import Hotspot from './components/hotspot';
-import WooHotSpotsTitle from './components/woohotspotsTitle';
+import WooHotspotsTitle from './components/woohotspotsTitle';
 
 // Functions.
 import { addNewHotspot, modalProductToHotspot, onProductSelect, onHotspotOver, onHotspotOut, unassignProduct, removeHotspot, clearHotspotsOnImageChange } from './functions/hotspotFunctions';
@@ -176,7 +176,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		</ToolbarGroup>
 	);
 
-	const noProductsNotice = __('Pick your products in the sidebar "WooCommerce products" section.', 'woohotspots');
+	const noProductsNotice = __('Pick your products in the sidebar "WooCommerce products" section.', 'woo-hotspots');
 
 	return (
 		<>
@@ -198,7 +198,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 				}
 
 				{settingsTitleDesc.activeTitle && (
-					<WooHotSpotsTitle
+					<WooHotspotsTitle
 						attributes={attributes}
 						setAttributes={setAttributes}
 						context="edit"
@@ -216,7 +216,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 							textAlign: settingsTitleDesc.align,
 							margin: `${settingsTitleDesc.spacingDesc} 0`
 						}}
-						placeholder={__('Enter your description here', 'woohotspots')}
+						placeholder={__('Enter your description here', 'woo-hotspots')}
 						keepPlaceholderOnFocus
 					/>
 				)}
@@ -261,8 +261,8 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 								onSelectURL={onSelectImage}
 								allowedTypes={['image']}
 								labels={{
-									title: __('Add image', 'woohotspots'),
-									instructions: __('Drag & drop or select an image file', 'woohotspots'),
+									title: __('Add image', 'woo-hotspots'),
+									instructions: __('Drag & drop or select an image file', 'woo-hotspots'),
 								}}
 							/>
 						)}
@@ -272,7 +272,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 								src={mediaURL}
 								srcSet={srcSetAtt}
 								sizes={sizesAtt}
-								alt={__('WooHotSpots image', 'woohotspots')}
+								alt={__('Woo Hotspots image', 'woo-hotspots')}
 								onClick={() => addNewHotspot(event, hotspots, setAttributes)}
 							/>
 						)}
@@ -298,7 +298,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 							))}
 						{(hotspots?.length == 0 && mediaURL) && (
 							<div className='add-some-hotspots'>
-								{__('Click on image to add hotspots.', 'woohotspots')}
+								{__('Click on image to add hotspots.', 'woo-hotspots')}
 							</div>
 						)}
 					</div>
@@ -308,7 +308,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 
 			{editModal && (
 				<Modal
-					title={__('Assign a product to this hotspot', 'woohotspots')}
+					title={__('Assign a product to this hotspot', 'woo-hotspots')}
 					onRequestClose={() =>
 						setAttributes({
 							editModal: false,
@@ -318,7 +318,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 				>
 					{productsData.length > 0 && (
 						<SelectControl
-							label={__('Products', 'woohotspots')}
+							label={__('Products', 'woo-hotspots')}
 							value={
 								selectedProduct
 									? JSON.stringify([

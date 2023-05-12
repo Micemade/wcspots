@@ -21,7 +21,7 @@ const addToCartPost = (event, productId) => {
 
 	event.preventDefault();
 
-	render(__('Adding...', 'woohotspots'), event.target)
+	render(__('Adding...', 'woo-hotspots'), event.target)
 
 	apiFetch({
 		path: '/wc/store/v1/cart/add-item',
@@ -36,7 +36,7 @@ const addToCartPost = (event, productId) => {
 	})
 		.then((response) => {
 			render(
-				__('Product added', 'woohotspots'),
+				__('Product added', 'woo-hotspots'),
 				event.target
 			);
 			render(

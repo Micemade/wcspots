@@ -1,5 +1,5 @@
 /**
- * Registers a block with a unique name ( WooHotSpots ) and an object.
+ * Registers a block with a unique name ( Woo Hotspots ) and an object.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */

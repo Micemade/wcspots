@@ -241,8 +241,8 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 			content: (
 				<div>
 					<ImageRadioSelectControl
-						label={__('Product layout type', 'woohotspots')}
-						help={__('Pick a grid type for displaying selected products', 'woohotspots')}
+						label={__('Product layout type', 'woo-hotspots')}
+						help={__('Pick a grid type for displaying selected products', 'woo-hotspots')}
 						options={[
 							{ value: 'layout1', label: 'Layout 1', image: require('./icons/Layout_1.png') },
 							{ value: 'layout2', label: 'Layout 2', image: require('./icons/Layout_2.png') },
@@ -255,8 +255,8 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						height='38px'
 					/>
 					<ImageRadioSelectControl
-						label={__('Product align', 'woohotspots')}
-						help={__('How to align the products', 'woohotspots')}
+						label={__('Product align', 'woo-hotspots')}
+						help={__('How to align the products', 'woo-hotspots')}
 						options={[
 							{ value: 'flex-start', label: 'Flex start', icon: 'align-left' },
 							{ value: 'center', label: 'Center', icon: 'align-center' },
@@ -272,7 +272,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					<CardDivider size="xSmall" />
 
 					<RangeControl
-						label={__('Columns', 'woohotspots')}
+						label={__('Columns', 'woo-hotspots')}
 						value={columns}
 						onChange={(value) =>
 							setAttributes({ columns: value })
@@ -284,11 +284,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					<Button
 						isLink
 						isSmall
-						text={__('Reset layout, align, and columns', 'woohotspots')}
+						text={__('Reset layout, align, and columns', 'woo-hotspots')}
 						onClick={() => {
 							resetAtts(['productsLayout', 'productsAlign', 'columns'])
 						}}
-						className='woohotspots-reset-attributes'
+						className='woo-hotspots-reset-attributes'
 					/>
 
 				</div>
@@ -302,7 +302,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					<CardDivider size="xSmall" />
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show image', 'woohotspots')}
+						label={__('Show image', 'woo-hotspots')}
 						checked={elementsToggle.image}
 						onChange={() =>
 							setAttributes({
@@ -315,7 +315,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show title', 'woohotspots')}
+						label={__('Show title', 'woo-hotspots')}
 						checked={elementsToggle.title}
 						onChange={() =>
 							setAttributes({
@@ -328,7 +328,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show price', 'woohotspots')}
+						label={__('Show price', 'woo-hotspots')}
 						checked={elementsToggle.price}
 						onChange={() =>
 							setAttributes({
@@ -341,7 +341,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show excerpt', 'woohotspots')}
+						label={__('Show excerpt', 'woo-hotspots')}
 						checked={elementsToggle.excerpt}
 						onChange={() =>
 							setAttributes({
@@ -354,7 +354,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show Add to Cart', 'woohotspots')}
+						label={__('Show Add to Cart', 'woo-hotspots')}
 						checked={elementsToggle.addToCart}
 						onChange={() =>
 							setAttributes({
@@ -369,11 +369,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					<Button
 						isLink
 						isSmall
-						text={__('Reset toggles', 'woohotspots')}
+						text={__('Reset toggles', 'woo-hotspots')}
 						onClick={() => {
 							resetAtts(['elementsToggle'])
 						}}
-						className='woohotspots-reset-attributes'
+						className='woo-hotspots-reset-attributes'
 					/>
 				</div>
 			)
@@ -390,21 +390,21 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					<CardDivider size="xSmall" />
 
 					<HeightControl
-						label={__('Gap between products', 'woohotspots')}
+						label={__('Gap between products', 'woo-hotspots')}
 						value={productsGap}
 						onChange={(newValue) => {
 							setAttributes({ productsGap: newValue });
 						}}
 					/>
 					<HeightControl
-						label={__('Product elements spacing', 'woohotspots')}
+						label={__('Product elements spacing', 'woo-hotspots')}
 						value={productSpacing}
 						onChange={(newValue) => {
 							setAttributes({ productSpacing: newValue });
 						}}
 					/>
 					<HeightControl
-						label={__('Product elements padding', 'woohotspots')}
+						label={__('Product elements padding', 'woo-hotspots')}
 						value={productPadding}
 						onChange={(newValue) => {
 							setAttributes({ productPadding: newValue });
@@ -415,11 +415,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					<Button
 						isLink
 						isSmall
-						text={__('Reset spacing', 'woohotspots')}
+						text={__('Reset spacing', 'woo-hotspots')}
 						onClick={() => {
 							resetAtts(['productsGap', 'productSpacing', 'productPadding'])
 						}}
-						className='woohotspots-reset-attributes'
+						className='woo-hotspots-reset-attributes'
 					/>
 				</div>
 			)
@@ -432,28 +432,28 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					<CardDivider size="xSmall" />
 
 					<HeightControl
-						label={__('Title font size', 'woohotspots')}
+						label={__('Title font size', 'woo-hotspots')}
 						value={titleSize}
 						onChange={(newValue) => {
 							setAttributes({ titleSize: newValue });
 						}}
 					/>
 					<HeightControl
-						label={__('Price font size', 'woohotspots')}
+						label={__('Price font size', 'woo-hotspots')}
 						value={priceSize}
 						onChange={(newValue) => {
 							setAttributes({ priceSize: newValue });
 						}}
 					/>
 					<HeightControl
-						label={__('Short description font size', 'woohotspots')}
+						label={__('Short description font size', 'woo-hotspots')}
 						value={excerptSize}
 						onChange={(newValue) => {
 							setAttributes({ excerptSize: newValue });
 						}}
 					/>
 					<RangeControl
-						label={__('Add to Cart size', 'woohotspots')}
+						label={__('Add to Cart size', 'woo-hotspots')}
 						value={addToCartSize}
 						onChange={(value) =>
 							setAttributes({ addToCartSize: value })
@@ -466,11 +466,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					<Button
 						isLink
 						isSmall
-						text={__('Reset sizes', 'woohotspots')}
+						text={__('Reset sizes', 'woo-hotspots')}
 						onClick={() => {
 							resetAtts(['titleSize', 'priceSize', 'excerptSize', 'excerptSize', 'addToCartSize'])
 						}}
-						className='woohotspots-reset-attributes'
+						className='woo-hotspots-reset-attributes'
 					/>
 
 				</div>
@@ -488,33 +488,33 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 							{
 								value: productBackColor,
 								onChange: (newValue) => setAttributes({ productBackColor: newValue }),
-								label: __('Background Color', 'woohotspots'),
+								label: __('Background Color', 'woo-hotspots'),
 							},
 							{
 								value: titleColor,
 								onChange: (newValue) => setAttributes({ titleColor: newValue }),
-								label: __('Title color', 'woohotspots'),
+								label: __('Title color', 'woo-hotspots'),
 							},
 							{
 								value: priceColor,
 								onChange: (newValue) => setAttributes({ priceColor: newValue }),
-								label: __('Price color', 'woohotspots'),
+								label: __('Price color', 'woo-hotspots'),
 							},
 							{
 								value: excerptColor,
 								onChange: (newValue) => setAttributes({ excerptColor: newValue }),
-								label: __('Short description color', 'woohotspots'),
+								label: __('Short description color', 'woo-hotspots'),
 							}
 						]}
 					/>
 					<Button
 						isLink
 						isSmall
-						text={__('Reset colors', 'woohotspots')}
+						text={__('Reset colors', 'woo-hotspots')}
 						onClick={() => {
 							resetAtts(['productBackColor', 'titleColor', 'priceColor', 'excerptColor'])
 						}}
-						className='woohotspots-reset-attributes'
+						className='woo-hotspots-reset-attributes'
 					/>
 				</Fragment>
 
@@ -539,13 +539,13 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 			<InspectorControls group="settings">
 				<PanelBody
 					icon={'text'}
-					title={__('Title and description', 'woohotspots')}
+					title={__('Title and description', 'woo-hotspots')}
 					initialOpen={false}
 				>
 
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show title', 'woohotspots')}
+						label={__('Show title', 'woo-hotspots')}
 						checked={settingsTitleDesc.activeTitle}
 						onChange={() =>
 							setAttributes({
@@ -558,7 +558,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show description', 'woohotspots')}
+						label={__('Show description', 'woo-hotspots')}
 						checked={settingsTitleDesc.activeDesc}
 						onChange={() =>
 							setAttributes({
@@ -601,14 +601,14 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 				{Boolean(window.woohotspotsVars?.wooActive) && (
 					<PanelBody
 						icon={'store'}
-						title={__('WooCommerce products', 'woohotspots')}
+						title={__('WooCommerce products', 'woo-hotspots')}
 						initialOpen={true}
 					>
 						{/* 
 					<FormTokenField
 						label={__(
 							'Start typing product name…',
-							'woohotspots'
+							'woo-hotspots'
 						)}
 						value={displayList}
 						suggestions={suggestions}
@@ -618,7 +618,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						<CardDivider size="xSmall" />
 
 						{getProducts.isResolving ? (
-							__('Loading products list', 'woohotspots')
+							__('Loading products list', 'woo-hotspots')
 						) : (
 							<Select
 								closeMenuOnSelect={false}
@@ -635,14 +635,14 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 
 				<PanelBody
 					icon={'format-image'}
-					title={__('Image for Hot Spots', 'woohotspots')}
+					title={__('Image for Hot Spots', 'woo-hotspots')}
 					initialOpen={false}
 				>
 					<PanelRow>
 						<MediaUpload
 							label={__(
 								'Choose image for Woo HotSpots Block',
-								'woohotspots'
+								'woo-hotspots'
 							)}
 							onSelect={onSelectImage}
 							allowedTypes="image"
@@ -659,8 +659,8 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 									onClick={open}
 								>
 									{!mediaID
-										? __('Add Image', 'woohotspots')
-										: __('Replace Image', 'woohotspots')}
+										? __('Add Image', 'woo-hotspots')
+										: __('Replace Image', 'woo-hotspots')}
 								</Button>
 							)}
 						/>
@@ -669,7 +669,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 								<IconButton
 									icon="no-alt"
 									onClick={onRemoveImage}
-									label={__('Remove image', 'woohotspots')}
+									label={__('Remove image', 'woo-hotspots')}
 								/>
 							</PanelRow>
 						)}
@@ -680,18 +680,18 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 								src={mediaURL}
 								alt={__(
 									'Upload image',
-									'woohotspots'
+									'woo-hotspots'
 								)}
 							/>
 						) : (
-							__('No image selected', 'woohotspots')
+							__('No image selected', 'woo-hotspots')
 						)}
 					</PanelRow>
 
 					<CardDivider size="xSmall" />
 
 					<SelectControl
-						label={__('Background image', 'woohotspots')}
+						label={__('Background image', 'woo-hotspots')}
 						value={backImage}
 						options={[
 							{ label: 'No background image', value: 'backimage-none' },
@@ -702,7 +702,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 
 					{(backImage !== 'backimage-none') && (
 						<RangeControl
-							label={__('Background image opacity', 'woohotspots')}
+							label={__('Background image opacity', 'woo-hotspots')}
 							value={backimageOpacity}
 							onChange={(value) =>
 								setAttributes({ backimageOpacity: value })
@@ -717,13 +717,13 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 
 				<PanelBody
 					icon={'layout'}
-					title={__('Layout', 'woohotspots')}
+					title={__('Layout', 'woo-hotspots')}
 					initialOpen={false}
 				>
 
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Stack on mobile', 'woohotspots')}
+						label={__('Stack on mobile', 'woo-hotspots')}
 						checked={isStackedOnMobile}
 						onChange={() =>
 							setAttributes({ isStackedOnMobile: !isStackedOnMobile })
@@ -746,7 +746,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 
 					{!['image-only', 'column', 'column-reverse'].includes(flexLayout) && (
 						<SelectControl
-							label={__('Vertical align', 'woohotspots')}
+							label={__('Vertical align', 'woo-hotspots')}
 							value={valign}
 							options={[
 								{ label: 'Top', value: 'flex-start' },
@@ -760,8 +760,8 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 
 					<RangeControl
 						label={['image-only', 'column', 'column-reverse'].includes(flexLayout) ?
-							(__('Image width (%)', 'woohotspots')) :
-							(__('Image / products ratio (%)', 'woohotspots'))
+							(__('Image width (%)', 'woo-hotspots')) :
+							(__('Image / products ratio (%)', 'woo-hotspots'))
 						}
 						value={flexItemsRatio}
 						min={0}
@@ -784,18 +784,18 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					<Button
 						isLink
 						isSmall
-						text={__('Reset layout', 'woohotspots')}
+						text={__('Reset layout', 'woo-hotspots')}
 						onClick={() => {
 							resetAtts(['isStackedOnMobile', 'flexLayout', 'valign', 'flexItemsRatio', 'flexGap'])
 						}}
-						className='woohotspots-reset-attributes'
+						className='woo-hotspots-reset-attributes'
 					/>
 
 				</PanelBody>
 
 				<PanelBody
 					icon={'products'}
-					title={__('Product layout', 'woohotspots')}
+					title={__('Product layout', 'woo-hotspots')}
 					initialOpen={false}
 				>
 					<TabPanel className="product-settings" tabs={productLayoutTabs}>
@@ -806,7 +806,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						)}
 					</TabPanel>
 
-					<BaseControl help={__('Style properties like colors, sizes, and spacing are available in the editor styles tab.', 'woohotspots')} />
+					<BaseControl help={__('Style properties like colors, sizes, and spacing are available in the editor styles tab.', 'woo-hotspots')} />
 
 				</PanelBody>
 
@@ -815,7 +815,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 			<InspectorControls group="styles">
 				<PanelBody
 					icon={'store'}
-					title={__('Product styles', 'woohotspots')}
+					title={__('Product styles', 'woo-hotspots')}
 					initialOpen={false}
 				>
 
@@ -833,7 +833,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 
 						<PanelBody
 							icon={'marker'}
-							title={__('Hotspot styles', 'woohotspots')}
+							title={__('Hotspot styles', 'woo-hotspots')}
 							initialOpen={false}
 						>
 							<CardDivider size="xSmall" />
@@ -854,7 +854,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 											className="hotspot-settings"
 										>
 											<SelectControl
-												label={__('Hotspot style', 'woohotspots')}
+												label={__('Hotspot style', 'woo-hotspots')}
 												value={hotspot.iconStyle}
 												options={[
 													{ label: 'Default style', value: 'default' },
@@ -893,7 +893,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 																],
 															})
 														},
-														label: __('Back Color', 'woohotspots'),
+														label: __('Back Color', 'woo-hotspots'),
 													},
 													{
 														value: hotspot.innerColor,
@@ -909,7 +909,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 																],
 															})
 														},
-														label: __('Inner Color', 'woohotspots'),
+														label: __('Inner Color', 'woo-hotspots'),
 													}
 
 												]}
@@ -920,7 +920,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 										<IconButton
 											icon="trash"
 											onClick={() => hotspotRemove(hotspotIndex)}
-											label={__('Remove hotspot', 'woohotspots')}
+											label={__('Remove hotspot', 'woo-hotspots')}
 										/>
 									</div>
 									{/* <CardDivider size="xSmall" /> */}
@@ -935,11 +935,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 										isSmall
 										onClick={() => setAttributes({ hotspots: [] })}
 									>
-										{__('Remove All Hotspots', 'woohotspots')}
+										{__('Remove All Hotspots', 'woo-hotspots')}
 									</Button>
 								</Fragment>
 							)}
-							{hotspots.length == 0 && (<p>{__('Click on image to add hotspots', 'woohotspots')}</p>)}
+							{hotspots.length == 0 && (<p>{__('Click on image to add hotspots', 'woo-hotspots')}</p>)}
 						</PanelBody>
 
 					</Fragment>
