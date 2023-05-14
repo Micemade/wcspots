@@ -3,34 +3,58 @@
  */
 import { __ } from '@wordpress/i18n';
 import { IconButton } from "@wordpress/components";
-import { useEffect, useState } from '@wordpress/element';
 
 /**
  * Internal dependencies.
  */
 import AddHotspotPopover from '../frontend/addHotspotPopover';
 
-const Hotspot = ({ hotspot, onDoubleClick, onMouseOver, onMouseOut, clientId, hotspots, setAttributes, context, unassignProduct, removeHotspot, popoverAtts, popoverParent }) => {
+const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouseOut, clientId, hotspots, setAttributes, context, unassignProduct, removeHotspot, popoverAtts, popoverParent }) => {
+
+
+	const {
+		x,
+		y,
+		id,
+		name,
+		productId,
+		productTitle,
+		assigned,
+		iconStyle,
+		primaryColor,
+		secondaryColor,
+		size,
+		innerSize
+	} = hotspot;
 
 	const styles = {
-		left: `${hotspot.x}%`,
-		top: `${hotspot.y}%`,
-		...hotspot.backColor && { backgroundColor: hotspot.backColor, outlineColor: hotspot.backColor }
+		left: `${x}%`,
+		top: `${y}%`,
+		// ...hotspot.primaryColor && { backgroundColor: hotspot.primaryColor, outlineColor: hotspot.primaryColor }
+		backgroundColor: primaryColor || hotspotSettings.primaryColor,
+		outlineColor: primaryColor || hotspotSettings.primaryColor
 	};
 
-	const innerStyles = {
-		...hotspot.innerColor && { backgroundColor: hotspot.innerColor }
+	const titleStyle = {
+		color: hotspotSettings.titleColor,
+		backgroundColor: hotspotSettings.titleBack,
+		fontSize: hotspotSettings.titleSize
 	}
 
-	const hotspotTitleDefault = (context == 'edit') ? hotspot.name : null;
-	const hotspotTitle = hotspot.productTitle ? hotspot.productTitle : hotspotTitleDefault;
+	const innerStyles = {
+		// ...hotspot.secondaryColor && { backgroundColor: hotspot.secondaryColor }
+		backgroundColor: secondaryColor || hotspotSettings.secondaryColor
+	}
+
+	const hotspotTitleDefault = (context == 'edit') ? name : null;
+	const hotspotTitle = productTitle ? productTitle : hotspotTitleDefault;
 
 	return (
 		<div
 			style={styles}
-			className={`product-hotspot ${hotspot.iconStyle}`}
+			className={`product-hotspot ${iconStyle || hotspotSettings.iconStyle}`}
 			data-product-title={hotspotTitle}
-			data-product-id={hotspot.productId ? hotspot.productId : ''}
+			data-product-id={productId ? productId : ''}
 			data-client-id={clientId}
 		>
 			<div
@@ -39,34 +63,40 @@ const Hotspot = ({ hotspot, onDoubleClick, onMouseOver, onMouseOut, clientId, ho
 				onMouseOver={() => onMouseOver(event, hotspot, clientId)}
 				onMouseOut={() => onMouseOut(event, hotspot, clientId)}
 			>
-				{(context === 'edit' && hotspot.productId) && (
-					<AddHotspotPopover assocProdId={hotspot.productId} parentElement={popoverParent} popoverAtts={popoverAtts} isEditing />
+				{(context === 'edit' && productId) && (
+					<AddHotspotPopover assocProdId={productId} parentElement={popoverParent} popoverAtts={popoverAtts} isEditing />
 				)}
 
 			</div>
 
 			<div className='inner' style={innerStyles} />
 
-			<div className="hotspot-product-title">
-				{hotspotTitle}
-				{(context == 'edit' && hotspot.productId) && (
-					<IconButton
-						className="unassign"
-						icon="remove"
-						onClick={() => unassignProduct(hotspots, setAttributes, hotspot.id)}
-						label={__('Unassign product', 'woo-hotspots')}
-						isSmall
-					/>
-				)}
-			</div>
+			{hotspotSettings.showTitle && (
+				<div className="hotspot-product-title">
+
+					<span className='title-text' style={titleStyle}>{hotspotTitle}</span>
+
+					{(context == 'edit' && productId) && (
+						<IconButton
+							className="unassign"
+							icon="remove"
+							onClick={() => unassignProduct(hotspots, setAttributes, id)}
+							label={__('Unassign product', 'woo-hotspots')}
+							isSmall
+							aria-label={__('Unassign product', 'woo-hotspots')}
+						/>
+					)}
+				</div>
+			)}
 
 			{context == 'edit' && (
 				<IconButton
 					className="remove-hotspot"
 					icon="no"
-					onClick={() => removeHotspot(hotspots, setAttributes, hotspot.id)}
-					label={__('Remove hotspot', 'woo-hotspots')}
+					onClick={() => removeHotspot(hotspots, setAttributes, id)}
+					label={__('Remove the hotspot', 'woo-hotspots')}
 					isSmall
+					aria-label={__('Remove the hotspot', 'woo-hotspots')}
 				/>
 			)}
 

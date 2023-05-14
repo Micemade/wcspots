@@ -74,7 +74,7 @@
 		},
 		"backimageOpacity": {
 			"type":"number",
-			"default": 0.5
+			"default": 0.3
 		},
 
 		"isStackedOnMobile":{
@@ -171,6 +171,18 @@
 		"hotspots": {
 			"type": "array",
 			"default": []
+		},
+		"hotspotSettings":{
+			"type": "object",
+			"default": {
+				"showTitle": true,
+				"titleColor": "#333",
+				"titleBack": "#fff",
+				"titleSize": "14px",
+				"iconStyle": "",
+				"primaryColor": "rgba(17, 17, 17, 0.2)",
+				"secondaryColor": "rgb(255, 255, 255)"
+			}
 		},
 		"selectedHotspot": {
 			"type": "number",

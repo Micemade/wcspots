@@ -51,6 +51,7 @@ const Save = ({ attributes }) => {
 		priceColor,
 		excerptColor,
 		hotspots,
+		hotspotSettings,
 		popoverAtts
 	} = attributes;
 
@@ -155,6 +156,7 @@ const Save = ({ attributes }) => {
 										<Hotspot
 											key={`hotspot-${index}`}
 											hotspot={hotspot}
+											hotspotSettings={hotspotSettings}
 											clientId={id}
 										/>
 									))}

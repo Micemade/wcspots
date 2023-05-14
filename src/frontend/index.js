@@ -6,6 +6,7 @@ import { render } from "react-dom";
 import fetchRenderProducts from "./fetchRenderProducts";
 import AddHotspotEvents from "./hotspotEvents";
 import AddHotspotPopover from "./addHotspotPopover";
+import { correctTitlePosition } from "../functions/hotspotFunctions";
 
 /**
  * WordPress dependencies.
@@ -16,7 +17,7 @@ import { select } from '@wordpress/data';
 import { store } from '@wordpress/viewport';
 window.addEventListener('resize', (event) => {
 	const isSmall = select(store).isViewportMatch('< large');
-	console.log(isSmall)
+	console.log(isSmall) 
 }, true);
  */
 

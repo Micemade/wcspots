@@ -29,9 +29,9 @@ export const addNewHotspot = (event, hotspots, setAttributes) => {
 		productId: null,
 		productTitle: null,
 		assigned: false,
-		iconStyle: 'default',
-		backColor: null,
-		innerColor: null,
+		iconStyle: null,
+		primaryColor: null,
+		secondaryColor: null,
 		size: null,
 		innerSize: null
 	};

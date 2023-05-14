@@ -21,7 +21,7 @@ import Hotspot from './components/hotspot';
 import WooHotspotsTitle from './components/woohotspotsTitle';
 
 // Functions.
-import { addNewHotspot, modalProductToHotspot, onProductSelect, onHotspotOver, onHotspotOut, unassignProduct, removeHotspot, clearHotspotsOnImageChange } from './functions/hotspotFunctions';
+import { addNewHotspot, modalProductToHotspot, onProductSelect, onHotspotOver, onHotspotOut, unassignProduct, removeHotspot, clearHotspotsOnImageChange, correctTitlePosition } from './functions/hotspotFunctions';
 
 /**
  * The edit function.
@@ -66,6 +66,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		priceColor,
 		excerptColor,
 		hotspots,
+		hotspotSettings,
 		selectedHotspot,
 		selectedProduct,
 		editModal,
@@ -282,6 +283,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 								<Hotspot
 									key={`hotspot-${hotspot.id}`}
 									hotspot={hotspot}
+									hotspotSettings={hotspotSettings}
 									// onClick={() => hotspotClick(hotspot, setAttributes)}
 									onDoubleClick={() => modalProductToHotspot(hotspot, setAttributes)}
 									onMouseOver={onHotspotOver}

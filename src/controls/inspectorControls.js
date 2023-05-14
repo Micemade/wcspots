@@ -83,6 +83,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 		priceColor,
 		excerptColor,
 		hotspots,
+		hotspotSettings,
 		popoverAtts
 	} = attributes;
 
@@ -196,42 +197,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 		);
 		setAttributes({ hotspots: filteredHotspots });
 	}
-
-	/**
-	 * FLEX and PRODUCT LAYOUT STYLES.
-	 */
-	// Flex gap size (custom 'UnitRangeControl' control )
-	/* 
-	const handleFlexGapChange = (newValue) => {
-		setAttributes({ flexGap: { value: newValue, unit: flexGap.unit } });
-	};
-	// Product padding size (custom 'UnitRangeControl' control )
-	const handleproductPadding = (newValue) => {
-		setAttributes({ productPadding: { value: newValue, unit: productPadding.unit } });
-	};
-	// Product spacing size (custom 'UnitRangeControl' control )
-	const handleproductSpacing = (newValue) => {
-		setAttributes({ productSpacing: { value: newValue, unit: productSpacing.unit } });
-	};
-	// Products gap (custom 'UnitRangeControl' control )
-	const handleProductsGap = (newValue) => {
-		setAttributes({ productsGap: { value: newValue, unit: productsGap.unit } });
-	};
-	
-	// Product title size (custom 'UnitRangeControl' control )
-	const handletitleSizeChange = (newValue) => {
-		setAttributes({ titleSize: { value: newValue, unit: titleSize.unit } });
-	};
-	// Product price size (custom 'UnitRangeControl' control )
-	const handlePriceSizeChange = (newValue) => {
-		setAttributes({ priceSize: { value: newValue, unit: priceSize.unit } });
-	};
-	
-	// Product excerpt size (custom 'UnitRangeControl' control )
-	const handleExcerptSizeChange = (newValue) => {
-		setAttributes({ excerptSize: { value: newValue, unit: excerptSize.unit } });
-	};
-	*/
+	const hotspotStyleOptions = [
+		{ label: 'Style 1', value: '' },
+		{ label: 'Style 2', value: 'iconstyle-2' },
+		{ label: 'Style 3', value: 'iconstyle-3' },
+	];
 
 	// Product layout tabs.
 	const productLayoutTabs = [
@@ -828,15 +798,142 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					</TabPanel>
 				</PanelBody>
 
+				<PanelBody
+					icon={'marker'}
+					title={__('Hotspot general styles', 'woo-hotspots')}
+					initialOpen={false}>
+
+					<SelectControl
+						label={__('Hotspot style', 'woo-hotspots')}
+						value={hotspotSettings.iconStyle}
+						options={hotspotStyleOptions}
+						onChange={(newValue) => {
+							setAttributes({
+								hotspotSettings: {
+									...hotspotSettings,
+									iconStyle: newValue
+								}
+							})
+						}}
+					/>
+
+					<PanelColorSettings
+						initialOpen={true}
+						enableAlpha
+						colorSettings={[
+							{
+								value: hotspotSettings.primaryColor,
+								onChange: (newValue) => {
+									setAttributes({
+										hotspotSettings: {
+											...hotspotSettings,
+											primaryColor: newValue
+										}
+									})
+								},
+								label: __('Primary Color', 'woo-hotspots'),
+							},
+							{
+								value: hotspotSettings.secondaryColor,
+								onChange: (newValue) => {
+									setAttributes({
+										hotspotSettings: {
+											...hotspotSettings,
+											secondaryColor: newValue
+										}
+									})
+								},
+								label: __('Secondary Color', 'woo-hotspots'),
+							}
+						]}
+					/>
+
+					<CardDivider size="xSmall" />
+
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Show product title', 'woo-hotspots')}
+						checked={hotspotSettings.showTitle}
+						onChange={() =>
+							setAttributes({
+								hotspotSettings: {
+									...hotspotSettings,
+									showTitle: !hotspotSettings.showTitle
+								}
+							})
+						}
+					/>
+
+
+					{hotspotSettings.showTitle && (
+						<Fragment>
+							<PanelColorSettings
+								initialOpen={true}
+								enableAlpha
+								colorSettings={[
+									{
+										value: hotspotSettings.titleColor,
+										onChange: (newValue) => {
+											setAttributes({
+												hotspotSettings: {
+													...hotspotSettings,
+													titleColor: newValue
+												}
+											})
+										},
+										label: __('Title Color', 'woo-hotspots'),
+									},
+									{
+										value: hotspotSettings.titleBack,
+										onChange: (newValue) => {
+											setAttributes({
+												hotspotSettings: {
+													...hotspotSettings,
+													titleBack: newValue
+												}
+											})
+										},
+										label: __('Title Background Color', 'woo-hotspots'),
+									}
+								]}
+							/>
+
+							<HeightControl
+								label={__('Title size', 'woo-hotspots')}
+								value={hotspotSettings.titleSize}
+								onChange={(newValue) => {
+									setAttributes({
+										hotspotSettings: {
+											...hotspotSettings,
+											titleSize: newValue
+										}
+									})
+								}}
+							/>
+						</Fragment>
+					)}
+
+					<Button
+						isLink
+						isSmall
+						text={__('Reset hotspot general styles', 'woo-hotspots')}
+						onClick={() => {
+							resetAtts(['hotspotSettings'])
+						}}
+						className='woo-hotspots-reset-attributes'
+					/>
+				</PanelBody>
+
 				{mediaID && hotspots && (
 					<Fragment>
 
 						<PanelBody
 							icon={'marker'}
-							title={__('Hotspot styles', 'woo-hotspots')}
+							title={__('Styles per hotspot', 'woo-hotspots')}
 							initialOpen={false}
 						>
 							<CardDivider size="xSmall" />
+
 							{hotspots.map((hotspot, hotspotIndex) => (
 								<Fragment key={hotspot.id}>
 									<div
@@ -856,11 +953,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 											<SelectControl
 												label={__('Hotspot style', 'woo-hotspots')}
 												value={hotspot.iconStyle}
-												options={[
-													{ label: 'Default style', value: 'default' },
-													{ label: 'Style 2', value: 'iconstyle-2' },
-													{ label: 'Style 3', value: 'iconstyle-3' },
-												]}
+												options={hotspotStyleOptions}
 												onChange={(value) => {
 													setAttributes({
 														hotspots: [
@@ -880,36 +973,36 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 												enableAlpha
 												colorSettings={[
 													{
-														value: hotspot.backColor,
+														value: hotspot.primaryColor,
 														onChange: (newValue) => {
 															setAttributes({
 																hotspots: [
 																	...hotspots.slice(0, hotspotIndex),
 																	{
 																		...hotspot,
-																		backColor: newValue,
+																		primaryColor: newValue,
 																	},
 																	...hotspots.slice(hotspotIndex + 1),
 																],
 															})
 														},
-														label: __('Back Color', 'woo-hotspots'),
+														label: __('Primary Color', 'woo-hotspots'),
 													},
 													{
-														value: hotspot.innerColor,
+														value: hotspot.secondaryColor,
 														onChange: (newValue) => {
 															setAttributes({
 																hotspots: [
 																	...hotspots.slice(0, hotspotIndex),
 																	{
 																		...hotspot,
-																		innerColor: newValue,
+																		secondaryColor: newValue,
 																	},
 																	...hotspots.slice(hotspotIndex + 1),
 																],
 															})
 														},
-														label: __('Inner Color', 'woo-hotspots'),
+														label: __('Secondary Color', 'woo-hotspots'),
 													}
 
 												]}

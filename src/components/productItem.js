@@ -59,7 +59,7 @@ const ProductItem = ({
 		>
 
 			{productsLayout === 'layout3' && (
-				<div className="overlay" style={{ background: productBackColor }} />
+				<div className="overlay" style={{ background: productBackColor }} aria-hidden />
 			)}
 
 			{elementsToggle.image && (

@@ -61,11 +61,20 @@ Yes, in current version, the Woo Hotspots requires that WooCommerce plugin is in
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+1. Screenshot of just added Woo Hotspots block via inserter. The basic block layout propmpts for uploading (or selecting existing) image, select products from the block settings sidebar, and optional block title and description.
+2. Image for showcasing product is selected, as well as products. Basic settings and styles are set, title and description are entered. Next step is placing the hotspots and assign products to each hotspot. Hotspots are added by simply clicking on image.
+3. Hotspots are added, and with double click on each hotspot, the modal prompt is display with a selection of products. By choosing one of the products, hotspot will be connected with the product.
+4. When a product is assigned to a hotspot, the popover with product details is immediately available. Popovers are toggling visibility in editor only by clicking on hotspot again. This is so to enable visual control of changing popover properties and styles.
+5. Change the block appearance with intuitive controls under the block settings and styles tabs. Products and image selecetion, layout properties for products, image, and popover are under the "Settings" tab. Colors, sizes, spacings and other style property controls are available under the "Styles" tab.
+
+== Licence ==
+
+The plugin uses, other than WordPress and React modules and packages, third party modules, licenced under MIT or MPL-2.0, GPL compatible licences:
+* ClassNames - https://www.npmjs.com/package/classnames
+* React Select - https://github.com/JedWatson/react-select/blob/master/LICENSE | https://react-select.com/home
+* React Tiny Popover - https://www.npmjs.com/package/react-tiny-popover
+* DOMPurify - https://www.npmjs.com/package/dompurify
+* uuid - https://www.npmjs.com/package/uuid
 
 == Changelog ==
 

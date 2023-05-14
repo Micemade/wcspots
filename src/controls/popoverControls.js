@@ -260,18 +260,21 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 				<div>
 					<CardDivider size="xSmall" />
 
-					<HeightControl
-						label={__('Popover padding', 'woo-hotspots')}
-						value={popoverAtts.popoverPadding}
-						onChange={(newValue) => {
-							setAttributes({
-								popoverAtts: {
-									...popoverAtts,
-									popoverPadding: newValue
-								}
-							});
-						}}
-					/>
+					{popoverAtts.productsLayout !== 'layout3' && (
+						<HeightControl
+							label={__('Popover padding', 'woo-hotspots')}
+							value={popoverAtts.popoverPadding}
+							onChange={(newValue) => {
+								setAttributes({
+									popoverAtts: {
+										...popoverAtts,
+										popoverPadding: newValue
+									}
+								});
+							}}
+						/>
+					)}
+
 					<HeightControl
 						label={__('Product elements spacing', 'woo-hotspots')}
 						value={popoverAtts.productSpacing}
