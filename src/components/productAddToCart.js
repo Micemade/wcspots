@@ -15,10 +15,10 @@ const ProductAddToCart = ({ productId }) => {
 	const { product, loading } = getProduct(productId);
 
 	if (loading) {
-		return <small>{__('Loading...', 'woo-hotspots')}</small>;
+		return <small>{__('Loading...', 'wcspots')}</small>;
 	}
 	if (!product) {
-		return <div>{__('Product not found', 'woo-hotspots')}</div>;
+		return <div>{__('Product not found', 'wcspots')}</div>;
 	}
 
 	const { text, description, url } = product.add_to_cart;

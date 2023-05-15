@@ -1,14 +1,15 @@
 <?php
 /**
- * Plugin Name:       Woo Hotspots
+ * Plugin Name:       WCSpots
  * Description:       Create WooCommerce product showcases with image hotspots in the block editor.
  * Requires at least: 6.1
  * Requires PHP:      7.0
  * Version:           0.1.0
  * Author:            Micemade
+ * Author URI:        https://micemade.com
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       woo-hotspots
+ * Text Domain:       wcspots
  *
  * @package           micemade
  */
@@ -18,7 +19,7 @@
  *
  * @return void
  */
-function woohotspots_block_init() {
+function wcspots_block_init() {
 
 	/**
 	 * Registers the block using the metadata loaded from the `block.json` file.
@@ -52,35 +53,35 @@ function woohotspots_block_init() {
 		 *
 		 * @return void
 		 */
-		function woohotspots_admin_plugin_notice() {
+		function wcspots_admin_plugin_notice() {
 			?>
-			<div class="notice notice-info is-dismissible woo-hotspots-admin-notice">
-				<div class="woo-hotspots-admin-notice-wrapper">
-					<h2><?php esc_html_e( 'Woo Hotspots Notice', 'woo-hotspots' ); ?></h2>
-					<p><?php esc_html_e( 'Woo Hotspots plugin is a block plugin for creating WooCommerce product showcases with image hotspots. To enable the Woo Hotspots, please install and activate the WooCommerce plugin.', 'woo-hotspots' ); ?></p>
-					<a target="_blank" class="button-primary button" href="<?php echo esc_url( 'https://wordpress.org/plugins/woocommerce/' ); ?>"><?php esc_html_e( 'Get WooCommerce', 'woo-hotspots' ); ?></a>
+			<div class="notice notice-info is-dismissible wcspots-admin-notice">
+				<div class="wcspots-admin-notice-wrapper">
+					<h2><?php esc_html_e( 'WCSpots Notice', 'wcspots' ); ?></h2>
+					<p><?php esc_html_e( 'WCSpots plugin is a block plugin for creating WooCommerce product showcases with image hotspots. To enable the WCSpots, please install and activate the WooCommerce plugin.', 'wcspots' ); ?></p>
+					<a target="_blank" class="button-primary button" href="<?php echo esc_url( 'https://wordpress.org/plugins/woocommerce/' ); ?>"><?php esc_html_e( 'Get WooCommerce', 'wcspots' ); ?></a>
 				</div>
 			</div>
 			<?php
 		}
-		add_action( 'admin_notices', 'woohotspots_admin_plugin_notice' );
+		add_action( 'admin_notices', 'wcspots_admin_plugin_notice' );
 	}
 
 	// Add JS vars to frontend and editor.
 	wp_localize_script(
-		'micemade-woo-hotspots-view-script',
-		'woohotspotsVars',
+		'micemade-wcspots-view-script',
+		'wcspotsVars',
 		$js_vars
 	);
 	wp_localize_script(
-		'micemade-woo-hotspots-editor-script',
-		'woohotspotsVars',
+		'micemade-wcspots-editor-script',
+		'wcspotsVars',
 		$js_vars
 	);
 
-	wp_set_script_translations( 'micemade-woo-hotspots-view-script', 'woo-hotspots', plugin_dir_path( __FILE__ ) . 'languages/' );
-	wp_set_script_translations( 'micemade-woo-hotspots-editor-script', 'woo-hotspots', plugin_dir_path( __FILE__ ) . 'languages/' );
+	wp_set_script_translations( 'micemade-wcspots-view-script', 'wcspots', plugin_dir_path( __FILE__ ) . 'languages/' );
+	wp_set_script_translations( 'micemade-wcspots-editor-script', 'wcspots', plugin_dir_path( __FILE__ ) . 'languages/' );
 
 }
 
-add_action( 'init', 'woohotspots_block_init' );
+add_action( 'init', 'wcspots_block_init' );

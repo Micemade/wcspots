@@ -3,8 +3,6 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
-import { Flex, FlexItem, Spinner, Popover } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
 
 import classNames from 'classnames';
 
@@ -14,7 +12,7 @@ import classNames from 'classnames';
 import './style.scss';
 import ProductGrid from './components/productGrid';
 import Hotspot from './components/hotspot';
-import WooHotspotsTitle from './components/woohotspotsTitle';
+import WCSpotsBlockTitle from './components/WCSpotsBlockTitle';
 
 const Save = ({ attributes }) => {
 
@@ -96,7 +94,7 @@ const Save = ({ attributes }) => {
 				}
 
 				{title && settingsTitleDesc.activeTitle && (
-					<WooHotspotsTitle
+					<WCSpotsBlockTitle
 						attributes={attributes}
 					/>
 				)}
@@ -144,7 +142,7 @@ const Save = ({ attributes }) => {
 								src={mediaURL}
 								srcSet={srcSetAtt}
 								sizes={sizesAtt}
-								alt={__('Lookbook image', 'woo-hotspots')}
+								alt={__('Lookbook image', 'wcspots')}
 							/>
 							{hotspots?.length > 0 &&
 								hotspots.filter((hotspot) => {

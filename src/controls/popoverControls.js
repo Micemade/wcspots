@@ -53,8 +53,8 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					<CardDivider size="xSmall" />
 
 					<ImageRadioSelectControl
-						label={__('Popover layout type', 'woo-hotspots')}
-						help={__('Pick a layout for popover with product', 'woo-hotspots')}
+						label={__('Popover layout type', 'wcspots')}
+						help={__('Pick a layout for popover with product', 'wcspots')}
 						options={[
 							{ value: 'layout1', label: 'Layout 1', image: require('./icons/popoverLayout_1.png') },
 							{ value: 'layout2', label: 'Layout 2', image: require('./icons/popoverLayout_2.png') },
@@ -72,8 +72,8 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						height='38px'
 					/>
 					<ImageRadioSelectControl
-						label={__('Popover align', 'woo-hotspots')}
-						help={__('Align product elements in the popover', 'woo-hotspots')}
+						label={__('Popover align', 'wcspots')}
+						help={__('Align product elements in the popover', 'wcspots')}
 						options={[
 							{ value: 'flex-start', label: 'Flex start', icon: 'align-left' },
 							{ value: 'center', label: 'Center', icon: 'align-center' },
@@ -93,7 +93,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					<CardDivider size="xSmall" />
 
 					<HeightControl
-						label={__('Popover width: minimum', 'woo-hotspots')}
+						label={__('Popover width: minimum', 'wcspots')}
 						value={popoverWidth.min}
 						onChange={(newValue) => {
 							setAttributes({
@@ -108,7 +108,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						}}
 					/>
 					<HeightControl
-						label={__('Popover width: preferred', 'woo-hotspots')}
+						label={__('Popover width: preferred', 'wcspots')}
 						value={popoverWidth.val}
 						onChange={(newValue) => {
 							setAttributes({
@@ -123,7 +123,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						}}
 					/>
 					<HeightControl
-						label={__('Popover width: maximum', 'woo-hotspots')}
+						label={__('Popover width: maximum', 'wcspots')}
 						value={popoverWidth.max}
 						onChange={(newValue) => {
 							setAttributes({
@@ -141,11 +141,11 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					<Button
 						isLink
 						isSmall
-						text={__('Reset layout, align, and width', 'woo-hotspots')}
+						text={__('Reset layout, align, and width', 'wcspots')}
 						onClick={() => {
 							resetPopoverAtts(['productsLayout', 'productsAlign', 'popoverWidth'])
 						}}
-						className='woo-hotspots-reset-attributes'
+						className='wcspots-reset-attributes'
 					/>
 
 				</div>
@@ -160,7 +160,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show image', 'woo-hotspots')}
+						label={__('Show image', 'wcspots')}
 						checked={elementsToggle?.image}
 						onChange={() =>
 							setAttributes({
@@ -176,7 +176,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show title', 'woo-hotspots')}
+						label={__('Show title', 'wcspots')}
 						checked={elementsToggle?.title}
 						onChange={() =>
 							setAttributes({
@@ -192,7 +192,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show price', 'woo-hotspots')}
+						label={__('Show price', 'wcspots')}
 						checked={elementsToggle?.price}
 						onChange={() =>
 							setAttributes({
@@ -208,7 +208,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show excerpt', 'woo-hotspots')}
+						label={__('Show excerpt', 'wcspots')}
 						checked={elementsToggle?.excerpt}
 						onChange={() =>
 							setAttributes({
@@ -224,7 +224,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={__('Show Add to Cart', 'woo-hotspots')}
+						label={__('Show Add to Cart', 'wcspots')}
 						checked={elementsToggle?.addToCart}
 						onChange={() =>
 							setAttributes({
@@ -241,11 +241,11 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					<Button
 						isLink
 						isSmall
-						text={__('Reset toggle', 'woo-hotspots')}
+						text={__('Reset toggle', 'wcspots')}
 						onClick={() => {
 							resetPopoverAtts(['elementsToggle'])
 						}}
-						className='woo-hotspots-reset-attributes'
+						className='wcspots-reset-attributes'
 					/>
 				</div>
 			)
@@ -262,7 +262,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 
 					{popoverAtts.productsLayout !== 'layout3' && (
 						<HeightControl
-							label={__('Popover padding', 'woo-hotspots')}
+							label={__('Popover padding', 'wcspots')}
 							value={popoverAtts.popoverPadding}
 							onChange={(newValue) => {
 								setAttributes({
@@ -276,7 +276,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					)}
 
 					<HeightControl
-						label={__('Product elements spacing', 'woo-hotspots')}
+						label={__('Product elements spacing', 'wcspots')}
 						value={popoverAtts.productSpacing}
 						onChange={(newValue) => {
 							setAttributes({
@@ -288,7 +288,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						}}
 					/>
 					<HeightControl
-						label={__('Product elements padding', 'woo-hotspots')}
+						label={__('Product elements padding', 'wcspots')}
 						value={popoverAtts.productPadding}
 						onChange={(newValue) => {
 							setAttributes({
@@ -303,11 +303,11 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					<Button
 						isLink
 						isSmall
-						text={__('Reset spacing', 'woo-hotspots')}
+						text={__('Reset spacing', 'wcspots')}
 						onClick={() => {
 							resetPopoverAtts(['popoverPadding', 'productSpacing', 'productPadding'])
 						}}
-						className='woo-hotspots-reset-attributes'
+						className='wcspots-reset-attributes'
 					/>
 				</div>
 			)
@@ -320,7 +320,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					<CardDivider size="xSmall" />
 
 					<HeightControl
-						label={__('Title font size', 'woo-hotspots')}
+						label={__('Title font size', 'wcspots')}
 						value={popoverAtts.titleSize}
 						onChange={(newValue) => {
 							setAttributes({
@@ -332,7 +332,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						}}
 					/>
 					<HeightControl
-						label={__('Price font size', 'woo-hotspots')}
+						label={__('Price font size', 'wcspots')}
 						value={popoverAtts.priceSize}
 						onChange={(newValue) => {
 							setAttributes({
@@ -344,7 +344,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						}}
 					/>
 					<HeightControl
-						label={__('Short description font size', 'woo-hotspots')}
+						label={__('Short description font size', 'wcspots')}
 						value={popoverAtts.excerptSize}
 						onChange={(newValue) => {
 							setAttributes({
@@ -357,7 +357,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					/>
 
 					<RangeControl
-						label={__('Add to Cart size', 'woo-hotspots')}
+						label={__('Add to Cart size', 'wcspots')}
 						value={popoverAtts.addToCartSize}
 						onChange={(value) =>
 							setAttributes({
@@ -374,11 +374,11 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					<Button
 						isLink
 						isSmall
-						text={__('Reset sizes', 'woo-hotspots')}
+						text={__('Reset sizes', 'wcspots')}
 						onClick={() => {
 							resetPopoverAtts(['titleSize', 'priceSize', 'excerptSize', 'addToCartSize'])
 						}}
-						className='woo-hotspots-reset-attributes'
+						className='wcspots-reset-attributes'
 					/>
 				</div>
 			)
@@ -401,7 +401,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 											productBackColor: newValue
 										}
 									}),
-								label: __('Background Color', 'woo-hotspots'),
+								label: __('Background Color', 'wcspots'),
 							},
 							{
 								value: popoverAtts.titleColor,
@@ -412,7 +412,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 											titleColor: newValue
 										}
 									}),
-								label: __('Title Color', 'woo-hotspots'),
+								label: __('Title Color', 'wcspots'),
 							},
 							{
 								value: popoverAtts.priceColor,
@@ -423,7 +423,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 											priceColor: newValue
 										}
 									}),
-								label: __('Price Color', 'woo-hotspots'),
+								label: __('Price Color', 'wcspots'),
 							},
 							{
 								value: popoverAtts.excerptColor,
@@ -434,18 +434,18 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 											excerptColor: newValue
 										}
 									}),
-								label: __('Excerpt Color', 'woo-hotspots'),
+								label: __('Excerpt Color', 'wcspots'),
 							},
 						]}
 					/>
 					<Button
 						isLink
 						isSmall
-						text={__('Reset colors', 'woo-hotspots')}
+						text={__('Reset colors', 'wcspots')}
 						onClick={() => {
 							resetPopoverAtts(['productBackColor', 'titleColor', 'priceColor', 'excerptColor'])
 						}}
-						className='woo-hotspots-reset-attributes'
+						className='wcspots-reset-attributes'
 					/>
 				</div>
 			)
@@ -457,7 +457,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 		<Fragment>
 			<InspectorControls group="settings">
 				<PanelBody
-					title={__('Popover layout', 'woo-hotspots')}
+					title={__('Popover layout', 'wcspots')}
 					icon={'images-alt2'}
 					initialOpen={false}
 				>
@@ -469,7 +469,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						)}
 					</TabPanel>
 
-					<BaseControl help={__('Style properties like colors, sizes, and spacing are available in the editor styles tab.', 'woo-hotspots')} />
+					<BaseControl help={__('Style properties like colors, sizes, and spacing are available in the editor styles tab.', 'wcspots')} />
 
 
 
@@ -479,7 +479,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 
 			<InspectorControls group="styles">
 				<PanelBody
-					title={__('Popover styles', 'woo-hotspots')}
+					title={__('Popover styles', 'wcspots')}
 					icon={'images-alt2'}
 					initialOpen={false}
 				>
@@ -520,7 +520,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						}}
 					/>
 
-					<BaseControl help={__('Arrow color is set in "Background Color" ("Colors" tab).', 'woo-hotspots')} />
+					<BaseControl help={__('Arrow color is set in "Background Color" ("Colors" tab).', 'wcspots')} />
 
 				</PanelBody>
 

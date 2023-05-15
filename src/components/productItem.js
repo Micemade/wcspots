@@ -53,7 +53,7 @@ const ProductItem = ({
 
 	return (
 		<div
-			className={`woo-hotspots-product align-${productsAlign}`}
+			className={`wcspots-product align-${productsAlign}`}
 			data-product-id={productId}
 			style={productStyle}
 		>

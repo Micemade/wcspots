@@ -17,11 +17,11 @@ const ProductExcerpt = ({ productId }) => {
 	const sanitizer = DOMPurify.sanitize;
 
 	if (loading) {
-		return <small>{__('Loading short description...', 'woo-hotspots')}</small>;
+		return <small>{__('Loading short description...', 'wcspots')}</small>;
 	}
 
 	if (!product) {
-		return <div>{__('Product not found', 'woo-hotspots')}</div>;
+		return <div>{__('Product not found', 'wcspots')}</div>;
 	}
 
 	// Product price HTML sanitized.

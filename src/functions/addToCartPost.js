@@ -12,7 +12,7 @@ import { render } from 'react-dom';
 /**
  * API Fetch POST method to add product to cart.
  * Nonce header is required for cart/add-item endpoint.
- * Nonce created with wp_create_nonce( 'wc_store_api' ) php, added to 'woohotspotsVars'
+ * Nonce created with wp_create_nonce( 'wc_store_api' ) php, added to 'wcspotsVars'
  * object with wp_localize_script.
  *
  * @param {number} productId 
@@ -21,7 +21,7 @@ const addToCartPost = (event, productId) => {
 
 	event.preventDefault();
 
-	render(__('Adding...', 'woo-hotspots'), event.target)
+	render(__('Adding...', 'wcspots'), event.target)
 
 	apiFetch({
 		path: '/wc/store/v1/cart/add-item',
@@ -31,16 +31,16 @@ const addToCartPost = (event, productId) => {
 			quantity: 1
 		},
 		headers: {
-			'Nonce': window.woohotspotsVars.nonce
+			'Nonce': window.wcspotsVars.nonce
 		}
 	})
 		.then((response) => {
 			render(
-				__('Product added', 'woo-hotspots'),
+				__('Product added', 'wcspots'),
 				event.target
 			);
 			render(
-				<a href={window.woohotspotsVars.cartUrl}>View Cart</a>,
+				<a href={window.wcspotsVars.cartUrl}>View Cart</a>,
 				event.target.nextElementSibling
 			);
 

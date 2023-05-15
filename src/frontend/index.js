@@ -23,10 +23,10 @@ window.addEventListener('resize', (event) => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-	// Get every Woo Hotspots instance.
-	const woohotspotsInstances = document.querySelectorAll('.wp-block-micemade-woo-hotspots');
+	// Get every WCSpots instance.
+	const wcspotsInstances = document.querySelectorAll('.wp-block-micemade-wcspots');
 
-	woohotspotsInstances.forEach((blockInstance) => {
+	wcspotsInstances.forEach((blockInstance) => {
 
 		// Block datasets.
 		const productIds = JSON.parse(blockInstance.dataset.productIds);

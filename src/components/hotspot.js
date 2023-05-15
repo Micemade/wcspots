@@ -81,9 +81,9 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 							className="unassign"
 							icon="remove"
 							onClick={() => unassignProduct(hotspots, setAttributes, id)}
-							label={__('Unassign product', 'woo-hotspots')}
+							label={__('Unassign product', 'wcspots')}
 							isSmall
-							aria-label={__('Unassign product', 'woo-hotspots')}
+							aria-label={__('Unassign product', 'wcspots')}
 						/>
 					)}
 				</div>
@@ -94,9 +94,9 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 					className="remove-hotspot"
 					icon="no"
 					onClick={() => removeHotspot(hotspots, setAttributes, id)}
-					label={__('Remove the hotspot', 'woo-hotspots')}
+					label={__('Remove the hotspot', 'wcspots')}
 					isSmall
-					aria-label={__('Remove the hotspot', 'woo-hotspots')}
+					aria-label={__('Remove the hotspot', 'wcspots')}
 				/>
 			)}
 

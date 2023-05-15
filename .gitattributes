@@ -27,3 +27,6 @@
 /tsconfig.base.json export-ignore
 /tsconfig.base export-ignore
 /webpack.config.js export-ignore
+
+# Auto detect text files and perform LF normalization
+* text=auto

@@ -1,9 +1,9 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
-	"name": "micemade/woo-hotspots",
+	"name": "micemade/wcspots",
 	"version": "0.1.0",
-	"title": "Woo Hotspots",
+	"title": "WCSpots",
 	"category": "widgets",
 	"icon": "store",
 	"description": "Create WooCommerce product showcases with image hotspots in the block editor.",
@@ -247,7 +247,7 @@
 			}
 		}
 	},
-	"textdomain": "woo-hotspots",
+	"textdomain": "wcspots",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
