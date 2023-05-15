@@ -6,7 +6,7 @@
 
 # Ignore following directories and contents
 /node_modules* export-ignore
-/src* export-ignore
+#/src* export-ignore
 
 # Ignore following configuration files
 /phpcs.xml export-ignore
@@ -18,8 +18,8 @@
 /webpack.config.js export-ignore
 /postcss.config.js export-ignore
 /bundlesize.config.json export-ignore
-/package.json export-ignore
-/package-lock.json export-ignore
+#/package.json export-ignore
+#/package-lock.json export-ignore
 /babel.config.js export-ignore
 /docker-compose.yml export-ignore
 /globals.d.ts export-ignore
