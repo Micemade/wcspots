@@ -72,7 +72,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						height='38px'
 					/>
 					<ImageRadioSelectControl
-						label={__('Popover align', 'wcspots')}
+						label={__('Product align', 'wcspots')}
 						help={__('Align product elements in the popover', 'wcspots')}
 						options={[
 							{ value: 'flex-start', label: 'Flex start', icon: 'align-left' },

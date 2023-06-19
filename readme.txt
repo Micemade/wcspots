@@ -1,10 +1,10 @@
 === WCSpots - hotspots for WooCommerce products ===
 Contributors:      Anydog
-Tags:              woocommerce, products, hotspots, showcase, lookbook, block
+Tags:              woocommerce, products, hotspots, showcase, lookbook, block, image hotspots
 Requires at least: 6.0
 Tested up to:      6.2
 Requires PHP:      7.0
-Stable tag:        0.1.0
+Stable tag:        1.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,7 +75,11 @@ Yes, in current version, the WCSpots requires that WooCommerce plugin is install
 
 5. You can change the appearance of the block using intuitive controls located under the block settings and styles tabs. In the "Settings" tab, you'll find product and image selection, as well as layout properties for products, images, and popovers. Meanwhile, under the "Styles" tab, you can adjust colors, sizes, spacings, and other style properties.
 
-6. Finally, here's the WCSpots block in action on the frontend, showing off the products with the showcase image and hotspots.
+6. The WCSpots block in action on the frontend, showing off the products with the showcase image and hotspots.
+
+7. Showcasing audio product, with different layout and hotspot styles.
+
+8. Showcasing cosmetic products, with variation of popup style, this time without the product image.
 
 == Licence ==
 
@@ -88,7 +92,16 @@ The plugin uses, other than WordPress and React modules and packages, third part
 
 == Changelog ==
 
+= 1.0.0 =
+
+* Fixed the bug with Add to Cart (Read more) button when the product has no price set.
+* Fixed the decoding of special HTML characters for product titles.
+* Added load_plugin_textdomain for PHP translated strings.
+* Added WC Store API nonce sanitization
+* Added conditional controls for products layout, depending on block layout.
+
 = 0.1.0 =
+
 * Inital release
 
 == Feedback ==

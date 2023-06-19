@@ -49,10 +49,12 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 	const hotspotTitleDefault = (context == 'edit') ? name : null;
 	const hotspotTitle = productTitle ? productTitle : hotspotTitleDefault;
 
+	const _iconStyle = iconStyle || hotspotSettings.iconStyle;
+
 	return (
 		<div
 			style={styles}
-			className={`product-hotspot ${iconStyle || hotspotSettings.iconStyle}`}
+			className={`product-hotspot ${_iconStyle || 'iconstyle-1'}`}
 			data-product-title={hotspotTitle}
 			data-product-id={productId ? productId : ''}
 			data-client-id={clientId}

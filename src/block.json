@@ -179,7 +179,7 @@
 				"titleColor": "#333",
 				"titleBack": "#fff",
 				"titleSize": "14px",
-				"iconStyle": "",
+				"iconStyle": "iconstyle-1",
 				"primaryColor": "rgba(17, 17, 17, 0.2)",
 				"secondaryColor": "rgb(255, 255, 255)"
 			}
@@ -250,6 +250,6 @@
 	"textdomain": "wcspots",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"viewScript":"file:./frontend/index.js"
+	"viewScript":"file:./frontend/index.js",
+	"style": "file:./style-index.css"
 }

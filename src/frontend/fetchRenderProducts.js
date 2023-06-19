@@ -20,7 +20,7 @@ import DOMPurify from 'dompurify';
  * Internal dependencies.
  */
 import addToCartPost from '../functions/addToCartPost';
-import ProductAddToCart from '../components/productAddToCart';
+import decode from '../functions/decode';
 
 const fetchRenderProducts = (productIds, blockId) => {
 
@@ -75,7 +75,7 @@ const fetchRenderProducts = (productIds, blockId) => {
 			// Product title.
 			{
 				titleContainer && (
-					render(<a href={permalink} title={name}>{name}</a>, titleContainer)
+					render(<a href={permalink} title={decode(name)}>{decode(name)}</a>, titleContainer)
 				)
 			}
 			// Price (HTML sanitized).
@@ -90,7 +90,8 @@ const fetchRenderProducts = (productIds, blockId) => {
 					render(<div dangerouslySetInnerHTML={{ __html: SanitizeHTML(description) }} />, excerptContainer)
 				)
 			}
-			// Add to cart button.
+
+			// Add to cart button classes.
 			const addToCartClasses = "wp-block-button__link wc-block-components-product-button__button add_to_cart_button ajax_add_to_cart";
 			{
 				addToCartContainer && (
@@ -98,10 +99,10 @@ const fetchRenderProducts = (productIds, blockId) => {
 						<>
 							<a
 								className={addToCartClasses}
-								href={type !== 'simple' && (addToCart?.url)}
+								href={type !== 'simple' || !priceHtml && (addToCart?.url)}
 								title={addToCart?.description}
 								onClick={() => {
-									{ type === 'simple' && (addToCartPost(event, productId)) }
+									{ (type === 'simple' && priceHtml) && (addToCartPost(event, productId)) }
 								}}
 							>
 								{addToCart?.text}

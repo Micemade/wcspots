@@ -31,7 +31,7 @@ const addToCartPost = (event, productId) => {
 			quantity: 1
 		},
 		headers: {
-			'Nonce': window.wcspotsVars.nonce
+			'Nonce': window?.wcspotsVars?.nonce
 		}
 	})
 		.then((response) => {
@@ -40,7 +40,7 @@ const addToCartPost = (event, productId) => {
 				event.target
 			);
 			render(
-				<a href={window.wcspotsVars.cartUrl}>View Cart</a>,
+				<a href={window.wcspotsVars.cartUrl}>{__('View Cart', 'wcspots')}</a>,
 				event.target.nextElementSibling
 			);
 

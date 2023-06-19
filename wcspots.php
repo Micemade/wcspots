@@ -4,7 +4,7 @@
  * Description:       Create WooCommerce product showcases with image hotspots in the block editor.
  * Requires at least: 6.1
  * Requires PHP:      7.0
- * Version:           0.1.0
+ * Version:           1.0.0
  * Author:            Micemade
  * Author URI:        https://micemade.com
  * License:           GPL-2.0-or-later
@@ -39,7 +39,7 @@ function wcspots_block_init() {
 		// Javascript variables.
 		$js_vars = array(
 			'wooActive' => true,
-			'nonce'     => $nonce,
+			'nonce'     => sanitize_key( $nonce ),
 			'cartUrl'   => esc_url( $cart_url ),
 		);
 
@@ -56,7 +56,7 @@ function wcspots_block_init() {
 		function wcspots_admin_plugin_notice() {
 			?>
 			<div class="notice notice-info is-dismissible wcspots-admin-notice">
-				<div class="wcspots-admin-notice-wrapper">
+				<div class="wcspots-admin-notice-wrapper" style="margin-bottom: 15px;">
 					<h2><?php esc_html_e( 'WCSpots Notice', 'wcspots' ); ?></h2>
 					<p><?php esc_html_e( 'WCSpots plugin is a block plugin for creating WooCommerce product showcases with image hotspots. To enable the WCSpots, please install and activate the WooCommerce plugin.', 'wcspots' ); ?></p>
 					<a target="_blank" class="button-primary button" href="<?php echo esc_url( 'https://wordpress.org/plugins/woocommerce/' ); ?>"><?php esc_html_e( 'Get WooCommerce', 'wcspots' ); ?></a>
@@ -81,6 +81,8 @@ function wcspots_block_init() {
 
 	wp_set_script_translations( 'micemade-wcspots-view-script', 'wcspots', plugin_dir_path( __FILE__ ) . 'languages/' );
 	wp_set_script_translations( 'micemade-wcspots-editor-script', 'wcspots', plugin_dir_path( __FILE__ ) . 'languages/' );
+
+	load_plugin_textdomain( 'wcspots', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
 }
 

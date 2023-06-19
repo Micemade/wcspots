@@ -30,10 +30,10 @@ const ProductAddToCart = ({ productId }) => {
 		<>
 			<a
 				className={classNames}
-				href={product?.type !== 'simple' && url}
+				href={(product?.type !== 'simple' || !product?.price_html) && url}
 				title={description}
 				onClick={() => {
-					{ product?.type === 'simple' && (addToCartPost(event, productId)) }
+					{ (product?.type === 'simple' && product?.price_html) && (addToCartPost(event, productId)) }
 				}}
 			>{text}</a>
 			{product?.type === 'simple' && (

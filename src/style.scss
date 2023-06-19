@@ -203,6 +203,30 @@
  * Hotspots styles.
  */
 %hotspot-icon-styles {
+
+	&.iconstyle-1 {
+		width: 2rem;
+		height: 2rem;
+		border: 2px solid transparent;
+		background: rgba(17, 17, 17, 0.2);
+
+		.inner {
+			background: rgb(255, 255, 255);
+			box-shadow: 0 1px 4px rgba(17, 17, 17, 0.55);
+			width: .75rem;
+			height: .75rem;
+			border-radius: 50%;
+		}
+
+		&:hover {
+			border-color: rgba(255, 255, 255, 0.5);
+			background: rgba( 17, 17, 17, 0.4);
+			.inner {
+				transform: scale(0.7);
+			}
+		}
+	}
+
 	&.iconstyle-2 {
 		
 		width: 1.5rem;
@@ -216,16 +240,21 @@
 			transition: all 0.2s ease-in-out;
 
 			&:before {
-				content: "+";
+				content: "";
 				position: absolute;
 				width: 100%;
 				height: 100%;
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				font-weight: bold;
 				transform: none;
 				transition: all 0.2s ease-in-out;
+				background-image: url('assets/plus.svg');
+				background-size: 0.5em;
+				background-position: center;
+				background-repeat: no-repeat;
+				filter: invert(1);
+				mix-blend-mode: difference;
 			}
 		}
 		&:hover {
@@ -242,6 +271,7 @@
 			}
 		}
 	}
+
 	&.iconstyle-3 {
 		width: 1.2rem;
 		height: 1.2rem;
@@ -323,37 +353,30 @@
 				z-index: 1;
 			}
 
+			/* General rules applied to all product hotspots style */
 			.product-hotspot {
 				transition: all 250ms ease-in-out;
 				transform: translateX(-50%) translateY(-50%) scale(1);
-				padding: 0;
-				width: 2rem;
-				height: 2rem;
-				border: 2px solid transparent;
 				position: absolute;
-				background: rgba(17, 17, 17, 0.2);
-				border-radius: 64px;
-				line-height: .5;
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				z-index: 5;
-				// mix-blend-mode: difference;
+				padding: 0;
+				border-radius: 50%;
+				line-height: .5;
 
 				.inner, .events-holder {
 					position: absolute;
 					display: block;
 					cursor: pointer;
+					border-radius: 50%;
 				}
+
 				.inner {
 					transition: transform 250ms ease-in-out;
 					position: relative;
 					display: block;
-					background: rgb(255, 255, 255);
-					box-shadow: 0 1px 4px rgba(17, 17, 17, 0.55);
-					width: .75rem;
-					height: .75rem;
-					border-radius: 64px;
 				}
 
 				&:before {
@@ -364,13 +387,6 @@
 					right: -0.5rem;
 					bottom: -0.5rem;
 					display: block;
-				}
-				&:hover {
-					border-color: rgba(255, 255, 255, 0.5);
-					background: rgba( 17, 17, 17, 0.4);
-					.inner {
-						transform: scale(0.7);
-					}
 				}
 
 				.events-holder {

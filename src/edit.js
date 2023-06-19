@@ -73,6 +73,12 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		popoverAtts
 	} = attributes;
 
+	// Set unique block ID using 'clientId' (For duplicating block).
+	useEffect(() => {
+		if (0 === id.length || id !== clientId) {
+			setAttributes({ id: clientId });
+		}
+	}, []);
 
 	// Set Popover (React Tiny Popover) parent element in Editor.
 	const [popoverParent, setPopoverParent] = useState();
@@ -82,14 +88,6 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		const popoverParentMobile = iframe ? iframe.contentDocument.getElementsByClassName('editor-styles-wrapper')[0] : null;
 		const _popoverParent = popoverParentMobile ? popoverParentMobile : popoverParentDesktop;
 		setPopoverParent(_popoverParent);
-	}, []);
-
-
-	// Set unique block ID using 'clientId' (For duplicating block).
-	useEffect(() => {
-		if (0 === id.length || id !== clientId) {
-			setAttributes({ id: clientId });
-		}
 	}, []);
 
 	// Array of selected product ID's for blocks 'data-product-ids' attribute (frontend rendering).
@@ -198,29 +196,31 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 					(<div className='cover-image' style={{ backgroundImage: `url(${mediaURL})`, opacity: backimageOpacity }}></div>)
 				}
 
-				{settingsTitleDesc.activeTitle && (
-					<WCSpotsBlockTitle
-						attributes={attributes}
-						setAttributes={setAttributes}
-						context="edit"
-					/>
-				)}
+				<div className='prepended'>
+					{settingsTitleDesc.activeTitle && (
+						<WCSpotsBlockTitle
+							attributes={attributes}
+							setAttributes={setAttributes}
+							context="edit"
+						/>
+					)}
 
-				{settingsTitleDesc.activeDesc && (
-					<RichText
-						tagName="p"
-						value={description}
-						onChange={(newDesc) => {
-							setAttributes({ description: newDesc });
-						}}
-						style={{
-							textAlign: settingsTitleDesc.align,
-							margin: `${settingsTitleDesc.spacingDesc} 0`
-						}}
-						placeholder={__('Enter your description here', 'wcspots')}
-						keepPlaceholderOnFocus
-					/>
-				)}
+					{settingsTitleDesc.activeDesc && (
+						<RichText
+							tagName="p"
+							value={description}
+							onChange={(newDesc) => {
+								setAttributes({ description: newDesc });
+							}}
+							style={{
+								textAlign: settingsTitleDesc.align,
+								margin: `${settingsTitleDesc.spacingDesc} 0`
+							}}
+							placeholder={__('Enter your description here', 'wcspots')}
+							keepPlaceholderOnFocus
+						/>
+					)}
+				</div>
 
 				<div className={`${flexContainerClasses} flex-container`} style={flexContainerStyles}>
 
@@ -306,6 +306,9 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 					</div>
 
 				</div>
+
+				<div className='appended'></div>
+
 			</div>
 
 			{editModal && (

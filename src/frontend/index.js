@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const blockId = blockInstance.dataset.blockId;
 		const popoverAtts = blockInstance.dataset.popoverAtts;
 
-		// Look for products container to render products (for the only image with hotspots case) .
+		// Look for products container to render products (for the only image with hotspots case).
 		const productsContainer = blockInstance.getElementsByClassName('products-grid-container');
 		if (productsContainer.length > 0) {
 			fetchRenderProducts(productIds, blockId);
@@ -56,5 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		});
 	});
+
+
 
 });

@@ -198,7 +198,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 		setAttributes({ hotspots: filteredHotspots });
 	}
 	const hotspotStyleOptions = [
-		{ label: 'Style 1', value: '' },
+		{ label: 'Style 1', value: 'iconstyle-1' },
 		{ label: 'Style 2', value: 'iconstyle-2' },
 		{ label: 'Style 3', value: 'iconstyle-3' },
 	];
@@ -763,22 +763,25 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 
 				</PanelBody>
 
-				<PanelBody
-					icon={'products'}
-					title={__('Product layout', 'wcspots')}
-					initialOpen={false}
-				>
-					<TabPanel className="product-settings" tabs={productLayoutTabs}>
-						{(tab) => (
-							<div>
-								{tab.content}
-							</div>
-						)}
-					</TabPanel>
+				{flexLayout !== 'image-only' && (
+					<PanelBody
+						icon={'products'}
+						title={__('Product layout', 'wcspots')}
+						initialOpen={false}
+					>
+						<TabPanel className="product-settings" tabs={productLayoutTabs}>
+							{(tab) => (
+								<div>
+									{tab.content}
+								</div>
+							)}
+						</TabPanel>
 
-					<BaseControl help={__('Style properties like colors, sizes, and spacing are available in the editor styles tab.', 'wcspots')} />
+						<BaseControl help={__('Style properties like colors, sizes, and spacing are available in the editor styles tab.', 'wcspots')} />
 
-				</PanelBody>
+					</PanelBody>
+				)}
+
 
 			</InspectorControls>
 
@@ -931,6 +934,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 							icon={'marker'}
 							title={__('Styles per hotspot', 'wcspots')}
 							initialOpen={false}
+
 						>
 							<CardDivider size="xSmall" />
 
@@ -1016,7 +1020,6 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 											label={__('Remove hotspot', 'wcspots')}
 										/>
 									</div>
-									{/* <CardDivider size="xSmall" /> */}
 								</Fragment>
 
 							))}
