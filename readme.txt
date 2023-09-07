@@ -1,10 +1,10 @@
-=== WCSpots - hotspots for WooCommerce products ===
+=== WCSpots - image hotspots for WooCommerce ===
 Contributors:      Anydog
-Tags:              woocommerce, products, hotspots, showcase, lookbook, block, image hotspots
+Tags:              woocommerce, hotspots, block, gutenberg, showcase
 Requires at least: 6.0
-Tested up to:      6.2
-Requires PHP:      7.0
-Stable tag:        1.0.0
+Tested up to:      6.3
+Requires PHP:      7.4
+Stable tag:        1.1.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ Create WooCommerce product showcases with image hotspots in the block editor.
 
 Introducing WCSpots - our WooCommerce Product Hotspot Gutenberg Block – the ultimate solution for showcasing your products in a creative and interactive way!
 
-With our plugin, you can easily create a custom image with hotspots that link to selected WooCommerce products. Simply select the products you want to showcase, upload an image, and add hotspots on top. Each hotspot is associated with a product, and when clicked, displays a product popover with all the necessary details – including price, description, and a "Buy Now" button.
+With our plugin, you can easily create a custom image with hotspots that link to selected WooCommerce products. Simply select the products you want to showcase, upload an image, and add hotspots on top. Each hotspot is associated with a product, and when clicked, displays a product popover with all the necessary details – including price, description, and a "Add to Cart" button.
 
 This plugin is perfect for any WooCommerce store owner looking to showcase their products in a unique and engaging way. Whether you want to highlight your best-sellers, promote new arrivals, or simply create an eye-catching product display, our plugin has got you covered.
 
@@ -30,6 +30,10 @@ Here are some of the key features of WCSpots:
 * Fast loading: Our plugin is optimized for speed, ensuring your page loads quickly and efficiently.
 
 So why wait? Download our WCSpots Block today and start showcasing your products like never before!
+
+Demonstration of WCSpots block usage:
+
+[youtube https://www.youtube.com/watch?v=n0i9uqBsKp0]
 
 == Installation ==
 
@@ -53,15 +57,11 @@ There are a couple of ways to install the WCSpots block plugin.
 
 = Does WCSpots require WooCommerce plugin being installed and activated? =
 
-Yes, in current version, the WCSpots requires that WooCommerce plugin is installed and active. For the commercial version of WCSpots, there is a roadmap with custom hotspot products or content included.
+Yes, in current version, the WCSpots requires that WooCommerce plugin is installed and active.There is also a roadmap with custom hotspot products or content included.
 
-= Which features will be added to commercial version of WCSpots?
+= Are there any upgrades planned for the WCSpots block?
 
-* Custom products featuring assigning custom content to hotspots and popovers, other than WooCommerce products.
-* Patterns with pre-designed WCSpots blocks to easily start with showcase layouts
-* Inner blocks before and after main block content (image, products, and hotspots), replacing fixed title and description.
-* Additional controls for block background image: size, position, filters.
-* Additional hotspot icon styles.
+Yes, more controls over products and popover layout, as well as hotspot options. Feature requests in the Support page of plugin are more than welcome.
 
 == Screenshots ==
 
@@ -84,17 +84,25 @@ Yes, in current version, the WCSpots requires that WooCommerce plugin is install
 == Licence ==
 
 The plugin uses, other than WordPress and React modules and packages, third party modules, licenced under MIT or MPL-2.0, GPL compatible licences:
-* ClassNames - https://www.npmjs.com/package/classnames
-* React Select - https://github.com/JedWatson/react-select/blob/master/LICENSE | https://react-select.com/home
-* React Tiny Popover - https://www.npmjs.com/package/react-tiny-popover
-* DOMPurify - https://www.npmjs.com/package/dompurify
-* uuid - https://www.npmjs.com/package/uuid
+* [ClassNames](https://www.npmjs.com/package/classnames)
+* [React Select](https://react-select.com/home)
+* [React Tiny Popover](https://www.npmjs.com/package/react-tiny-popover)
+* [DOMPurify](https://www.npmjs.com/package/dompurify)
+* [uuid](https://www.npmjs.com/package/uuid)
 
 == Changelog ==
 
+= 1.1.0 =
+
+* Added conditional display of controls (showcase image and product styles), depending on state of other controls.
+* Added drag and drop hotspots functionality in the editor.
+* Added a list of hotspots to the block settings tab (accessible also in the block styles tab).
+* Added product image size in block and in popover (for styles 2 and 4).
+* Additional layouts for product and popover.
+
 = 1.0.0 =
 
-* Fixed the bug with Add to Cart (Read more) button when the product has no price set.
+* Fixed the bug with Add to Cart (Read more) button when the product has no price.
 * Fixed the decoding of special HTML characters for product titles.
 * Added load_plugin_textdomain for PHP translated strings.
 * Added WC Store API nonce sanitization

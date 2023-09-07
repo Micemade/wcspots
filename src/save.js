@@ -40,6 +40,7 @@ const Save = ({ attributes }) => {
 		productPadding,
 		productSpacing,
 		elementsToggle,
+		imageSize,
 		titleSize,
 		priceSize,
 		excerptSize,
@@ -124,6 +125,7 @@ const Save = ({ attributes }) => {
 								productPadding={productPadding}
 								productSpacing={productSpacing}
 								elementsToggle={elementsToggle}
+								imageSize={imageSize}
 								titleSize={titleSize}
 								priceSize={priceSize}
 								excerptSize={excerptSize}

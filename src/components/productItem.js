@@ -12,6 +12,7 @@ const ProductItem = ({
 	productPadding,
 	productSpacing,
 	elementsToggle,
+	imageSize,
 	titleSize,
 	priceSize,
 	excerptSize,
@@ -29,8 +30,12 @@ const ProductItem = ({
 	const elementsStyle = {
 		padding: productPadding,
 		alignItems: productsAlign,
+		...((productsLayout === 'layout2' || productsLayout === 'layout4') && { width: `calc( 100% - ${imageSize} )` })
 	}
 
+	const imageStyle = {
+		...((productsLayout === 'layout2' || productsLayout === 'layout4') && { width: imageSize })
+	}
 	const titleStyle = {
 		fontSize: titleSize,
 		...fontColors.titleColor && { color: fontColors.titleColor }
@@ -63,7 +68,7 @@ const ProductItem = ({
 			)}
 
 			{elementsToggle.image && (
-				<div className="product-featured-image" data-product-image={productId}>
+				<div className="product-featured-image" data-product-image={productId} style={imageStyle}>
 					{isEdit && (
 						<ProductImage productId={productId} />
 					)}

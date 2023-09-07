@@ -32,8 +32,8 @@ export const addNewHotspot = (event, hotspots, setAttributes) => {
 		iconStyle: null,
 		primaryColor: null,
 		secondaryColor: null,
-		size: null,
-		innerSize: null
+		size: 1,
+		innerSize: 1
 	};
 	const updatedHotspots = hotspots?.concat(newHotspot);
 	setAttributes({ hotspots: updatedHotspots });
@@ -84,7 +84,7 @@ export const onProductSelect = (value, hotspots, selectedHotspot, setAttributes)
  * @param {object} hotspot 
  * @param {string} clientId 
  */
-export const onHotspotOver = (event, hotspot, clientId) => {
+export const onHotspotOver = (event, hotspot, clientId, primaryColor) => {
 	// Get "WCSpots" block instance specific to this hotspot.
 	const thisBlock = event.target.closest(".wp-block-micemade-wcspots");
 	// Bailing early.
@@ -95,6 +95,7 @@ export const onHotspotOver = (event, hotspot, clientId) => {
 	const product = thisBlock.querySelector(`[data-product-id="${productId}"]`);
 	if (product && thisBlockId == clientId) {
 		product.classList.add('highlighted');
+		product.style.setProperty('--highlight-color', `${primaryColor}`);
 	}
 }
 
@@ -116,7 +117,7 @@ export const onHotspotOut = (event, hotspot, clientId) => {
 	const product = thisBlock.querySelector(`[data-product-id="${productId}"]`);
 	if (product && thisBlockId == clientId) {
 		product.classList.remove('highlighted');
-
+		product.style.setProperty('--highlight-color', '')
 	}
 }
 

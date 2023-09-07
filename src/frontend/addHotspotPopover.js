@@ -34,6 +34,7 @@ const AddHotspotPopover = (props) => {
 		elementsToggle,
 		productSpacing,
 		productPadding,
+		imageSize,
 		titleSize,
 		priceSize,
 		excerptSize,
@@ -78,7 +79,12 @@ const AddHotspotPopover = (props) => {
 	}
 
 	const elementsStyle = {
-		padding: productPadding
+		padding: productPadding,
+		...((productsLayout === 'layout2' || productsLayout === 'layout4') && { width: `calc( 100% - ${imageSize} )` })
+	}
+
+	const imageStyle = {
+		...((productsLayout === 'layout2' || productsLayout === 'layout4') && { width: imageSize })
 	}
 
 	const titleStyle = {
@@ -134,7 +140,7 @@ const AddHotspotPopover = (props) => {
 						)}
 
 						{elementsToggle?.image && (
-							<div className="product-featured-image">
+							<div className="product-featured-image" style={imageStyle}>
 								<ProductImage productId={assocProdId} />
 							</div>
 						)}
@@ -170,7 +176,7 @@ const AddHotspotPopover = (props) => {
 				</div>
 			)}
 		>
-			<div className='popover-toggler' style={popoverTogglerClass} onClick={togglePopover} />
+			<div className='popover-toggler' style={popoverTogglerClass} onClick={togglePopover} draggable />
 
 		</HotspotPopover>
 

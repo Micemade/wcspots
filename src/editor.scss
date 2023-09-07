@@ -62,38 +62,84 @@
 /*
  * Various custom styles for component buttons.
  */
-.components-button {
-	&.unassign, &.remove-hotspot {
+// .components-button {
+	.unassign, .remove-hotspot {
 		position: absolute;
-		top: -12px;
-		left: calc(100% - 12px);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		top: 50%;
+		left: 50%;
 		padding: 5px !important;
-		width: -moz-max-content;
+		width: -moz-max-content; 
 		width: max-content;
 		min-width: auto !important;
 		height: 24px;
+		width: 24px;
 		border-radius: 50%;
 		z-index: 10;
 		transition: all .3s linear;
+		&:hover {
+			cursor: pointer;
+		}
 	}
 
-	&.unassign {
+	.unassign {
+		top: -12px;
+		left: calc(100% - 12px);
 		background: #246fb1;
 		color: #fff;
 		transform: scale(0.7);
 	}
 
-	&.remove-hotspot {
+	.remove-hotspot {
 		background: #ed006b;
 		color: #fff;
-		transform: scale(0.6);
+		transform: translateX(0%) translateY(-90%) scale(0.5);
 	}
 
-	&.wcspots-reset-attributes {
+	.wcspots-reset-attributes {
 		padding: 0;
 		display: flex;
 		width: 100%;
 		justify-content: right;
+	}
+// }
+
+.hotspot-list-item {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items:center;
+	border: 1px solid #e5e5e5;
+	border-bottom: none;
+	p {
+		margin: 0;
+		padding: 6px;
+		font-size: 12px;
+	}
+
+	&:last-of-type{
+		border-bottom: 1px solid #e5e5e5;
+	}
+
+}
+
+.hotspots-editor-bottomtip {
+	position: absolute;
+	bottom: 14px;
+	left: 50%;
+	transform: translateX(-50%);
+	padding: 2px 8px;
+	z-index: 10;
+	font-size: 14px;
+	line-height: 1.4;
+	color: #333;
+	background: rgba(255,255,255,0.7);
+	border-radius: 4px;
+	visibility: hidden;
+	&.visible {
+		visibility: visible;
 	}
 }
 

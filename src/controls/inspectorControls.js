@@ -74,6 +74,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 		productPadding,
 		productSpacing,
 		elementsToggle,
+		imageSize,
 		titleSize,
 		priceSize,
 		excerptSize,
@@ -97,6 +98,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 		});
 		setAttributes(savedAtts);
 	};
+
 	/**
 	 * Create 'srcset' and 'sizes' img attributes for  image. Discard 'thumbnail' size.
 	 */
@@ -209,7 +211,20 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 			name: 'productsLayout',
 			title: 'Layout',
 			content: (
-				<div>
+				<Fragment>
+
+					<CardDivider size="xSmall" style={{ margin: '10px 0' }} />
+
+					<RangeControl
+						label={__('Columns', 'wcspots')}
+						value={columns}
+						onChange={(value) =>
+							setAttributes({ columns: value })
+						}
+						min={1}
+						max={4}
+					/>
+
 					<ImageRadioSelectControl
 						label={__('Product layout type', 'wcspots')}
 						help={__('Pick a grid type for displaying selected products', 'wcspots')}
@@ -217,6 +232,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 							{ value: 'layout1', label: 'Layout 1', image: require('./icons/Layout_1.png') },
 							{ value: 'layout2', label: 'Layout 2', image: require('./icons/Layout_2.png') },
 							{ value: 'layout3', label: 'Layout 3', image: require('./icons/Layout_3.png') },
+							{ value: 'layout4', label: 'Layout 3', image: require('./icons/Layout_4.png') },
 						]}
 						value={productsLayout}
 						onChange={(selectedLayout) => {
@@ -224,6 +240,20 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						}}
 						height='38px'
 					/>
+
+					{(elementsToggle.image && (productsLayout === 'layout2' || productsLayout === 'layout4')) && (
+						<Fragment>
+							<CardDivider size="xSmall" style={{ margin: '10px 0' }} />
+							<HeightControl
+								label={__('Image width', 'wcspots')}
+								value={imageSize}
+								onChange={(newValue) => {
+									setAttributes({ imageSize: newValue });
+								}}
+							/>
+						</Fragment>
+					)}
+
 					<ImageRadioSelectControl
 						label={__('Product align', 'wcspots')}
 						help={__('How to align the products', 'wcspots')}
@@ -239,18 +269,6 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						height='28px'
 					/>
 
-					<CardDivider size="xSmall" />
-
-					<RangeControl
-						label={__('Columns', 'wcspots')}
-						value={columns}
-						onChange={(value) =>
-							setAttributes({ columns: value })
-						}
-						min={1}
-						max={4}
-					/>
-
 					<Button
 						isLink
 						isSmall
@@ -261,7 +279,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						className='wcspots-reset-attributes'
 					/>
 
-				</div>
+				</Fragment>
 			),
 		},
 		{
@@ -401,37 +419,49 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 				<div>
 					<CardDivider size="xSmall" />
 
-					<HeightControl
-						label={__('Title font size', 'wcspots')}
-						value={titleSize}
-						onChange={(newValue) => {
-							setAttributes({ titleSize: newValue });
-						}}
-					/>
-					<HeightControl
-						label={__('Price font size', 'wcspots')}
-						value={priceSize}
-						onChange={(newValue) => {
-							setAttributes({ priceSize: newValue });
-						}}
-					/>
-					<HeightControl
-						label={__('Short description font size', 'wcspots')}
-						value={excerptSize}
-						onChange={(newValue) => {
-							setAttributes({ excerptSize: newValue });
-						}}
-					/>
-					<RangeControl
-						label={__('Add to Cart size', 'wcspots')}
-						value={addToCartSize}
-						onChange={(value) =>
-							setAttributes({ addToCartSize: value })
-						}
-						min={0.5}
-						max={2}
-						step={0.05}
-					/>
+					{elementsToggle.title && (
+						<HeightControl
+							label={__('Title font size', 'wcspots')}
+							value={titleSize}
+							onChange={(newValue) => {
+								setAttributes({ titleSize: newValue });
+							}}
+						/>
+					)}
+
+					{elementsToggle.price && (
+						<HeightControl
+							label={__('Price font size', 'wcspots')}
+							value={priceSize}
+							onChange={(newValue) => {
+								setAttributes({ priceSize: newValue });
+							}}
+						/>
+					)}
+
+					{elementsToggle.excerpt && (
+						<HeightControl
+							label={__('Short description font size', 'wcspots')}
+							value={excerptSize}
+							onChange={(newValue) => {
+								setAttributes({ excerptSize: newValue });
+							}}
+						/>
+					)}
+
+					{elementsToggle.addToCart && (
+						<RangeControl
+							label={__('Add to Cart size', 'wcspots')}
+							value={addToCartSize}
+							onChange={(value) =>
+								setAttributes({ addToCartSize: value })
+							}
+							min={0.5}
+							max={2}
+							step={0.05}
+						/>
+					)}
+
 
 					<Button
 						isLink
@@ -460,22 +490,22 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 								onChange: (newValue) => setAttributes({ productBackColor: newValue }),
 								label: __('Background Color', 'wcspots'),
 							},
-							{
+							elementsToggle.title ? {
 								value: titleColor,
 								onChange: (newValue) => setAttributes({ titleColor: newValue }),
 								label: __('Title color', 'wcspots'),
-							},
-							{
+							} : null,
+							elementsToggle.price ? {
 								value: priceColor,
 								onChange: (newValue) => setAttributes({ priceColor: newValue }),
 								label: __('Price color', 'wcspots'),
-							},
-							{
+							} : null,
+							elementsToggle.excerpt ? {
 								value: excerptColor,
 								onChange: (newValue) => setAttributes({ excerptColor: newValue }),
 								label: __('Short description color', 'wcspots'),
-							}
-						]}
+							} : null
+						].filter(item => item !== null)}
 					/>
 					<Button
 						isLink
@@ -526,6 +556,22 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 							})
 						}
 					/>
+
+					{settingsTitleDesc.activeTitle && (
+						<HeightControl
+							label={'Title spacing'}
+							value={settingsTitleDesc.spacingTitle}
+							onChange={(newSpacing) => {
+								setAttributes({
+									settingsTitleDesc: {
+										...settingsTitleDesc,
+										spacingTitle: newSpacing
+									}
+								});
+							}}
+						/>
+					)}
+
 					<ToggleControl
 						__nextHasNoMarginBottom
 						label={__('Show description', 'wcspots')}
@@ -540,31 +586,20 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						}
 					/>
 
-					<HeightControl
-						label={'Title spacing'}
-						value={settingsTitleDesc.spacingTitle}
-						onChange={(newSpacing) => {
-							setAttributes({
-								settingsTitleDesc: {
-									...settingsTitleDesc,
-									spacingTitle: newSpacing
-								}
-							});
-						}}
-					/>
-
-					<HeightControl
-						label={'Decription spacing'}
-						value={settingsTitleDesc.spacingDesc}
-						onChange={(newSpacing) => {
-							setAttributes({
-								settingsTitleDesc: {
-									...settingsTitleDesc,
-									spacingDesc: newSpacing
-								}
-							});
-						}}
-					/>
+					{settingsTitleDesc.activeDesc && (
+						<HeightControl
+							label={'Description spacing'}
+							value={settingsTitleDesc.spacingDesc}
+							onChange={(newSpacing) => {
+								setAttributes({
+									settingsTitleDesc: {
+										...settingsTitleDesc,
+										spacingDesc: newSpacing
+									}
+								});
+							}}
+						/>
+					)}
 
 				</PanelBody>
 
@@ -658,19 +693,23 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						)}
 					</PanelRow>
 
-					<CardDivider size="xSmall" />
+					{mediaID && (
+						<Fragment>
+							<SelectControl
+								label={__('Background image', 'wcspots')}
+								value={backImage}
+								options={[
+									{ label: 'No background image', value: 'backimage-none' },
+									{ label: 'Same image as background', value: 'backimage-same' },
+								]}
+								onChange={(value) => setAttributes({ backImage: value })}
+							/>
+							<CardDivider size="xSmall" />
+						</Fragment>
+					)}
 
-					<SelectControl
-						label={__('Background image', 'wcspots')}
-						value={backImage}
-						options={[
-							{ label: 'No background image', value: 'backimage-none' },
-							{ label: 'Same image as background', value: 'backimage-same' },
-						]}
-						onChange={(value) => setAttributes({ backImage: value })}
-					/>
 
-					{(backImage !== 'backimage-none') && (
+					{((backImage !== 'backimage-none') && mediaID) && (
 						<RangeControl
 							label={__('Background image opacity', 'wcspots')}
 							value={backimageOpacity}
@@ -777,10 +816,56 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 							)}
 						</TabPanel>
 
-						<BaseControl help={__('Style properties like colors, sizes, and spacing are available in the editor styles tab.', 'wcspots')} />
+						<BaseControl help={__('Style properties like colors, spacing, and font sizes are available in the editor styles tab.', 'wcspots')} />
 
 					</PanelBody>
 				)}
+
+
+				<PanelBody
+					icon={'marker'}
+					title={__('Hotspots', 'wcspots')}
+					initialOpen={false}
+
+				>
+					{hotspots.length > 0 ? (
+						<Fragment>
+							{hotspots.map((hotspot, hotspotIndex) => (
+								<Fragment key={hotspot.id}>
+
+									<div
+										className='hotspot-list-item'
+										key={hotspotIndex}
+									>
+										<p>{hotspot.productTitle ? hotspot.productTitle : hotspot.name}</p>
+
+										<IconButton
+											icon="trash"
+											onClick={() => hotspotRemove(hotspotIndex)}
+											label={__('Remove hotspot', 'wcspots')}
+										/>
+									</div>
+
+								</Fragment>
+
+							))}
+
+							<Button
+								isSecondary
+								isSmall
+								onClick={() => setAttributes({ hotspots: [] })}
+								style={{ marginTop: '20px' }}
+							>
+								{__('Remove All Hotspots', 'wcspots')}
+							</Button>
+
+							<BaseControl help={__('Style properties of hotspots are available in the editor styles tab.', 'wcspots')} />
+						</Fragment>
+					) : (
+						<p>{__('Click on image to add hotspots', 'wcspots')}</p>
+					)}
+
+				</PanelBody>
 
 
 			</InspectorControls>
@@ -803,7 +888,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 
 				<PanelBody
 					icon={'marker'}
-					title={__('Hotspot general styles', 'wcspots')}
+					title={__('Hotspots - general styles', 'wcspots')}
 					initialOpen={false}>
 
 					<SelectControl
@@ -818,6 +903,37 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 								}
 							})
 						}}
+					/>
+
+					<RangeControl
+						label={(__('Hotspot outer size', 'wcspots'))}
+						value={hotspotSettings.size}
+						min={0}
+						max={3}
+						step={0.1}
+						onChange={(newValue) =>
+							setAttributes({
+								hotspotSettings: {
+									...hotspotSettings,
+									size: newValue
+								}
+							})
+						}
+					/>
+					<RangeControl
+						label={(__('Hotspot inner size', 'wcspots'))}
+						value={hotspotSettings.innerSize}
+						min={0}
+						max={3}
+						step={0.1}
+						onChange={(newValue) =>
+							setAttributes({
+								hotspotSettings: {
+									...hotspotSettings,
+									innerSize: newValue
+								}
+							})
+						}
 					/>
 
 					<PanelColorSettings
@@ -932,7 +1048,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 
 						<PanelBody
 							icon={'marker'}
-							title={__('Styles per hotspot', 'wcspots')}
+							title={__('Hotspot - individual styles', 'wcspots')}
 							initialOpen={false}
 
 						>
@@ -1025,11 +1141,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 							))}
 							{hotspots.length > 0 && (
 								<Fragment>
-									<CardDivider size="xSmall" />
 									<Button
 										isSecondary
 										isSmall
 										onClick={() => setAttributes({ hotspots: [] })}
+										style={{ marginTop: '20px' }}
 									>
 										{__('Remove All Hotspots', 'wcspots')}
 									</Button>

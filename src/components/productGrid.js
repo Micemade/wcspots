@@ -13,6 +13,7 @@ const ProductGrid = ({
 	productPadding,
 	productSpacing,
 	elementsToggle,
+	imageSize,
 	titleSize,
 	priceSize,
 	excerptSize,
@@ -38,6 +39,7 @@ const ProductGrid = ({
 					productPadding={productPadding}
 					productSpacing={productSpacing}
 					elementsToggle={elementsToggle}
+					imageSize={imageSize}
 					titleSize={titleSize}
 					priceSize={priceSize}
 					excerptSize={excerptSize}

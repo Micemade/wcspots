@@ -132,6 +132,10 @@
       "type": "string",
       "default": "0.5em"
     },
+    "imageSize": {
+      "type": "string",
+      "default": "50%"
+    },
     "titleSize": {
       "type": "string",
       "default": "1em"
@@ -176,8 +180,10 @@
         "titleBack": "#fff",
         "titleSize": "14px",
         "iconStyle": "iconstyle-1",
-        "primaryColor": "rgba(17, 17, 17, 0.2)",
-        "secondaryColor": "rgb(255, 255, 255)"
+        "primaryColor": "#ccc",
+        "secondaryColor": "#fff",
+        "size": 1,
+        "innerSize": 1
       }
     },
     "selectedHotspot": {
@@ -212,6 +218,7 @@
         },
         "productSpacing": "0.6em",
         "productPadding": "0.8em",
+        "imageSize": "50%",
         "titleSize": "1em",
         "priceSize": "1em",
         "excerptSize": "0.8em",

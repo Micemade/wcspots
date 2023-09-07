@@ -7,7 +7,7 @@
  * Mixins (reused styles)
  */
 %view-cart {
-	display: block;
+	display: flex;
 	position: absolute;
 	top: 100%;
 	width: 100%;
@@ -25,18 +25,11 @@
 		.wcspots-product {
 			width: 100%;
 			flex-direction: row;
-
-			> * {
-				flex: 1;
-			}
-
 		}
 	}
 	&.layout3 {
 		.wcspots-product {
 			position: relative;
-
-			> * { flex: 1; }
 
 			.overlay {
 				position: absolute;
@@ -69,6 +62,13 @@
 
 		}
 	}
+	&.layout4 {
+		.wcspots-product {
+			width: 100%;
+			flex-direction: row-reverse;
+
+		}
+	}
 }
 
 %alignments {
@@ -76,27 +76,33 @@
 		.product-title,
 		.product-price,
 		.product-excerpt > *,
-		.product-add-to-cart {
+		.product-add-to-cart,
+		.view-cart {
 			text-align: center;
 			transform-origin: center;
+			justify-content: center;
 		}
 	}
 	&.align-flex-start { 
 		.product-title,
 		.product-price,
 		.product-excerpt > *,
-		.product-add-to-cart {
+		.product-add-to-cart,
+		.view-cart {
 			text-align: left;
 			transform-origin: left center;
+			justify-content: flex-start;
 		}
 	}
 	&.align-flex-end {
 		.product-title,
 		.product-price,
 		.product-excerpt > *,
-		.product-add-to-cart {
+		.product-add-to-cart,
+		.view-cart {
 			text-align: right;
 			transform-origin: right center;
+			justify-content: flex-end;
 		}
 	}
 }
@@ -130,7 +136,9 @@
 
 		&.highlighted {
 			&:after {
-				box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.6);
+				background: var(--highlight-color);
+				box-shadow: inset 0 0 0 3px var(--highlight-color);
+				opacity: 0.35;
 			}
 		}
 
@@ -205,10 +213,13 @@
 %hotspot-icon-styles {
 
 	&.iconstyle-1 {
-		width: 2rem;
-		height: 2rem;
-		border: 2px solid transparent;
-		background: rgba(17, 17, 17, 0.2);
+		
+		.outer {
+			width: 2rem;
+			height: 2rem;
+			border: 2px solid transparent;
+			background: rgba(17, 17, 17, 0.2);
+		}
 
 		.inner {
 			background: rgb(255, 255, 255);
@@ -228,11 +239,12 @@
 	}
 
 	&.iconstyle-2 {
-		
-		width: 1.5rem;
-		height: 1.5rem;
-		background: rgba(255, 0, 0, 0.5);
-		border:none;
+		.outer {
+			width: 1.5rem;
+			height: 1.5rem;
+			background: rgba(255, 0, 0, 0.5);
+			border:none;
+		}
 
 		.inner {
 			width: 1rem;
@@ -273,15 +285,18 @@
 	}
 
 	&.iconstyle-3 {
-		width: 1.2rem;
-		height: 1.2rem;
-		background: transparent !important;
-		border: 0 solid transparent;
-		outline-style: solid;
-		outline-color: rgba(255, 220, 0, 0.8);
-		outline-width: 1;
-		transition: outline-offset 0.2s ease-in-out;
-		outline-offset: 0px;
+		
+		.outer {
+			width: 1.2rem;
+			height: 1.2rem;
+			background: transparent !important;
+			border: 0 solid transparent;
+			outline-style: solid;
+			outline-color: rgba(255, 220, 0, 0.8);
+			outline-width: 1;
+			transition: outline-offset 0.2s ease-in-out;
+			outline-offset: 0px;
+		}
 
 		.inner {
 			width: 0.6rem;
@@ -355,7 +370,6 @@
 
 			/* General rules applied to all product hotspots style */
 			.product-hotspot {
-				transition: all 250ms ease-in-out;
 				transform: translateX(-50%) translateY(-50%) scale(1);
 				position: absolute;
 				display: flex;
@@ -365,19 +379,23 @@
 				padding: 0;
 				border-radius: 50%;
 				line-height: .5;
+				width: 2rem;
+				height: 2rem;
 
-				.inner, .events-holder {
+				.inner, .outer, .events-holder {
 					position: absolute;
 					display: block;
 					cursor: pointer;
 					border-radius: 50%;
+					transition: transform 250ms ease-in-out;
+					&:hover {
+						cursor: grabbing;
+					}
 				}
 
-				.inner {
-					transition: transform 250ms ease-in-out;
-					position: relative;
-					display: block;
-				}
+				.outer { z-index: 2; }
+
+				.inner { z-index: 3; }
 
 				&:before {
 					content: "";
@@ -394,7 +412,7 @@
 					height: 100%;
 					background-color: transparent;
 					border-radius: 50%;
-					z-index: 3;
+					z-index: 5;
 				}
 
 				.hotspot-product-title {
@@ -421,20 +439,6 @@
 				}
 
 				@extend %hotspot-icon-styles;
-			}
-
-			.add-some-hotspots {
-				position: absolute;
-				bottom: 14px;
-				left: 50%;
-				transform: translateX(-50%);
-				padding: 2px 8px;
-				z-index: 10;
-				font-size: 14px;
-				line-height: 1.4;
-				color: #333;
-				background: rgba(255,255,255,0.7);
-				border-radius: 4px;
 			}
 
 		}

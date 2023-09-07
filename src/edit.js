@@ -3,8 +3,9 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, BlockControls, MediaPlaceholder, MediaUpload, RichText } from '@wordpress/block-editor';
-import { SelectControl, Modal, ToolbarGroup, Toolbar, ToolbarButton, DropdownMenu } from '@wordpress/components';
+import { SelectControl, Modal, ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
+
 
 /**
  * External dependecies.
@@ -57,6 +58,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		productSpacing,
 		productPadding,
 		elementsToggle,
+		imageSize,
 		titleSize,
 		priceSize,
 		excerptSize,
@@ -150,7 +152,6 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 	const onUploadError = (error) => {
 		console.error('Media upload error:', error);
 	};
-
 	const blockToolbarControls = (
 		<ToolbarGroup>
 			<MediaUpload
@@ -176,6 +177,9 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 	);
 
 	const noProductsNotice = __('Pick your products in the sidebar "WooCommerce products" section.', 'wcspots');
+
+	const [position, setPosition] = useState({ x: 0, y: 0 });
+	const [isDragging, setIsDragging] = useState(false);
 
 	return (
 		<>
@@ -238,6 +242,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 									productPadding={productPadding}
 									productSpacing={productSpacing}
 									elementsToggle={elementsToggle}
+									imageSize={imageSize}
 									titleSize={titleSize}
 									priceSize={priceSize}
 									excerptSize={excerptSize}
@@ -280,11 +285,12 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 
 						{hotspots?.length > 0 &&
 							hotspots.map((hotspot, index) => (
+
 								<Hotspot
+									context="edit"
 									key={`hotspot-${hotspot.id}`}
 									hotspot={hotspot}
 									hotspotSettings={hotspotSettings}
-									// onClick={() => hotspotClick(hotspot, setAttributes)}
 									onDoubleClick={() => modalProductToHotspot(hotspot, setAttributes)}
 									onMouseOver={onHotspotOver}
 									onMouseOut={onHotspotOut}
@@ -295,14 +301,14 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 									setAttributes={setAttributes}
 									popoverAtts={popoverAtts}
 									popoverParent={popoverParent}
-									context="edit"
 								/>
+
 							))}
-						{(hotspots?.length == 0 && mediaURL) && (
-							<div className='add-some-hotspots'>
-								{__('Click on image to add hotspots.', 'wcspots')}
-							</div>
-						)}
+
+						<div className={`hotspots-editor-bottomtip ${classNames({ ['visible']: hotspots?.length == 0 && mediaURL })}`}>
+							{__('Click on image to add hotspots.', 'wcspots')}
+						</div>
+
 					</div>
 
 				</div>

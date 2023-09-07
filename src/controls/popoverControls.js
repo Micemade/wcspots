@@ -59,6 +59,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 							{ value: 'layout1', label: 'Layout 1', image: require('./icons/popoverLayout_1.png') },
 							{ value: 'layout2', label: 'Layout 2', image: require('./icons/popoverLayout_2.png') },
 							{ value: 'layout3', label: 'Layout 3', image: require('./icons/popoverLayout_3.png') },
+							{ value: 'layout4', label: 'Layout 3', image: require('./icons/popoverLayout_4.png') },
 						]}
 						value={popoverAtts.productsLayout}
 						onChange={(selectedLayout) => {
@@ -71,6 +72,27 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						}}
 						height='38px'
 					/>
+
+
+					{(elementsToggle?.image && (popoverAtts.productsLayout === 'layout2' || popoverAtts.productsLayout === 'layout4')) && (
+						<Fragment>
+							<CardDivider size="xSmall" style={{ margin: '10px 0' }} />
+							<HeightControl
+								label={__('Image width', 'wcspots')}
+								value={popoverAtts.imageSize}
+								onChange={(newValue) => {
+									setAttributes({
+										popoverAtts: {
+											...popoverAtts,
+											imageSize: newValue
+										}
+									});
+								}}
+
+							/>
+						</Fragment>
+					)}
+
 					<ImageRadioSelectControl
 						label={__('Product align', 'wcspots')}
 						help={__('Align product elements in the popover', 'wcspots')}
@@ -319,42 +341,50 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 				<div>
 					<CardDivider size="xSmall" />
 
-					<HeightControl
-						label={__('Title font size', 'wcspots')}
-						value={popoverAtts.titleSize}
-						onChange={(newValue) => {
-							setAttributes({
-								popoverAtts: {
-									...popoverAtts,
-									titleSize: newValue
-								}
-							});
-						}}
-					/>
-					<HeightControl
-						label={__('Price font size', 'wcspots')}
-						value={popoverAtts.priceSize}
-						onChange={(newValue) => {
-							setAttributes({
-								popoverAtts: {
-									...popoverAtts,
-									priceSize: newValue
-								}
-							});
-						}}
-					/>
-					<HeightControl
-						label={__('Short description font size', 'wcspots')}
-						value={popoverAtts.excerptSize}
-						onChange={(newValue) => {
-							setAttributes({
-								popoverAtts: {
-									...popoverAtts,
-									excerptSize: newValue
-								}
-							});
-						}}
-					/>
+					{elementsToggle?.title && (
+						<HeightControl
+							label={__('Title font size', 'wcspots')}
+							value={popoverAtts.titleSize}
+							onChange={(newValue) => {
+								setAttributes({
+									popoverAtts: {
+										...popoverAtts,
+										titleSize: newValue
+									}
+								});
+							}}
+						/>
+					)}
+
+					{elementsToggle?.price && (
+						<HeightControl
+							label={__('Price font size', 'wcspots')}
+							value={popoverAtts.priceSize}
+							onChange={(newValue) => {
+								setAttributes({
+									popoverAtts: {
+										...popoverAtts,
+										priceSize: newValue
+									}
+								});
+							}}
+						/>
+					)}
+
+					{elementsToggle?.excerpt && (
+						<HeightControl
+							label={__('Short description font size', 'wcspots')}
+							value={popoverAtts.excerptSize}
+							onChange={(newValue) => {
+								setAttributes({
+									popoverAtts: {
+										...popoverAtts,
+										excerptSize: newValue
+									}
+								});
+							}}
+						/>
+					)}
 
 					<RangeControl
 						label={__('Add to Cart size', 'wcspots')}
@@ -403,7 +433,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 									}),
 								label: __('Background Color', 'wcspots'),
 							},
-							{
+							elementsToggle?.title ? {
 								value: popoverAtts.titleColor,
 								onChange: (newValue) =>
 									setAttributes({
@@ -413,8 +443,8 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 										}
 									}),
 								label: __('Title Color', 'wcspots'),
-							},
-							{
+							} : null,
+							elementsToggle?.price ? {
 								value: popoverAtts.priceColor,
 								onChange: (newValue) =>
 									setAttributes({
@@ -424,8 +454,8 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 										}
 									}),
 								label: __('Price Color', 'wcspots'),
-							},
-							{
+							} : null,
+							elementsToggle?.excerpt ? {
 								value: popoverAtts.excerptColor,
 								onChange: (newValue) =>
 									setAttributes({
@@ -435,9 +465,10 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 										}
 									}),
 								label: __('Excerpt Color', 'wcspots'),
-							},
-						]}
+							} : null,
+						].filter(item => item !== null)}
 					/>
+
 					<Button
 						isLink
 						isSmall
@@ -469,7 +500,7 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						)}
 					</TabPanel>
 
-					<BaseControl help={__('Style properties like colors, sizes, and spacing are available in the editor styles tab.', 'wcspots')} />
+					<BaseControl help={__('Style properties like colors, spacing, and font sizes are available in the editor styles tab', 'wcspots')} />
 
 
 
