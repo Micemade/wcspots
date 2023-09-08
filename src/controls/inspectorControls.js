@@ -199,11 +199,13 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 		);
 		setAttributes({ hotspots: filteredHotspots });
 	}
-	const hotspotStyleOptions = [
+	// Hotspot styles.
+	const hotspotStyles = [
 		{ label: 'Style 1', value: 'iconstyle-1' },
 		{ label: 'Style 2', value: 'iconstyle-2' },
 		{ label: 'Style 3', value: 'iconstyle-3' },
 	];
+	const individualHotspotStyle = [...[{ label: 'Change general style', value: '' }], ...hotspotStyles];
 
 	// Product layout tabs.
 	const productLayoutTabs = [
@@ -894,7 +896,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					<SelectControl
 						label={__('Hotspot style', 'wcspots')}
 						value={hotspotSettings.iconStyle}
-						options={hotspotStyleOptions}
+						options={hotspotStyles}
 						onChange={(newValue) => {
 							setAttributes({
 								hotspotSettings: {
@@ -938,6 +940,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 
 					<PanelColorSettings
 						initialOpen={true}
+						className='hotspot-tools-panel'
 						enableAlpha
 						colorSettings={[
 							{
@@ -967,7 +970,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						]}
 					/>
 
-					<CardDivider size="xSmall" />
+					<CardDivider size="xSmall" style={{ margin: '5px 0px 20px' }} />
 
 					<ToggleControl
 						__nextHasNoMarginBottom
@@ -988,6 +991,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						<Fragment>
 							<PanelColorSettings
 								initialOpen={true}
+								className='hotspot-tools-panel'
 								enableAlpha
 								colorSettings={[
 									{
@@ -1073,7 +1077,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 											<SelectControl
 												label={__('Hotspot style', 'wcspots')}
 												value={hotspot.iconStyle}
-												options={hotspotStyleOptions}
+												options={individualHotspotStyle}
 												onChange={(value) => {
 													setAttributes({
 														hotspots: [

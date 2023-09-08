@@ -180,7 +180,7 @@
         "titleBack": "#fff",
         "titleSize": "14px",
         "iconStyle": "iconstyle-1",
-        "primaryColor": "#ccc",
+        "primaryColor": "rgba(120, 120, 120, 0.7)",
         "secondaryColor": "#fff",
         "size": 1,
         "innerSize": 1

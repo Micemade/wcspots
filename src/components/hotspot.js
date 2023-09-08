@@ -35,9 +35,10 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 		color: hotspotSettings.titleColor,
 		backgroundColor: hotspotSettings.titleBack,
 		fontSize: hotspotSettings.titleSize,
-		marginTop: `${hotspotSettings.size - 1}rem`
+		marginTop: `${hotspotSettings.size / 2}rem`
 	};
 
+	// Set colors using per hotspot or general hotspot settings.
 	let primColor = primaryColor || hotspotSettings.primaryColor;
 	let secColor = secondaryColor || hotspotSettings.secondaryColor;
 
@@ -46,11 +47,15 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 			backgroundColor: primColor,
 			outlineColor: primColor
 		},
-		transform: `scale(${hotspotSettings.size})`
+		width: `${hotspotSettings.size}rem`,
+		height: `${hotspotSettings.size}rem`
 	};
 	const innerStyles = {
-		...secColor && { backgroundColor: secColor },
-		transform: `scale(${hotspotSettings.innerSize})`,
+		...secColor && {
+			backgroundColor: secColor
+		},
+		width: `${hotspotSettings.innerSize}rem`,
+		height: `${hotspotSettings.innerSize}rem`,
 	};
 
 	const hotspotTitle = getHotspotTitle(context, name, productTitle);
@@ -59,8 +64,8 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 	// Drag and drop hotspot.
 	let isDragging = false, xPerc = 0, yPerc = 0, container;
 	let dragHotspot = document.getElementById(hotspot.id);
-
 	const startDrag = (event) => {
+		event.preventDefault();
 		document.addEventListener('mousemove', dragOnMouseMove);
 		document.addEventListener('mouseup', stopDragging);
 		container = document.getElementById(`block-${clientId}`)?.getElementsByClassName('image-container')[0];
@@ -98,6 +103,8 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 			data-product-title={hotspotTitle}
 			data-product-id={productId ? productId : ''}
 			data-client-id={clientId}
+			data-primColor={primColor}
+			data-secColor={secColor}
 		>
 
 			<div className='inner' style={innerStyles} />
@@ -119,35 +126,39 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 			</div>
 
 
-			{hotspotSettings.showTitle && (
-				<div className="hotspot-product-title">
+			{
+				hotspotSettings.showTitle && (
+					<div className="hotspot-product-title">
 
-					<span className='title-text' style={titleStyle}>{hotspotTitle}</span>
+						<span className='title-text' style={titleStyle}>{hotspotTitle}</span>
 
-					{(context == 'edit' && productId) && (
-						<IconButton
-							className="unassign"
-							icon="remove"
-							onClick={() => unassignProduct(hotspots, setAttributes, id)}
-							label={__('Unassign product', 'wcspots')}
-							isSmall
-							aria-label={__('Unassign product', 'wcspots')}
-						/>
-					)}
-				</div>
-			)}
+						{(context == 'edit' && productId) && (
+							<IconButton
+								className="unassign"
+								icon="remove"
+								onClick={() => unassignProduct(hotspots, setAttributes, id)}
+								label={__('Unassign product', 'wcspots')}
+								isSmall
+								aria-label={__('Unassign product', 'wcspots')}
+							/>
+						)}
+					</div>
+				)
+			}
 
-			{context == 'edit' && (
-				<div
-					className="remove-hotspot"
-					onClick={() => removeHotspot(hotspots, setAttributes, id)}
-					title={__('Remove the hotspot', 'wcspots')}
-					aria-label={__('Remove the hotspot', 'wcspots')}>
-					<Icon icon="no" />
-				</div>
-			)}
+			{
+				context == 'edit' && (
+					<div
+						className="remove-hotspot"
+						onClick={() => removeHotspot(hotspots, setAttributes, id)}
+						title={__('Remove the hotspot', 'wcspots')}
+						aria-label={__('Remove the hotspot', 'wcspots')}>
+						<Icon icon="no" />
+					</div>
+				)
+			}
 
-		</div>
+		</div >
 	);
 };
 

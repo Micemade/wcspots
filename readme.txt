@@ -99,6 +99,8 @@ The plugin uses, other than WordPress and React modules and packages, third part
 * Added a list of hotspots to the block settings tab (accessible also in the block styles tab).
 * Added product image size in block and in popover (for styles 2 and 4).
 * Additional layouts for product and popover.
+* Added hotspot general outer and inner size controls.
+* Hotspot primary color is now a product highlight color.
 
 = 1.0.0 =
 
