@@ -207,7 +207,7 @@
           "val": "80%",
           "max": "600px"
         },
-        "popoverHeight": "60vh",
+        "popoverHeight": "40vh",
         "popoverPadding": "0.5em",
         "productsLayout": "layout1",
         "productsAlign": "flex-start",

@@ -58,12 +58,12 @@ const AddHotspotPopover = (props) => {
 	}
 
 	const popoverStyle = {
-		width: `clamp(${popoverWidth.min},${popoverWidth.val},${popoverWidth.max})`
+		width: `clamp(${popoverWidth.min},${popoverWidth.val},${popoverWidth.max})`,
+		...popoverHeight && { height: popoverHeight }
 	}
 
 	const contentDivStyle = {
 		...roundCorners && { borderRadius: roundCorners },
-		...popoverHeight && { height: popoverHeight }
 	}
 
 	const arrowStyle = {
@@ -82,13 +82,13 @@ const AddHotspotPopover = (props) => {
 
 	const elementsStyle = {
 		padding: productPadding,
-		// ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: `calc( 100% - ${imageSize} )` })
-		flexBasis: `calc( 100% - ${imageSize} )`
+		// ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: `calc( 100% - ${imageSize} )` }),
+		...(productsLayout !== 'layout3' && { flexBasis: `calc( 100% - ${imageSize} )` })
 	}
 
 	const imageStyle = {
 		// ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: imageSize })
-		flexBasis: imageSize
+		...(productsLayout !== 'layout3' && { flexBasis: imageSize })
 	}
 
 	const titleStyle = {
