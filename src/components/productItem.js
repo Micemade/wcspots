@@ -30,11 +30,13 @@ const ProductItem = ({
 	const elementsStyle = {
 		padding: productPadding,
 		alignItems: productsAlign,
-		...((productsLayout === 'layout2' || productsLayout === 'layout4') && { width: `calc( 100% - ${imageSize} )` })
+		// ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: `calc( 100% - ${imageSize} )` })
+		flexBasis: `calc( 100% - ${imageSize} )`
 	}
 
 	const imageStyle = {
-		...((productsLayout === 'layout2' || productsLayout === 'layout4') && { width: imageSize })
+		// ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: imageSize })
+		flexBasis: imageSize
 	}
 	const titleStyle = {
 		fontSize: titleSize,

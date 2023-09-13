@@ -243,11 +243,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						height='38px'
 					/>
 
-					{(elementsToggle.image && (productsLayout === 'layout2' || productsLayout === 'layout4')) && (
+					{(elementsToggle.image) && (
 						<Fragment>
 							<CardDivider size="xSmall" style={{ margin: '10px 0' }} />
 							<HeightControl
-								label={__('Image width', 'wcspots')}
+								label={__('Image min. size', 'wcspots')}
 								value={imageSize}
 								onChange={(newValue) => {
 									setAttributes({ imageSize: newValue });
@@ -274,7 +274,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					<Button
 						isLink
 						isSmall
-						text={__('Reset layout, align, and columns', 'wcspots')}
+						text={__('Reset columns layout, and align.', 'wcspots')}
 						onClick={() => {
 							resetAtts(['productsLayout', 'productsAlign', 'columns'])
 						}}
@@ -832,40 +832,44 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 				>
 					{hotspots.length > 0 ? (
 						<Fragment>
-							{hotspots.map((hotspot, hotspotIndex) => (
-								<Fragment key={hotspot.id}>
+							<ul className='hotspots-list'>
+								{hotspots.map((hotspot, hotspotIndex) => (
+									<Fragment >
 
-									<div
-										className='hotspot-list-item'
-										key={hotspotIndex}
-									>
-										<p>{hotspot.productTitle ? hotspot.productTitle : hotspot.name}</p>
+										<li
+											key={hotspotIndex}
+											className='hotspot-list-item'
+										>
+											<p>{hotspot.productTitle ? hotspot.productTitle : hotspot.name}</p>
 
-										<IconButton
-											icon="trash"
-											onClick={() => hotspotRemove(hotspotIndex)}
-											label={__('Remove hotspot', 'wcspots')}
-										/>
-									</div>
+											<IconButton
+												icon="trash"
+												onClick={() => hotspotRemove(hotspotIndex)}
+												label={__('Remove hotspot', 'wcspots')}
+											/>
+										</li>
 
-								</Fragment>
+									</Fragment>
 
-							))}
-
-							<Button
-								isSecondary
-								isSmall
-								onClick={() => setAttributes({ hotspots: [] })}
-								style={{ marginTop: '20px' }}
-							>
-								{__('Remove All Hotspots', 'wcspots')}
-							</Button>
-
+								))}
+							</ul>
+							{hotspots.length > 1 && (
+								<Button
+									isSecondary
+									isSmall
+									onClick={() => setAttributes({ hotspots: [] })}
+									style={{ marginTop: '20px' }}
+								>
+									{__('Remove All Hotspots', 'wcspots')}
+								</Button>
+							)}
 							<BaseControl help={__('Style properties of hotspots are available in the editor styles tab.', 'wcspots')} />
 						</Fragment>
 					) : (
 						<p>{__('Click on image to add hotspots', 'wcspots')}</p>
 					)}
+
+
 
 				</PanelBody>
 
@@ -912,7 +916,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						value={hotspotSettings.size}
 						min={0}
 						max={3}
-						step={0.1}
+						step={0.05}
 						onChange={(newValue) =>
 							setAttributes({
 								hotspotSettings: {
@@ -927,7 +931,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						value={hotspotSettings.innerSize}
 						min={0}
 						max={3}
-						step={0.1}
+						step={0.05}
 						onChange={(newValue) =>
 							setAttributes({
 								hotspotSettings: {
@@ -969,6 +973,23 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 							}
 						]}
 					/>
+
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={__('Pulsate all hotspots', 'wcspots')}
+						checked={hotspotSettings.pulsateEff}
+						onChange={() =>
+							setAttributes({
+								hotspotSettings: {
+									...hotspotSettings,
+									pulsateEff: !hotspotSettings.pulsateEff
+								}
+							})
+						}
+					/>
+					{!hotspotSettings.pulsateEff && (
+						<BaseControl help={__('To pulsate individual hotspots, enable pulsation for each hotspot in "Hotspot - individual styles"', 'wcspots')} />
+					)}
 
 					<CardDivider size="xSmall" style={{ margin: '5px 0px 20px' }} />
 
@@ -1056,7 +1077,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 							initialOpen={false}
 
 						>
-							<CardDivider size="xSmall" />
+							<CardDivider size="xSmall" style={{ margin: '10px 0' }} />
 
 							{hotspots.map((hotspot, hotspotIndex) => (
 								<Fragment key={hotspot.id}>
@@ -1090,9 +1111,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 														],
 													})
 												}}
+
 											/>
 
 											<PanelColorSettings
+												className='hotspot-tools-panel hotspot-colors'
 												initialOpen={true}
 												enableAlpha
 												colorSettings={[
@@ -1131,6 +1154,26 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 
 												]}
 											/>
+											{!hotspotSettings.pulsateEff && (
+												<ToggleControl
+													label={__('Pulsate this hotspot', 'wcspots')}
+													checked={hotspot.pulsateEff}
+													style={{ marginTop: '10px' }}
+													onChange={(value) =>
+														setAttributes({
+															hotspots: [
+																...hotspots.slice(0, hotspotIndex),
+																{
+																	...hotspot,
+																	pulsateEff: value,
+																},
+																...hotspots.slice(hotspotIndex + 1),
+															],
+														})
+													}
+												/>
+											)}
+
 
 										</PanelBody>
 

@@ -94,13 +94,14 @@ The plugin uses, other than WordPress and React modules and packages, third part
 
 = 1.1.0 =
 
-* Added conditional display of controls (showcase image and product styles), depending on state of other controls.
 * Added drag and drop hotspots functionality in the editor.
+* Added conditional display of controls (showcase image and product styles), depending on state of other controls.
 * Added a list of hotspots to the block settings tab (accessible also in the block styles tab).
-* Added product image size in block and in popover (for styles 2 and 4).
+* Added product image size in products list and in popover (for styles 2 and 4).
 * Additional layouts for product and popover.
 * Added hotspot general outer and inner size controls.
 * Hotspot primary color is now a product highlight color.
+* Added pulsating effect to hotspot, with general and individual toggle control.
 
 = 1.0.0 =
 

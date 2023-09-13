@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WCSpots 1.0.0\n"
+"Project-Id-Version: WCSpots 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wcspots\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-19T15:05:37+00:00\n"
+"POT-Creation-Date: 2023-09-13T14:35:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: wcspots\n"
@@ -96,6 +96,10 @@ msgid "Pick a layout for popover with product"
 msgstr ""
 
 #: build/index.js:1
+msgid "Image size"
+msgstr ""
+
+#: build/index.js:1
 msgid "Product align"
 msgstr ""
 
@@ -116,7 +120,11 @@ msgid "Popover width: maximum"
 msgstr ""
 
 #: build/index.js:1
-msgid "Reset layout, align, and width"
+msgid "Popover height"
+msgstr ""
+
+#: build/index.js:1
+msgid "Reset layout, align, width, and height"
 msgstr ""
 
 #: build/index.js:1
@@ -204,7 +212,7 @@ msgid "Popover layout"
 msgstr ""
 
 #: build/index.js:1
-msgid "Style properties like colors, sizes, and spacing are available in the editor styles tab."
+msgid "Style properties like colors, spacing, and font sizes are available in the editor styles tab"
 msgstr ""
 
 #: build/index.js:1
@@ -216,6 +224,10 @@ msgid "Arrow color is set in \"Background Color\" (\"Colors\" tab)."
 msgstr ""
 
 #: build/index.js:1
+msgid "Columns"
+msgstr ""
+
+#: build/index.js:1
 msgid "Product layout type"
 msgstr ""
 
@@ -224,15 +236,15 @@ msgid "Pick a grid type for displaying selected products"
 msgstr ""
 
 #: build/index.js:1
+msgid "Image min. size"
+msgstr ""
+
+#: build/index.js:1
 msgid "How to align the products"
 msgstr ""
 
 #: build/index.js:1
-msgid "Columns"
-msgstr ""
-
-#: build/index.js:1
-msgid "Reset layout, align, and columns"
+msgid "Reset columns layout, and align."
 msgstr ""
 
 #: build/index.js:1
@@ -336,15 +348,47 @@ msgid "Product layout"
 msgstr ""
 
 #: build/index.js:1
+msgid "Style properties like colors, spacing, and font sizes are available in the editor styles tab."
+msgstr ""
+
+#: build/index.js:1
+msgid "Hotspots"
+msgstr ""
+
+#: build/index.js:1
+msgid "Remove hotspot"
+msgstr ""
+
+#: build/index.js:1
+msgid "Remove All Hotspots"
+msgstr ""
+
+#: build/index.js:1
+msgid "Style properties of hotspots are available in the editor styles tab."
+msgstr ""
+
+#: build/index.js:1
+msgid "Click on image to add hotspots"
+msgstr ""
+
+#: build/index.js:1
 msgid "Product styles"
 msgstr ""
 
 #: build/index.js:1
-msgid "Hotspot general styles"
+msgid "Hotspots - general styles"
 msgstr ""
 
 #: build/index.js:1
 msgid "Hotspot style"
+msgstr ""
+
+#: build/index.js:1
+msgid "Hotspot outer size"
+msgstr ""
+
+#: build/index.js:1
+msgid "Hotspot inner size"
 msgstr ""
 
 #: build/index.js:1
@@ -353,6 +397,14 @@ msgstr ""
 
 #: build/index.js:1
 msgid "Secondary Color"
+msgstr ""
+
+#: build/index.js:1
+msgid "Pulsate all hotspots"
+msgstr ""
+
+#: build/index.js:1
+msgid "To pulsate individual hotspots, enable pulsation for each hotspot in \"Hotspot - individual styles\""
 msgstr ""
 
 #: build/index.js:1
@@ -372,19 +424,11 @@ msgid "Reset hotspot general styles"
 msgstr ""
 
 #: build/index.js:1
-msgid "Styles per hotspot"
+msgid "Hotspot - individual styles"
 msgstr ""
 
 #: build/index.js:1
-msgid "Remove hotspot"
-msgstr ""
-
-#: build/index.js:1
-msgid "Remove All Hotspots"
-msgstr ""
-
-#: build/index.js:1
-msgid "Click on image to add hotspots"
+msgid "Pulsate this hotspot"
 msgstr ""
 
 #: build/index.js:1

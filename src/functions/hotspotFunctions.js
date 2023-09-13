@@ -33,7 +33,8 @@ export const addNewHotspot = (event, hotspots, setAttributes) => {
 		primaryColor: null,
 		secondaryColor: null,
 		size: 1,
-		innerSize: 1
+		innerSize: 1,
+		pulsateEff: false
 	};
 	const updatedHotspots = hotspots?.concat(newHotspot);
 	setAttributes({ hotspots: updatedHotspots });

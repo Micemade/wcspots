@@ -74,11 +74,11 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 					/>
 
 
-					{(elementsToggle?.image && (popoverAtts.productsLayout === 'layout2' || popoverAtts.productsLayout === 'layout4')) && (
+					{(elementsToggle?.image) && (
 						<Fragment>
 							<CardDivider size="xSmall" style={{ margin: '10px 0' }} />
 							<HeightControl
-								label={__('Image width', 'wcspots')}
+								label={__('Image size', 'wcspots')}
 								value={popoverAtts.imageSize}
 								onChange={(newValue) => {
 									setAttributes({
@@ -160,12 +160,28 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						}}
 					/>
 
+					<CardDivider size="xSmall" style={{ margin: '15px 0' }} />
+
+					<HeightControl
+						label={__('Popover height', 'wcspots')}
+						value={popoverAtts.popoverHeight}
+						onChange={(newValue) => {
+							setAttributes({
+								popoverAtts: {
+									...popoverAtts,
+									popoverHeight: newValue
+								}
+							});
+						}}
+
+					/>
+
 					<Button
 						isLink
 						isSmall
-						text={__('Reset layout, align, and width', 'wcspots')}
+						text={__('Reset layout, align, width, and height', 'wcspots')}
 						onClick={() => {
-							resetPopoverAtts(['productsLayout', 'productsAlign', 'popoverWidth'])
+							resetPopoverAtts(['productsLayout', 'productsAlign', 'popoverWidth', 'popoverHeight', 'popoverHeight'])
 						}}
 						className='wcspots-reset-attributes'
 					/>

@@ -182,8 +182,9 @@
         "iconStyle": "iconstyle-1",
         "primaryColor": "rgba(120, 120, 120, 0.7)",
         "secondaryColor": "#fff",
-        "size": 1,
-        "innerSize": 1
+        "size": 2,
+        "innerSize": 1,
+        "pulsateEff": true
       }
     },
     "selectedHotspot": {
@@ -206,6 +207,7 @@
           "val": "80%",
           "max": "600px"
         },
+        "popoverHeight": "60vh",
         "popoverPadding": "0.5em",
         "productsLayout": "layout1",
         "productsAlign": "flex-start",

@@ -5,6 +5,11 @@ import { __ } from '@wordpress/i18n';
 import { IconButton, Icon } from "@wordpress/components";
 
 /**
+ * External dependencies.
+ */
+import classNames from 'classnames';
+
+/**
  * Internal dependencies.
  */
 import AddHotspotPopover from '../frontend/addHotspotPopover';
@@ -27,6 +32,7 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 		secondaryColor
 	} = hotspot;
 
+
 	const styles = {
 		left: `${x}%`,
 		top: `${y}%`,
@@ -35,7 +41,7 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 		color: hotspotSettings.titleColor,
 		backgroundColor: hotspotSettings.titleBack,
 		fontSize: hotspotSettings.titleSize,
-		marginTop: `${hotspotSettings.size / 2}rem`
+		marginTop: `${hotspotSettings.size / 3}rem`
 	};
 
 	// Set colors using per hotspot or general hotspot settings.
@@ -60,6 +66,14 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 
 	const hotspotTitle = getHotspotTitle(context, name, productTitle);
 	const _iconStyle = iconStyle || hotspotSettings.iconStyle;
+
+	const hotspotClassNames = classNames(
+		'product-hotspot',
+		_iconStyle || 'iconstyle-1',
+		{
+			['pulsate ']: hotspot.pulsateEff || hotspotSettings.pulsateEff,
+		});
+
 
 	// Drag and drop hotspot.
 	let isDragging = false, xPerc = 0, yPerc = 0, container;
@@ -99,7 +113,8 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 		<div
 			style={styles}
 			id={hotspot.id}
-			className={`product-hotspot ${_iconStyle || 'iconstyle-1'}`}
+			// className={`product-hotspot ${_iconStyle || 'iconstyle-1'}`}
+			className={hotspotClassNames}
 			data-product-title={hotspotTitle}
 			data-product-id={productId ? productId : ''}
 			data-client-id={clientId}
