@@ -54,6 +54,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		productsLayout,
 		productsAlign,
 		columns,
+		featuredImageSize,
 		productsGap,
 		productSpacing,
 		productPadding,
@@ -99,7 +100,8 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 	const blockProps = useBlockProps({
 		'data-block-id': clientId,
 		'data-product-ids': JSON.stringify(productIds),
-		'data-popover-atts': JSON.stringify(popoverAtts)
+		'data-popover-atts': JSON.stringify(popoverAtts),
+		'data-featured-image-size': featuredImageSize
 	});
 
 	// Modal products select options, on hotspot double click.
@@ -236,6 +238,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 									context="edit"
 									productList={productIds}
 									columns={productsData.length <= columns ? productsData.length : columns}
+									featuredImageSize={featuredImageSize}
 									productsGap={productsGap}
 									productsLayout={productsLayout}
 									productsAlign={productsAlign}

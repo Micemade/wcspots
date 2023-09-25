@@ -42,8 +42,8 @@ import metadata from '../block.json';
 
 /**
  * InspectorControlsComponent function.
- * @param {*} props 
- * @returns 
+ * @param {*} props
+ * @returns
  */
 const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => {
 	// Get data for product post type.
@@ -243,11 +243,11 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						height='38px'
 					/>
 
-					{(elementsToggle.image) && (
+					{(elementsToggle.image && (productsLayout === 'layout2' || productsLayout === 'layout4')) && (
 						<Fragment>
 							<CardDivider size="xSmall" style={{ margin: '10px 0' }} />
 							<HeightControl
-								label={__('Image min. size', 'wcspots')}
+								label={__('Image width', 'wcspots')}
 								value={imageSize}
 								onChange={(newValue) => {
 									setAttributes({ imageSize: newValue });
@@ -274,9 +274,9 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					<Button
 						isLink
 						isSmall
-						text={__('Reset columns layout, and align.', 'wcspots')}
+						text={__('Reset products layout settings.', 'wcspots')}
 						onClick={() => {
-							resetAtts(['productsLayout', 'productsAlign', 'columns'])
+							resetAtts(['productsLayout', 'productsAlign', 'columns', 'imageSize'])
 						}}
 						className='wcspots-reset-attributes'
 					/>
@@ -611,7 +611,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						title={__('WooCommerce products', 'wcspots')}
 						initialOpen={true}
 					>
-						{/* 
+						{/*
 					<FormTokenField
 						label={__(
 							'Start typing product name…',
@@ -877,20 +877,23 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 			</InspectorControls>
 
 			<InspectorControls group="styles">
-				<PanelBody
-					icon={'store'}
-					title={__('Product styles', 'wcspots')}
-					initialOpen={false}
-				>
+				{flexLayout !== 'image-only' && (
+					<PanelBody
+						icon={'store'}
+						title={__('Product styles', 'wcspots')}
+						initialOpen={false}
+					>
 
-					<TabPanel className="product-settings" tabs={productStyleTabs}>
-						{(tab) => (
-							<div>
-								{tab.content}
-							</div>
-						)}
-					</TabPanel>
-				</PanelBody>
+						<TabPanel className="product-settings" tabs={productStyleTabs}>
+							{(tab) => (
+								<div>
+									{tab.content}
+								</div>
+							)}
+						</TabPanel>
+					</PanelBody>
+				)}
+
 
 				<PanelBody
 					icon={'marker'}

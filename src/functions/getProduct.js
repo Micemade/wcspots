@@ -1,13 +1,14 @@
 /**
- * WordPress Dependencies.
+ * WordPress and React Dependencies.
  */
-// import { useState, useEffect } from '@wordpress/element';
+
 import { useState, useEffect } from 'react';
 import apiFetch from '@wordpress/api-fetch';
 
-const getProduct = (productId) => {
+const getProduct = (productId, featuredImageSize) => {
 	const [product, setProduct] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [featuredImage, setFeaturedImage] = useState(null);
 
 	useEffect(() => {
 		async function fetchProduct() {
@@ -21,11 +22,27 @@ const getProduct = (productId) => {
 				console.error(error);
 			}
 		}
-
 		fetchProduct();
-	}, [productId]);
 
-	return { product, loading };
+		// If "featuredImageSize" is not set (is 'automatic'), get image source url from registered sizes.
+		const fetchFeaturedImage = async () => {
+			const response = await apiFetch({
+				path: `/wp/v2/product/${productId}?_embed`,
+			});
+
+			if (
+				typeof featuredImageSize !== "automatic" &&
+				typeof response._embedded['wp:featuredmedia'] !== 'undefined'
+			) {
+				const featuredImage = response._embedded['wp:featuredmedia'][0].media_details.sizes[featuredImageSize]?.source_url;
+				setFeaturedImage(featuredImage);
+			}
+		};
+		fetchFeaturedImage();
+
+	}, [productId, featuredImageSize]);
+
+	return { product, loading, featuredImage };
 };
 
 export default getProduct;

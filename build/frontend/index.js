@@ -145,39 +145,61 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _functions_getProduct__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/getProduct */ "./src/functions/getProduct.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _functions_getProduct__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../functions/getProduct */ "./src/functions/getProduct.js");
+
+
+/**
+ * WordPress dependencies.
+ */
 
 
 
+/** React dependencies. */
 
+
+/**
+ * Internal dependencies.
+ */
 
 const ProductImage = _ref => {
   let {
-    productId
+    productId,
+    featuredImageSize
   } = _ref;
   const {
     product,
-    loading
-  } = (0,_functions_getProduct__WEBPACK_IMPORTED_MODULE_4__["default"])(productId);
+    loading,
+    featuredImage
+  } = (0,_functions_getProduct__WEBPACK_IMPORTED_MODULE_5__["default"])(productId, featuredImageSize);
   if (loading) {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Spinner, null);
   }
   if (!product) {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Product not found', 'wcspots'));
   }
+
+  // If product has images attached to it.
   const hasImages = product.images && product.images.length > 0;
-  const imgSrcSet = hasImages ? product.images[0].srcset : null;
-  const imgSrc = hasImages ? product.images[0].src : null;
+  // Get featured image.
+  const featWcImage = hasImages ? product.images[0] : null;
+  // Get image srcset.
+  const imgSrcSet = hasImages ? featWcImage.srcset : null;
+  // Get image src (full size).
+  const imgSrc = hasImages ? featWcImage.src : null;
+
+  // Image fallback (WC placeholder image or notice.)
   const fallback = typeof wc == 'object' ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("img", {
     src: wc?.wcSettings?.PLACEHOLDER_IMG_SRC,
     alt: product.name
   }) : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Product has no featured image', 'wcspots');
-  return imgSrcSet || imgSrc ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("img", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, imgSrcSet ? {
+  return hasImages ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("img", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, imgSrcSet && !featuredImage ? {
     srcSet: imgSrcSet
   } : {}, {
-    src: imgSrc,
+    src: featuredImage !== null && featuredImage !== void 0 ? featuredImage : imgSrc,
     alt: product.name
-  })) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, fallback);
+  })) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react__WEBPACK_IMPORTED_MODULE_4__.Fragment, null, fallback);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductImage);
 
@@ -288,6 +310,62 @@ const ProductTitle = _ref => {
 
 /***/ }),
 
+/***/ "./src/frontend/FeaturedImageBySize.js":
+/*!*********************************************!*\
+  !*** ./src/frontend/FeaturedImageBySize.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const FeaturedImageBySize = _ref => {
+  let {
+    productId,
+    featuredImageSize,
+    name
+  } = _ref;
+  const [featuredImageSrc, setFeaturedImageSrc] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  const fetchProductImage = async () => {
+    try {
+      const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
+        path: `/wp/v2/product/${productId}?_embed`
+      });
+      if (typeof featuredImageSize !== "automatic" && typeof response._embedded['wp:featuredmedia'] !== 'undefined') {
+        const imageSrc = response._embedded['wp:featuredmedia'][0].media_details.sizes[featuredImageSize]?.source_url;
+        setFeaturedImageSrc(imageSrc);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    fetchProductImage();
+  }, [productId, featuredImageSize]);
+  if (!featuredImageSrc) {
+    return null; // Return null or a loading indicator if featuredImageSrc is not available yet.
+  }
+
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: featuredImageSrc,
+    alt: name
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FeaturedImageBySize);
+
+/***/ }),
+
 /***/ "./src/frontend/addHotspotPopover.js":
 /*!*******************************************!*\
   !*** ./src/frontend/addHotspotPopover.js ***!
@@ -328,6 +406,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const AddHotspotPopover = props => {
+  var _controlImageSize, _controlElementSize;
   const {
     assocProdId,
     parentElement,
@@ -340,13 +419,13 @@ const AddHotspotPopover = props => {
   };
   const {
     popoverWidth,
-    popoverHeight,
     popoverPadding,
     productsLayout,
     productsAlign,
     elementsToggle,
     productSpacing,
     productPadding,
+    imageSizeOn,
     imageSize,
     titleSize,
     priceSize,
@@ -369,14 +448,14 @@ const AddHotspotPopover = props => {
     zIndex: "5"
   };
   const popoverStyle = {
-    width: `clamp(${popoverWidth.min},${popoverWidth.val},${popoverWidth.max})`,
-    ...(popoverHeight && {
-      height: popoverHeight
-    })
+    width: `clamp(${popoverWidth.min},${popoverWidth.val},${popoverWidth.max})`
   };
   const contentDivStyle = {
     ...(roundCorners && {
       borderRadius: roundCorners
+    }),
+    ...(productsLayout === 'layout3' && imageSizeOn && {
+      height: imageSize
     })
   };
   const arrowStyle = {
@@ -394,20 +473,33 @@ const AddHotspotPopover = props => {
     })
   };
   const spacing = {
-    margin: productSpacing
+    marginBottom: productSpacing
+  };
+  const controlImageSize = () => {
+    if (!imageSizeOn) return false;
+    let size = productsLayout === 'layout1' ? {
+      height: imageSize
+    } : {
+      flexBasis: imageSize
+    };
+    return size;
+  };
+  const controlElementSize = () => {
+    if (!imageSizeOn) return false;
+    let calcSize = `calc( 100% - ${imageSize} )`;
+    let size = productsLayout === 'layout1' ? {
+      height: calcSize
+    } : {
+      flexBasis: calcSize
+    };
+    return size;
+  };
+  const imageStyle = {
+    ...((_controlImageSize = controlImageSize()) !== null && _controlImageSize !== void 0 ? _controlImageSize : controlImageSize())
   };
   const elementsStyle = {
     padding: productPadding,
-    // ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: `calc( 100% - ${imageSize} )` }),
-    ...(productsLayout !== 'layout3' && {
-      flexBasis: `calc( 100% - ${imageSize} )`
-    })
-  };
-  const imageStyle = {
-    // ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: imageSize })
-    ...(productsLayout !== 'layout3' && {
-      flexBasis: imageSize
-    })
+    ...((_controlElementSize = controlElementSize()) !== null && _controlElementSize !== void 0 ? _controlElementSize : controlElementSize())
   };
   const titleStyle = {
     fontSize: titleSize,
@@ -536,6 +628,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(dompurify__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _functions_addToCartPost__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../functions/addToCartPost */ "./src/functions/addToCartPost.js");
 /* harmony import */ var _functions_decode__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../functions/decode */ "./src/functions/decode.js");
+/* harmony import */ var _FeaturedImageBySize__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./FeaturedImageBySize */ "./src/frontend/FeaturedImageBySize.js");
 
 
 /**
@@ -546,7 +639,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /**
  * if DOMPurify doesn't sanitize:
- * import { createInterpolateElement } from '@wordpress/element'; // 
+ * import { createInterpolateElement } from '@wordpress/element'; //
  * https://make.wordpress.org/core/2020/07/17/introducing-createinterpolateelement/
  */
 
@@ -561,9 +654,11 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 const fetchRenderProducts = (productIds, blockId) => {
   // Block instance by 'data-block-id' att.
   const thisBlock = document.querySelector(`[data-block-id="${blockId}"]`);
+  const featuredImageSize = thisBlock.dataset.featuredImageSize;
   const SanitizeHTML = (dompurify__WEBPACK_IMPORTED_MODULE_5___default().sanitize);
 
   // Prepare product ID's for query arg (array to string).
@@ -583,21 +678,35 @@ const fetchRenderProducts = (productIds, blockId) => {
 
       // Product images.
       const hasImages = product.images && product.images.length > 0;
-      const featuredImg = hasImages ? product.images[0] : null;
-      const imgSrcSet = featuredImg?.srcset;
-      const imgSizes = featuredImg?.sizes;
-      const imgSrc = featuredImg?.src;
-      const fallBack = typeof wc === 'object' ? wc.wcSettings?.PLACEHOLDER_IMG_SRC : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Product has no featured image', 'wcspots');
-      const imageToRender = imgSrcSet || imgSrc ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("img", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, imgSrcSet ? {
-        srcSet: imgSrcSet
-      } : {}, {
-        src: imgSrc,
-        alt: name,
-        sizes: "(max-width: 599px) 100vw, calc(100vw / 3)"
-      })) : fallBack;
+      const featWcImage = hasImages ? product.images[0] : null;
+      const imgSrcSet = featWcImage?.srcset;
+      const imgSrc = featWcImage?.src;
+      // Fallback to WC placholder, or plain text.
+      const fallBack = typeof wc === 'object' ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("img", {
+        src: wc?.wcSettings?.PLACEHOLDER_IMG_SRC,
+        alt: name
+      }) : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Product has no featured image', 'wcspots');
+      let imageToRender;
+      if (!featuredImageSize || featuredImageSize === 'automatic') {
+        // If no registered image size is set, get image source url from WC Store API.
+        imageToRender = hasImages ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("img", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, imgSrcSet ? {
+          srcSet: imgSrcSet
+        } : {}, {
+          src: imgSrc,
+          alt: name,
+          sizes: "(max-width: 599px) 100vw, calc(100vw / 3)"
+        })) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, fallBack);
+      } else {
+        // If registered image size is set, get featured image using WP Rest API.
+        imageToRender = hasImages ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_FeaturedImageBySize__WEBPACK_IMPORTED_MODULE_8__["default"], {
+          productId: productId,
+          featuredImageSize: featuredImageSize,
+          name: name
+        }) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, fallBack);
+      }
 
       /**
-       * Render elements.
+       * Containers to render elements.
        */
       const imageContainer = thisBlock.querySelector(`[data-product-image="${productId}"]`);
       const titleContainer = thisBlock.querySelector(`[data-product-title="${productId}"]`);
@@ -678,10 +787,11 @@ const AddHotspotEvents = (hotspot, lookBlockInstance) => {
   const productId = hotspot.dataset.productId;
   const primColor = hotspot.dataset.primcolor;
   const product = lookBlockInstance.querySelector(`[data-product-id="${productId}"]`);
+  const highlightColor = primColor !== null && primColor !== void 0 ? primColor : ' rgba(0, 0, 0, 0.6)';
   if (product) {
     hotspot.addEventListener('mouseover', event => {
       product.classList.add('highlighted');
-      product.style.setProperty('--highlight-color', `${primColor}`);
+      product.style.setProperty('--highlight-color', `${highlightColor}`);
     });
     hotspot.addEventListener('mouseleave', event => {
       product.classList.remove('highlighted');
@@ -832,14 +942,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
 /**
- * WordPress Dependencies.
+ * WordPress and React Dependencies.
  */
-// import { useState, useEffect } from '@wordpress/element';
 
 
-const getProduct = productId => {
+
+const getProduct = (productId, featuredImageSize) => {
   const [product, setProduct] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
+  const [featuredImage, setFeaturedImage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     async function fetchProduct() {
       try {
@@ -853,10 +964,23 @@ const getProduct = productId => {
       }
     }
     fetchProduct();
-  }, [productId]);
+
+    // If "featuredImageSize" is not set (is 'automatic'), get image source url from registered sizes.
+    const fetchFeaturedImage = async () => {
+      const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
+        path: `/wp/v2/product/${productId}?_embed`
+      });
+      if (typeof featuredImageSize !== "automatic" && typeof response._embedded['wp:featuredmedia'] !== 'undefined') {
+        const featuredImage = response._embedded['wp:featuredmedia'][0].media_details.sizes[featuredImageSize]?.source_url;
+        setFeaturedImage(featuredImage);
+      }
+    };
+    fetchFeaturedImage();
+  }, [productId, featuredImageSize]);
   return {
     product,
-    loading
+    loading,
+    featuredImage
   };
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getProduct);

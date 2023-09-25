@@ -28,13 +28,13 @@ const AddHotspotPopover = (props) => {
 
 	const {
 		popoverWidth,
-		popoverHeight,
 		popoverPadding,
 		productsLayout,
 		productsAlign,
 		elementsToggle,
 		productSpacing,
 		productPadding,
+		imageSizeOn,
 		imageSize,
 		titleSize,
 		priceSize,
@@ -59,11 +59,11 @@ const AddHotspotPopover = (props) => {
 
 	const popoverStyle = {
 		width: `clamp(${popoverWidth.min},${popoverWidth.val},${popoverWidth.max})`,
-		...popoverHeight && { height: popoverHeight }
 	}
 
 	const contentDivStyle = {
 		...roundCorners && { borderRadius: roundCorners },
+		...(productsLayout === 'layout3' && imageSizeOn) && { height: imageSize }
 	}
 
 	const arrowStyle = {
@@ -77,19 +77,30 @@ const AddHotspotPopover = (props) => {
 	}
 
 	const spacing = {
-		margin: productSpacing
+		marginBottom: productSpacing
+	}
+
+	const controlImageSize = () => {
+		if (!imageSizeOn) return false;
+		let size = productsLayout === 'layout1' ? { height: imageSize } : { flexBasis: imageSize };
+		return size;
+	}
+	const controlElementSize = () => {
+		if (!imageSizeOn) return false;
+		let calcSize = `calc( 100% - ${imageSize} )`;
+		let size = productsLayout === 'layout1' ? { height: calcSize } : { flexBasis: calcSize };
+		return size;
+	}
+
+	const imageStyle = {
+		...controlImageSize() ?? controlImageSize()
 	}
 
 	const elementsStyle = {
 		padding: productPadding,
-		// ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: `calc( 100% - ${imageSize} )` }),
-		...(productsLayout !== 'layout3' && { flexBasis: `calc( 100% - ${imageSize} )` })
+		...controlElementSize() ?? controlElementSize()
 	}
 
-	const imageStyle = {
-		// ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: imageSize })
-		...(productsLayout !== 'layout3' && { flexBasis: imageSize })
-	}
 
 	const titleStyle = {
 		fontSize: titleSize,
@@ -132,7 +143,8 @@ const AddHotspotPopover = (props) => {
 
 					<div
 						className={`arrow ${position}`}
-						style={Object.assign(arrowStyle, { marginLeft: -nudgedLeft, marginTop: -nudgedTop })} />
+						style={Object.assign(arrowStyle, { marginLeft: -nudgedLeft, marginTop: -nudgedTop })}
+					/>
 
 					<div
 						className={`wcspots-product align-${productsAlign}`}

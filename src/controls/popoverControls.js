@@ -43,6 +43,14 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 		setAttributes({ popoverAtts: newPopoverAtts });
 	};
 
+	// Different labels for image size control, depending on layout.
+	const imageSizingLabel = () => {
+		let layout = popoverAtts.productsLayout;
+		let labelEnableImageSize = (layout === 'layout1' || layout === 'layout3') ? __('Enable image height', 'wcspots') : __('Enable image width', 'wcspots')
+		let labelImageSize = (layout === 'layout1' || layout === 'layout3') ? __('Image height', 'wcspots') : __('Image width', 'wcspots');
+		return [labelEnableImageSize, labelImageSize];
+	}
+
 	// Popover settings tabs.
 	const popoverAttsTabs = [
 		{
@@ -76,20 +84,39 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 
 					{(elementsToggle?.image) && (
 						<Fragment>
-							<CardDivider size="xSmall" style={{ margin: '10px 0' }} />
-							<HeightControl
-								label={__('Image size', 'wcspots')}
-								value={popoverAtts.imageSize}
-								onChange={(newValue) => {
+							<CardDivider size="xSmall" />
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={imageSizingLabel()[0]}
+								checked={popoverAtts.imageSizeOn}
+								onChange={() =>
 									setAttributes({
 										popoverAtts: {
 											...popoverAtts,
-											imageSize: newValue
+											imageSizeOn: !popoverAtts.imageSizeOn
 										}
-									});
-								}}
-
+									})
+								}
 							/>
+
+							<CardDivider size="xSmall" style={{ margin: '10px 0' }} />
+							{popoverAtts.imageSizeOn && (
+
+								<HeightControl
+									label={imageSizingLabel()[1]}
+									value={popoverAtts.imageSize}
+									onChange={(newValue) => {
+										setAttributes({
+											popoverAtts: {
+												...popoverAtts,
+												imageSize: newValue
+											}
+										});
+									}}
+									height={15}
+								/>
+							)}
+
 						</Fragment>
 					)}
 
@@ -160,28 +187,13 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						}}
 					/>
 
-					<CardDivider size="xSmall" style={{ margin: '15px 0' }} />
-
-					<HeightControl
-						label={__('Popover height', 'wcspots')}
-						value={popoverAtts.popoverHeight}
-						onChange={(newValue) => {
-							setAttributes({
-								popoverAtts: {
-									...popoverAtts,
-									popoverHeight: newValue
-								}
-							});
-						}}
-
-					/>
 
 					<Button
 						isLink
 						isSmall
-						text={__('Reset layout, align, width, and height', 'wcspots')}
+						text={__('Reset popover layout settings.', 'wcspots')}
 						onClick={() => {
-							resetPopoverAtts(['productsLayout', 'productsAlign', 'popoverWidth', 'popoverHeight', 'popoverHeight'])
+							resetPopoverAtts(['productsLayout', 'imageSizeOn', 'imageSize', 'productsAlign', 'popoverWidth'])
 						}}
 						className='wcspots-reset-attributes'
 					/>

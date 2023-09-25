@@ -6,7 +6,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 /**
  * if DOMPurify doesn't sanitize:
- * import { createInterpolateElement } from '@wordpress/element'; // 
+ * import { createInterpolateElement } from '@wordpress/element'; //
  * https://make.wordpress.org/core/2020/07/17/introducing-createinterpolateelement/
  */
 
@@ -21,11 +21,13 @@ import DOMPurify from 'dompurify';
  */
 import addToCartPost from '../functions/addToCartPost';
 import decode from '../functions/decode';
+import FeaturedImageBySize from './FeaturedImageBySize';
 
 const fetchRenderProducts = (productIds, blockId) => {
 
 	// Block instance by 'data-block-id' att.
 	const thisBlock = document.querySelector(`[data-block-id="${blockId}"]`);
+	const featuredImageSize = thisBlock.dataset.featuredImageSize;
 	const SanitizeHTML = DOMPurify.sanitize;
 
 	// Prepare product ID's for query arg (array to string).
@@ -49,16 +51,23 @@ const fetchRenderProducts = (productIds, blockId) => {
 
 			// Product images.
 			const hasImages = product.images && product.images.length > 0;
-			const featuredImg = hasImages ? product.images[0] : null;
-			const imgSrcSet = featuredImg?.srcset;
-			const imgSizes = featuredImg?.sizes;
-			const imgSrc = featuredImg?.src;
-			const fallBack = typeof wc === 'object' ? wc.wcSettings?.PLACEHOLDER_IMG_SRC : (__('Product has no featured image', 'wcspots'));
+			const featWcImage = hasImages ? product.images[0] : null;
+			const imgSrcSet = featWcImage?.srcset;
+			const imgSrc = featWcImage?.src;
+			// Fallback to WC placholder, or plain text.
+			const fallBack = typeof wc === 'object' ? (<img src={wc?.wcSettings?.PLACEHOLDER_IMG_SRC} alt={name} />) : (__('Product has no featured image', 'wcspots'));
 
-			const imageToRender = (imgSrcSet || imgSrc) ? <img {...(imgSrcSet ? { srcSet: imgSrcSet } : {})} src={imgSrc} alt={name} sizes="(max-width: 599px) 100vw, calc(100vw / 3)" /> : fallBack;
+			let imageToRender;
+			if (!featuredImageSize || featuredImageSize === 'automatic') {
+				// If no registered image size is set, get image source url from WC Store API.
+				imageToRender = hasImages ? <img {...(imgSrcSet ? { srcSet: imgSrcSet } : {})} src={imgSrc} alt={name} sizes="(max-width: 599px) 100vw, calc(100vw / 3)" /> : <div>{fallBack}</div>;
+			} else {
+				// If registered image size is set, get featured image using WP Rest API.
+				imageToRender = hasImages ? <FeaturedImageBySize productId={productId} featuredImageSize={featuredImageSize} name={name} /> : <div>{fallBack}</div>
+			}
 
 			/**
-			 * Render elements.
+			 * Containers to render elements.
 			 */
 			const imageContainer = thisBlock.querySelector(`[data-product-image="${productId}"]`);
 			const titleContainer = thisBlock.querySelector(`[data-product-title="${productId}"]`);

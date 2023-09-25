@@ -2312,7 +2312,7 @@ const Hotspot = _ref => {
     color: hotspotSettings.titleColor,
     backgroundColor: hotspotSettings.titleBack,
     fontSize: hotspotSettings.titleSize,
-    marginTop: `${hotspotSettings.size / 3}rem`
+    marginTop: `${hotspotSettings.size * 2}%`
   };
 
   // Set colors using per hotspot or general hotspot settings.
@@ -2346,7 +2346,7 @@ const Hotspot = _ref => {
     container;
   let dragHotspot = document.getElementById(hotspot.id);
   const startDrag = event => {
-    event.preventDefault();
+    if (event.button > 1) return; // Disable dragging on right or middle click.
     document.addEventListener('mousemove', dragOnMouseMove);
     document.addEventListener('mouseup', stopDragging);
     container = document.getElementById(`block-${clientId}`)?.getElementsByClassName('image-container')[0];
@@ -2608,6 +2608,7 @@ const ProductGrid = _ref => {
   let {
     productList,
     columns,
+    featuredImageSize,
     productsGap,
     context,
     productsLayout,
@@ -2634,6 +2635,7 @@ const ProductGrid = _ref => {
     context: context,
     key: `product-${context}-${productId}`,
     productId: productId,
+    featuredImageSize: featuredImageSize,
     productsLayout: productsLayout,
     productsAlign: productsAlign,
     productPadding: productPadding,
@@ -2670,39 +2672,61 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _functions_getProduct__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/getProduct */ "./src/functions/getProduct.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _functions_getProduct__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../functions/getProduct */ "./src/functions/getProduct.js");
+
+
+/**
+ * WordPress dependencies.
+ */
 
 
 
+/** React dependencies. */
 
+
+/**
+ * Internal dependencies.
+ */
 
 const ProductImage = _ref => {
   let {
-    productId
+    productId,
+    featuredImageSize
   } = _ref;
   const {
     product,
-    loading
-  } = (0,_functions_getProduct__WEBPACK_IMPORTED_MODULE_4__["default"])(productId);
+    loading,
+    featuredImage
+  } = (0,_functions_getProduct__WEBPACK_IMPORTED_MODULE_5__["default"])(productId, featuredImageSize);
   if (loading) {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Spinner, null);
   }
   if (!product) {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Product not found', 'wcspots'));
   }
+
+  // If product has images attached to it.
   const hasImages = product.images && product.images.length > 0;
-  const imgSrcSet = hasImages ? product.images[0].srcset : null;
-  const imgSrc = hasImages ? product.images[0].src : null;
+  // Get featured image.
+  const featWcImage = hasImages ? product.images[0] : null;
+  // Get image srcset.
+  const imgSrcSet = hasImages ? featWcImage.srcset : null;
+  // Get image src (full size).
+  const imgSrc = hasImages ? featWcImage.src : null;
+
+  // Image fallback (WC placeholder image or notice.)
   const fallback = typeof wc == 'object' ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("img", {
     src: wc?.wcSettings?.PLACEHOLDER_IMG_SRC,
     alt: product.name
   }) : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Product has no featured image', 'wcspots');
-  return imgSrcSet || imgSrc ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("img", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, imgSrcSet ? {
+  return hasImages ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("img", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, imgSrcSet && !featuredImage ? {
     srcSet: imgSrcSet
   } : {}, {
-    src: imgSrc,
+    src: featuredImage !== null && featuredImage !== void 0 ? featuredImage : imgSrc,
     alt: product.name
-  })) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, fallback);
+  })) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react__WEBPACK_IMPORTED_MODULE_4__.Fragment, null, fallback);
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductImage);
 
@@ -2736,6 +2760,7 @@ const ProductItem = _ref => {
   let {
     context,
     productId,
+    featuredImageSize,
     productsLayout,
     productsAlign,
     productPadding,
@@ -2753,15 +2778,17 @@ const ProductItem = _ref => {
   const productStyle = {
     backgroundColor: productBackColor
   };
+  const imageStyle = {
+    ...((productsLayout === 'layout2' || productsLayout === 'layout4') && {
+      flexBasis: imageSize
+    })
+  };
   const elementsStyle = {
     padding: productPadding,
     alignItems: productsAlign,
-    // ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: `calc( 100% - ${imageSize} )` })
-    flexBasis: `calc( 100% - ${imageSize} )`
-  };
-  const imageStyle = {
-    // ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: imageSize })
-    flexBasis: imageSize
+    ...((productsLayout === 'layout2' || productsLayout === 'layout4') && {
+      flexBasis: `calc( 100% - ${imageSize} )`
+    })
   };
   const titleStyle = {
     fontSize: titleSize,
@@ -2802,7 +2829,8 @@ const ProductItem = _ref => {
     "data-product-image": productId,
     style: imageStyle
   }, isEdit && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_productImage__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    productId: productId
+    productId: productId,
+    featuredImageSize: featuredImageSize
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "product-elements",
     style: elementsStyle
@@ -3200,8 +3228,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /**
  * InspectorControlsComponent function.
- * @param {*} props 
- * @returns 
+ * @param {*} props
+ * @returns
  */
 const InspectorControlsComponent = _ref => {
   let {
@@ -3429,13 +3457,13 @@ const InspectorControlsComponent = _ref => {
         });
       },
       height: "38px"
-    }), elementsToggle.image && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_5__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.CardDivider, {
+    }), elementsToggle.image && (productsLayout === 'layout2' || productsLayout === 'layout4') && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_5__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.CardDivider, {
       size: "xSmall",
       style: {
         margin: '10px 0'
       }
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__.HeightControl, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image min. size', 'wcspots'),
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image width', 'wcspots'),
       value: imageSize,
       onChange: newValue => {
         setAttributes({
@@ -3468,9 +3496,9 @@ const InspectorControlsComponent = _ref => {
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
       isLink: true,
       isSmall: true,
-      text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Reset columns layout, and align.', 'wcspots'),
+      text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Reset products layout settings.', 'wcspots'),
       onClick: () => {
-        resetAtts(['productsLayout', 'productsAlign', 'columns']);
+        resetAtts(['productsLayout', 'productsAlign', 'columns', 'imageSize']);
       },
       className: "wcspots-reset-attributes"
     }))
@@ -3901,7 +3929,7 @@ const InspectorControlsComponent = _ref => {
     help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Style properties of hotspots are available in the editor styles tab.', 'wcspots')
   })) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Click on image to add hotspots', 'wcspots')))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__.InspectorControls, {
     group: "styles"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+  }, flexLayout !== 'image-only' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     icon: 'store',
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Product styles', 'wcspots'),
     initialOpen: false
@@ -4210,6 +4238,14 @@ const PopoverControls = _ref => {
     });
   };
 
+  // Different labels for image size control, depending on layout.
+  const imageSizingLabel = () => {
+    let layout = popoverAtts.productsLayout;
+    let labelEnableImageSize = layout === 'layout1' || layout === 'layout3' ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable image height', 'wcspots') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Enable image width', 'wcspots');
+    let labelImageSize = layout === 'layout1' || layout === 'layout3' ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image height', 'wcspots') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image width', 'wcspots');
+    return [labelEnableImageSize, labelImageSize];
+  };
+
   // Popover settings tabs.
   const popoverAttsTabs = [{
     name: 'popoverLayout',
@@ -4247,12 +4283,24 @@ const PopoverControls = _ref => {
       },
       height: "38px"
     }), elementsToggle?.image && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_4__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.CardDivider, {
+      size: "xSmall"
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl, {
+      __nextHasNoMarginBottom: true,
+      label: imageSizingLabel()[0],
+      checked: popoverAtts.imageSizeOn,
+      onChange: () => setAttributes({
+        popoverAtts: {
+          ...popoverAtts,
+          imageSizeOn: !popoverAtts.imageSizeOn
+        }
+      })
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.CardDivider, {
       size: "xSmall",
       style: {
         margin: '10px 0'
       }
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.HeightControl, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image size', 'wcspots'),
+    }), popoverAtts.imageSizeOn && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.HeightControl, {
+      label: imageSizingLabel()[1],
       value: popoverAtts.imageSize,
       onChange: newValue => {
         setAttributes({
@@ -4261,7 +4309,8 @@ const PopoverControls = _ref => {
             imageSize: newValue
           }
         });
-      }
+      },
+      height: 15
     })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ImageRadioSelectControl__WEBPACK_IMPORTED_MODULE_6__["default"], {
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Product align', 'wcspots'),
       help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Align product elements in the popover', 'wcspots'),
@@ -4331,28 +4380,12 @@ const PopoverControls = _ref => {
           }
         });
       }
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.CardDivider, {
-      size: "xSmall",
-      style: {
-        margin: '15px 0'
-      }
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.HeightControl, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Popover height', 'wcspots'),
-      value: popoverAtts.popoverHeight,
-      onChange: newValue => {
-        setAttributes({
-          popoverAtts: {
-            ...popoverAtts,
-            popoverHeight: newValue
-          }
-        });
-      }
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
       isLink: true,
       isSmall: true,
-      text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Reset layout, align, width, and height', 'wcspots'),
+      text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Reset popover layout settings.', 'wcspots'),
       onClick: () => {
-        resetPopoverAtts(['productsLayout', 'productsAlign', 'popoverWidth', 'popoverHeight', 'popoverHeight']);
+        resetPopoverAtts(['productsLayout', 'imageSizeOn', 'imageSize', 'productsAlign', 'popoverWidth']);
       },
       className: "wcspots-reset-attributes"
     }))
@@ -4735,6 +4768,7 @@ const Edit = _ref => {
     productsLayout,
     productsAlign,
     columns,
+    featuredImageSize,
     productsGap,
     productSpacing,
     productPadding,
@@ -4782,7 +4816,8 @@ const Edit = _ref => {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)({
     'data-block-id': clientId,
     'data-product-ids': JSON.stringify(productIds),
-    'data-popover-atts': JSON.stringify(popoverAtts)
+    'data-popover-atts': JSON.stringify(popoverAtts),
+    'data-featured-image-size': featuredImageSize
   });
 
   // Modal products select options, on hotspot double click.
@@ -4909,6 +4944,7 @@ const Edit = _ref => {
     context: "edit",
     productList: productIds,
     columns: productsData.length <= columns ? productsData.length : columns,
+    featuredImageSize: featuredImageSize,
     productsGap: productsGap,
     productsLayout: productsLayout,
     productsAlign: productsAlign,
@@ -5027,6 +5063,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const AddHotspotPopover = props => {
+  var _controlImageSize, _controlElementSize;
   const {
     assocProdId,
     parentElement,
@@ -5039,13 +5076,13 @@ const AddHotspotPopover = props => {
   };
   const {
     popoverWidth,
-    popoverHeight,
     popoverPadding,
     productsLayout,
     productsAlign,
     elementsToggle,
     productSpacing,
     productPadding,
+    imageSizeOn,
     imageSize,
     titleSize,
     priceSize,
@@ -5068,14 +5105,14 @@ const AddHotspotPopover = props => {
     zIndex: "5"
   };
   const popoverStyle = {
-    width: `clamp(${popoverWidth.min},${popoverWidth.val},${popoverWidth.max})`,
-    ...(popoverHeight && {
-      height: popoverHeight
-    })
+    width: `clamp(${popoverWidth.min},${popoverWidth.val},${popoverWidth.max})`
   };
   const contentDivStyle = {
     ...(roundCorners && {
       borderRadius: roundCorners
+    }),
+    ...(productsLayout === 'layout3' && imageSizeOn && {
+      height: imageSize
     })
   };
   const arrowStyle = {
@@ -5093,20 +5130,33 @@ const AddHotspotPopover = props => {
     })
   };
   const spacing = {
-    margin: productSpacing
+    marginBottom: productSpacing
+  };
+  const controlImageSize = () => {
+    if (!imageSizeOn) return false;
+    let size = productsLayout === 'layout1' ? {
+      height: imageSize
+    } : {
+      flexBasis: imageSize
+    };
+    return size;
+  };
+  const controlElementSize = () => {
+    if (!imageSizeOn) return false;
+    let calcSize = `calc( 100% - ${imageSize} )`;
+    let size = productsLayout === 'layout1' ? {
+      height: calcSize
+    } : {
+      flexBasis: calcSize
+    };
+    return size;
+  };
+  const imageStyle = {
+    ...((_controlImageSize = controlImageSize()) !== null && _controlImageSize !== void 0 ? _controlImageSize : controlImageSize())
   };
   const elementsStyle = {
     padding: productPadding,
-    // ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: `calc( 100% - ${imageSize} )` }),
-    ...(productsLayout !== 'layout3' && {
-      flexBasis: `calc( 100% - ${imageSize} )`
-    })
-  };
-  const imageStyle = {
-    // ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: imageSize })
-    ...(productsLayout !== 'layout3' && {
-      flexBasis: imageSize
-    })
+    ...((_controlElementSize = controlElementSize()) !== null && _controlElementSize !== void 0 ? _controlElementSize : controlElementSize())
   };
   const titleStyle = {
     fontSize: titleSize,
@@ -5349,14 +5399,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
 /**
- * WordPress Dependencies.
+ * WordPress and React Dependencies.
  */
-// import { useState, useEffect } from '@wordpress/element';
 
 
-const getProduct = productId => {
+
+const getProduct = (productId, featuredImageSize) => {
   const [product, setProduct] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
+  const [featuredImage, setFeaturedImage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     async function fetchProduct() {
       try {
@@ -5370,10 +5421,23 @@ const getProduct = productId => {
       }
     }
     fetchProduct();
-  }, [productId]);
+
+    // If "featuredImageSize" is not set (is 'automatic'), get image source url from registered sizes.
+    const fetchFeaturedImage = async () => {
+      const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
+        path: `/wp/v2/product/${productId}?_embed`
+      });
+      if (typeof featuredImageSize !== "automatic" && typeof response._embedded['wp:featuredmedia'] !== 'undefined') {
+        const featuredImage = response._embedded['wp:featuredmedia'][0].media_details.sizes[featuredImageSize]?.source_url;
+        setFeaturedImage(featuredImage);
+      }
+    };
+    fetchFeaturedImage();
+  }, [productId, featuredImageSize]);
   return {
     product,
-    loading
+    loading,
+    featuredImage
   };
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getProduct);
@@ -5715,6 +5779,7 @@ const Save = _ref => {
     productsLayout,
     productsAlign,
     columns,
+    featuredImageSize,
     productsGap,
     productPadding,
     productSpacing,
@@ -5741,7 +5806,8 @@ const Save = _ref => {
   const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps.save({
     'data-block-id': id,
     'data-product-ids': JSON.stringify(productIds),
-    'data-popover-atts': JSON.stringify(popoverAtts)
+    'data-popover-atts': JSON.stringify(popoverAtts),
+    'data-featured-image-size': featuredImageSize
   });
 
   // Block Flex container and product grid styles.
@@ -5790,6 +5856,7 @@ const Save = _ref => {
     context: "save",
     productList: productIds,
     columns: productsData.length <= columns ? productsData.length : columns,
+    featuredImageSize: featuredImageSize,
     productsGap: productsGap,
     productsLayout: productsLayout,
     productsAlign: productsAlign,
@@ -20935,7 +21002,7 @@ function combine (array, callback) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"micemade/wcspots","version":"0.1.0","title":"WCSpots","category":"widgets","icon":"store","description":"Create WooCommerce product showcases with image hotspots in the block editor.","supports":{"html":false,"color":{"background":true,"gradients":true},"align":["wide","full"],"spacing":{"margin":true,"padding":true}},"attributes":{"id":{"type":"string","default":""},"title":{"type":"string","default":""},"description":{"type":"string","default":""},"settingsTitleDesc":{"type":"object","default":{"activeTitle":true,"tagName":"h2","align":"center","spacingTitle":"20px","activeDesc":true,"spacingDesc":"10px"}},"productsData":{"type":"array","default":[]},"media":{"type":"object","default":{}},"srcSetAtt":{"type":"string","default":""},"sizesAtt":{"type":"string","default":""},"mediaID":{"type":"number","default":null},"mediaURL":{"type":"string","default":null},"backImage":{"type":"string","default":"backimage-none"},"backimageOpacity":{"type":"number","default":0.3},"isStackedOnMobile":{"type":"boolean","default":true},"flexLayout":{"type":"string","default":"row"},"valign":{"type":"string","default":"flex-start"},"flexItemsRatio":{"type":"number","default":50},"flexGap":{"type":"string","default":"1vw"},"productsLayout":{"type":"string","default":"layout1"},"productsAlign":{"type":"string","default":"flex-start"},"columns":{"type":"number","default":3},"elementsToggle":{"type":"object","default":{"image":true,"title":true,"price":true,"excerpt":true,"addToCart":true}},"productsGap":{"type":"string","default":"1em"},"productSpacing":{"type":"string","default":"0.7em"},"productPadding":{"type":"string","default":"0.5em"},"imageSize":{"type":"string","default":"50%"},"titleSize":{"type":"string","default":"1em"},"priceSize":{"type":"string","default":"0.8em"},"excerptSize":{"type":"string","default":"0.8em"},"addToCartSize":{"type":"number","default":1},"productBackColor":{"type":"string","default":""},"titleColor":{"type":"string","default":""},"priceColor":{"type":"string","default":""},"excerptColor":{"type":"string","default":""},"hotspots":{"type":"array","default":[]},"hotspotSettings":{"type":"object","default":{"showTitle":true,"titleColor":"#333","titleBack":"#fff","titleSize":"14px","iconStyle":"iconstyle-1","primaryColor":"rgba(120, 120, 120, 0.7)","secondaryColor":"#fff","size":2,"innerSize":1,"pulsateEff":true}},"selectedHotspot":{"type":"number","default":null},"selectedProduct":{"type":"string","default":""},"editModal":{"type":"boolean","default":false},"popoverAtts":{"type":"object","default":{"popoverWidth":{"min":"340px","val":"80%","max":"600px"},"popoverHeight":"40vh","popoverPadding":"0.5em","productsLayout":"layout1","productsAlign":"flex-start","elementsToggle":{"image":true,"title":true,"price":true,"excerpt":true,"addToCart":true},"productSpacing":"0.6em","productPadding":"0.8em","imageSize":"50%","titleSize":"1em","priceSize":"1em","excerptSize":"0.8em","addToCartSize":1,"productBackColor":"","titleColor":"","priceColor":"","excerptColor":"","roundCorners":"8px","arrowSize":"10px"}},"style":{"type":"object","default":{"color":{"text":"#3a3a3a","background":"#fbf9f4"},"spacing":{"padding":{"top":"2vw","right":"2vw","bottom":"2vw","left":"2vw"}}}}},"textdomain":"wcspots","editorScript":"file:./index.js","editorStyle":"file:./index.css","viewScript":"file:./frontend/index.js","style":"file:./style-index.css"}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":2,"name":"micemade/wcspots","version":"0.1.0","title":"WCSpots","category":"widgets","icon":"store","description":"Create WooCommerce product showcases with image hotspots in the block editor.","supports":{"html":false,"color":{"background":true,"gradients":true},"align":["wide","full"],"spacing":{"margin":true,"padding":true}},"attributes":{"id":{"type":"string","default":""},"title":{"type":"string","default":""},"description":{"type":"string","default":""},"settingsTitleDesc":{"type":"object","default":{"activeTitle":true,"tagName":"h2","align":"center","spacingTitle":"20px","activeDesc":true,"spacingDesc":"10px"}},"productsData":{"type":"array","default":[]},"media":{"type":"object","default":{}},"srcSetAtt":{"type":"string","default":""},"sizesAtt":{"type":"string","default":""},"mediaID":{"type":"number","default":null},"mediaURL":{"type":"string","default":null},"backImage":{"type":"string","default":"backimage-none"},"backimageOpacity":{"type":"number","default":0.3},"isStackedOnMobile":{"type":"boolean","default":true},"flexLayout":{"type":"string","default":"row"},"valign":{"type":"string","default":"flex-start"},"flexItemsRatio":{"type":"number","default":50},"flexGap":{"type":"string","default":"1vw"},"productsLayout":{"type":"string","default":"layout1"},"productsAlign":{"type":"string","default":"flex-start"},"columns":{"type":"number","default":3},"featuredImageSize":{"type":"string","default":"thumbnail"},"elementsToggle":{"type":"object","default":{"image":true,"title":true,"price":true,"excerpt":true,"addToCart":true}},"productsGap":{"type":"string","default":"1em"},"productSpacing":{"type":"string","default":"0.7em"},"productPadding":{"type":"string","default":"0.5em"},"imageSize":{"type":"string","default":"50%"},"titleSize":{"type":"string","default":"1em"},"priceSize":{"type":"string","default":"0.8em"},"excerptSize":{"type":"string","default":"0.8em"},"addToCartSize":{"type":"number","default":1},"productBackColor":{"type":"string","default":""},"titleColor":{"type":"string","default":""},"priceColor":{"type":"string","default":""},"excerptColor":{"type":"string","default":""},"hotspots":{"type":"array","default":[]},"hotspotSettings":{"type":"object","default":{"showTitle":true,"titleColor":"#333","titleBack":"#fff","titleSize":"14px","iconStyle":"iconstyle-1","primaryColor":"rgba(120, 120, 120, 0.7)","secondaryColor":"#fff","size":2,"innerSize":1,"pulsateEff":true}},"selectedHotspot":{"type":"number","default":null},"selectedProduct":{"type":"string","default":""},"editModal":{"type":"boolean","default":false},"popoverAtts":{"type":"object","default":{"popoverWidth":{"min":"340px","val":"80%","max":"600px"},"popoverPadding":"0.5em","productsLayout":"layout1","productsAlign":"flex-start","elementsToggle":{"image":true,"title":true,"price":true,"excerpt":true,"addToCart":true},"productSpacing":"0.6em","productPadding":"0.8em","imageSizeOn":false,"imageSize":"30vh","titleSize":"1em","priceSize":"1em","excerptSize":"0.8em","addToCartSize":1,"productBackColor":"","titleColor":"","priceColor":"","excerptColor":"","roundCorners":"8px","arrowSize":"10px"}},"style":{"type":"object","default":{"color":{"text":"#3a3a3a","background":"#fbf9f4"},"spacing":{"padding":{"top":"2vw","right":"2vw","bottom":"2vw","left":"2vw"}}}}},"textdomain":"wcspots","editorScript":"file:./index.js","editorStyle":"file:./index.css","viewScript":"file:./frontend/index.js","style":"file:./style-index.css"}');
 
 /***/ })
 

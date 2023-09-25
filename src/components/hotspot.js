@@ -41,7 +41,7 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 		color: hotspotSettings.titleColor,
 		backgroundColor: hotspotSettings.titleBack,
 		fontSize: hotspotSettings.titleSize,
-		marginTop: `${hotspotSettings.size / 3}rem`
+		marginTop: `${hotspotSettings.size * 2}%`
 	};
 
 	// Set colors using per hotspot or general hotspot settings.
@@ -79,7 +79,7 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 	let isDragging = false, xPerc = 0, yPerc = 0, container;
 	let dragHotspot = document.getElementById(hotspot.id);
 	const startDrag = (event) => {
-		event.preventDefault();
+		if (event.button > 1) return; // Disable dragging on right or middle click.
 		document.addEventListener('mousemove', dragOnMouseMove);
 		document.addEventListener('mouseup', stopDragging);
 		container = document.getElementById(`block-${clientId}`)?.getElementsByClassName('image-container')[0];

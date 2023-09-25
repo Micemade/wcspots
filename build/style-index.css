@@ -137,7 +137,6 @@
   align-items: flex-start;
   z-index: 1;
   border-radius: inherit;
-  overflow: hidden;
 }
 .react-tiny-popover-container .popover-content .wcspots-product .product-featured-image img, .wp-block-micemade-wcspots .flex-block .product-grid .wcspots-product .product-featured-image img {
   height: 100%;
@@ -197,11 +196,11 @@
   border: 0;
 }
 .wp-block-micemade-wcspots .flex-block.image-container .iconstyle-1.product-hotspot:hover .outer {
-  border: 4px solid rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.5);
   background: rgba(17, 17, 17, 0.4);
 }
 .wp-block-micemade-wcspots .flex-block.image-container .iconstyle-1.product-hotspot:hover .inner {
-  transform: scale(1.2);
+  transform: scale(0.8);
 }
 .wp-block-micemade-wcspots .flex-block.image-container .iconstyle-2.product-hotspot .outer {
   width: 2rem;
@@ -263,7 +262,7 @@
 }
 
 :root {
-  --highlight-color: white;
+  --highlight-color: rgba(0, 0, 0, 0.6);
 }
 
 .wp-block-micemade-wcspots {
@@ -359,7 +358,7 @@
   left: 50%;
   display: block;
   animation: animation-1 3.5s infinite;
-  background: var(--highlight-color);
+  background: rgba(255, 255, 255, 0.5);
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -373,7 +372,7 @@
 }
 .wp-block-micemade-wcspots .flex-block.image-container .product-hotspot .hotspot-product-title {
   position: absolute;
-  top: 100%;
+  top: 130%;
   left: 50%;
   transform: translateX(-50%);
   width: -moz-max-content;
@@ -507,11 +506,11 @@
     transform: translateX(-50%) translateY(-50%) scale(1);
     opacity: 0;
   }
-  20% {
+  15% {
     opacity: 0.7;
   }
   50% {
-    transform: translateX(-50%) translateY(-50%) scale(1.8);
+    transform: translateX(-50%) translateY(-50%) scale(2.5);
     opacity: 0;
   }
   100% {

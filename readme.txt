@@ -18,6 +18,8 @@ With our plugin, you can easily create a custom image with hotspots that link to
 
 This plugin is perfect for any WooCommerce store owner looking to showcase their products in a unique and engaging way. Whether you want to highlight your best-sellers, promote new arrivals, or simply create an eye-catching product display, our plugin has got you covered.
 
+> ** v.1.0.0. to v.1.1.0 UPDATE NOTICE: Upon update to v.1.1.0. no significant change or issue should occur on frontend of your WCSpots showcases. However, after update, on edit screen the "This block contains unexpected or invalid content." notice will appear. Clicking the "Attempt Block Recovery" will fix this notice, and new WCSpots v.1.1.0 features will be available.**
+
 === Key Features ===
 
 Here are some of the key features of WCSpots:
@@ -26,10 +28,16 @@ Here are some of the key features of WCSpots:
 * Customizable hotspots: Choose from a range of hotspot styles and customize the color and shape to match your brand.
 * Build your own layout with intuitive controls and settings.
 * Mobile-friendly: Our plugin is fully responsive, ensuring your hotspots and product popovers look great on any device.
-* SEO-friendly: Each hotspot is an anchor link, which is great for SEO and allows users to share individual product links.
 * Fast loading: Our plugin is optimized for speed, ensuring your page loads quickly and efficiently.
 
 So why wait? Download our WCSpots Block today and start showcasing your products like never before!
+
+=== New from v.1.1.0 ===
+* **Drag and drop hotspots** - easily change hotspot position.
+* **Pulsating hotspot effect** - make hotspot pulsate, globally, or per hotspot.
+* **Change the hotspot sizes** - separate control over inner and outer hotspot elements.
+* **Product highlight color** - product higlighted with hotspot primary color, on hotspot hover.
+* **Product image size** - image size controls for products and a popover.
 
 Demonstration of WCSpots block usage:
 
@@ -95,9 +103,9 @@ The plugin uses, other than WordPress and React modules and packages, third part
 = 1.1.0 =
 
 * Added drag and drop hotspots functionality in the editor.
-* Added conditional display of controls (showcase image and product styles), depending on state of other controls.
+* Added conditional display of controls (showcase image and product styles), depending on the state of other controls.
 * Added a list of hotspots to the block settings tab (accessible also in the block styles tab).
-* Added product image size in products list and in popover (for styles 2 and 4).
+* Added product image size in products list and in popover
 * Additional layouts for product and popover.
 * Added hotspot general outer and inner size controls.
 * Hotspot primary color is now a product highlight color.

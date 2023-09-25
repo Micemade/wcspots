@@ -7,6 +7,7 @@ import ProductAddToCart from "./productAddToCart";
 const ProductItem = ({
 	context,
 	productId,
+	featuredImageSize,
 	productsLayout,
 	productsAlign,
 	productPadding,
@@ -27,17 +28,16 @@ const ProductItem = ({
 		backgroundColor: productBackColor,
 	}
 
+	const imageStyle = {
+		...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: imageSize })
+	}
+
 	const elementsStyle = {
 		padding: productPadding,
 		alignItems: productsAlign,
-		// ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: `calc( 100% - ${imageSize} )` })
-		flexBasis: `calc( 100% - ${imageSize} )`
+		...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: `calc( 100% - ${imageSize} )` })
 	}
 
-	const imageStyle = {
-		// ...((productsLayout === 'layout2' || productsLayout === 'layout4') && { flexBasis: imageSize })
-		flexBasis: imageSize
-	}
 	const titleStyle = {
 		fontSize: titleSize,
 		...fontColors.titleColor && { color: fontColors.titleColor }
@@ -72,7 +72,7 @@ const ProductItem = ({
 			{elementsToggle.image && (
 				<div className="product-featured-image" data-product-image={productId} style={imageStyle}>
 					{isEdit && (
-						<ProductImage productId={productId} />
+						<ProductImage productId={productId} featuredImageSize={featuredImageSize} />
 					)}
 				</div>
 			)}

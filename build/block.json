@@ -110,6 +110,10 @@
       "type": "number",
       "default": 3
     },
+    "featuredImageSize": {
+      "type": "string",
+      "default": "thumbnail"
+    },
     "elementsToggle": {
       "type": "object",
       "default": {
@@ -207,7 +211,6 @@
           "val": "80%",
           "max": "600px"
         },
-        "popoverHeight": "40vh",
         "popoverPadding": "0.5em",
         "productsLayout": "layout1",
         "productsAlign": "flex-start",
@@ -220,7 +223,8 @@
         },
         "productSpacing": "0.6em",
         "productPadding": "0.8em",
-        "imageSize": "50%",
+        "imageSizeOn": false,
+        "imageSize": "30vh",
         "titleSize": "1em",
         "priceSize": "1em",
         "excerptSize": "0.8em",

@@ -36,6 +36,7 @@ const Save = ({ attributes }) => {
 		productsLayout,
 		productsAlign,
 		columns,
+		featuredImageSize,
 		productsGap,
 		productPadding,
 		productSpacing,
@@ -62,7 +63,8 @@ const Save = ({ attributes }) => {
 	const blockProps = useBlockProps.save({
 		'data-block-id': id,
 		'data-product-ids': JSON.stringify(productIds),
-		'data-popover-atts': JSON.stringify(popoverAtts)
+		'data-popover-atts': JSON.stringify(popoverAtts),
+		'data-featured-image-size': featuredImageSize
 	});
 
 	// Block Flex container and product grid styles.
@@ -119,6 +121,7 @@ const Save = ({ attributes }) => {
 								context="save"
 								productList={productIds}
 								columns={productsData.length <= columns ? productsData.length : columns}
+								featuredImageSize={featuredImageSize}
 								productsGap={productsGap}
 								productsLayout={productsLayout}
 								productsAlign={productsAlign}

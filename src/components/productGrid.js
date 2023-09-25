@@ -6,6 +6,7 @@ import ProductItem from './productItem';
 const ProductGrid = ({
 	productList,
 	columns,
+	featuredImageSize,
 	productsGap,
 	context,
 	productsLayout,
@@ -34,6 +35,7 @@ const ProductGrid = ({
 					context={context}
 					key={`product-${context}-${productId}`}
 					productId={productId}
+					featuredImageSize={featuredImageSize}
 					productsLayout={productsLayout}
 					productsAlign={productsAlign}
 					productPadding={productPadding}
