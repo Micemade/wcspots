@@ -12,13 +12,13 @@ Create WooCommerce product showcases with image hotspots in the block editor.
 
 == Description ==
 
-Introducing WCSpots - our WooCommerce Product Hotspot Gutenberg Block – the ultimate solution for showcasing your products in a creative and interactive way!
+> v.1.0.0. to v.1.1.0 UPDATE NOTICE: Upon update to v.1.1.0. no significant change or issue should occur on frontend of your WCSpots showcases. However, after update, on edit screen the "This block contains unexpected or invalid content." notice will appear. Clicking the "Attempt Block Recovery" will fix this notice, and new WCSpots v.1.1.0 features will be available.
+
+**Introducing WCSpots** - our WooCommerce Product Hotspot Gutenberg Block – the ultimate solution for showcasing your products in a creative and interactive way!
 
 With our plugin, you can easily create a custom image with hotspots that link to selected WooCommerce products. Simply select the products you want to showcase, upload an image, and add hotspots on top. Each hotspot is associated with a product, and when clicked, displays a product popover with all the necessary details – including price, description, and a "Add to Cart" button.
 
 This plugin is perfect for any WooCommerce store owner looking to showcase their products in a unique and engaging way. Whether you want to highlight your best-sellers, promote new arrivals, or simply create an eye-catching product display, our plugin has got you covered.
-
-> ** v.1.0.0. to v.1.1.0 UPDATE NOTICE: Upon update to v.1.1.0. no significant change or issue should occur on frontend of your WCSpots showcases. However, after update, on edit screen the "This block contains unexpected or invalid content." notice will appear. Clicking the "Attempt Block Recovery" will fix this notice, and new WCSpots v.1.1.0 features will be available.**
 
 === Key Features ===
 
