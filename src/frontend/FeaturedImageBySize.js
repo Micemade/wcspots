@@ -25,7 +25,7 @@ const FeaturedImageBySize = ({ productId, featuredImageSize, name }) => {
 	}, [productId, featuredImageSize]);
 
 	if (!featuredImageSrc) {
-		return null; // Return null or a loading indicator if featuredImageSrc is not available yet.
+		return null;
 	}
 
 	return <img src={featuredImageSrc} alt={name} />;

@@ -8,7 +8,7 @@ import apiFetch from '@wordpress/api-fetch';
 const getProduct = (productId, featuredImageSize) => {
 	const [product, setProduct] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const [featuredImage, setFeaturedImage] = useState(null);
+	// const [featuredImage, setFeaturedImage] = useState(null);
 
 	useEffect(() => {
 		async function fetchProduct() {
@@ -19,30 +19,38 @@ const getProduct = (productId, featuredImageSize) => {
 				setProduct(product);
 				setLoading(false);
 			} catch (error) {
-				console.error(error);
+				console.error("Error fetching products via WC Store API:", error);
 			}
 		}
 		fetchProduct();
+		/*
+				// If "featuredImageSize" is not set (is 'automatic'), get image source url from registered sizes.
+				const fetchFeaturedImage = async () => {
+					try {
+						setLoading(true);
+						const response = await apiFetch({
+							path: `/wp/v2/product/${productId}?_embed`,
+						});
 
-		// If "featuredImageSize" is not set (is 'automatic'), get image source url from registered sizes.
-		const fetchFeaturedImage = async () => {
-			const response = await apiFetch({
-				path: `/wp/v2/product/${productId}?_embed`,
-			});
+						if (
+							typeof featuredImageSize !== "automatic" &&
+							typeof response._embedded['wp:featuredmedia'] !== 'undefined'
+						) {
+							const featuredImage = response._embedded['wp:featuredmedia'][0].media_details.sizes[featuredImageSize]?.source_url;
+							setFeaturedImage(featuredImage);
+						}
+						setLoading(false);
+					} catch (error) {
+						console.error("Error fetching featured image size source url via WP Rest API:", error);
+					}
 
-			if (
-				typeof featuredImageSize !== "automatic" &&
-				typeof response._embedded['wp:featuredmedia'] !== 'undefined'
-			) {
-				const featuredImage = response._embedded['wp:featuredmedia'][0].media_details.sizes[featuredImageSize]?.source_url;
-				setFeaturedImage(featuredImage);
-			}
-		};
-		fetchFeaturedImage();
+				};
+				fetchFeaturedImage();
+		 */
+		// }, [productId, featuredImageSize]);
+	}, [productId]);
 
-	}, [productId, featuredImageSize]);
-
-	return { product, loading, featuredImage };
+	return { product, loading };
 };
 
 export default getProduct;

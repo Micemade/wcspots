@@ -110,10 +110,6 @@
       "type": "number",
       "default": 3
     },
-    "featuredImageSize": {
-      "type": "string",
-      "default": "thumbnail"
-    },
     "elementsToggle": {
       "type": "object",
       "default": {
@@ -139,6 +135,10 @@
     "imageSize": {
       "type": "string",
       "default": "50%"
+    },
+    "featuredImageSize": {
+      "type": "string",
+      "default": "automatic"
     },
     "titleSize": {
       "type": "string",

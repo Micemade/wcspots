@@ -15,6 +15,7 @@ import apiFetch from '@wordpress/api-fetch';
  */
 import { render } from 'react-dom';
 import DOMPurify from 'dompurify';
+import { Fragment } from 'react';
 
 /**
  * Internal dependencies.
@@ -57,13 +58,13 @@ const fetchRenderProducts = (productIds, blockId) => {
 			// Fallback to WC placholder, or plain text.
 			const fallBack = typeof wc === 'object' ? (<img src={wc?.wcSettings?.PLACEHOLDER_IMG_SRC} alt={name} />) : (__('Product has no featured image', 'wcspots'));
 
-			let imageToRender;
+			let imageToRender = null;
 			if (!featuredImageSize || featuredImageSize === 'automatic') {
 				// If no registered image size is set, get image source url from WC Store API.
-				imageToRender = hasImages ? <img {...(imgSrcSet ? { srcSet: imgSrcSet } : {})} src={imgSrc} alt={name} sizes="(max-width: 599px) 100vw, calc(100vw / 3)" /> : <div>{fallBack}</div>;
+				imageToRender = hasImages ? <img {...(imgSrcSet ? { srcSet: imgSrcSet } : {})} src={imgSrc} alt={name} sizes="(max-width: 599px) 100vw, calc(100vw / 3)" /> : <Fragment>{fallBack}</Fragment>;
 			} else {
 				// If registered image size is set, get featured image using WP Rest API.
-				imageToRender = hasImages ? <FeaturedImageBySize productId={productId} featuredImageSize={featuredImageSize} name={name} /> : <div>{fallBack}</div>
+				imageToRender = hasImages ? <FeaturedImageBySize productId={productId} featuredImageSize={featuredImageSize} name={name} /> : <Fragment>{fallBack}</Fragment>
 			}
 
 			/**
@@ -77,7 +78,7 @@ const fetchRenderProducts = (productIds, blockId) => {
 
 			// Product image.
 			{
-				imageContainer && (
+				(imageContainer && imageToRender) && (
 					render(imageToRender, imageContainer)
 				)
 			}

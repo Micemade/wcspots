@@ -11,11 +11,13 @@ import { Fragment } from 'react';
  * Internal dependencies.
  */
 import getProduct from '../functions/getProduct';
+import getFeaturedImage from '../functions/getFeaturedImage';
 
 const ProductImage = ({ productId, featuredImageSize }) => {
-	const { product, loading, featuredImage } = getProduct(productId, featuredImageSize);
+	const { product, loading } = getProduct(productId);
+	const { loadingFeaturedImg, featuredImage } = getFeaturedImage(productId, featuredImageSize);
 
-	if (loading) {
+	if (loading || loadingFeaturedImg) {
 		return <Spinner />;
 	}
 

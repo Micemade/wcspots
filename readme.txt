@@ -105,7 +105,8 @@ The plugin uses, other than WordPress and React modules and packages, third part
 * Added drag and drop hotspots functionality in the editor.
 * Added conditional display of controls (showcase image and product styles), depending on the state of other controls.
 * Added a list of hotspots to the block settings tab (accessible also in the block styles tab).
-* Added product image size in products list and in popover
+* Added product image width and height in products list and in popover.
+* Added product image resoluion, selection of registered image sizes.
 * Additional layouts for product and popover.
 * Added hotspot general outer and inner size controls.
 * Hotspot primary color is now a product highlight color.

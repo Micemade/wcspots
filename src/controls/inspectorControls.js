@@ -17,6 +17,7 @@ import {
 	BaseControl
 } from '@wordpress/components';
 import { InspectorControls, MediaUpload, PanelColorSettings, HeightControl } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
 
 /**
  * React dependencies.
@@ -70,6 +71,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 		productsLayout,
 		productsAlign,
 		columns,
+		featuredImageSize,
 		productsGap,
 		productPadding,
 		productSpacing,
@@ -126,6 +128,9 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 		}
 	}, [media]);
 
+	// Retrieve registered image sizes.
+	const getImageSizes = useSelect(select => select('core/editor').getEditorSettings().imageSizes);
+	const imageSizes = [...[{ slug: 'automatic', name: 'Automatic' }], ...getImageSizes];
 
 	/**
 	 * FormTokenList functions
@@ -255,6 +260,23 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 							/>
 						</Fragment>
 					)}
+
+					{elementsToggle.image && (
+						<Fragment>
+							<CardDivider size="xSmall" style={{ margin: '10px 0' }} />
+							<SelectControl
+								label={__('Product image resolution', 'wcspots')}
+								value={featuredImageSize}
+								options={imageSizes.map(size => ({
+									value: size.slug,
+									label: size.name,
+								}))}
+								onChange={(value) => setAttributes({ featuredImageSize: value })}
+								help={__('Select the size of the source image.', 'wcspots')}
+							/>
+						</Fragment>
+					)}
+
 
 					<ImageRadioSelectControl
 						label={__('Product align', 'wcspots')}

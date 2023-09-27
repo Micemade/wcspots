@@ -25,6 +25,9 @@
 		.wcspots-product {
 			width: 100%;
 			flex-direction: row;
+			@media (max-width: 781px) {
+				flex-direction: column;
+			}
 		}
 	}
 	&.layout3 {
@@ -66,13 +69,15 @@
 		.wcspots-product {
 			width: 100%;
 			flex-direction: row-reverse;
-
+			@media (max-width: 781px) {
+				flex-direction: column;
+			}
 		}
 	}
 }
 
 %alignments {
-	&.align-center { 
+	&.align-center {
 		.product-title,
 		.product-price,
 		.product-excerpt > *,
@@ -83,7 +88,7 @@
 			justify-content: center;
 		}
 	}
-	&.align-flex-start { 
+	&.align-flex-start {
 		.product-title,
 		.product-price,
 		.product-excerpt > *,
@@ -212,7 +217,7 @@
 %hotspot-icon-styles {
 
 	&.iconstyle-1 {
-		
+
 		.outer {
 			width: 2rem;
 			height: 2rem;
@@ -284,7 +289,7 @@
 	}
 
 	&.iconstyle-3 {
-		
+
 		.outer {
 			width: 2rem;
 			height: 2rem;
@@ -427,7 +432,7 @@
 				}
 
 				.hotspot-product-title {
-					
+
 					position: absolute;
 					top: 130%;
 					left: 50%;
@@ -564,7 +569,7 @@
 				border-top-color: transparent !important;
 				border-bottom-color: transparent !important;
 				border-left-color: transparent !important;
-				border-right-color:#fff; 
+				border-right-color:#fff;
 			}
 
 			&.left {
