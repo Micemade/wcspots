@@ -17,7 +17,10 @@ import AddHotspotPopover from '../frontend/addHotspotPopover';
 /**
  * Hotspot component.
  */
-const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouseOut, clientId, hotspots, setAttributes, context, unassignProduct, removeHotspot, popoverAtts, popoverParent }) => {
+const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouseOut, clientId, hotspots, setAttributes, context, unassignProduct, removeHotspot, popoverAtts, popoverParent, isHotspotMoved,
+	onDragStart,
+	onDragMove,
+	onDragEnd }) => {
 
 	const {
 		x,
@@ -76,44 +79,76 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 
 
 	// Drag and drop hotspot.
-	let isDragging = false, xPerc = 0, yPerc = 0, container;
-	let dragHotspot = document.getElementById(hotspot.id);
+	let isDragging = false, xPerc, yPerc, container, dragHotspot;
+
 	const startDrag = (event) => {
 		if (event.button > 1) return; // Disable dragging on right or middle click.
-		document.addEventListener('mousemove', dragOnMouseMove);
-		document.addEventListener('mouseup', stopDragging);
-		container = document.getElementById(`block-${clientId}`)?.getElementsByClassName('image-container')[0];
+
+		// Define drag hotspot as current event target closest element with class 'product-hotspot'.
+		dragHotspot = event.currentTarget.closest('.product-hotspot');
+		// Find container relative to the hotspot
+		container = dragHotspot?.closest(`#block-${clientId}`)?.querySelector('.image-container');
+
+		if (!dragHotspot || !container) {
+			console.log('Missing elements:', { dragHotspot, container });
+			return;
+		}
+
+		isDragging = true; // Set isDragging when drag starts
+		onDragStart(); // Call parent handler
+
+		container.addEventListener('mousemove', dragOnMouseMove);
+		container.addEventListener('mouseup', stopDragging);
+
+		// Initial position update
+		updateHotspotPosition(event);
 	}
 
 	const dragOnMouseMove = (event) => {
-		isDragging = true;
-		if (!hotspot || !dragHotspot || !container) {
-			isDragging = false;
+		if (!isDragging || !dragHotspot || !container) {
+			console.log('Drag move blocked:', { isDragging, dragHotspot, container });
 			return;
 		}
-		// Get boundaries of hotspot container (image).
-		const rectParent = container.getBoundingClientRect();
-		[xPerc, yPerc] = getHotspotPosition(event, rectParent);
-		// Update hotspot position.
-		dragHotspot.style.left = `${xPerc.toFixed(2)}% `;
-		dragHotspot.style.top = `${yPerc.toFixed(2)}%`;
+		// Initial position update
+		updateHotspotPosition(event);
+		onDragMove(); // Call parent handler
 	};
 
+	/**
+	 * Stops the dragging of the hotspot and handles cleanup.
+	 * This function is called when the mouse button is released.
+	 * Resets the isDragging variable and removes the event listeners.
+	 * @param {Event} event - The mouseup event.
+	 */
 	const stopDragging = (event) => {
-		// Update hotspot coordinates in block attributes.
+		// Remove listeners from the container element.
+		container.removeEventListener('mousemove', dragOnMouseMove);
+		container.removeEventListener('mouseup', stopDragging);
+
+		isDragging = false; // Reset isDragging when mouse is up
+		onDragEnd(); // Call parent handler
+	};
+
+	const updateHotspotPosition = (event) => {
+		const rectParent = container.getBoundingClientRect();
+		[xPerc, yPerc] = getHotspotPosition(event, rectParent);
+
+		// Update visual position if dragging
 		if (isDragging) {
-			setAttributes({ hotspots: updateHotspots(hotspots, hotspot.id, xPerc, yPerc) });
+			dragHotspot.style.left = `${xPerc.toFixed(2)}%`;
+			dragHotspot.style.top = `${yPerc.toFixed(2)}%`;
 		}
-		// Remove listeners.
-		document.removeEventListener('mousemove', dragOnMouseMove);
-		document.removeEventListener('mouseup', stopDragging);
+
+		// Update attributes
+		setAttributes({
+			hotspots: updateHotspots(hotspots, hotspot.id, xPerc, yPerc)
+		});
 	};
 
 	return (
 		<div
 			style={styles}
 			id={hotspot.id}
-			// className={`product-hotspot ${_iconStyle || 'iconstyle-1'}`}
 			className={hotspotClassNames}
 			data-product-title={hotspotTitle}
 			data-product-id={productId ? productId : ''}
@@ -131,15 +166,26 @@ const Hotspot = ({ hotspot, hotspotSettings, onDoubleClick, onMouseOver, onMouse
 				onDoubleClick={() => onDoubleClick(hotspot)}
 				onMouseOver={() => onMouseOver(event, hotspot, clientId, primaryColor || hotspotSettings.primaryColor)}
 				onMouseOut={() => onMouseOut(event, hotspot, clientId)}
-				{...context === 'edit' && ({ onMouseDown: startDrag })}
-				title='Press and hold to move the hotspot'
+				onMouseDown={(event) => {
+					event.preventDefault();
+					event.stopPropagation();
+					if (context === 'edit') {
+						startDrag(event);
+					}
+				}}
+				title={context === 'edit' ? __('Press and hold to move the hotspot', 'wcspots') : null}
 			>
 				{(context === 'edit' && productId) && (
-					<AddHotspotPopover assocProdId={productId} parentElement={popoverParent} popoverAtts={popoverAtts} isEditing />
+					<AddHotspotPopover
+						assocProdId={productId}
+						parentElement={popoverParent}
+						popoverAtts={popoverAtts}
+						isEditing
+						wasMoved={isHotspotMoved} // Pass the state from parent
+					/>
 				)}
 
 			</div>
-
 
 			{
 				hotspotSettings.showTitle && (

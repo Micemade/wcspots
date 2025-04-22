@@ -25,7 +25,7 @@ const ProductExcerpt = ({ productId }) => {
 		return <div>{__('Product not found', 'wcspots')}</div>;
 	}
 
-	// Product price HTML sanitized.
+	// Product description HTML sanitized.
 	return <div dangerouslySetInnerHTML={{ __html: sanitizer(product.short_description) }} />
 
 };

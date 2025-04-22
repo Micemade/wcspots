@@ -55,6 +55,7 @@ const fetchRenderProducts = (productIds, blockId) => {
 			const featWcImage = hasImages ? product.images[0] : null;
 			const imgSrcSet = featWcImage?.srcset;
 			const imgSrc = featWcImage?.src;
+
 			// Fallback to WC placholder, or plain text.
 			const fallBack = typeof wc === 'object' ? (<img src={wc?.wcSettings?.PLACEHOLDER_IMG_SRC} alt={name} />) : (__('Product has no featured image', 'wcspots'));
 

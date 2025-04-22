@@ -4,13 +4,15 @@
 import ProductItem from './productItem';
 
 const ProductGrid = ({
-	productList,
+	productIds,
 	columns,
 	featuredImageSize,
 	productsGap,
 	context,
 	productsLayout,
 	productsAlign,
+	productsValign,
+	productsHeight,
 	productPadding,
 	productSpacing,
 	elementsToggle,
@@ -30,7 +32,7 @@ const ProductGrid = ({
 
 	return (
 		<div style={gridStyle} className={`product-grid ${productsLayout}`}>
-			{productList.map((productId) => (
+			{productIds.map((productId) => (
 				<ProductItem
 					context={context}
 					key={`product-${context}-${productId}`}
@@ -38,6 +40,8 @@ const ProductGrid = ({
 					featuredImageSize={featuredImageSize}
 					productsLayout={productsLayout}
 					productsAlign={productsAlign}
+					productsValign={productsValign}
+					productsHeight={productsHeight}
 					productPadding={productPadding}
 					productSpacing={productSpacing}
 					elementsToggle={elementsToggle}

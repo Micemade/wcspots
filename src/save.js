@@ -35,6 +35,8 @@ const Save = ({ attributes }) => {
 		valign,
 		productsLayout,
 		productsAlign,
+		productsValign,
+		productsHeight,
 		columns,
 		featuredImageSize,
 		productsGap,
@@ -119,12 +121,14 @@ const Save = ({ attributes }) => {
 
 							<ProductGrid
 								context="save"
-								productList={productIds}
+								productIds={productIds}
 								columns={productsData.length <= columns ? productsData.length : columns}
 								featuredImageSize={featuredImageSize}
 								productsGap={productsGap}
 								productsLayout={productsLayout}
 								productsAlign={productsAlign}
+								productsValign={productsValign}
+								productsHeight={productsHeight}
 								productPadding={productPadding}
 								productSpacing={productSpacing}
 								elementsToggle={elementsToggle}

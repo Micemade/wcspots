@@ -12,7 +12,7 @@ import decode from '../functions/decode';
 /**
  * External dependencies
  */
-// import { decode } from 'he';
+// import { decode } from 'he'; // Alternative to vanilla JS 'decode' from functions.js file.
 
 const ProductTitle = ({ productId }) => {
 	const { product, loading } = getProduct(productId);

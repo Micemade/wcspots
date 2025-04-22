@@ -10,6 +10,8 @@ const ProductItem = ({
 	featuredImageSize,
 	productsLayout,
 	productsAlign,
+	productsValign,
+	productsHeight,
 	productPadding,
 	productSpacing,
 	elementsToggle,
@@ -26,6 +28,7 @@ const ProductItem = ({
 
 	const productStyle = {
 		backgroundColor: productBackColor,
+		height: productsHeight && productsLayout === 'layout3' ? productsHeight : 'auto'
 	}
 
 	const imageStyle = {
@@ -60,13 +63,13 @@ const ProductItem = ({
 
 	return (
 		<div
-			className={`wcspots-product align-${productsAlign}`}
+			className={`wcspots-product align-${productsAlign} valign-${productsValign}`}
 			data-product-id={productId}
 			style={productStyle}
 		>
 
 			{productsLayout === 'layout3' && (
-				<div className="overlay" style={{ background: productBackColor }} aria-hidden />
+				<div className="overlay" style={{ ...productBackColor && { background: productBackColor } }} aria-hidden />
 			)}
 
 			{elementsToggle.image && (

@@ -19,18 +19,25 @@ import ProductAddToCart from '../components/productAddToCart';
 
 const AddHotspotPopover = (props) => {
 
-	const { assocProdId, parentElement, isEditing, popoverAtts } = props;
+	const { assocProdId, parentElement, isEditing, popoverAtts, wasMoved } = props;
 
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-	const togglePopover = () => {
+	const togglePopover = (e) => {
+		if (wasMoved) {
+			e.preventDefault();
+			e.stopPropagation();
+			return;
+		}
 		setIsPopoverOpen((state) => !state);
 	};
 
 	const {
 		popoverWidth,
+		popoverHeight,
 		popoverPadding,
 		productsLayout,
 		productsAlign,
+		productsValign,
 		elementsToggle,
 		productSpacing,
 		productPadding,
@@ -59,6 +66,8 @@ const AddHotspotPopover = (props) => {
 
 	const popoverStyle = {
 		width: `clamp(${popoverWidth.min},${popoverWidth.val},${popoverWidth.max})`,
+		// ...(productsLayout === 'layout2' || productsLayout === 'layout4') && { height: popoverHeight || 'auto' },
+		height: (productsLayout === 'layout2' || productsLayout === 'layout4') ? popoverHeight : 'auto',
 	}
 
 	const contentDivStyle = {
@@ -74,6 +83,7 @@ const AddHotspotPopover = (props) => {
 	const innerDivStyle = {
 		...productsLayout !== 'layout3' && { padding: popoverPadding },
 		...productBackColor && { backgroundColor: productBackColor },
+		...roundCorners && { borderRadius: roundCorners },
 	}
 
 	const spacing = {
@@ -147,7 +157,7 @@ const AddHotspotPopover = (props) => {
 					/>
 
 					<div
-						className={`wcspots-product align-${productsAlign}`}
+						className={`wcspots-product align-${productsAlign} valign-${productsValign}`}
 						style={innerDivStyle}
 					>
 

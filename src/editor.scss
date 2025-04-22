@@ -2,8 +2,15 @@
  * The following styles get applied inside the editor only.
  */
 
-.wp-block-micemade-wcspots:hover {
-	outline: 1px dotted #f00;
+.wp-block-micemade-wcspots {
+
+	img.hotspot-image{
+		pointer-events: auto;
+	}
+
+	&:hover {
+		outline: 1px dotted #f00;
+	}
 }
 
 
@@ -11,9 +18,9 @@
  * Custom component 'UnitRangeControl'.
  */
 .editor-range-unit-combo {
-	
+
 	align-items: flex-start;
-	
+
 	.components-range-control {
 		flex-basis: 75%;
 		margin-block-end: 10px;
@@ -30,8 +37,12 @@
 // Buttons with images in 'ImageRadioSelectControl'
 .wcspots-image-button {
 	height: auto;
-	border-radius: 5px !important;
+	border-radius: 3px !important;
 	margin: 0 2px;
+	margin-left: 2px;
+	padding:2px;
+	box-shadow: none !important;
+	background:#e9e9e9;
 
 	&:first-child {
 		margin-left: 0;
@@ -53,16 +64,22 @@
 	}
 }
 .product-hotspot {
+	position: absolute;
+	cursor: move; /* fallback */
+	cursor: grab;
+	user-select: none;
 	.remove-hotspot { visibility: hidden; opacity: 0;}
 	&:hover {
 		.remove-hotspot { visibility: visible; opacity: 1;}
+	}
+	&:active {
+		cursor: grabbing;
 	}
 }
 
 /*
  * Various custom styles for component buttons.
  */
-
 .unassign, .remove-hotspot {
 	position: absolute;
 	display: flex;
@@ -71,7 +88,7 @@
 	top: 50%;
 	left: 50%;
 	padding: 5px !important;
-	width: -moz-max-content; 
+	width: -moz-max-content;
 	width: max-content;
 	min-width: auto !important;
 	height: 24px;
@@ -154,8 +171,8 @@
 	}
 }
 
-.components-panel__body.hotspot-settings { 
-	
+.components-panel__body.hotspot-settings {
+
 	border-radius: 4px;
 	background: #f5f5f5;
 	flex: 1;

@@ -3,8 +3,9 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, BlockControls, MediaPlaceholder, MediaUpload, RichText } from '@wordpress/block-editor';
-import { SelectControl, Modal, ToolbarGroup, ToolbarButton } from '@wordpress/components';
+import { SelectControl, Modal, ToolbarGroup, ToolbarButton, Button } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
+import * as icons from '@wordpress/icons';
 
 
 /**
@@ -22,7 +23,7 @@ import Hotspot from './components/hotspot';
 import WCSpotsBlockTitle from './components/WCSpotsBlockTitle';
 
 // Functions.
-import { addNewHotspot, modalProductToHotspot, onProductSelect, onHotspotOver, onHotspotOut, unassignProduct, removeHotspot, clearHotspotsOnImageChange, correctTitlePosition } from './functions/hotspotFunctions';
+import { addNewHotspot, modalProductToHotspot, onProductSelect, onHotspotOver, onHotspotOut, unassignProduct, removeHotspot, clearHotspotsOnImageChange } from './functions/hotspotFunctions';
 
 /**
  * The edit function.
@@ -53,6 +54,8 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		valign,
 		productsLayout,
 		productsAlign,
+		productsValign,
+		productsHeight,
 		columns,
 		featuredImageSize,
 		productsGap,
@@ -101,7 +104,8 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 		'data-block-id': clientId,
 		'data-product-ids': JSON.stringify(productIds),
 		'data-popover-atts': JSON.stringify(popoverAtts),
-		'data-featured-image-size': featuredImageSize
+		'data-featured-image-size': featuredImageSize,
+		'draggable': false, // Prevent dragging of the block, only with the toolbar drag handle.
 	});
 
 	// Modal products select options, on hotspot double click.
@@ -161,16 +165,18 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 				onError={onUploadError}
 				allowedTypes={['image']}
 				value={mediaID}
+				label={__('Replace image', 'wcspots')}
 				render={({ open }) => (
-					<ToolbarButton
-						icon="edit"
-						title="Replace Image"
+					<Button
+						icon={icons.image}
+						label="Replace Image"
 						onClick={open}
-					/>
+					>Replace Image
+					</Button>
 				)}
 			/>
 
-			<ToolbarButton
+			<Button
 				icon="no-alt"
 				label="Remove Image"
 				onClick={onRemoveImage}
@@ -180,12 +186,25 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 
 	const noProductsNotice = __('Pick your products in the sidebar "WooCommerce products" section.', 'wcspots');
 
-	const [position, setPosition] = useState({ x: 0, y: 0 });
-	const [isDragging, setIsDragging] = useState(false);
+	// Hotspot drag and drop.
+	// Set state to check if hotspot is moved.
+	// If moved, setTimeout to reset state after 300ms.
+	// Prevent activating hotspot popover on drag move (override onClick in AddHotspotPopover)
+	const [isHotspotMoved, setIsHotspotMoved] = useState(false);
+	const onHotspotDragStart = () => {
+		setIsHotspotMoved(false);
+	};
+	const onHotspotDragMove = () => {
+		setIsHotspotMoved(true);
+	};
+	const onHotspotDragEnd = () => {
+		setTimeout(() => {
+			setIsHotspotMoved(false);
+		}, 300);
+	};
 
 	return (
 		<>
-
 			<InspectorControlsComponent
 				attributes={attributes}
 				setAttributes={setAttributes}
@@ -236,12 +255,14 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 							{productsData.length > 0 && (
 								<ProductGrid
 									context="edit"
-									productList={productIds}
+									productIds={productIds}
 									columns={productsData.length <= columns ? productsData.length : columns}
 									featuredImageSize={featuredImageSize}
 									productsGap={productsGap}
 									productsLayout={productsLayout}
 									productsAlign={productsAlign}
+									productsValign={productsValign}
+									productsHeight={productsHeight}
 									productPadding={productPadding}
 									productSpacing={productSpacing}
 									elementsToggle={elementsToggle}
@@ -262,7 +283,10 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 						</div>
 					)}
 
-					<div className={`${flexItemClasses}flex-block image-container`} style={{ width: `${flexItemsRatio}%` }}>
+					<div
+						className={`${flexItemClasses}flex-block image-container`}
+						style={{ width: `${flexItemsRatio}%` }}
+					>
 						{!mediaURL && (
 							<MediaPlaceholder
 								icon="format-image"
@@ -282,7 +306,7 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 								srcSet={srcSetAtt}
 								sizes={sizesAtt}
 								alt={__('WCSpots image', 'wcspots')}
-								onClick={() => addNewHotspot(event, hotspots, setAttributes)}
+								onClick={(event) => addNewHotspot(event, hotspots, setAttributes)}
 							/>
 						)}
 
@@ -304,6 +328,10 @@ const Edit = ({ clientId, attributes, setAttributes }) => {
 									setAttributes={setAttributes}
 									popoverAtts={popoverAtts}
 									popoverParent={popoverParent}
+									isHotspotMoved={isHotspotMoved}
+									onDragStart={onHotspotDragStart}
+									onDragMove={onHotspotDragMove}
+									onDragEnd={onHotspotDragEnd}
 								/>
 
 							))}

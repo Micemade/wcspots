@@ -14,10 +14,12 @@ import {
 	SelectControl,
 	ToggleControl,
 	TabPanel,
-	BaseControl
+	BaseControl,
+	Flex
 } from '@wordpress/components';
 import { InspectorControls, MediaUpload, PanelColorSettings, HeightControl } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
+import * as icons from '@wordpress/icons';
 
 /**
  * React dependencies.
@@ -70,6 +72,8 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 		valign,
 		productsLayout,
 		productsAlign,
+		productsValign,
+		productsHeight,
 		columns,
 		featuredImageSize,
 		productsGap,
@@ -92,6 +96,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 
 	// Access default attribute values from block.json for reset.
 	const defaultAtts = metadata.attributes;
+
 	// Resetting the attributes.
 	const resetAtts = (attsToUpdate) => {
 		const savedAtts = { ...attributes };
@@ -210,7 +215,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 		{ label: 'Style 2', value: 'iconstyle-2' },
 		{ label: 'Style 3', value: 'iconstyle-3' },
 	];
-	const individualHotspotStyle = [...[{ label: 'Change general style', value: '' }], ...hotspotStyles];
+	const individualHotspotStyle = [...[{ label: 'Global hotspots style', value: '' }], ...hotspotStyles];
 
 	// Product layout tabs.
 	const productLayoutTabs = [
@@ -236,16 +241,16 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						label={__('Product layout type', 'wcspots')}
 						help={__('Pick a grid type for displaying selected products', 'wcspots')}
 						options={[
-							{ value: 'layout1', label: 'Layout 1', image: require('./icons/Layout_1.png') },
-							{ value: 'layout2', label: 'Layout 2', image: require('./icons/Layout_2.png') },
-							{ value: 'layout3', label: 'Layout 3', image: require('./icons/Layout_3.png') },
-							{ value: 'layout4', label: 'Layout 3', image: require('./icons/Layout_4.png') },
+							{ value: 'layout1', label: 'Layout 1', type: 'image', icon: require('./icons/Layout_1.png') },
+							{ value: 'layout2', label: 'Layout 2', type: 'image', icon: require('./icons/Layout_2.png') },
+							{ value: 'layout3', label: 'Layout 3', type: 'image', icon: require('./icons/Layout_3.png') },
+							{ value: 'layout4', label: 'Layout 3', type: 'image', icon: require('./icons/Layout_4.png') },
 						]}
 						value={productsLayout}
 						onChange={(selectedLayout) => {
 							setAttributes({ productsLayout: selectedLayout });
 						}}
-						height='38px'
+						size={42}
 					/>
 
 					{(elementsToggle.image && (productsLayout === 'layout2' || productsLayout === 'layout4')) && (
@@ -260,6 +265,17 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 							/>
 						</Fragment>
 					)}
+
+					{(productsLayout === 'layout3') && (
+						<HeightControl
+							label={__('Product height', 'wcspots')}
+							value={productsHeight}
+							onChange={(newValue) => {
+								setAttributes({ productsHeight: newValue });
+							}}
+						/>
+					)}
+
 
 					{elementsToggle.image && (
 						<Fragment>
@@ -277,28 +293,46 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 						</Fragment>
 					)}
 
-
-					<ImageRadioSelectControl
-						label={__('Product align', 'wcspots')}
-						help={__('How to align the products', 'wcspots')}
-						options={[
-							{ value: 'flex-start', label: 'Flex start', icon: 'align-left' },
-							{ value: 'center', label: 'Center', icon: 'align-center' },
-							{ value: 'flex-end', label: 'Flex end', icon: 'align-right' },
-						]}
-						value={productsAlign}
-						onChange={(selectedAlign) => {
-							setAttributes({ productsAlign: selectedAlign });
-						}}
-						height='28px'
-					/>
+					<Flex
+						direction="row"
+						justify="space-between"
+						align="center"
+						className='wcspots__alignemnts'
+					>
+						<ImageRadioSelectControl
+							label={__('Horizontal align', 'wcspots')}
+							options={[
+								{ value: 'flex-start', label: 'Flex start', type: 'svg', icon: icons.justifyLeft },
+								{ value: 'center', label: 'Center', type: 'svg', icon: icons.justifyCenter },
+								{ value: 'flex-end', label: 'Flex end', type: 'svg', icon: icons.justifyRight },
+							]}
+							value={productsAlign}
+							onChange={(val) => {
+								setAttributes({ productsAlign: val });
+							}}
+							size={24}
+						/>
+						<ImageRadioSelectControl
+							label={__('Vertical align', 'wcspots')}
+							options={[
+								{ value: 'flex-start', label: 'Flex start', type: 'svg', icon: icons.justifyTop },
+								{ value: 'center', label: 'Center', type: 'svg', icon: icons.justifyCenterVertical },
+								{ value: 'flex-end', label: 'Flex end', type: 'svg', icon: icons.justifyBottom },
+							]}
+							value={productsValign}
+							onChange={(val) => {
+								setAttributes({ productsValign: val });
+							}}
+							size={24}
+						/>
+					</Flex>
 
 					<Button
 						isLink
 						isSmall
 						text={__('Reset products layout settings.', 'wcspots')}
 						onClick={() => {
-							resetAtts(['productsLayout', 'productsAlign', 'columns', 'imageSize'])
+							resetAtts(['productsLayout', 'productsAlign', 'productsValign', 'columns', 'imageSize'])
 						}}
 						className='wcspots-reset-attributes'
 					/>
@@ -753,16 +787,16 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					title={__('Layout', 'wcspots')}
 					initialOpen={false}
 				>
-
-					<ToggleControl
-						__nextHasNoMarginBottom
-						label={__('Stack on mobile', 'wcspots')}
-						checked={isStackedOnMobile}
-						onChange={() =>
-							setAttributes({ isStackedOnMobile: !isStackedOnMobile })
-						}
-					/>
-
+					{flexLayout !== 'image-only' &&
+						(<ToggleControl
+							__nextHasNoMarginBottom
+							label={__('Stack on mobile', 'wcspots')}
+							checked={isStackedOnMobile}
+							onChange={() =>
+								setAttributes({ isStackedOnMobile: !isStackedOnMobile })
+							}
+						/>)
+					}
 					<SelectControl
 						value={flexLayout}
 						options={[
@@ -919,7 +953,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 
 				<PanelBody
 					icon={'marker'}
-					title={__('Hotspots - general styles', 'wcspots')}
+					title={__('Hotspots - global styles', 'wcspots')}
 					initialOpen={false}>
 
 					<SelectControl
@@ -1085,7 +1119,7 @@ const InspectorControlsComponent = ({ attributes, setAttributes, clientId }) => 
 					<Button
 						isLink
 						isSmall
-						text={__('Reset hotspot general styles', 'wcspots')}
+						text={__('Reset hotspot global styles', 'wcspots')}
 						onClick={() => {
 							resetAtts(['hotspotSettings'])
 						}}

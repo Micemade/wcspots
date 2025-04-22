@@ -15,7 +15,7 @@ import { render } from 'react-dom';
  * Nonce created with wp_create_nonce( 'wc_store_api' ) php, added to 'wcspotsVars'
  * object with wp_localize_script.
  *
- * @param {number} productId 
+ * @param {number} productId
  */
 const addToCartPost = (event, productId) => {
 
@@ -31,7 +31,7 @@ const addToCartPost = (event, productId) => {
 			quantity: 1
 		},
 		headers: {
-			'Nonce': window?.wcspotsVars?.nonce
+			'Nonce': window.wcspotsVars?.nonce
 		}
 	})
 		.then((response) => {
@@ -52,7 +52,7 @@ const addToCartPost = (event, productId) => {
 		});
 }
 export default addToCartPost;
-/* 
+/*
 // AJAX VERSION (for non-block mini cart)
 const addToCartPost = (productId) => {
 	jQuery.ajax({

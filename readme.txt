@@ -1,10 +1,10 @@
 === WCSpots - image hotspots for WooCommerce ===
 Contributors:      Anydog
 Tags:              woocommerce, hotspots, block, gutenberg, showcase
-Requires at least: 6.0
-Tested up to:      6.3
+Requires at least: 6.5
+Tested up to:      6.8
 Requires PHP:      7.4
-Stable tag:        1.1.0
+Stable tag:        1.2.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,27 +12,27 @@ Create WooCommerce product showcases with image hotspots in the block editor.
 
 == Description ==
 
-> v.1.0.0. to v.1.1.0 UPDATE NOTICE: Upon update to v.1.1.0. no significant change or issue should occur on frontend of your WCSpots showcases. However, after update, on edit screen the "This block contains unexpected or invalid content." notice will appear. Clicking the "Attempt Block Recovery" will fix this notice, and new WCSpots v.1.1.0 features will be available.
-
 **Introducing WCSpots** - our WooCommerce Product Hotspot Gutenberg Block – the ultimate solution for showcasing your products in a creative and interactive way!
 
 With our plugin, you can easily create a custom image with hotspots that link to selected WooCommerce products. Simply select the products you want to showcase, upload an image, and add hotspots on top. Each hotspot is associated with a product, and when clicked, displays a product popover with all the necessary details – including price, description, and a "Add to Cart" button.
 
 This plugin is perfect for any WooCommerce store owner looking to showcase their products in a unique and engaging way. Whether you want to highlight your best-sellers, promote new arrivals, or simply create an eye-catching product display, our plugin has got you covered.
 
+> **v.1.2.0 UPDATE NOTICE:** Upon update to v.1.2.0. no significant change or issue should occur on frontend of your WCSpots showcases. However, after update, on edit screen the "Block contains unexpected or invalid content." notice will appear. Clicking the "Attempt Recovery" will fix this notice, and new WCSpots v.1.2.0 features will be available.
+
 === Key Features ===
 
 Here are some of the key features of WCSpots:
 
 * Easy setup: Simply install the plugin, select your products, upload an image, and add hotspots.
-* Customizable hotspots: Choose from a range of hotspot styles and customize the color and shape to match your brand.
+* Customizable hotspots: Choose from a range of styles and customize hotspot design to match your brand. Change hotspot position with simple drag and drop.
 * Build your own layout with intuitive controls and settings.
 * Mobile-friendly: Our plugin is fully responsive, ensuring your hotspots and product popovers look great on any device.
 * Fast loading: Our plugin is optimized for speed, ensuring your page loads quickly and efficiently.
 
 So why wait? Download our WCSpots Block today and start showcasing your products like never before!
 
-=== New from v.1.1.0 ===
+=== Feature details ===
 * **Drag and drop hotspots** - easily change hotspot position.
 * **Pulsating hotspot effect** - make hotspot pulsate, globally, or per hotspot.
 * **Change the hotspot sizes** - separate control over inner and outer hotspot elements.
@@ -99,6 +99,17 @@ The plugin uses, other than WordPress and React modules and packages, third part
 * [uuid](https://www.npmjs.com/package/uuid)
 
 == Changelog ==
+
+= 1.2.0 =
+
+* Added height control for products in grid and popover
+* Fixed issues with drag and drop hotspots
+* Checked for compatibility with WP 6.8
+
+= 1.1.1 =
+
+* Conditional inspector controls for stacking products on mobile.
+* Title attribute on hotspots adapted to editor or frontent context.
 
 = 1.1.0 =
 

@@ -2,9 +2,9 @@
 /**
  * Plugin Name:       WCSpots
  * Description:       Create WooCommerce product showcases with image hotspots in the block editor.
- * Requires at least: 6.1
- * Requires PHP:      7.0
- * Version:           1.1.0
+ * Requires at least: 6.5
+ * Requires PHP:      7.4
+ * Version:           1.2.0
  * Author:            Micemade
  * Author URI:        https://micemade.com
  * License:           GPL-2.0-or-later
@@ -55,13 +55,15 @@ function wcspots_block_init() {
 		 */
 		function wcspots_admin_plugin_notice() {
 			?>
-			<div class="notice notice-info is-dismissible wcspots-admin-notice">
-				<div class="wcspots-admin-notice-wrapper" style="margin-bottom: 15px;">
-					<h2><?php esc_html_e( 'WCSpots Notice', 'wcspots' ); ?></h2>
-					<p><?php esc_html_e( 'WCSpots plugin is a block plugin for creating WooCommerce product showcases with image hotspots. To enable the WCSpots, please install and activate the WooCommerce plugin.', 'wcspots' ); ?></p>
-					<a target="_blank" class="button-primary button" href="<?php echo esc_url( 'https://wordpress.org/plugins/woocommerce/' ); ?>"><?php esc_html_e( 'Get WooCommerce', 'wcspots' ); ?></a>
-				</div>
-			</div>
+<div class="notice notice-info is-dismissible wcspots-admin-notice">
+	<div class="wcspots-admin-notice-wrapper" style="margin-bottom: 15px;">
+		<h2><?php esc_html_e( 'WCSpots Notice', 'wcspots' ); ?></h2>
+		<p><?php esc_html_e( 'WCSpots plugin is a block plugin for creating WooCommerce product showcases with image hotspots. To enable the WCSpots, please install and activate the WooCommerce plugin.', 'wcspots' ); ?>
+		</p>
+		<a target="_blank" class="button-primary button"
+			href="<?php echo esc_url( 'https://wordpress.org/plugins/woocommerce/' ); ?>"><?php esc_html_e( 'Get WooCommerce', 'wcspots' ); ?></a>
+	</div>
+</div>
 			<?php
 		}
 		add_action( 'admin_notices', 'wcspots_admin_plugin_notice' );

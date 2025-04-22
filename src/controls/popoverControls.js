@@ -15,8 +15,10 @@ import {
 	RangeControl,
 	ToggleControl,
 	BaseControl,
-	Button
+	Button,
+	Flex
 } from '@wordpress/components';
+import * as icons from '@wordpress/icons'
 
 import { Fragment } from 'react';
 
@@ -64,10 +66,10 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						label={__('Popover layout type', 'wcspots')}
 						help={__('Pick a layout for popover with product', 'wcspots')}
 						options={[
-							{ value: 'layout1', label: 'Layout 1', image: require('./icons/popoverLayout_1.png') },
-							{ value: 'layout2', label: 'Layout 2', image: require('./icons/popoverLayout_2.png') },
-							{ value: 'layout3', label: 'Layout 3', image: require('./icons/popoverLayout_3.png') },
-							{ value: 'layout4', label: 'Layout 3', image: require('./icons/popoverLayout_4.png') },
+							{ value: 'layout1', label: 'Layout 1', type: 'image', icon: require('./icons/popoverLayout_1.png') },
+							{ value: 'layout2', label: 'Layout 2', type: 'image', icon: require('./icons/popoverLayout_2.png') },
+							{ value: 'layout3', label: 'Layout 3', type: 'image', icon: require('./icons/popoverLayout_3.png') },
+							{ value: 'layout4', label: 'Layout 3', type: 'image', icon: require('./icons/popoverLayout_4.png') },
 						]}
 						value={popoverAtts.productsLayout}
 						onChange={(selectedLayout) => {
@@ -78,9 +80,8 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 								}
 							});
 						}}
-						height='38px'
+						size={42}
 					/>
-
 
 					{(elementsToggle?.image) && (
 						<Fragment>
@@ -120,24 +121,47 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 						</Fragment>
 					)}
 
-					<ImageRadioSelectControl
-						label={__('Product align', 'wcspots')}
-						help={__('Align product elements in the popover', 'wcspots')}
-						options={[
-							{ value: 'flex-start', label: 'Flex start', icon: 'align-left' },
-							{ value: 'center', label: 'Center', icon: 'align-center' },
-							{ value: 'flex-end', label: 'Flex end', icon: 'align-right' },
-						]}
-						value={popoverAtts.productsAlign}
-						onChange={(selectedAlign) => {
-							setAttributes({
-								popoverAtts: {
-									...popoverAtts,
-									productsAlign: selectedAlign
-								}
-							});
-						}}
-					/>
+					<Flex
+						direction="row"
+						justify="space-between"
+						align="center"
+						className='wcspots__alignemnts'
+					>
+						<ImageRadioSelectControl
+							label={__('Horizontal align', 'wcspots')}
+							options={[
+								{ value: 'flex-start', label: 'Flex start', type: 'svg', icon: icons.justifyLeft },
+								{ value: 'center', label: 'Center', type: 'svg', icon: icons.justifyCenter },
+								{ value: 'flex-end', label: 'Flex end', type: 'svg', icon: icons.justifyRight },
+							]}
+							value={popoverAtts.productsAlign}
+							onChange={(val) => {
+								setAttributes({
+									popoverAtts: {
+										...popoverAtts,
+										productsAlign: val
+									}
+								});
+							}}
+						/>
+						<ImageRadioSelectControl
+							label={__('Vertical align', 'wcspots')}
+							options={[
+								{ value: 'flex-start', label: 'Flex start', type: 'svg', icon: icons.justifyTop },
+								{ value: 'center', label: 'Center', type: 'svg', icon: icons.justifyCenterVertical },
+								{ value: 'flex-end', label: 'Flex end', type: 'svg', icon: icons.justifyBottom },
+							]}
+							value={popoverAtts.productsValign}
+							onChange={(val) => {
+								setAttributes({
+									popoverAtts: {
+										...popoverAtts,
+										productsValign: val
+									}
+								});
+							}}
+						/>
+					</Flex>
 
 					<CardDivider size="xSmall" />
 
@@ -186,6 +210,23 @@ const PopoverControls = ({ popoverAtts, setAttributes }) => {
 							});
 						}}
 					/>
+					{(popoverAtts.productsLayout === 'layout2' ||
+						popoverAtts.productsLayout === 'layout4') && (
+
+							<HeightControl
+								label={__('Popover height', 'wcspots')}
+								value={popoverAtts.popoverHeight}
+								onChange={(newValue) => {
+									setAttributes({
+										popoverAtts: {
+											...popoverAtts,
+											popoverHeight: newValue
+										}
+									});
+								}}
+								height={15}
+							/>
+						)}
 
 
 					<Button
